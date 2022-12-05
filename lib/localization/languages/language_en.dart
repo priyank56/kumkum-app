@@ -6,6 +6,8 @@ final Map<String, String> enUS = {
   'txtPreBuiltDesigns': "Pre built designs",
   'txtYourKonkotries': "Your konkotries",
   'txtKonkotriCreation': "Kankotri creation",
+  'txtYourGuests': "Your Guests",
+  'txtSendInvitation': "Send invitation",
   'txtChooseKankotri': "Choose your kankotri",
   'txtSelectYourGuests': "Select your guests",
   'txtSendViaWhatsapp': "Send via whatsapp",

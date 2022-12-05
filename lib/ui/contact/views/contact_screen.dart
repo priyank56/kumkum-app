@@ -74,7 +74,11 @@ class ContactScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            "txtKonkotriCreation".tr,
+            (logic.currentPos == 1)
+                ? "txtKonkotriCreation".tr
+                : (logic.currentPos == 2)
+                ? "txtYourGuests".tr
+                : "txtSendInvitation".tr,
             style: TextStyle(
                 color: CColor.black,
                 fontSize: FontSize.size_18,

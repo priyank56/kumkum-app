@@ -10,6 +10,8 @@ class CColor {
   static const gray = Color(0xffF5F5F5);
   static const grayDark = Color(0xff30475E);
   static const black12 = Color(0xff121212);
+  static const themeDark = Color(0xff8E0707);
+  static const blueDark = Color(0xff103762);
 
 
 }

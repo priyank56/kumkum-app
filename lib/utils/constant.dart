@@ -83,6 +83,9 @@ class Constant {
   static const campaignFileTypeImage = "image";
   static const campaignFileTypeGiftQrLogo = "gift_qr_logo";
   static const campaignFileTypeLogo = "logo";
+  static const appFont = "Popins";
+  static const selectedSendWpSarvo = "sarvo";
+  static const selectedSendWpSajode = "sajode";
 
   static getMainURL() {
     if (Debug.sandboxApiUrl) {
@@ -92,25 +95,9 @@ class Constant {
     }
   }
 
-
   /*Ids*/
   static const idMainPage = "idMainPage";
-
-
-  /*
-  * - asset: fonts/popins_light.otf
-             weight: 300
-           - asset: fonts/popins_regular.otf
-             weight: 400
-           - asset: fonts/popins_medium.otf
-             weight: 500
-           - asset: fonts/popins_bold.otf
-             weight: 600
-           - asset: fonts/popins_demibold.otf
-             weight: 700
-           - asset: fonts/popins_extrabold.otf
-             weight: 800
-           - asset: fonts/popins_heavy.otf
-             weight: 900
-  * */
+  static const idBottomViewPos = "idBottomViewPos";
+  static const idBottomText = "idBottomText";
+  static const idNextPrevious = "idNextPrevious";
 }

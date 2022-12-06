@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/login/controllers/login_controller.dart';
 import 'package:get/get.dart';
-
+import 'package:flutter_svg/svg.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
@@ -19,7 +20,7 @@ class LoginScreen extends StatelessWidget {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: Sizes.height_3),
-                  child: Image.asset("assets/login_flow/ic_login.png"),
+                  child: Image.asset("assets/login_flow/ic_login.webp"),
                 ),
                 _widgetLoginText(),
                 _widgetEmailIdEditText(),
@@ -27,6 +28,8 @@ class LoginScreen extends StatelessWidget {
                 _widgetForGotPaasText(),
                 _widgetLoginButton(logic, context),
                 _widgetOrView(),
+                _widgetGoogleButton(logic, context),
+                _widgetRegisterText(logic, context),
               ],
             ),
           );
@@ -63,10 +66,11 @@ class LoginScreen extends StatelessWidget {
           left: Sizes.width_7, right: Sizes.width_7, top: Sizes.height_4),
       child: Row(
         children: [
-          const Icon(
+          /*const Icon(
             Icons.people_alt_rounded,
             color: CColor.grayDark,
-          ),
+          ),*/
+          SvgPicture.asset("assets/svg/login_flow/ic_email.svg"),
           Expanded(
             child: Container(
               margin: EdgeInsets.only(left: Sizes.width_5),
@@ -99,10 +103,11 @@ class LoginScreen extends StatelessWidget {
                 left: Sizes.width_7, right: Sizes.width_7, top: Sizes.height_3),
             child: Row(
               children: [
-                const Icon(
+                /*const Icon(
                   Icons.lock,
                   color: CColor.grayDark,
-                ),
+                ),*/
+                SvgPicture.asset("assets/svg/login_flow/ic_password.svg"),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(left: Sizes.width_5),
@@ -148,7 +153,9 @@ class LoginScreen extends StatelessWidget {
       child: Material(
         color: CColor.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Get.toNamed(AppRoutes.forgotPass);
+          },
           splashColor: CColor.theme,
           child: ConstrainedBox(
             constraints: const BoxConstraints(
@@ -178,7 +185,9 @@ class LoginScreen extends StatelessWidget {
       color: CColor.transparent,
       child: InkWell(
         splashColor: CColor.theme,
-        onTap: () {},
+        onTap: () {
+          Get.toNamed(AppRoutes.main);
+        },
         child: Container(
           margin: EdgeInsets.only(
               top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
@@ -194,7 +203,7 @@ class LoginScreen extends StatelessWidget {
                 color: CColor.white,
                 fontSize: FontSize.size_12,
                 fontFamily: Constant.appFont,
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
           ),
         ),
@@ -228,6 +237,88 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  _widgetGoogleButton(LoginController logic, BuildContext context) {
+    return Material(
+      color: CColor.transparent,
+      child: InkWell(
+        splashColor: CColor.grayEF,
+        onTap: () {},
+        child: Container(
+          margin: EdgeInsets.only(
+              top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: CColor.grayEF,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: EdgeInsets.all(Sizes.height_1_5),
+          child: Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: Sizes.width_5),
+                child: Image.asset(
+                  "assets/login_flow/ic_google.png",
+                  height: Sizes.width_7,
+                  width: Sizes.width_7,
+                ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "txtLoginWithGoogle".tr,
+                  style: TextStyle(
+                      color: CColor.black,
+                      fontSize: FontSize.size_12,
+                      fontFamily: Constant.appFont,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  _widgetRegisterText(LoginController logic, BuildContext context) {
+    return Material(
+      color: CColor.transparent,
+      child: InkWell(
+        splashColor: CColor.black,
+        onTap: () {
+          Get.toNamed(AppRoutes.signUp);
+        },
+        child: Container(
+          margin: EdgeInsets.only(top: Sizes.height_3_5,bottom: Sizes.height_5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "txtNewLogin".tr,
+                style: TextStyle(
+                    color: CColor.grayDark,
+                    fontSize: FontSize.size_12,
+                    fontFamily: Constant.appFont,
+                    fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                " ${"txtRegister".tr}",
+                style: TextStyle(
+                    color: CColor.theme,
+                    fontSize: FontSize.size_12,
+                    fontFamily: Constant.appFont,
+                    fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

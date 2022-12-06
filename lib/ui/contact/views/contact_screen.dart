@@ -6,6 +6,7 @@ import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ContactScreen extends StatelessWidget {
   const ContactScreen({Key? key}) : super(key: key);
@@ -18,8 +19,14 @@ class ContactScreen extends StatelessWidget {
             id: Constant.idMainPage,
             builder: (logic) {
               return Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/main_bg.png'),
@@ -53,8 +60,8 @@ class ContactScreen extends StatelessWidget {
                         (logic.currentPos == 1)
                             ? _widgetFirstBottomView(context)
                             : (logic.currentPos == 3)
-                                ? _widgetThirdBottomView(context)
-                                : Expanded(child: Container()),
+                            ? _widgetThirdBottomView(context)
+                            : Expanded(child: Container()),
                       ],
                     ),
                     (logic.currentPos == 2)
@@ -80,8 +87,8 @@ class ContactScreen extends StatelessWidget {
             (logic.currentPos == 1)
                 ? "txtKonkotriCreation".tr
                 : (logic.currentPos == 2)
-                    ? "txtYourGuests".tr
-                    : "txtSendInvitation".tr,
+                ? "txtYourGuests".tr
+                : "txtSendInvitation".tr,
             style: TextStyle(
                 color: CColor.black,
                 fontSize: FontSize.size_18,
@@ -107,8 +114,8 @@ class ContactScreen extends StatelessWidget {
               (logic.currentPos == 1)
                   ? "txtKonkotriCreationDesc1".tr
                   : (logic.currentPos == 2)
-                      ? "txtKonkotriCreationDesc2".tr
-                      : "txtKonkotriCreationDesc3".tr,
+                  ? "txtKonkotriCreationDesc2".tr
+                  : "txtKonkotriCreationDesc3".tr,
               style: TextStyle(
                   color: CColor.black,
                   fontSize: FontSize.size_14,
@@ -148,8 +155,8 @@ class ContactScreen extends StatelessWidget {
                               height: Sizes.height_6,
                               width: Sizes.height_6,
                             ),
-                            Image.asset(
-                              "assets/basic_icons/ic_previous.png",
+                            SvgPicture.asset(
+                              "assets/svg/ic_previous.svg",
                               height: Sizes.height_4,
                               width: Sizes.height_4,
                             ),
@@ -201,8 +208,8 @@ class ContactScreen extends StatelessWidget {
                               height: Sizes.height_6,
                               width: Sizes.height_6,
                             ),
-                            Image.asset(
-                              "assets/basic_icons/ic_next.png",
+                            SvgPicture.asset(
+                              "assets/svg/ic_next.svg",
                               height: Sizes.height_4,
                               width: Sizes.height_4,
                             ),
@@ -232,8 +239,8 @@ class ContactScreen extends StatelessWidget {
               (logic.currentPos == 1)
                   ? "txtChooseKankotri".tr
                   : (logic.currentPos == 2)
-                      ? "txtSelectYourGuests".tr
-                      : "txtSendViaWhatsapp".tr,
+                  ? "txtSelectYourGuests".tr
+                  : "txtSendViaWhatsapp".tr,
               style: TextStyle(
                   color: CColor.black,
                   fontSize: FontSize.size_18,
@@ -285,55 +292,60 @@ class ContactScreen extends StatelessWidget {
   }
 
   _widgetSecondBottomView(BuildContext context, ContactController logic) {
-    return Container(
-      alignment: Alignment.bottomCenter,
-      child: SlidingUpPanel(
-        renderPanelSheet: false,
-        maxHeight: MediaQuery.of(context).size.height * 1,
-        minHeight: MediaQuery.of(context).size.height * 0.401,
+    return GetBuilder<ContactController>(
+        id: Constant.idBottomViewPos,
+        builder: (logic) {
+      return Container(
+        alignment: Alignment.bottomCenter,
+        child: SlidingUpPanel(
+          renderPanelSheet: false,
+          maxHeight: MediaQuery
+              .of(context)
+              .size
+              .height * 1,
+          minHeight: MediaQuery
+              .of(context)
+              .size
+              .height * 0.401,
 
-        /*When Slide Panel Open*/
-        panel: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24.0),
-                topRight: Radius.circular(24.0)),
+          /*When Slide Panel Open*/
+          panel: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24.0),
+                  topRight: Radius.circular(24.0)),
+            ),
+            child: _listViewContact(context, logic, needFullScreen: true),
+            // child: Container(),
           ),
-          child: Column(
-            children: [
-              _listViewContact(context, logic,needFullScreen: true),
-            ],
+
+          /*When Slide Panel Not Open*/
+          collapsed: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24.0),
+                  topRight: Radius.circular(24.0)),
+            ),
+            child: _listViewContact(context, logic),
+            // child: Container(),
           ),
         ),
-
-        /*When Slide Panel Not Open*/
-        collapsed: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24.0),
-                topRight: Radius.circular(24.0)),
-          ),
-          child: Column(
-            children: [
-              _listViewContact(context, logic),
-            ],
-          ),
-        ),
-      ),
-    );
+      );
+    });
   }
 
-  _listViewContact(BuildContext context, ContactController logic,{bool needFullScreen = false}) {
+  _listViewContact(BuildContext context, ContactController logic,
+      {bool needFullScreen = false}) {
     return Column(
       children: [
         Container(
           width: Sizes.width_10,
           margin: EdgeInsets.only(top: Sizes.height_2_5),
           decoration: BoxDecoration(
-            border: Border.all(color: CColor.grayDark, width: 2),
-            borderRadius: BorderRadius.circular(10)
+              border: Border.all(color: CColor.grayDark, width: 2),
+              borderRadius: BorderRadius.circular(10)
           ),
         ),
         Container(
@@ -355,7 +367,7 @@ class ContactScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: (logic.selectedSendWp ==
-                                  Constant.selectedSendWpSarvo)
+                              Constant.selectedSendWpSarvo)
                               ? CColor.themeDark
                               : CColor.gray,
                           borderRadius: BorderRadius.circular(5)),
@@ -363,7 +375,7 @@ class ContactScreen extends StatelessWidget {
                         "txtSarvo".tr,
                         style: TextStyle(
                             color: (logic.selectedSendWp ==
-                                    Constant.selectedSendWpSarvo)
+                                Constant.selectedSendWpSarvo)
                                 ? CColor.white
                                 : CColor.black,
                             fontSize: FontSize.size_12,
@@ -388,7 +400,7 @@ class ContactScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: (logic.selectedSendWp ==
-                                  Constant.selectedSendWpSajode)
+                              Constant.selectedSendWpSajode)
                               ? CColor.themeDark
                               : CColor.gray,
                           borderRadius: BorderRadius.circular(5)),
@@ -396,7 +408,7 @@ class ContactScreen extends StatelessWidget {
                         "txtSajode".tr,
                         style: TextStyle(
                             color: (logic.selectedSendWp ==
-                                    Constant.selectedSendWpSajode)
+                                Constant.selectedSendWpSajode)
                                 ? CColor.white
                                 : CColor.black,
                             fontSize: FontSize.size_12,
@@ -409,18 +421,27 @@ class ContactScreen extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          height: (needFullScreen)?MediaQuery.of(context).size.height * 1:MediaQuery.of(context).size.height * 0.3,
-          // padding: EdgeInsets.only(top: Sizes.height_3, left: Sizes.width_5,right:  Sizes.width_5),
-          padding: EdgeInsets.only(top: Sizes.height_2,bottom: Sizes.height_2_5),
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return _itemContactView(index, context, logic);
-            },
-            physics: const AlwaysScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 20,
-            scrollDirection: Axis.vertical,
+        Expanded(
+          child: Container(
+            height: (needFullScreen) ? MediaQuery
+                .of(context)
+                .size
+                .height * 1 : MediaQuery
+                .of(context)
+                .size
+                .height * 0.3,
+            // padding: EdgeInsets.only(top: Sizes.height_3, left: Sizes.width_5,right:  Sizes.width_5),
+            padding: EdgeInsets.only(
+                top: Sizes.height_2, bottom: Sizes.height_2_5),
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return _itemContactView(index, context, logic);
+              },
+              physics: const AlwaysScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 20,
+              scrollDirection: Axis.vertical,
+            ),
           ),
         ),
       ],
@@ -438,7 +459,7 @@ class ContactScreen extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: Sizes.width_5),
           margin:
-              EdgeInsets.only(top: Sizes.height_1_4, bottom: Sizes.height_1_4),
+          EdgeInsets.only(top: Sizes.height_1_4, bottom: Sizes.height_1_4),
           child: Row(
             children: [
               InkWell(
@@ -450,7 +471,7 @@ class ContactScreen extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(
                           color:
-                              (logic.isCheck) ? CColor.black : CColor.grayEF,
+                          (logic.isCheck) ? CColor.black : CColor.grayEF,
                           width: 2)),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -502,143 +523,146 @@ class ContactScreen extends StatelessWidget {
         builder: (logic) {
           return Expanded(
               child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(Sizes.width_7),
-                  topRight: Radius.circular(Sizes.width_7),
-                ),
-                color: CColor.white),
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: Sizes.height_4),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Material(
-                          color: CColor.transparent,
-                          child: InkWell(
-                            splashColor: CColor.black,
-                            onTap: () {
-                              logic.changeSendOption(
-                                  Constant.selectedSendWpSarvo);
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                  left: Sizes.width_5, right: Sizes.width_1),
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: (logic.selectedSendWp ==
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(Sizes.width_7),
+                      topRight: Radius.circular(Sizes.width_7),
+                    ),
+                    color: CColor.white),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: Sizes.height_4),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Material(
+                              color: CColor.transparent,
+                              child: InkWell(
+                                splashColor: CColor.black,
+                                onTap: () {
+                                  logic.changeSendOption(
+                                      Constant.selectedSendWpSarvo);
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(
+                                      left: Sizes.width_5,
+                                      right: Sizes.width_1),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: (logic.selectedSendWp ==
                                           Constant.selectedSendWpSarvo)
-                                      ? CColor.themeDark
-                                      : CColor.gray,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Text(
-                                "txtSarvo".tr,
-                                style: TextStyle(
-                                    color: (logic.selectedSendWp ==
+                                          ? CColor.themeDark
+                                          : CColor.gray,
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: Text(
+                                    "txtSarvo".tr,
+                                    style: TextStyle(
+                                        color: (logic.selectedSendWp ==
                                             Constant.selectedSendWpSarvo)
-                                        ? CColor.white
-                                        : CColor.black,
-                                    fontSize: FontSize.size_12,
-                                    fontFamily: Constant.appFont),
+                                            ? CColor.white
+                                            : CColor.black,
+                                        fontSize: FontSize.size_12,
+                                        fontFamily: Constant.appFont),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Material(
-                          color: CColor.transparent,
-                          child: InkWell(
-                            splashColor: CColor.black,
-                            onTap: () {
-                              logic.changeSendOption(
-                                  Constant.selectedSendWpSajode);
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                  right: Sizes.width_5, left: Sizes.width_1),
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: (logic.selectedSendWp ==
+                          Expanded(
+                            child: Material(
+                              color: CColor.transparent,
+                              child: InkWell(
+                                splashColor: CColor.black,
+                                onTap: () {
+                                  logic.changeSendOption(
+                                      Constant.selectedSendWpSajode);
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(
+                                      right: Sizes.width_5,
+                                      left: Sizes.width_1),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: (logic.selectedSendWp ==
                                           Constant.selectedSendWpSajode)
-                                      ? CColor.themeDark
-                                      : CColor.gray,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Text(
-                                "txtSajode".tr,
-                                style: TextStyle(
-                                    color: (logic.selectedSendWp ==
+                                          ? CColor.themeDark
+                                          : CColor.gray,
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: Text(
+                                    "txtSajode".tr,
+                                    style: TextStyle(
+                                        color: (logic.selectedSendWp ==
                                             Constant.selectedSendWpSajode)
-                                        ? CColor.white
-                                        : CColor.black,
-                                    fontSize: FontSize.size_12,
-                                    fontFamily: Constant.appFont),
+                                            ? CColor.white
+                                            : CColor.black,
+                                        fontSize: FontSize.size_12,
+                                        fontFamily: Constant.appFont),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: Sizes.height_9,
+                        margin: EdgeInsets.only(
+                          left: Sizes.width_1,
+                          right: Sizes.width_1,
+                        ),
+                        padding: EdgeInsets.only(
+                            left: Sizes.width_5, right: Sizes.width_5),
+                        child: Text(
+                          "You have choosen 68 guests to come up with their family.",
+                          style: TextStyle(
+                              color: CColor.black,
+                              fontSize: FontSize.size_14,
+                              fontFamily: Constant.appFont,
+                              fontWeight: FontWeight.w500),
+                          textAlign: TextAlign.start,
+                          // maxLines: 5,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: Sizes.height_9,
-                    margin: EdgeInsets.only(
-                      left: Sizes.width_1,
-                      right: Sizes.width_1,
                     ),
-                    padding: EdgeInsets.only(
-                        left: Sizes.width_5, right: Sizes.width_5),
-                    child: Text(
-                      "You have choosen 68 guests to come up with their family.",
-                      style: TextStyle(
-                          color: CColor.black,
-                          fontSize: FontSize.size_14,
-                          fontFamily: Constant.appFont,
-                          fontWeight: FontWeight.w500),
-                      textAlign: TextAlign.start,
-                      // maxLines: 5,
-                    ),
-                  ),
-                ),
-                Material(
-                  color: CColor.transparent,
-                  child: InkWell(
-                    splashColor: CColor.blueDark,
-                    onTap: () {
-                      logic.changeSendOption(Constant.selectedSendWpSajode);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(
-                          right: Sizes.width_5,
-                          left: Sizes.width_5,
-                          top: Sizes.height_5,
-                          bottom: Sizes.height_5),
-                      padding: EdgeInsets.symmetric(vertical: Sizes.height_1_5),
-                      decoration: BoxDecoration(
-                          color: CColor.blueDark,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Text(
-                        "txtSendInvitations".tr,
-                        style: TextStyle(
-                            color: CColor.white,
-                            fontSize: FontSize.size_12,
-                            fontFamily: Constant.appFont,
-                            fontWeight: FontWeight.w600),
+                    Material(
+                      color: CColor.transparent,
+                      child: InkWell(
+                        splashColor: CColor.blueDark,
+                        onTap: () {
+                          // logic.changeSendOption(Constant.selectedSendWpSajode);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(
+                              right: Sizes.width_5,
+                              left: Sizes.width_5,
+                              top: Sizes.height_5,
+                              bottom: Sizes.height_5),
+                          padding: EdgeInsets.symmetric(
+                              vertical: Sizes.height_1_5),
+                          decoration: BoxDecoration(
+                              color: CColor.blueDark,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Text(
+                            "txtSendInvitations".tr,
+                            style: TextStyle(
+                                color: CColor.white,
+                                fontSize: FontSize.size_12,
+                                fontFamily: Constant.appFont,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ));
+              ));
         });
   }
 }

@@ -8,6 +8,7 @@ import 'package:spotify_flutter_code/ui/home/views/home_screen.dart';
 import 'package:spotify_flutter_code/utils/color.dart';
 import 'package:spotify_flutter_code/utils/sizer_utils.dart';
 import '../../../utils/debug.dart';
+import 'package:flutter_svg/svg.dart';
 import '../controllers/main_controller.dart';
 
 class MainScreen extends StatelessWidget {
@@ -48,12 +49,31 @@ class MainScreen extends StatelessWidget {
             child: InkWell(
               splashColor: CColor.black,
               onTap: () {
-                Get.toNamed(AppRoutes.login);
+                Get.offAllNamed(AppRoutes.login);
               },
-              child: Container(
+              child: /*Container(
                 margin: EdgeInsets.only(right: Sizes.width_5,left: Sizes.width_5),
                 height: Sizes.height_5,
                 child: Image.asset("assets/ic_profile.png"),
+              )*/
+              Container(
+                height: Sizes.height_5,
+                margin: EdgeInsets.only(right: Sizes.width_5,left: Sizes.width_5),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/ic_ring.png",
+                      height: Sizes.height_6,
+                      width: Sizes.height_6,
+                    ),
+                    SvgPicture.asset(
+                      "assets/svg/ic_profile.svg",
+                      height: Sizes.height_3,
+                      width: Sizes.height_3
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -75,7 +95,7 @@ class MainScreen extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           controller: logic.pageController,
           scrollDirection: Axis.horizontal,
-          children: const [
+          children: [
             HomeScreen(),
             CategoryScreen(),
             FavouriteScreen(),
@@ -107,9 +127,9 @@ class MainScreen extends StatelessWidget {
                 child: Container(
                   height: Sizes.height_3_5,
                   margin: EdgeInsets.all(Sizes.height_2),
-                  child: Image.asset((logic.currentPageViewPos == 0)
-                      ? "assets/bottomBar/ic_home_selected.png"
-                      : "assets/bottomBar/ic_home_un.png"),
+                  child: SvgPicture.asset((logic.currentPageViewPos == 0)
+                        ? "assets/svg/ic_home_selected.svg"
+                        : "assets/svg/ic_home_un.svg"),
                 ),
               ),
             ),
@@ -125,10 +145,9 @@ class MainScreen extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.all(Sizes.height_2),
                   height: Sizes.height_3_5,
-                  // child: Image.asset("assets/ic_category_un.png"),
-                  child: Image.asset((logic.currentPageViewPos == 1)
-                      ? "assets/bottomBar/ic_category_selected.png"
-                      : "assets/bottomBar/ic_category_un.png"),
+                  child: SvgPicture.asset((logic.currentPageViewPos == 1)
+                      ? "assets/svg/ic_category_selected.svg"
+                      : "assets/svg/ic_category_un.svg"),
                 ),
               ),
             ),
@@ -144,10 +163,9 @@ class MainScreen extends StatelessWidget {
                 child: Container(
                   height: Sizes.height_3_5,
                   margin: EdgeInsets.all(Sizes.height_2),
-                  // child: Image.asset("assets/ic_contact_un.png"),
-                  child: Image.asset((logic.currentPageViewPos == 2)
-                      ? "assets/bottomBar/ic_folder_selected.png"
-                      : "assets/bottomBar/ic_folder_un.png"),
+                  child: SvgPicture.asset((logic.currentPageViewPos == 2)
+                      ? "assets/svg/ic_folder_selected.svg"
+                      : "assets/svg/ic_folder_un.svg"),
                 ),
               ),
             ),
@@ -163,10 +181,9 @@ class MainScreen extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.all(Sizes.height_2),
                   height: Sizes.height_3_5,
-                  // child: Image.asset("assets/ic_home_un.png"),
-                  child: Image.asset((logic.currentPageViewPos == 3)
-                      ? "assets/bottomBar/ic_contact_selected.png"
-                      : "assets/bottomBar/ic_contact_un.png"),
+                  child: SvgPicture.asset((logic.currentPageViewPos == 3)
+                      ? "assets/svg/ic_contact_selected.svg"
+                      : "assets/svg/ic_contact_un.svg"),
                 ),
               ),
             ),

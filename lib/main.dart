@@ -23,6 +23,7 @@ Future<void> main() async {
   await InternetConnectivity().instance();
 
   _configureLocalTimeZone();
+  await Future.delayed(const Duration(seconds: 2));
   runApp(const MyApp());
 }
 
@@ -63,6 +64,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    precacheImage(const AssetImage("assets/login_flow/ic_enter_otp.webp"),context);
+    precacheImage(const AssetImage("assets/login_flow/ic_forgot_pass.webp"),context);
+    precacheImage(const AssetImage("assets/login_flow/ic_login.webp"),context);
+    precacheImage(const AssetImage("assets/login_flow/ic_reset_pass.webp"),context);
+    precacheImage(const AssetImage("assets/login_flow/ic_sign_up.webp"),context);
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -74,8 +80,8 @@ class _MyAppState extends State<MyApp> {
       darkTheme: AppTheme.light,
       locale: Get.deviceLocale,
       getPages: AppPages.list,
-      transitionDuration: const Duration(milliseconds: 200),
-      initialRoute:AppRoutes.main ,
+      transitionDuration: const Duration(milliseconds: 50),
+      initialRoute:AppRoutes.login ,
     );
   }
 }

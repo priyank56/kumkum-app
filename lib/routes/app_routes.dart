@@ -1,6 +1,11 @@
 class AppRoutes {
 
   static const String login = '/login';
+  static const String signUp = '/signUp';
+  static const String forgotPass = '/forgotPass';
+  static const String otp = '/otp';
+  static const String reset = '/reset';
+  static const String addKankotri = '/addKankotri';
   static const String main = '/main';
 
   /*Bottom Bar Navigation*/

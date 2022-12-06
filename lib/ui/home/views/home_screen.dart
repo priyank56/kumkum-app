@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
+import 'package:spotify_flutter_code/ui/main/controllers/main_controller.dart';
 import 'package:spotify_flutter_code/utils/color.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/sizer_utils.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
 
+  MainController mainController = Get.find<MainController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +49,7 @@ class HomeScreen extends StatelessWidget {
       child: InkWell(
         splashColor: CColor.grayDark,
         onTap: () {
-
+          Get.toNamed(AppRoutes.addKankotri);
         },
         child: Container(
           margin: EdgeInsets.only(
@@ -75,7 +78,7 @@ class HomeScreen extends StatelessWidget {
       child: InkWell(
         splashColor: CColor.theme,
         onTap: () {
-
+          mainController.changePosFromMain(1);
         },
         child: Container(
           margin: EdgeInsets.only(

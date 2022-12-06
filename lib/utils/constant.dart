@@ -101,4 +101,6 @@ class Constant {
   static const idBottomText = "idBottomText";
   static const idNextPrevious = "idNextPrevious";
   static const idPassWord = "idPassWord";
+  static const idEmailEdit = "idEmailEdit";
+  static const idFullNameEdit = "idFullNameEdit";
 }

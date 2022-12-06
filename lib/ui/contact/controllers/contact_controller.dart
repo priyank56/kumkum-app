@@ -5,6 +5,7 @@ class ContactController extends GetxController {
 
   int currentPos = 1;
   String selectedSendWp = Constant.selectedSendWpSarvo;
+  bool isCheck = false;
 
 
   changeBottomViewPos(int pos){
@@ -15,6 +16,11 @@ class ContactController extends GetxController {
   changeSendOption(String value){
     selectedSendWp = value;
     update([Constant.idBottomViewPos]);
+  }
+
+  changeCheckValue(bool value){
+    isCheck = !isCheck;
+    update([Constant.idBottomViewPos,Constant.idMainPage]);
   }
 }
 

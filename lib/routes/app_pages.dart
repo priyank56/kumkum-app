@@ -6,6 +6,7 @@ import 'package:spotify_flutter_code/ui/category/bindings/category_binding.dart'
 import 'package:spotify_flutter_code/ui/contact/views/contact_screen.dart';
 import 'package:spotify_flutter_code/ui/favourite/bindings/favourite_binding.dart';
 import 'package:spotify_flutter_code/ui/favourite/views/favourite_screen.dart';
+import 'package:spotify_flutter_code/ui/login/bindings/login_binding.dart';
 import 'package:spotify_flutter_code/ui/main/bindings/main_binding.dart';
 import 'package:spotify_flutter_code/ui/main/views/main_screen.dart';
 
@@ -13,6 +14,7 @@ import '../ui/category/views/category_screen.dart';
 import '../ui/contact/bindings/contact_binding.dart';
 import '../ui/home/bindings/home_binding.dart';
 import '../ui/home/views/home_screen.dart';
+import '../ui/login/views/login_screen.dart';
 import '../utils/color.dart';
 import 'app_routes.dart';
 
@@ -36,6 +38,13 @@ class AppPages {
       transition: Transition.fade,
     ),
 
+
+    GetPage(
+      name: AppRoutes.login,
+      page: () => const LoginScreen(),
+      binding: LoginBinding(),
+      transition: Transition.fade,
+    ),
 
     /*Bottom Bar Nav*/
     GetPage(

@@ -84,13 +84,22 @@ class CategoryScreen extends StatelessWidget {
   }
 
   _itemCardView(int index, BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Image.asset(
-          "assets/ic_card_demo.png",
-          fit: BoxFit.cover,
+    return Material(
+      color: CColor.transparent,
+      child: InkWell(
+        splashColor: CColor.black,
+        onTap: () {
+
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Image.asset(
+              "assets/ic_card_demo.png",
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
       ),
     );

@@ -41,55 +41,59 @@ class HomeScreen extends StatelessWidget {
   }
 
   _widgetNewKankotri(HomeController logic, BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-          top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: CColor.grayDark,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: EdgeInsets.all(Sizes.height_2_5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 2),
-            child: Text(
-              "+  " ,
-              style: TextStyle(color: CColor.white, fontSize: FontSize.size_14,
-                  fontWeight: FontWeight.w700),
-              textAlign: TextAlign.center,
-            ),
+    return Material(
+      color: CColor.transparent,
+      child: InkWell(
+        splashColor: CColor.grayDark,
+        onTap: () {
+
+        },
+        child: Container(
+          margin: EdgeInsets.only(
+              top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: CColor.grayDark,
+            borderRadius: BorderRadius.circular(10),
           ),
-          Text(
-            "txtNewKankotri".tr,
+          padding: EdgeInsets.all(Sizes.height_2_5),
+          child: Text(
+            "+ ${"txtNewKankotri".tr}",
             style: TextStyle(color: CColor.white, fontSize: FontSize.size_14,
                 fontFamily: Constant.appFont,
                 fontWeight: FontWeight.w700),
             textAlign: TextAlign.center,
           ),
-        ],
+        ),
       ),
     );
   }
 
   _widgetSelectPreBuilt(HomeController logic, BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-          top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: CColor.theme,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: EdgeInsets.all(Sizes.height_2_5),
-      child: Text(
-        "txtSelectPreBuiltSample".tr,
-        style: TextStyle(color: CColor.white, fontSize: FontSize.size_14,
-            fontFamily: Constant.appFont,
-            fontWeight: FontWeight.w700),
-        textAlign: TextAlign.center,
+    return Material(
+      color: CColor.transparent,
+      child: InkWell(
+        splashColor: CColor.theme,
+        onTap: () {
+
+        },
+        child: Container(
+          margin: EdgeInsets.only(
+              top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: CColor.theme,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: EdgeInsets.all(Sizes.height_2_5),
+          child: Text(
+            "txtSelectPreBuiltSample".tr,
+            style: TextStyle(color: CColor.white, fontSize: FontSize.size_14,
+                fontFamily: Constant.appFont,
+                fontWeight: FontWeight.w700),
+            textAlign: TextAlign.center,
+          ),
+        ),
       ),
     );
   }
@@ -139,12 +143,21 @@ class HomeScreen extends StatelessWidget {
   }
 
   _itemCardView(int index, BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(right:Sizes.width_4),
-      height: Sizes.height_15,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-      child: Image.asset(
-        "assets/ic_card_demo.png",
+    return Material(
+      color: CColor.transparent,
+      child: InkWell(
+        splashColor: CColor.black,
+        onTap: () {
+
+        },
+        child: Container(
+          padding: EdgeInsets.only(right:Sizes.width_4),
+          height: Sizes.height_15,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+          child: Image.asset(
+            "assets/ic_card_demo.png",
+          ),
+        ),
       ),
     );
   }

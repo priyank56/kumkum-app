@@ -17,5 +17,10 @@ final Map<String, String> enUS = {
   'txtSarvo': "સર્વો",
   'txtSajode': "સજોડે",
   'txtSendInvitations': "Send Invitations",
+  'txtLogin': "Login",
+  'txtEmailId': "Email ID",
+  'txtPassword': "Password",
+  'txtForgotPass': "Forgot Password",
+  'txtOr': "Or",
 
 };

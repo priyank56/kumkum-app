@@ -75,7 +75,6 @@ class FavouriteScreen extends StatelessWidget {
             childAspectRatio: 0.8
         ),
         itemCount: 10,
-        // padding: EdgeInsets.only(left: Sizes.width_2, right: Sizes.width_2, bottom: Sizes.height_1_5),
         itemBuilder: (context, index) {
           return _itemCardView(index, context);
         },
@@ -84,13 +83,22 @@ class FavouriteScreen extends StatelessWidget {
   }
 
   _itemCardView(int index, BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Image.asset(
-          "assets/ic_card_demo.png",
-          fit: BoxFit.cover,
+    return Material(
+      color: CColor.transparent,
+      child: InkWell(
+        splashColor: CColor.black,
+        onTap: () {
+
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Image.asset(
+              "assets/ic_card_demo.png",
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
       ),
     );

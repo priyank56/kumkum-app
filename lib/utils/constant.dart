@@ -100,4 +100,5 @@ class Constant {
   static const idBottomViewPos = "idBottomViewPos";
   static const idBottomText = "idBottomText";
   static const idNextPrevious = "idNextPrevious";
+  static const idPassWord = "idPassWord";
 }

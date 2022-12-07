@@ -14,6 +14,8 @@ import 'package:spotify_flutter_code/ui/main/bindings/main_binding.dart';
 import 'package:spotify_flutter_code/ui/main/views/main_screen.dart';
 import 'package:spotify_flutter_code/ui/otp/bindings/otp_binding.dart';
 import 'package:spotify_flutter_code/ui/otp/views/otp_screen.dart';
+import 'package:spotify_flutter_code/ui/preview/bindings/preview_binding.dart';
+import 'package:spotify_flutter_code/ui/preview/views/preview_screen.dart';
 import 'package:spotify_flutter_code/ui/reset/bindings/reset_binding.dart';
 import 'package:spotify_flutter_code/ui/reset/views/reset_screen.dart';
 import 'package:spotify_flutter_code/ui/signup/bindings/signup_binding.dart';
@@ -31,7 +33,7 @@ import 'app_routes.dart';
 class AppPages {
   static var list = [
     GetPage(
-      name: AppRoutes.login,
+      name: AppRoutes.preview,
       page: () => Sizer(
         builder: (context, orientation, deviceType) {
           return const AnnotatedRegion<SystemUiOverlayStyle>(
@@ -40,14 +42,20 @@ class AppPages {
               statusBarIconBrightness: Brightness.dark,
               systemNavigationBarIconBrightness: Brightness.light,
             ),
-            child: LoginScreen(),
+            child: PreviewScreen(),
           );
         },
       ),
-      binding: LoginBinding(),
+      binding: PreviewBinding(),
       transition: Transition.fade,
     ),
 
+    GetPage(
+      name: AppRoutes.login,
+      page: () => const LoginScreen(),
+      binding: LoginBinding(),
+      transition: Transition.fade,
+    ),
 
     GetPage(
       name: AppRoutes.signUp,

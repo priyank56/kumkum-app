@@ -422,7 +422,8 @@ class ContactScreen extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Container(
+          child: (logic.contactList.isNotEmpty)?
+          Container(
             height: (needFullScreen) ? MediaQuery
                 .of(context)
                 .size
@@ -439,10 +440,10 @@ class ContactScreen extends StatelessWidget {
               },
               physics: const AlwaysScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: 20,
+              itemCount: logic.contactList.length,
               scrollDirection: Axis.vertical,
             ),
-          ),
+          ) :Container(),
         ),
       ],
     );
@@ -464,14 +465,14 @@ class ContactScreen extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  logic.changeCheckValue(logic.isCheck);
+                  logic.changeCheckValue(logic.contactList[index].isSelected,index,logic.selectedSendWp);
                 },
                 child: Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
                           color:
-                          (logic.isCheck) ? CColor.black : CColor.grayEF,
+                          (logic.contactList[index].isSelected) ? CColor.black : CColor.grayEF,
                           width: 2)),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -486,7 +487,7 @@ class ContactScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      "Mansukhbhai Mandaviya",
+                      logic.contactList[index].contactName.toString(),
                       style: TextStyle(
                           color: CColor.black,
                           fontSize: FontSize.size_12,
@@ -497,7 +498,7 @@ class ContactScreen extends StatelessWidget {
                       // maxLines: 5,
                     ),
                     AutoSizeText(
-                      "8000563265",
+                      logic.contactList[index].contactNumber.toString(),
                       style: TextStyle(
                           color: CColor.black,
                           fontSize: FontSize.size_10,

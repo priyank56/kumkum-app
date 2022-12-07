@@ -14,8 +14,6 @@ final Map<String, String> enUS = {
   'txtKonkotriCreationDesc1': "Select a kankotri which you have just prepared and wants to share wth your guests.",
   'txtKonkotriCreationDesc2': "Choose your list of contacts and send them all a kankotri by their names in it by just a single click.",
   'txtKonkotriCreationDesc3': "Invite all your guest with just a single click.",
-  'txtSarvo': "સર્વો",
-  'txtSajode': "સજોડે",
   'txtSendInvitations': "Send Invitations",
   'txtLogin': "Login",
   'txtRegister': "Register",
@@ -38,5 +36,20 @@ final Map<String, String> enUS = {
   'txtNoGet': "Did’t get OTP?",
   'txtResend': "Resend",
   'txtReset': "Reset",
+  'txtPreview': "Preview",
+  'txt1': "1",
+
+
+  /*Gujarati Text*/
+  'txtSarvo': "સર્વો",
+  'txtSajode': "સજોડે",
+  'txtJan': "જાન પ્રસ્થાન",
+  'txtGitSandhya': "ગીત સંધ્યા",
+  'txtBhojan': "ભોજન સમારંભ",
+  'txtMadapMuhrat': "મંડપ મુહર્ત ",
+  'txtRasGarba': "રાસ ગરબા",
+  'txtHastMelap': "હસ્ત મેળાપ",
+  'txtVadhare': "વધારે",
+  'txtOchu': "ઓછું",
 
 };

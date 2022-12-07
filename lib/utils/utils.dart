@@ -24,4 +24,7 @@ class Utils{
     var accessToken = Preference.shared.getString(Preference.accessToken);
     return (accessToken != null && accessToken.isNotEmpty);
   }
+
+  //Check contacts permission
+
 }

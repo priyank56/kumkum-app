@@ -49,7 +49,7 @@ class MainScreen extends StatelessWidget {
             child: InkWell(
               splashColor: CColor.black,
               onTap: () {
-                Get.offAllNamed(AppRoutes.login);
+                Get.toNamed(AppRoutes.preview);
               },
               child: /*Container(
                 margin: EdgeInsets.only(right: Sizes.width_5,left: Sizes.width_5),

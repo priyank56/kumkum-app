@@ -84,6 +84,7 @@ class Constant {
   static const campaignFileTypeGiftQrLogo = "gift_qr_logo";
   static const campaignFileTypeLogo = "logo";
   static const appFont = "Popins";
+  static const selectedSendWp1Person = "1person";
   static const selectedSendWpSarvo = "sarvo";
   static const selectedSendWpSajode = "sajode";
 
@@ -103,4 +104,5 @@ class Constant {
   static const idPassWord = "idPassWord";
   static const idEmailEdit = "idEmailEdit";
   static const idFullNameEdit = "idFullNameEdit";
+  static const idAllButton = "idAllButton";
 }

@@ -38,18 +38,57 @@ final Map<String, String> enUS = {
   'txtReset': "Reset",
   'txtPreview': "Preview",
   'txt1': "1",
+  'txtAddKankotri': "Add New Kankotri",
 
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",
   'txtSajode': "સજોડે",
-  'txtJan': "જાન પ્રસ્થાન",
-  'txtGitSandhya': "ગીત સંધ્યા",
-  'txtBhojan': "ભોજન સમારંભ",
-  'txtMadapMuhrat': "મંડપ મુહર્ત ",
-  'txtRasGarba': "રાસ ગરબા",
-  'txtHastMelap': "હસ્ત મેળાપ",
   'txtVadhare': "વધારે",
   'txtOchu': "ઓછું",
+  'txtMahitiBharo': "માહિતી ભરો",
+
+  /*For Add New Kankotri*/
+
+  /*Gujarati*/
+  'txtVarPaksh' :"વરપક્ષ",
+  'txtKanyaPaksh' :"કન્યાપક્ષ",
+  'txtVarRajaNuName' :"વરરાજાનું નામ",
+  'txtKanyaNuName' :"કન્યાનું નામ",
+  'txtLaganTarikh' :"લગ્ન તારીખ",
+  'txtNimantrak' :"નિમંત્રક",
+  'txtNimantrakName' :"નિમંત્રક નામ",
+  'txtName' :"નામ",
+  'txtSarnamu' :"સરનામું",
+  'txtSamay' :"સમય ",
+  'txtNimantrakSarnamu' :"નિમંત્રક સરનામું",
+  'txtNimantrakMobile' :"નિમંત્રક મોબાઈલ",
+  'txtMobile' :"મોબાઈલ",
+  'txtTarikh' :"તારીખ",
+  'txtJagya' :"જગ્યા",
+  'txtSandesho' :"સંદેશો",
+  'txtMadapMuhrat': "મંડપ મુહર્ત ",
+  'txtBhojan': "ભોજન સમારંભ",
+  'txtGitSandhya': "ગીત સંધ્યા",
+  'txtRasGarba': "રાસ ગરબા",
+  'txtJan': "જાન પ્રસ્થાન",
+  'txtHastMelap': "હસ્ત મેળાપ",
+  'txtAmantrak': "આમંત્રક",
+  'txtVarPakshTarafThi': "વરપક્ષ તરફથી",
+  'txtKanyaPakshTarafThi': "કન્યાપક્ષ તરફથી",
+  'txtMahiti': "માહિતી",
+  'txtBhagavaNuName': "ભગવાન નું નામ",
+  'txtMataNuName': "માતા નું નામ",
+  'txtPitajiNuName': "પિતાજી નું નામ",
+  'txtGamNuName': "ગામ નું નામ",
+  'txtDivas': "દિવસ",
+  'txtAapneAavkarvaAatur': "આપને આવકારવા આતુર",
+  'txtMehmanName': "મેહમાન નામ",
+
+  /*English*/
+  'txtGroomName' :"Groom's Name",
+  'txtBrideName' :"Bride's Name",
+  'txtNameEn' :"Name",
+  'txtAdd' :"Add",
 
 };

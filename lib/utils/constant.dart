@@ -1,3 +1,5 @@
+import 'package:spotify_flutter_code/utils/sizer_utils.dart';
+
 import 'debug.dart';
 
 class Constant {
@@ -105,4 +107,8 @@ class Constant {
   static const idEmailEdit = "idEmailEdit";
   static const idFullNameEdit = "idFullNameEdit";
   static const idAllButton = "idAllButton";
+  static const idAddNimantrakPart = "idAddNimantrakPart";
+  static const idFunctionsPart = "idFunctionsPart";
+  static const idInviterPart = "idInviterPart";
+  static const idGuestNameFirst = "idGuestNameFirst";
 }

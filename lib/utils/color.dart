@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 class CColor {
   static const transparent = Color(0x00FFFFFF);
   static const white = Color(0xFFFFFFFF);
+  static const white50 = Color(0x50FFFFFF);
+  static const white60 = Color(0x60FFFFFF);
+  static const white70 = Color(0x70FFFFFF);
+  static const white80 = Color(0x80FFFFFF);
+  static const white90 = Color(0x90FFFFFF);
   static const black = Color(0xff000000);
 
   /*Custom Color*/

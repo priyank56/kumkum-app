@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -79,7 +77,7 @@ class PreviewScreen extends StatelessWidget {
               ),
               Expanded(
                 child: WebView(
-                  initialUrl: 'https://flutter.dev',
+                  initialUrl: 'https://resume-builder-nu-indol.vercel.app/resume/M2a4x0rbAL',
                   onPageFinished: (url) {
                     logic.changeProgressValue(false);
                   },
@@ -177,7 +175,7 @@ class PreviewScreen extends StatelessWidget {
                                     child: Container(
                                       alignment: Alignment.center,
                                       margin: EdgeInsets.only(
-                                          right: Sizes.width_5,
+                                          right: Sizes.width_2,
                                           left: Sizes.width_1),
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
@@ -214,8 +212,7 @@ class PreviewScreen extends StatelessWidget {
                                     child: Container(
                                       alignment: Alignment.center,
                                       margin: EdgeInsets.only(
-                                          right: Sizes.width_5,
-                                          left: Sizes.width_1),
+                                          right: Sizes.width_5),
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                           color: (logic.selectedSendWp ==

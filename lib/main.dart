@@ -81,7 +81,8 @@ class _MyAppState extends State<MyApp> {
       locale: Get.deviceLocale,
       getPages: AppPages.list,
       transitionDuration: const Duration(milliseconds: 50),
-      initialRoute:AppRoutes.preview ,
+      // initialRoute:AppRoutes.addKankotri ,
+      initialRoute:AppRoutes.main ,
     );
   }
 }

@@ -33,6 +33,24 @@ import 'app_routes.dart';
 class AppPages {
   static var list = [
     GetPage(
+      name: AppRoutes.addKankotri,
+      page: () => Sizer(
+        builder: (context, orientation, deviceType) {
+          return const AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle(
+              statusBarColor: CColor.transparent,
+              statusBarIconBrightness: Brightness.dark,
+              systemNavigationBarIconBrightness: Brightness.light,
+            ),
+            child: AddKankotriScreen(),
+          );
+        },
+      ),
+      binding: AddKankotriBinding(),
+      transition: Transition.fade,
+    ),
+
+    GetPage(
       name: AppRoutes.preview,
       page: () => Sizer(
         builder: (context, orientation, deviceType) {
@@ -51,6 +69,38 @@ class AppPages {
     ),
 
     GetPage(
+      name: AppRoutes.main,
+      page: () => Sizer(
+        builder: (context, orientation, deviceType) {
+          return const AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle(
+              statusBarColor: CColor.transparent,
+              statusBarIconBrightness: Brightness.dark,
+              systemNavigationBarIconBrightness: Brightness.light,
+            ),
+            child: MainScreen(),
+          );
+        },
+      ),
+      binding: MainBinding(),
+      transition: Transition.fade,
+    ),
+
+    /*GetPage(
+      name: AppRoutes.main,
+      page: () => const MainScreen(),
+      binding: MainBinding(),
+      transition: Transition.fade,
+    ),*/
+
+    /*GetPage(
+      name: AppRoutes.preview,
+      page: () => const PreviewScreen(),
+      binding: PreviewBinding(),
+      transition: Transition.fade,
+    ),*/
+
+    GetPage(
       name: AppRoutes.login,
       page: () => const LoginScreen(),
       binding: LoginBinding(),
@@ -64,12 +114,6 @@ class AppPages {
       transition: Transition.fade,
     ),
 
-    GetPage(
-      name: AppRoutes.addKankotri,
-      page: () => const AddKankotriScreen(),
-      binding: AddKankotriBinding(),
-      transition: Transition.fade,
-    ),
 
 
     GetPage(
@@ -95,12 +139,7 @@ class AppPages {
     ),
 
 
-    GetPage(
-      name: AppRoutes.main,
-      page: () => const MainScreen(),
-      binding: MainBinding(),
-      transition: Transition.fade,
-    ),
+
 
     /*Bottom Bar Nav*/
     GetPage(

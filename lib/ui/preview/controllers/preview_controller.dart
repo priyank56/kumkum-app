@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
@@ -14,6 +17,9 @@ class PreviewController extends GetxController {
   String? selectedValue;
 
   List<String> listTitle = [];
+
+  Uint8List decodedbytes = base64.decode("/9j/4QejRXhpZgAASUkqAAgAAAAUACACBAABAA....");
+
 
   changeAdvanced(){
     isAdvanceEnabled = !isAdvanceEnabled;

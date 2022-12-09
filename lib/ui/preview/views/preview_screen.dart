@@ -82,6 +82,9 @@ class PreviewScreen extends StatelessWidget {
                     logic.changeProgressValue(false);
                   },
                 ),
+                /*SfPdfViewer.memory(
+                  logic.decodedbytes,
+                ),*/
               ),
             ],
           );

@@ -89,6 +89,7 @@ class Constant {
   static const selectedSendWp1Person = "1person";
   static const selectedSendWpSarvo = "sarvo";
   static const selectedSendWpSajode = "sajode";
+  static const godDemoImageURl = "https://images.unsplash.com/photo-1567878673942-be055fed5d30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80";
 
   static getMainURL() {
     if (Debug.sandboxApiUrl) {
@@ -110,5 +111,7 @@ class Constant {
   static const idAddNimantrakPart = "idAddNimantrakPart";
   static const idFunctionsPart = "idFunctionsPart";
   static const idInviterPart = "idInviterPart";
-  static const idGuestNameFirst = "idGuestNameFirst";
+  static const idGuestNameAll = "idGuestNameAll";
+  static const idGoodPlaceAll = "idGoodPlaceAll";
+  static const idGodNames = "idGodNames";
 }

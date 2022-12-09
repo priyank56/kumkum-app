@@ -74,6 +74,9 @@ final Map<String, String> enUS = {
   'txtJan': "જાન પ્રસ્થાન",
   'txtHastMelap': "હસ્ત મેળાપ",
   'txtAmantrak': "આમંત્રક",
+  'txtAmantrakName': "આમંત્રક નામ",
+  'txtAmantrakAddress': "આમંત્રક સરનામું",
+  'txtAmantrakMno': "આમંત્રક મોબાઈલ",
   'txtVarPakshTarafThi': "વરપક્ષ તરફથી",
   'txtKanyaPakshTarafThi': "કન્યાપક્ષ તરફથી",
   'txtMahiti': "માહિતી",
@@ -84,11 +87,21 @@ final Map<String, String> enUS = {
   'txtDivas': "દિવસ",
   'txtAapneAavkarvaAatur': "આપને આવકારવા આતુર",
   'txtMehmanName': "મેહમાન નામ",
+  'txtSanehaDhin': "લી. સ્નેહાધીન",
+  'txtMosalPaksh': "મોસાળ પક્ષ",
+  'txtBhanejPaksh': "ભાણેજ પક્ષ",
+  'txtTahuko': "ટહુકો",
+  'txtSubhSathal': "શુભ સ્થળ",
+  'txtSubhLaganSathal': "શુભ લગ્ન સ્થળ",
+  'txtAṭak': "અટક",
+  'txtBhagavanNiMahiti': "ભગવાન ની માહિતી",
+
 
   /*English*/
   'txtGroomName' :"Groom's Name",
   'txtBrideName' :"Bride's Name",
   'txtNameEn' :"Name",
   'txtAdd' :"Add",
+  'txtCancel' :"Cancel",
 
 };

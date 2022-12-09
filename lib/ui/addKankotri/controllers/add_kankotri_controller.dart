@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
@@ -34,18 +37,27 @@ class AddKankotriController extends GetxController {
     }
   }
 
+
   List<String> listNimantrakName = [];
   List<String> listNimantrakAddress = [];
   List<String> listNimantrakMno = [];
   List<String> listOfChirping = [];
   List<String> listOfGuestNameFirst = [];
   List<FunctionsNimantrakName> functionsList = [];
+  List<GuestAllName> guestNamesList = [];
+  List<GoodPlaceAllName> goodPlaceNamesList = [];
+  List<GodInformation> godInformationList = [];
 
   TextEditingController functionDate = TextEditingController();
   TextEditingController functionTime = TextEditingController();
   TextEditingController functionPlace = TextEditingController();
   TextEditingController functionMessage = TextEditingController();
   List<TextEditingController> inviterList = [];
+
+  String newGodName = "";
+
+  /*Edittext Controller*/
+  TextEditingController godNameController = TextEditingController();
 
   @override
   void onInit() {
@@ -55,7 +67,9 @@ class AddKankotriController extends GetxController {
     addNimantrakMnoListData(true);
     addAllFunctionsList();
     addChirpingList();
-    addGuestNameFirsListData(true);
+    addAllGuestNames();
+    addGoodPlaceNames();
+    addGodInfo();
 
   }
 
@@ -86,15 +100,6 @@ class AddKankotriController extends GetxController {
     update([Constant.idAddNimantrakPart]);
   }
 
-  addGuestNameFirsListData(bool isAdd, {int? index = 0}) {
-    if (isAdd) {
-      listOfGuestNameFirst.add("");
-    } else {
-      listOfGuestNameFirst.removeAt(index!);
-    }
-    update([Constant.idGuestNameFirst]);
-  }
-
   addRemoveFunctionsNimantrakName(bool isAdd,int mainIndex,{int? index = 0}){
     if (isAdd) {
       functionsList[mainIndex].listNames.add("");
@@ -114,11 +119,81 @@ class AddKankotriController extends GetxController {
     update([Constant.idFunctionsPart]);
   }
 
-   addChirpingList() {
+
+  addAllGuestNames() {
+    guestNamesList.add(GuestAllName("txtAapneAavkarvaAatur".tr,["",""]));
+    guestNamesList.add(GuestAllName("txtSanehaDhin".tr,["",""]));
+    guestNamesList.add(GuestAllName("txtMosalPaksh".tr,["",""]));
+    guestNamesList.add(GuestAllName("txtBhanejPaksh".tr,["",""]));
+    update([Constant.idGuestNameAll]);
+  }
+
+  addRemoveGuestNamesName(bool isAdd,int mainIndex,{int? index = 0}){
+    if (isAdd) {
+      guestNamesList[mainIndex].listOfGuestNames.add("");
+    } else {
+      guestNamesList[mainIndex].listOfGuestNames.removeAt(index!);
+    }
+    update([Constant.idFunctionsPart]);
+  }
+
+
+  addGoodPlaceNames() {
+    goodPlaceNamesList.add(GoodPlaceAllName("txtSubhSathal".tr,["",""],["",""]));
+    goodPlaceNamesList.add(GoodPlaceAllName("txtSubhLaganSathal".tr,["",""],["",""]));
+    update([Constant.idGoodPlaceAll]);
+  }
+
+  addRemoveGoodPlaceNamesName(bool isAdd,int mainIndex,bool isAddress,{int? index = 0}){
+    if(isAddress) {
+      if (isAdd) {
+        goodPlaceNamesList[mainIndex].listOfAddressName.add("");
+      } else {
+        goodPlaceNamesList[mainIndex].listOfAddressName.removeAt(index!);
+      }
+    }else {
+      if (isAdd) {
+        goodPlaceNamesList[mainIndex].listOfMobile.add("");
+      } else {
+        goodPlaceNamesList[mainIndex].listOfMobile.removeAt(index!);
+      }
+    }
+    update([Constant.idGoodPlaceAll]);
+  }
+
+  addGodInfo(){
+    godInformationList.add(GodInformation(Constant.godDemoImageURl, "શ્રી ગણેશાય નમઃ",false));
+    godInformationList.add(GodInformation(Constant.godDemoImageURl, "શ્રી ગેલ અંબે માતાજી",false));
+    godInformationList.add(GodInformation(Constant.godDemoImageURl, "ૐ નમઃ શિવાય",false));
+  }
+
+  addRemoveGodNamesName(bool isAdd, int index,String name){
+    if(name == ""){
+      return;
+    }
+    if (isAdd) {
+      godInformationList.add(GodInformation("", name,false));
+    } else {
+      godInformationList.removeAt(index);
+    }
+    update([Constant.idGodNames]);
+  }
+
+  godSelectOnTap(int index){
+    godInformationList[index].isSelected = !godInformationList[index].isSelected!;
+    update([Constant.idGodNames]);
+  }
+
+  addChirpingList() {
      listOfChirping.add("1");
      listOfChirping.add("2");
      update([Constant.idInviterPart]);
 
+   }
+
+   changeGodName(String name){
+     newGodName = name;
+     update([Constant.idGodNames]);
    }
 }
 
@@ -127,4 +202,27 @@ class FunctionsNimantrakName{
   List<String> listNames = [];
 
   FunctionsNimantrakName(this.functionName,this.listNames);
+}
+
+class GuestAllName{
+  String titleName = "";
+  List<String> listOfGuestNames = [];
+
+  GuestAllName(this.titleName,this.listOfGuestNames);
+}
+
+class GoodPlaceAllName{
+  String titleName = "";
+  List<String> listOfAddressName = [];
+  List<String> listOfMobile = [];
+
+  GoodPlaceAllName(this.titleName,this.listOfAddressName,this.listOfMobile);
+}
+
+class GodInformation{
+  String godImageURL = "";
+  String godName = "";
+  bool? isSelected = false;
+
+  GodInformation(this.godImageURL,this.godName,this.isSelected);
 }

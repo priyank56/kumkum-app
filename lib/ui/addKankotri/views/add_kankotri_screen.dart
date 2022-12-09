@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotify_flutter_code/main.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/controllers/add_kankotri_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,6 +9,7 @@ import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AddKankotriScreen extends StatelessWidget {
   const AddKankotriScreen({Key? key}) : super(key: key);
@@ -89,7 +91,11 @@ class AddKankotriScreen extends StatelessWidget {
                 _nimantrak(logic, context),
                 _functionsAll(logic, context),
                 _amantrakPart(logic, context),
-                _aapneAavkarvaAaturPart(context, logic),
+                _guestAllNamesPart(context, logic),
+                _tahukoPart(context, logic),
+                _subhSathal(context, logic),
+                _atakName(context, logic),
+                _bhagavanNiMahiti(context, logic),
               ],
             ),
           ),
@@ -163,7 +169,10 @@ class AddKankotriScreen extends StatelessWidget {
             children: [
               Container(
                 height: Utils.getAddKankotriHeight(),
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.9,
                 color: CColor.white70,
                 // margin: EdgeInsets.only(left: Sizes.width_5),
                 child: TextField(
@@ -186,7 +195,10 @@ class AddKankotriScreen extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.9,
                 height: Utils.getAddKankotriHeight(),
                 color: CColor.white70,
                 // margin: EdgeInsets.only(left: Sizes.width_5),
@@ -249,7 +261,10 @@ class AddKankotriScreen extends StatelessWidget {
             children: [
               Container(
                 height: Utils.getAddKankotriHeight(),
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.9,
                 color: CColor.white70,
                 // margin: EdgeInsets.only(left: Sizes.width_5),
                 child: TextField(
@@ -272,7 +287,10 @@ class AddKankotriScreen extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.9,
                 color: CColor.white70,
                 height: Utils.getAddKankotriHeight(),
                 child: TextField(
@@ -334,7 +352,10 @@ class AddKankotriScreen extends StatelessWidget {
             children: [
               Container(
                 height: Utils.getAddKankotriHeight(),
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.9,
                 color: CColor.white70,
                 child: TextField(
                   onTap: () {
@@ -450,9 +471,13 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
               margin: EdgeInsets.only(
-                  top: Sizes.height_1,),
+                top: Sizes.height_1,
+              ),
               padding: EdgeInsets.symmetric(
                   horizontal: Sizes.width_4, vertical: Sizes.height_1),
               decoration: BoxDecoration(
@@ -475,13 +500,16 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  Widget _listViewNimantrakName(
-      BuildContext context, int index, AddKankotriController logic) {
+  Widget _listViewNimantrakName(BuildContext context, int index,
+      AddKankotriController logic) {
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         color: CColor.white70,
         child: TextField(
           decoration: InputDecoration(
@@ -491,16 +519,16 @@ class AddKankotriScreen extends StatelessWidget {
             suffixIcon: (logic.listNimantrakName.length == 1)
                 ? null
                 : InkWell(
-                    onTap: () {
-                      logic.addNimantrakNameListData(false, index: index);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(Sizes.height_1),
-                      child: SvgPicture.asset(
-                        "assets/svg/ic_close.svg",
-                      ),
-                    ),
-                  ),
+              onTap: () {
+                logic.addNimantrakNameListData(false, index: index);
+              },
+              child: Container(
+                padding: EdgeInsets.all(Sizes.height_1),
+                child: SvgPicture.asset(
+                  "assets/svg/ic_close.svg",
+                ),
+              ),
+            ),
             suffixIconConstraints: BoxConstraints(
                 minHeight: Sizes.height_3, minWidth: Sizes.height_3),
             border: const OutlineInputBorder(),
@@ -515,8 +543,8 @@ class AddKankotriScreen extends StatelessWidget {
 
   /*િમંત્રક સરનામું*/
 
-  Widget _nimantrakAddressPart(
-      BuildContext context, AddKankotriController logic) {
+  Widget _nimantrakAddressPart(BuildContext context,
+      AddKankotriController logic) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -551,9 +579,13 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
               margin: EdgeInsets.only(
-                  top: Sizes.height_1,),
+                top: Sizes.height_1,
+              ),
               padding: EdgeInsets.symmetric(
                   horizontal: Sizes.width_4, vertical: Sizes.height_1),
               decoration: BoxDecoration(
@@ -576,14 +608,17 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  Widget _listViewNimantrakAddress(
-      BuildContext context, int index, AddKankotriController logic) {
+  Widget _listViewNimantrakAddress(BuildContext context, int index,
+      AddKankotriController logic) {
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         color: CColor.white70,
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         child: TextField(
           decoration: InputDecoration(
             focusedBorder: const OutlineInputBorder(
@@ -616,8 +651,8 @@ class AddKankotriScreen extends StatelessWidget {
 
   /*િમંત્રક મોબાઈલ*/
 
-  Widget _nimantrakMobilePart(
-      BuildContext context, AddKankotriController logic) {
+  Widget _nimantrakMobilePart(BuildContext context,
+      AddKankotriController logic) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -652,9 +687,11 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
-              margin: EdgeInsets.only(
-                  top: Sizes.height_1),
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
+              margin: EdgeInsets.only(top: Sizes.height_1),
               padding: EdgeInsets.symmetric(
                   horizontal: Sizes.width_4, vertical: Sizes.height_1),
               decoration: BoxDecoration(
@@ -677,14 +714,17 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  Widget _listViewNimantrakMobile(
-      BuildContext context, int index, AddKankotriController logic) {
+  Widget _listViewNimantrakMobile(BuildContext context, int index,
+      AddKankotriController logic) {
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         color: CColor.white70,
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         child: TextField(
           decoration: InputDecoration(
             focusedBorder: const OutlineInputBorder(
@@ -800,7 +840,7 @@ class AddKankotriScreen extends StatelessWidget {
                           minHeight: Sizes.height_3, minWidth: Sizes.height_3),
                       focusedBorder: const OutlineInputBorder(
                         borderSide:
-                            BorderSide(width: 2, color: CColor.grayDark),
+                        BorderSide(width: 2, color: CColor.grayDark),
                       ),
                       border: const OutlineInputBorder(),
                       hintText: 'txtTarikh'.tr,
@@ -837,7 +877,7 @@ class AddKankotriScreen extends StatelessWidget {
                           minHeight: Sizes.height_3, minWidth: Sizes.height_3),
                       focusedBorder: const OutlineInputBorder(
                         borderSide:
-                            BorderSide(width: 2, color: CColor.grayDark),
+                        BorderSide(width: 2, color: CColor.grayDark),
                       ),
                       border: const OutlineInputBorder(),
                       // labelText: 'txtKanyaNuName'.tr,
@@ -887,15 +927,15 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  Widget _functionsNimantrakNamePart(
-      BuildContext context, int mainIndex, AddKankotriController logic) {
+  Widget _functionsNimantrakNamePart(BuildContext context, int mainIndex,
+      AddKankotriController logic) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
           alignment: Alignment.centerLeft,
           margin:
-              EdgeInsets.only(bottom: Sizes.height_0_5, top: Sizes.height_2),
+          EdgeInsets.only(bottom: Sizes.height_0_5, top: Sizes.height_2),
           child: AutoSizeText(
             maxLines: 1,
             "txtNimantrak".tr,
@@ -925,9 +965,11 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
-              margin: EdgeInsets.only(
-                  top: Sizes.height_1),
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
+              margin: EdgeInsets.only(top: Sizes.height_1),
               padding: EdgeInsets.symmetric(
                   horizontal: Sizes.width_4, vertical: Sizes.height_1),
               decoration: BoxDecoration(
@@ -952,60 +994,21 @@ class AddKankotriScreen extends StatelessWidget {
 
   Widget _listViewFunctionsNimantrakName(BuildContext context, int index,
       AddKankotriController logic, int mainIndex) {
-    /*return Container(
-      margin: EdgeInsets.only(top: Sizes.height_1),
-      child: Row(
-        children: [
-          Container(
-            color: CColor.white70,
-            height: Utils.getAddKankotriHeight(),
-            width: (logic.functionsList[mainIndex].listNames.length == 1)
-                ? MediaQuery.of(context).size.width * 0.9
-                : MediaQuery.of(context).size.width * 0.75,
-            child: TextField(
-              decoration: InputDecoration(
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(width: 2, color: CColor.grayDark),
-                ),
-                border: const OutlineInputBorder(),
-                labelText: 'txtNimantrakName'.tr,
-                labelStyle: const TextStyle(color: CColor.grayDark),
-                hintText: 'txtName'.tr,
-              ),
-            ),
-          ),
-          (logic.functionsList[mainIndex].listNames.length != 1)
-              ? Material(
-                  color: CColor.transparent,
-                  child: InkWell(
-                    splashColor: CColor.black,
-                    onTap: () {
-                      logic.addRemoveFunctionsNimantrakName(false, mainIndex,
-                          index: index);
-                    },
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      // color: Colors.cyan,
-                      child: SvgPicture.asset("assets/svg/ic_close.svg"),
-                    ),
-                  ),
-                )
-              : Container(),
-        ],
-      ),
-    );*/
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         color: CColor.white70,
         child: TextField(
           decoration: InputDecoration(
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(width: 2, color: CColor.grayDark),
             ),
-            suffixIcon: (logic.functionsList[mainIndex].listNames.length != 1)
+            suffixIcon: (logic.functionsList[mainIndex].listNames.length == 1)
                 ? null
                 : InkWell(
               onTap: () {
@@ -1123,18 +1126,19 @@ class AddKankotriScreen extends StatelessWidget {
                 ],
               ),
               items: logic.listOfChirping
-                  .map((item) => DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: CColor.black,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ))
+                  .map((item) =>
+                  DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: CColor.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ))
                   .toList(),
               value: "1",
               onChanged: (value) {
@@ -1307,18 +1311,19 @@ class AddKankotriScreen extends StatelessWidget {
                 ],
               ),
               items: logic.listOfChirping
-                  .map((item) => DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: CColor.black,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ))
+                  .map((item) =>
+                  DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: CColor.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ))
                   .toList(),
               value: "1",
               onChanged: (value) {
@@ -1458,161 +1463,128 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  /*આપને આવકારવા આતુર*/
-  Widget _aapneAavkarvaAaturPart(
-      BuildContext context, AddKankotriController logic) {
+  /*આપને આવકારવા આતુર , લી. સ્નેહાધીન , મોસાળ પક્ષ , ભાણેજ પક્ષ*/
+  Widget _guestAllNamesPart(BuildContext context, AddKankotriController logic) {
     return GetBuilder<AddKankotriController>(
-        id: Constant.idGuestNameFirst,
+        id: Constant.idFunctionsPart,
         builder: (logic) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              return _listViewGuestAllName(
+                  context, index, logic, logic.guestNamesList);
+            },
+            shrinkWrap: true,
+            itemCount: logic.guestNamesList.length,
+            physics: const NeverScrollableScrollPhysics(),
+          );
+        });
+  }
+
+  Widget _listViewGuestAllName(BuildContext context, int mainIndex,
+      AddKankotriController logic, List<GuestAllName> listOfGuestNameFirst) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: Sizes.height_3),
+          child: Row(
             children: [
-              Container(
-                margin: EdgeInsets.only(top: Sizes.height_3),
-                child: Row(
-                  children: [
-                    const Expanded(
-                      child: Divider(
-                        thickness: 2,
-                        color: CColor.black,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
-                      child: Text(
-                        "txtAapneAavkarvaAatur".tr,
-                        style: TextStyle(
-                          color: CColor.grayDark,
-                          fontSize: FontSize.size_14,
-                          fontFamily: Constant.appFont,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    const Expanded(
-                      child: Divider(
-                        thickness: 2,
-                        color: CColor.black,
-                      ),
-                    ),
-                  ],
+              const Expanded(
+                child: Divider(
+                  thickness: 2,
+                  color: CColor.black,
                 ),
               ),
               Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(bottom: Sizes.height_0_5),
-                child: AutoSizeText(
-                  maxLines: 1,
-                  "txtMehmanName".tr,
+                margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
+                child: Text(
+                  listOfGuestNameFirst[mainIndex].titleName.toString(),
                   style: TextStyle(
                     color: CColor.grayDark,
-                    fontSize: FontSize.size_12,
+                    fontSize: FontSize.size_14,
                     fontFamily: Constant.appFont,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-              ListView.builder(
-                itemBuilder: (context, index) {
-                  return _listViewAapneAavkarvaAatur(context, index, logic);
-                },
-                shrinkWrap: true,
-                itemCount: logic.listOfGuestNameFirst.length,
-                physics: const NeverScrollableScrollPhysics(),
-              ),
-              Material(
-                color: CColor.transparent,
-                child: InkWell(
-                  splashColor: CColor.grayDark,
-                  onTap: () {
-                    logic.addGuestNameFirsListData(true);
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width * 0.22,
-                    margin: EdgeInsets.only(
-                        top: Sizes.height_1,),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Sizes.width_4, vertical: Sizes.height_1),
-                    decoration: BoxDecoration(
-                      color: CColor.grayDark,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      "+ ${"txtAdd".tr}",
-                      style: TextStyle(
-                        color: CColor.white,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: Constant.appFont,
-                        fontSize: FontSize.size_12,
-                      ),
-                    ),
-                  ),
+              const Expanded(
+                child: Divider(
+                  thickness: 2,
+                  color: CColor.black,
                 ),
               ),
             ],
-          );
-        });
-  }
-
-  Widget _listViewAapneAavkarvaAatur(
-      BuildContext context, int index, AddKankotriController logic) {
-    /*return Container(
-      margin: EdgeInsets.only(top: Sizes.height_1),
-      child: Row(
-        children: [
-          SizedBox(
-            height: Utils.getAddKankotriHeight(),
-            width: (logic.listOfGuestNameFirst.length == 1)
-                ? MediaQuery.of(context).size.width * 0.9
-                : MediaQuery.of(context).size.width * 0.75,
-            child: TextField(
-              decoration: InputDecoration(
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(width: 2, color: CColor.grayDark),
+          ),
+        ),
+        ListView.builder(
+          itemBuilder: (context, index) {
+            return _listViewGuestEdittextName(context, index, logic, mainIndex);
+          },
+          shrinkWrap: true,
+          itemCount: logic.guestNamesList[mainIndex].listOfGuestNames.length,
+          physics: const NeverScrollableScrollPhysics(),
+        ),
+        Material(
+          color: CColor.transparent,
+          child: InkWell(
+            splashColor: CColor.grayDark,
+            onTap: () {
+              logic.addRemoveGuestNamesName(true, mainIndex);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
+              margin: EdgeInsets.only(
+                top: Sizes.height_1,
+              ),
+              padding: EdgeInsets.symmetric(
+                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
+              decoration: BoxDecoration(
+                color: CColor.grayDark,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                "+ ${"txtAdd".tr}",
+                style: TextStyle(
+                  color: CColor.white,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: Constant.appFont,
+                  fontSize: FontSize.size_12,
                 ),
-                border: const OutlineInputBorder(),
-                labelText: 'txtMehmanName'.tr,
-                labelStyle: const TextStyle(color: CColor.grayDark),
-                hintText: 'txtName'.tr,
               ),
             ),
           ),
-          (logic.listOfGuestNameFirst.length != 1)
-              ? Material(
-                  color: CColor.transparent,
-                  child: InkWell(
-                    splashColor: CColor.black,
-                    onTap: () {
-                      logic.addGuestNameFirsListData(false, index: index);
-                    },
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      // color: Colors.cyan,
-                      child: SvgPicture.asset("assets/svg/ic_close.svg"),
-                    ),
-                  ),
-                )
-              : Container(),
-        ],
-      ),
-    );*/
+        ),
+      ],
+    );
+  }
+
+  Widget _listViewGuestEdittextName(BuildContext context, int index,
+      AddKankotriController logic, int mainIndex) {
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         color: CColor.white70,
         child: TextField(
           decoration: InputDecoration(
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(width: 2, color: CColor.grayDark),
             ),
-            suffixIcon: (logic.listOfGuestNameFirst.length == 1)
+            suffixIcon:
+            (logic.guestNamesList[mainIndex].listOfGuestNames.length == 1)
                 ? null
                 : InkWell(
               onTap: () {
-                logic.addGuestNameFirsListData(false, index: index);
+                logic.addRemoveGuestNamesName(false, mainIndex,
+                    index: index);
               },
               child: Container(
                 padding: EdgeInsets.all(Sizes.height_1),
@@ -1624,7 +1596,7 @@ class AddKankotriScreen extends StatelessWidget {
             suffixIconConstraints: BoxConstraints(
                 minHeight: Sizes.height_3, minWidth: Sizes.height_3),
             border: const OutlineInputBorder(),
-            labelText: 'txtMehmanName'.tr,
+            labelText: logic.guestNamesList[mainIndex].titleName.toString(),
             labelStyle: const TextStyle(color: CColor.grayDark),
             hintText: 'txtName'.tr,
           ),
@@ -1632,4 +1604,782 @@ class AddKankotriScreen extends StatelessWidget {
       ),
     );
   }
+
+  /*ટહુકો*/
+  Widget _tahukoPart(BuildContext context, AddKankotriController logic) {
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: Sizes.height_3),
+          child: Row(
+            children: [
+              const Expanded(
+                child: Divider(
+                  thickness: 2,
+                  color: CColor.black,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
+                child: Text(
+                  "txtTahuko".tr,
+                  style: TextStyle(
+                    color: CColor.grayDark,
+                    fontSize: FontSize.size_14,
+                    fontFamily: Constant.appFont,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              const Expanded(
+                child: Divider(
+                  thickness: 2,
+                  color: CColor.black,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: Sizes.height_2),
+          color: CColor.white70,
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton2(
+              isExpanded: true,
+              hint: Row(
+                children: const [
+                  Expanded(
+                    child: Text(
+                      "logic.displayDefaultVal",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: CColor.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              items: logic.listOfChirping
+                  .map((item) =>
+                  DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: CColor.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ))
+                  .toList(),
+              value: "1",
+              onChanged: (value) {
+                // logic.changeDropDownValue(value.toString());
+              },
+              // buttonWidth: 160,
+              buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+              buttonDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: CColor.black,
+                ),
+                color: CColor.transparent,
+              ),
+              // buttonElevation: 2,
+              itemHeight: 50,
+              // itemPadding: const EdgeInsets.only(left: 14, right: 14),
+              // dropdownMaxHeight: 200,
+              // dropdownWidth: 160,
+              dropdownPadding: null,
+              dropdownDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: CColor.white,
+              ),
+              // dropdownElevation: 8,
+              scrollbarRadius: const Radius.circular(40),
+              scrollbarThickness: 6,
+              scrollbarAlwaysShow: true,
+              offset: const Offset(0, 0),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /*શુભ સ્થળ & શુભ લગ્ન સ્થળ*/
+  Widget _subhSathal(BuildContext context, AddKankotriController logic) {
+    return GetBuilder<AddKankotriController>(
+        id: Constant.idGoodPlaceAll,
+        builder: (logic) {
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              return _listViewGoodPlaceAllName(
+                  context, index, logic, logic.goodPlaceNamesList);
+            },
+            shrinkWrap: true,
+            itemCount: logic.goodPlaceNamesList.length,
+            physics: const NeverScrollableScrollPhysics(),
+          );
+        });
+  }
+
+  Widget _listViewGoodPlaceAllName(BuildContext context, int mainIndex,
+      AddKankotriController logic, List<GoodPlaceAllName> guestNamesList) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: Sizes.height_3),
+          child: Row(
+            children: [
+              const Expanded(
+                child: Divider(
+                  thickness: 2,
+                  color: CColor.black,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
+                child: Text(
+                  guestNamesList[mainIndex].titleName.toString(),
+                  style: TextStyle(
+                    color: CColor.grayDark,
+                    fontSize: FontSize.size_14,
+                    fontFamily: Constant.appFont,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              const Expanded(
+                child: Divider(
+                  thickness: 2,
+                  color: CColor.black,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(top: Sizes.height_2, left: Sizes.width_1),
+          child: Text(
+            "txtAmantrakName".tr,
+            style: TextStyle(
+              color: CColor.grayDark,
+              fontSize: FontSize.size_12,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        Container(
+          height: Utils.getAddKankotriHeight(),
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.9,
+          color: CColor.white70,
+          child: TextField(
+            decoration: InputDecoration(
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: CColor.grayDark),
+              ),
+              border: const OutlineInputBorder(),
+              labelText: "txtName".tr,
+              labelStyle: const TextStyle(color: CColor.grayDark),
+              hintText: 'txtName'.tr,
+            ),
+          ),
+        ),
+        Container(
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(top: Sizes.height_3, left: Sizes.width_1),
+          child: Text(
+            "txtSarnamu".tr,
+            style: TextStyle(
+              color: CColor.grayDark,
+              fontSize: FontSize.size_12,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        ListView.builder(
+          itemBuilder: (context, index) {
+            return _listViewGoodAddress(
+                context,
+                index,
+                logic,
+                logic.goodPlaceNamesList[mainIndex].listOfAddressName,
+                mainIndex);
+          },
+          shrinkWrap: true,
+          itemCount:
+          logic.goodPlaceNamesList[mainIndex].listOfAddressName.length,
+          physics: const NeverScrollableScrollPhysics(),
+        ),
+        Material(
+          color: CColor.transparent,
+          child: InkWell(
+            splashColor: CColor.grayDark,
+            onTap: () {
+              logic.addRemoveGoodPlaceNamesName(true, mainIndex, true);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
+              margin: EdgeInsets.only(
+                top: Sizes.height_1,
+              ),
+              padding: EdgeInsets.symmetric(
+                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
+              decoration: BoxDecoration(
+                color: CColor.grayDark,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                "+ ${"txtAdd".tr}",
+                style: TextStyle(
+                  color: CColor.white,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: Constant.appFont,
+                  fontSize: FontSize.size_12,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(top: Sizes.height_2, left: Sizes.width_1),
+          child: Text(
+            "txtMobile".tr,
+            style: TextStyle(
+              color: CColor.grayDark,
+              fontSize: FontSize.size_12,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        ListView.builder(
+          itemBuilder: (context, index) {
+            return _listViewGoodMno(context, index, logic,
+                logic.goodPlaceNamesList[mainIndex].listOfMobile, mainIndex);
+          },
+          shrinkWrap: true,
+          itemCount: logic.goodPlaceNamesList[mainIndex].listOfMobile.length,
+          physics: const NeverScrollableScrollPhysics(),
+        ),
+        Material(
+          color: CColor.transparent,
+          child: InkWell(
+            splashColor: CColor.grayDark,
+            onTap: () {
+              logic.addRemoveGoodPlaceNamesName(true, mainIndex, false);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
+              margin: EdgeInsets.only(
+                top: Sizes.height_1,
+              ),
+              padding: EdgeInsets.symmetric(
+                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
+              decoration: BoxDecoration(
+                color: CColor.grayDark,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                "+ ${"txtAdd".tr}",
+                style: TextStyle(
+                  color: CColor.white,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: Constant.appFont,
+                  fontSize: FontSize.size_12,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _listViewGoodAddress(BuildContext context,
+      int index,
+      AddKankotriController logic,
+      List<String> listOfAddressName,
+      int mainIndex) {
+    return Container(
+      margin: EdgeInsets.only(top: Sizes.height_1),
+      child: Column(
+        children: [
+          Container(
+            height: Utils.getAddKankotriHeight(),
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 0.9,
+            color: CColor.white70,
+            child: TextField(
+              decoration: InputDecoration(
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(width: 2, color: CColor.grayDark),
+                ),
+                suffixIcon: (listOfAddressName.length == 1)
+                    ? null
+                    : InkWell(
+                  onTap: () {
+                    logic.addRemoveGoodPlaceNamesName(
+                        false, mainIndex, true,
+                        index: index);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(Sizes.height_1),
+                    child: SvgPicture.asset(
+                      "assets/svg/ic_close.svg",
+                    ),
+                  ),
+                ),
+                suffixIconConstraints: BoxConstraints(
+                    minHeight: Sizes.height_3, minWidth: Sizes.height_3),
+                border: const OutlineInputBorder(),
+                labelText: "txtAmantrakAddress".tr,
+                labelStyle: const TextStyle(color: CColor.grayDark),
+                hintText: 'txtAmantrakAddress'.tr,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _listViewGoodMno(BuildContext context, int index,
+      AddKankotriController logic, List<String> listOfMno, int mainIndex) {
+    return Container(
+      margin: EdgeInsets.only(top: Sizes.height_1),
+      child: Container(
+        height: Utils.getAddKankotriHeight(),
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
+        color: CColor.white70,
+        child: TextField(
+          decoration: InputDecoration(
+            focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(width: 2, color: CColor.grayDark),
+            ),
+            suffixIcon: (listOfMno.length == 1)
+                ? null
+                : InkWell(
+              onTap: () {
+                logic.addRemoveGoodPlaceNamesName(false, mainIndex, false,
+                    index: index);
+              },
+              child: Container(
+                padding: EdgeInsets.all(Sizes.height_1),
+                child: SvgPicture.asset(
+                  "assets/svg/ic_close.svg",
+                ),
+              ),
+            ),
+            suffixIconConstraints: BoxConstraints(
+                minHeight: Sizes.height_3, minWidth: Sizes.height_3),
+            border: const OutlineInputBorder(),
+            labelText: "txtAmantrakMno".tr,
+            labelStyle: const TextStyle(color: CColor.grayDark),
+            hintText: 'txtAmantrakMno'.tr,
+          ),
+        ),
+      ),
+    );
+  }
+
+  /*અટક*/
+  Widget _atakName(BuildContext context, AddKankotriController logic) {
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: Sizes.height_3),
+            child: Row(
+              children: [
+                const Expanded(
+                  child: Divider(
+                    thickness: 2,
+                    color: CColor.black,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
+                  child: Text(
+                    "txtAṭak".tr,
+                    style: TextStyle(
+                      color: CColor.grayDark,
+                      fontSize: FontSize.size_14,
+                      fontFamily: Constant.appFont,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const Expanded(
+                  child: Divider(
+                    thickness: 2,
+                    color: CColor.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: Sizes.height_3),
+            child: Container(
+              height: Utils.getAddKankotriHeight(),
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.9,
+              color: CColor.white70,
+              child: TextField(
+                decoration: InputDecoration(
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 2, color: CColor.grayDark),
+                  ),
+                  border: const OutlineInputBorder(),
+                  labelText: "txtAṭak".tr,
+                  labelStyle: const TextStyle(color: CColor.grayDark),
+                  hintText: 'txtAṭak'.tr,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+
+  /*ભગવાન ની માહિતી*/
+  Widget _bhagavanNiMahiti(BuildContext context, AddKankotriController logic) {
+    return GetBuilder<AddKankotriController>(
+        id: Constant.idGodNames,
+        builder: (logic) {
+      return Container(
+        margin: EdgeInsets.only(bottom: Sizes.height_5),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: Sizes.height_3),
+              child: Row(
+                children: [
+                  const Expanded(
+                    child: Divider(
+                      thickness: 2,
+                      color: CColor.black,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
+                    child: Text(
+                      "txtBhagavanNiMahiti".tr,
+                      style: TextStyle(
+                        color: CColor.grayDark,
+                        fontSize: FontSize.size_14,
+                        fontFamily: Constant.appFont,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  const Expanded(
+                    child: Divider(
+                      thickness: 2,
+                      color: CColor.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListView.builder(
+              itemBuilder: (context, index) {
+                return _listViewGodInfo(
+                    context, logic, logic.godInformationList, index);
+              },
+              shrinkWrap: true,
+              itemCount: logic.godInformationList.length,
+              physics: const NeverScrollableScrollPhysics(),
+            ),
+            Material(
+              color: CColor.transparent,
+              child: InkWell(
+                splashColor: CColor.grayDark,
+                onTap: () {
+                  showCustomizeDialogForAddName(context, logic);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.9,
+                  margin: EdgeInsets.only(
+                    top: Sizes.height_3,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: Sizes.width_4, vertical: Sizes.height_1),
+                  decoration: BoxDecoration(
+                    color: CColor.grayDark,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "+ ${"txtAdd".tr}",
+                    style: TextStyle(
+                      color: CColor.white,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: Constant.appFont,
+                      fontSize: FontSize.size_12,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _listViewGodInfo(BuildContext context, AddKankotriController logic,
+      List<GodInformation> godInformationList, int index) {
+    return Material(
+      color: CColor.transparent,
+      child: InkWell(
+        splashColor: CColor.grayDark,
+        onTap: () {
+          logic.godSelectOnTap(index);
+        },
+        child: Container(
+          margin: EdgeInsets.only(top: Sizes.height_2),
+          child: Row(
+            children: [
+              (godInformationList[index].godImageURL != "")?
+              ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: SizedBox(
+                  height: Sizes.height_10,
+                  width: Sizes.height_10,
+                  child: CachedNetworkImage(
+                    fadeInDuration: const Duration(milliseconds: 10),
+                    fadeOutDuration: const Duration(milliseconds: 10),
+                    fit: BoxFit.cover,
+                    imageUrl: godInformationList[index].godImageURL,
+                    placeholder: (context, url) =>
+                    const Center(
+                      child: SizedBox(
+                        width: 60.0,
+                        height: 60.0,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ),
+                ),
+              ):
+              SizedBox(
+                height: Sizes.height_10,
+                width: Sizes.height_10,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  height: Sizes.height_10,
+                  width: Sizes.height_10,
+                  decoration: const BoxDecoration(
+                    color: CColor.grayDark,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                SvgPicture.asset(
+                  'assets/svg/ic_image.svg',
+                  color: CColor.gray,
+                  width: Sizes.height_5,
+                  height: Sizes.height_5,
+                ),
+              ],
+            ),
+          ),
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
+                  child: Text(
+                    godInformationList[index].godName,
+                    style: TextStyle(
+                      color: CColor.grayDark,
+                      fontSize: FontSize.size_14,
+                      fontFamily: Constant.appFont,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+              (godInformationList[index].isSelected!)?
+              SizedBox(
+                height: Sizes.height_3,
+                width: Sizes.height_3,
+                child: SvgPicture.asset("assets/svg/ic_selected.svg"),
+              ):
+              SizedBox(
+                height: Sizes.height_3,
+                width: Sizes.height_3,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  showCustomizeDialogForAddName(BuildContext context,
+      AddKankotriController logic) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Wrap(
+            runAlignment: WrapAlignment.center,
+            children: [
+              Dialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: contentBox(context),
+              ),
+            ],
+          );
+        }).whenComplete(() =>
+    {
+      logic.addRemoveGodNamesName(true,logic.godInformationList.length+1,logic.newGodName),
+    });
+  }
+
+  contentBox(BuildContext context) {
+    return GetBuilder<AddKankotriController>(
+        id: Constant.idGodNames,
+        builder: (logic) {
+          return Container(
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: Sizes.height_3),
+                  child: Container(
+                    height: Utils.getAddKankotriHeight(),
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    color: CColor.white,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 2, color: CColor.grayDark),
+                        ),
+                        border: const OutlineInputBorder(),
+                        labelText: "txtBhagavaNuName".tr,
+                        labelStyle: const TextStyle(color: CColor.grayDark),
+                        hintText: 'txtBhagavaNuName'.tr,
+                      ),
+                      controller: logic.godNameController,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom:Sizes.height_3,top: Sizes.height_3,right: Sizes.width_3,left: Sizes.width_5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Material(
+                          color: CColor.transparent,
+                          child: InkWell(
+                            splashColor: CColor.grayDark,
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                right: Sizes.width_2,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
+                              decoration: BoxDecoration(
+                                // color: CColor.grayDark,
+                                border: Border.all(color: CColor.grayDark,width: 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                "txtCancel".tr,
+                                style: TextStyle(
+                                  color: CColor.grayDark,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: Constant.appFont,
+                                  fontSize: FontSize.size_12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Material(
+                          color: CColor.transparent,
+                          child: InkWell(
+                            splashColor: CColor.grayDark,
+                            onTap: () {
+                              logic.changeGodName(logic.godNameController.text);
+                              logic.godNameController.clear();
+                              Get.back();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                right: Sizes.width_2,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
+                              decoration: BoxDecoration(
+                                color: CColor.grayDark,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                "+ ${"txtAdd".tr}",
+                                style: TextStyle(
+                                  color: CColor.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: Constant.appFont,
+                                  fontSize: FontSize.size_12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
 }

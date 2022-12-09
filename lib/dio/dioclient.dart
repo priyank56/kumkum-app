@@ -16,8 +16,8 @@ class DioClient {
 
   );
 
-  DioClient(BuildContext? context, {bool isMultipart = false}) {
-    var header = Preference.shared.getString(Preference.accessToken);
+  DioClient(BuildContext? context, {bool isMultipart = false,bool isPassAuth = false}) {
+    var header = Preference.shared.getString(Preference.accessToken) ?? "";
     // dio.interceptors.add(AppInterceptors(context));
     dio.interceptors.add(AppInterceptors());
     dio.options.headers = {
@@ -26,6 +26,7 @@ class DioClient {
           : 'multipart/form-data',
       'Accept': 'application/json',
       'requiresToken': '',
+      if(isPassAuth && header != "")
       'Authorization': "Bearer $header",
     };
   }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:spotify_flutter_code/routes/app_pages.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
@@ -5,15 +7,29 @@ import 'package:spotify_flutter_code/ui/login/controllers/login_controller.dart'
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/ui/signup/controllers/signup_controller.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../../custom/dialog/progressdialog.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
+import '../../../utils/utils.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
+    return GetBuilder<SignupController>(
+        id: Constant.isShowProgressUpload,
+        builder: (logic) {
+      return ProgressDialog(
+        child: _signUpWidget(context,logic),
+        inAsyncCall: logic.isShowProgress,
+      );
+    });
+  }
+
+  _signUpWidget(BuildContext context,SignupController logic){
     return Scaffold(
       body: SafeArea(
         child: GetBuilder<SignupController>(builder: (logic) {
@@ -60,7 +76,7 @@ class SignupScreen extends StatelessWidget {
   _widgetRegisterText() {
     return Container(
       margin: EdgeInsets.only(
-          top: Sizes.height_5, left: Sizes.width_7, right: Sizes.width_7),
+          top: Sizes.height_3, left: Sizes.width_7, right: Sizes.width_7),
       // padding: EdgeInsets.all(Sizes.height_2_5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -85,7 +101,7 @@ class SignupScreen extends StatelessWidget {
         builder: (logic) {
           return Container(
             margin: EdgeInsets.only(
-                left: Sizes.width_7, right: Sizes.width_7, top: Sizes.height_4),
+                left: Sizes.width_7, right: Sizes.width_7, top: Sizes.height_2),
             child: Row(
               children: [
                 /* const Icon(
@@ -267,7 +283,10 @@ class SignupScreen extends StatelessWidget {
       child: InkWell(
         splashColor: CColor.theme,
         onTap: () {
-          Get.toNamed(AppRoutes.otp);
+          if(logic.validation(context)!){
+            logic.callSignUp(context);
+          }
+          // Get.toNamed(AppRoutes.otp);
         },
         child: Container(
           margin: EdgeInsets.only(
@@ -345,11 +364,15 @@ class SignupScreen extends StatelessWidget {
             TextSpan(text: "txtTermsDesc1".tr),
             TextSpan(
                 text: "txtTermsDesc2".tr,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.w700, color: CColor.theme)),
           ],
         ),
       ),
     );
   }
+
+
+
+
 }

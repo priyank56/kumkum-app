@@ -100,6 +100,7 @@ class Constant {
   }
 
   /*Ids*/
+  static const isShowProgressUpload = "isShowProgressUpload";
   static const idMainPage = "idMainPage";
   static const idBottomViewPos = "idBottomViewPos";
   static const idBottomText = "idBottomText";

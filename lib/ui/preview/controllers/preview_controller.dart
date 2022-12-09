@@ -18,8 +18,6 @@ class PreviewController extends GetxController {
 
   List<String> listTitle = [];
 
-  Uint8List decodedbytes = base64.decode("/9j/4QejRXhpZgAASUkqAAgAAAAUACACBAABAA....");
-
 
   changeAdvanced(){
     isAdvanceEnabled = !isAdvanceEnabled;

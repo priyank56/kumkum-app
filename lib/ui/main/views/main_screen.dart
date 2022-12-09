@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/category/views/category_screen.dart';
 import 'package:spotify_flutter_code/ui/contact/views/contact_screen.dart';
 import 'package:spotify_flutter_code/ui/favourite/views/favourite_screen.dart';
@@ -21,7 +20,7 @@ class MainScreen extends StatelessWidget {
         child: GetBuilder<MainController>(builder: (logic) {
           return Column(
             children: [
-              _topBar(logic),
+              _topBar(logic,context),
               _centerView(logic),
               _bottomBar(logic),
             ],
@@ -31,7 +30,7 @@ class MainScreen extends StatelessWidget {
     );
   }
 
-  Widget _topBar(MainController logic) {
+  Widget _topBar(MainController logic,BuildContext context) {
     return Container(
       color: CColor.white,
       child: Row(
@@ -49,7 +48,8 @@ class MainScreen extends StatelessWidget {
             child: InkWell(
               splashColor: CColor.black,
               onTap: () {
-                Get.toNamed(AppRoutes.preview);
+                // Get.toNamed(AppRoutes.preview);
+                showAlertDialog(context,logic);
               },
               child: /*Container(
                 margin: EdgeInsets.only(right: Sizes.width_5,left: Sizes.width_5),
@@ -190,6 +190,41 @@ class MainScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context,MainController logic) {
+    // Create button
+    Widget okButton = TextButton(
+      child: Text("txtOk".tr),
+      onPressed: () {
+        logic.logout();
+      },
+    );
+
+    Widget cancelButton = TextButton(
+      child: Text("txtCancel".tr),
+      onPressed: () {
+        Get.back();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("txtLogoutTitle".tr),
+      content: Text("txtLogoutMessage".tr),
+      actions: [
+        okButton,
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

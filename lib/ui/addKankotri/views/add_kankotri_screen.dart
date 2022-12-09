@@ -96,6 +96,7 @@ class AddKankotriScreen extends StatelessWidget {
                 _subhSathal(context, logic),
                 _atakName(context, logic),
                 _bhagavanNiMahiti(context, logic),
+                _submitForm(context, logic),
               ],
             ),
           ),
@@ -2382,4 +2383,80 @@ class AddKankotriScreen extends StatelessWidget {
         });
   }
 
+
+  /*End Of Form*/
+  Widget _submitForm(BuildContext context, AddKankotriController logic) {
+    return Container(
+      margin: EdgeInsets.only(bottom: Sizes.height_5, top: Sizes.height_3),
+      child: Row(
+        children: [
+          Expanded(
+            child: Material(
+              color: CColor.transparent,
+              child: InkWell(
+                splashColor: CColor.grayDark,
+                onTap: () {
+                  Get.back();
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                    right: Sizes.width_2,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: Sizes.width_4, vertical: Sizes.height_1),
+                  decoration: BoxDecoration(
+                    // color: CColor.grayDark,
+                    border: Border.all(color: CColor.grayDark, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "txtCancel".tr,
+                    style: TextStyle(
+                      color: CColor.grayDark,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: Constant.appFont,
+                      fontSize: FontSize.size_12,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Material(
+              color: CColor.transparent,
+              child: InkWell(
+                splashColor: CColor.grayDark,
+                onTap: () {
+                  Get.back();
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                    right: Sizes.width_2,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: Sizes.width_4, vertical: Sizes.height_1),
+                  decoration: BoxDecoration(
+                    color: CColor.grayDark,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "txtSubmit".tr,
+                    style: TextStyle(
+                      color: CColor.white,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: Constant.appFont,
+                      fontSize: FontSize.size_12,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

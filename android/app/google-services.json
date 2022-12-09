@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "755215103666",
+    "project_id": "kumkum-626d0",
+    "storage_bucket": "kumkum-626d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755215103666:android:a2271bc775c5caf2647bab",
+        "android_client_info": {
+          "package_name": "com.kumkum.kankotri"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "755215103666-7h3mi5r8fdjiuar01affr6ihcvs4ftoc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kumkum.kankotri",
+            "certificate_hash": "fc6da5859dfef6999b3b6fb95a69c764e4ee0773"
+          }
+        },
+        {
+          "client_id": "755215103666-qmde9jdeaq1mj80vo1sbdsouq9cfnv5f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKhSqjRXcJBVd7XY0w3pS070-rW4CNwq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "755215103666-qmde9jdeaq1mj80vo1sbdsouq9cfnv5f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

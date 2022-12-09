@@ -39,7 +39,13 @@ final Map<String, String> enUS = {
   'txtPreview': "Preview",
   'txt1': "1",
   'txtAddKankotri': "Add New Kankotri",
-
+  'txtNoInternet': "No Internet Available",
+  'txtLogoutTitle': "Logout",
+  'txtLogoutMessage': "Are you sure do you want to logout?",
+  'txtOk': "Ok",
+  'txtCancel': "Cancel",
+  'txtVerificationMsg': "Verification mail has been sent in your mail.",
+  'txtNoGetMail': "Didn't get mail",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",
@@ -103,5 +109,20 @@ final Map<String, String> enUS = {
   'txtNameEn' :"Name",
   'txtAdd' :"Add",
   'txtCancel' :"Cancel",
+
+
+
+  /*For Toast Message*/
+  'txtEnterFullName' :"Please enter your full name",
+  'txtEnterEmail' :"Please enter your email id",
+  'txtEnterValidEmail' :"Please enter valid mail",
+  'txtEnterPass' :"Please enter your password",
+  'txtEnterConfirmPass' :"Please enter your confirm password",
+  'txtEnterMatchPass' :"Password not matched",
+  'txtEnterInvalidPass' :"Password length should be 6 character",
+  'txtRegisterSuccess' :"Register Success",
+  'txtLoginSuccess' :"Login Success",
+  'txtPleaseVerifyMain' :"Please verify email",
+  'txtMailSent' :"Please check your mail box",
 
 };

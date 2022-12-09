@@ -16,11 +16,8 @@ import 'package:spotify_flutter_code/ui/otp/bindings/otp_binding.dart';
 import 'package:spotify_flutter_code/ui/otp/views/otp_screen.dart';
 import 'package:spotify_flutter_code/ui/preview/bindings/preview_binding.dart';
 import 'package:spotify_flutter_code/ui/preview/views/preview_screen.dart';
-import 'package:spotify_flutter_code/ui/reset/bindings/reset_binding.dart';
-import 'package:spotify_flutter_code/ui/reset/views/reset_screen.dart';
 import 'package:spotify_flutter_code/ui/signup/bindings/signup_binding.dart';
 import 'package:spotify_flutter_code/ui/signup/views/signup_screen.dart';
-
 import '../ui/category/views/category_screen.dart';
 import '../ui/contact/bindings/contact_binding.dart';
 import '../ui/forgotpass/views/forgot_screen.dart';
@@ -51,7 +48,7 @@ class AppPages {
     ),
 
     GetPage(
-      name: AppRoutes.preview,
+      name: AppRoutes.login,
       page: () => Sizer(
         builder: (context, orientation, deviceType) {
           return const AnnotatedRegion<SystemUiOverlayStyle>(
@@ -60,11 +57,11 @@ class AppPages {
               statusBarIconBrightness: Brightness.dark,
               systemNavigationBarIconBrightness: Brightness.light,
             ),
-            child: PreviewScreen(),
+            child: LoginScreen(),
           );
         },
       ),
-      binding: PreviewBinding(),
+      binding: LoginBinding(),
       transition: Transition.fade,
     ),
 
@@ -93,33 +90,18 @@ class AppPages {
       transition: Transition.fade,
     ),*/
 
-    /*GetPage(
+    GetPage(
       name: AppRoutes.preview,
       page: () => const PreviewScreen(),
       binding: PreviewBinding(),
       transition: Transition.fade,
-    ),*/
-
-    GetPage(
-      name: AppRoutes.login,
-      page: () => const LoginScreen(),
-      binding: LoginBinding(),
-      transition: Transition.fade,
     ),
+
 
     GetPage(
       name: AppRoutes.signUp,
       page: () => const SignupScreen(),
       binding: SignupBinding(),
-      transition: Transition.fade,
-    ),
-
-
-
-    GetPage(
-      name: AppRoutes.reset,
-      page: () => const ResetScreen(),
-      binding: ResetBinding(),
       transition: Transition.fade,
     ),
 

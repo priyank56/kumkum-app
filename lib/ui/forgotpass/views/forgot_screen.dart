@@ -6,6 +6,8 @@ import 'package:spotify_flutter_code/ui/forgotpass/controllers/forgot_controller
 import 'package:spotify_flutter_code/ui/login/controllers/login_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:spotify_flutter_code/utils/utils.dart';
+import '../../../custom/dialog/progressdialog.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
@@ -16,6 +18,17 @@ class ForgotScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return GetBuilder<ForgotController>(
+        id: Constant.isShowProgressUpload,
+        builder: (logic) {
+          return ProgressDialog(
+            child: _forgotPassWidget(context,logic),
+            inAsyncCall: logic.isShowProgress,
+          );
+        });
+  }
+
+  _forgotPassWidget(BuildContext context,ForgotController logic){
     return Scaffold(
       body: SafeArea(
         child: GetBuilder<ForgotController>(builder: (logic) {
@@ -45,7 +58,7 @@ class ForgotScreen extends StatelessWidget {
                 ),
                 _widgetForgotText(),
                 _widgetForgoDesc(),
-                _widgetEmailIdEditText(),
+                _widgetEmailIdEditText(logic),
                 _widgetSubmitBtn(logic, context),
               ],
             ),
@@ -103,21 +116,18 @@ class ForgotScreen extends StatelessWidget {
     );
   }
 
-  _widgetEmailIdEditText() {
+  _widgetEmailIdEditText(ForgotController logic) {
     return Container(
       margin: EdgeInsets.only(
           left: Sizes.width_7, right: Sizes.width_7, top: Sizes.height_4),
       child: Row(
         children: [
-          /*const Icon(
-            Icons.people_alt_rounded,
-            color: CColor.grayDark,
-          ),*/
           SvgPicture.asset("assets/svg/login_flow/ic_email.svg"),
           Expanded(
             child: Container(
               margin: EdgeInsets.only(left: Sizes.width_5),
               child: TextFormField(
+                controller: logic.textForgotController,
                 keyboardType: TextInputType.emailAddress,
                 cursorColor: CColor.theme,
                 decoration: InputDecoration(
@@ -143,7 +153,9 @@ class ForgotScreen extends StatelessWidget {
       child: InkWell(
         splashColor: CColor.theme,
         onTap: () {
-          Get.toNamed(AppRoutes.reset);
+          if(logic.validation(context)!){
+            logic.callForgotPassword(context);
+          }
         },
         child: Container(
           margin: EdgeInsets.only(top: Sizes.height_5, left: Sizes.width_5, right: Sizes.width_5,bottom: Sizes.height_5),

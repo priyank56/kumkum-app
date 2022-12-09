@@ -16,9 +16,11 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await Preference().instance();
   await InternetConnectivity().instance();
 
@@ -81,8 +83,8 @@ class _MyAppState extends State<MyApp> {
       locale: Get.deviceLocale,
       getPages: AppPages.list,
       transitionDuration: const Duration(milliseconds: 50),
-      // initialRoute:AppRoutes.addKankotri ,
-      initialRoute:AppRoutes.main ,
+      // initialRoute:AppRoutes.login ,
+      initialRoute: Utils.isLogin() ? AppRoutes.main : AppRoutes.login,
     );
   }
 }

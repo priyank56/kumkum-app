@@ -6,6 +6,7 @@ class Preference {
   // Preference key
   static const String authorization = "AUTHORIZATION";
   static const String fcmToken = "FCM_TOKEN";
+  static const String userLogin = "USER_LOGIN";
   static const String userData = "USER_DATA";
   static const String userId = "USER_ID";
   static const String userEmail = "USER_EMAIL";
@@ -118,20 +119,7 @@ class Preference {
   }
 
   static Future<bool> clearLogout() async {
-    /*_pref!.getKeys().forEach((key) async {
-      if (key == accessToken ||
-          key == tokenType ||
-          key == expiresIn ||
-          key == userEmail ||
-          key == userData) {
-        await _pref!.remove(key);
-      }
-    });*/
-    await _pref!.remove(accessToken);
-    await _pref!.remove(tokenType);
-    await _pref!.remove(expiresIn);
-    await _pref!.remove(userEmail);
-    await _pref!.remove(userData);
+    await _pref!.remove(userLogin);
     return Future.value(true);
   }
 }

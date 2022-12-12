@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:spotify_flutter_code/connectivitymanager/connectivitymanager.dart';
 import 'package:spotify_flutter_code/localization/locale_constant.dart';
 import 'package:spotify_flutter_code/routes/app_pages.dart';
@@ -71,6 +72,7 @@ class _MyAppState extends State<MyApp> {
     precacheImage(const AssetImage("assets/login_flow/ic_login.webp"),context);
     precacheImage(const AssetImage("assets/login_flow/ic_reset_pass.webp"),context);
     precacheImage(const AssetImage("assets/login_flow/ic_sign_up.webp"),context);
+    initializeDateFormatting();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

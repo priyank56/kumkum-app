@@ -17,10 +17,10 @@ class Constant {
   static const showAdsWallPaperAfterEvery10 = 2;
 
   // DEVELOPING URL
-  static const developingURL = "https://devapi.patchipatchi.com/";
+  static const developingURL = "https://acv-wb-api.azurewebsites.net";
 
   // LIVE URL
-  static const mainURL = "https://api.patchipatchi.com/";
+  static const mainURL = "https://acv-wb-api.azurewebsites.net";
 
   static const languageEn = "en";
   static const countryCodeEn = "US";
@@ -99,6 +99,44 @@ class Constant {
     }
   }
 
+
+  /*Types Of EditText*/
+
+  /*Nimantrak*/
+  static const typeNimantrakName = "typeNimantrakName";
+  static const typeNimantrakSarnamu = "typeNimantrakSarnamu";
+  static const typeNimantrakMobile = "typeNimantrakMobile";
+
+  /*Functions*/
+  static const typeFunctionMandapMuhrat = "typeFunctionMandapMuhrat";
+  static const typeFunctionBhojan = "typeFunctionBhojan";
+  static const typeFunctionGitSandhya = "typeFunctionGitSandhya";
+  static const typeFunctionRasGarba = "typeFunctionRasGarba";
+  static const typeFunctionJanPrsathan = "typeFunctionJanPrsathan";
+  static const typeFunctionHastMelap = "typeFunctionHastMelap";
+
+  static const typeFunctionDate = "typeFunctionDate";
+  static const typeFunctionTime = "typeFunctionTime";
+  static const typeFunctionPlace = "typeFunctionPlace";
+  static const typeFunctionMessage = "typeFunctionMessage";
+
+  static const typeTahuko = "typeTahuko";
+
+  static const typeGoodPlaceAddress = "typeGoodPlaceAddress";
+  static const typeGoodPlaceMno = "typeGoodPlaceMno";
+
+  static const typeGroom = "typeGroom";
+  static const typeBride = "typeBride";
+
+  /*All Names*/
+  static const typeAllNamesAapneAavkarvaAAatur   = "typeAllNamesAapneAavkarvaAAatur";
+  static const typeAllNamesSanehaDhin = "typeAllNamesSanehaDhin";
+  static const typeAllNamesMosalPaksh = "typeAllNamesMosalPaksh";
+  static const typeAllNamesBhanejPaksh = "typeAllNamesBhanejPaksh";
+
+  static const typeCamera = "typeCamera";
+  static const typeGallery = "typeGallery";
+
   /*Ids*/
   static const isShowProgressUpload = "isShowProgressUpload";
   static const idMainPage = "idMainPage";
@@ -112,7 +150,12 @@ class Constant {
   static const idAddNimantrakPart = "idAddNimantrakPart";
   static const idFunctionsPart = "idFunctionsPart";
   static const idInviterPart = "idInviterPart";
+  static const idTahukoPart = "idTahukoPart";
   static const idGuestNameAll = "idGuestNameAll";
   static const idGoodPlaceAll = "idGoodPlaceAll";
   static const idGodNames = "idGodNames";
+  static const idMrgDate = "idMrgDate";
+  static const idSetMainImage = "idSetMainImage";
+
+
 }

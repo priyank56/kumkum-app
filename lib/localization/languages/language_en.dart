@@ -46,6 +46,9 @@ final Map<String, String> enUS = {
   'txtCancel': "Cancel",
   'txtVerificationMsg': "Verification mail has been sent in your mail.",
   'txtNoGetMail': "Didn't get mail",
+  'txtOptions': "Options",
+  'txtCamera': "Capture Image From Camera",
+  'txtGallery': "Take Image From Gallery",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",

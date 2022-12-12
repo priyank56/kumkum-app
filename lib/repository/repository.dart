@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:spotify_flutter_code/datamodel/createData.dart';
 import 'package:spotify_flutter_code/ui/login/datamodel/logindatamodel.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 import '../dio/dioclient.dart';
+import '../ui/addKankotri/datamodel/newKankotriData.dart';
+import '../ui/addKankotri/datamodel/newkankotridatamodel.dart';
 import '../ui/login/datamodel/logindata.dart';
 
 class Repository {
@@ -40,6 +43,39 @@ class Repository {
       } catch (e) {
         Debug.printLog(e.toString());
         return LoginData(success: Constant.failureCode);
+      }
+    }
+  }
+
+
+  Future<NewKankotriData> createKankotri(NewKankotriDataModel newKankotriDataModel,CreateData createData,
+      [BuildContext? context]) async {
+    try {
+      Response response = await dioClient!.dio.post<String>("/api/marriageInvitationCard",
+          data: createData.toJson().toString());
+      Debug.printLog("createKankotri RESPONSE ==>> $response ==>> Data Original  ${createData.toJson()}");
+
+      if (response.statusCode == Constant.responseSuccessCode) {
+        var res = response.data;
+        return NewKankotriData.fromJson(jsonDecode(res));
+      } else if (response.statusCode == Constant.responseFailureCode) {
+        var res = response.data;
+        try {
+          return NewKankotriData.fromJson(jsonDecode(res));
+        } catch (e) {
+          Debug.printLog(e.toString());
+          return NewKankotriData();
+        }
+      } else {
+        throw Exception('Exception -->> Failed to createKankotri Please Try Again!');
+      }
+    } on DioError catch (ex) {
+      try {
+        var res = ex.response!.data;
+        return NewKankotriData.fromJson(jsonDecode(res));
+      } catch (e) {
+        Debug.printLog(e.toString());
+        return NewKankotriData();
       }
     }
   }

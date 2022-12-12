@@ -45,4 +45,7 @@ class Params {
   static const qrData = "qr_data";
   static const qrLogo = "qr_logo";
 
+
+  /*Create API*/
+
 }

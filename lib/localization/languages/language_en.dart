@@ -113,7 +113,6 @@ final Map<String, String> enUS = {
   'txtBrideName' :"Bride's Name",
   'txtNameEn' :"Name",
   'txtAdd' :"Add",
-  'txtCancel' :"Cancel",
 
 
 
@@ -129,5 +128,51 @@ final Map<String, String> enUS = {
   'txtLoginSuccess' :"Login Success",
   'txtPleaseVerifyMain' :"Please verify email",
   'txtMailSent' :"Please check your mail box",
+  'txtSomethingWentWrong' :"Something Went Wrong",
+
+  'txtEnterGroomName' :"Please enter groom's name",
+  'txtEnterBrideName' :"Please enter bride's name",
+  'txtMrgDate' :"Please enter marriage date",
+  'txtInviterName' :"Please enter inviter name",
+  'txtInviterAddress' :"Please enter inviter address",
+  'txtInviterMobile' :"Please enter inviter mobile",
+
+  'txtFunMandapMuhratDate' :"Please enter Mandap muhrat date",
+  'txtFunMandapMuhratTime' :"Please enter Mandap muhrat time",
+  'txtFunMandapMuhrat' :"Please enter Mandap muhrat detail",
+
+  'txtFunGitSandhyaDate' :"Please enter song event date",
+  'txtFunGitSandhyaTime' :"Please enter song event time",
+  'txtFunGitSandhya' :"Please enter song event detail",
+
+  'txtFunRasGarbaDate' :"Please enter Dj Night date",
+  'txtFunRasGarbaTime' :"Please enter Dj Night time",
+  'txtFunRasGarba' :"Please enter Dj Night detail",
+
+  'txtFunJanPrsathan' :"Please enter Jan Prsathan detail",
+  'txtFunJanPrsathanDate' :"Please enter Jan Prsathan date",
+  'txtFunJanPrsathanTime' :"Please enter Jan Prsathan time",
+
+  'txtFunBhojanDate' :"Please enter Banquet date",
+  'txtFunBhojanTime' :"Please enter Banquet time",
+  'txtFunBhojan' :"Please enter Banquet detail",
+
+  'txtFunHastMelapDate' :"Please enter handshake date",
+  'txtFunHastMelapTime' :"Please enter handshake time",
+  'txtFunHastMelap' :"Please enter handshake detail",
+
+  'txtGroomGod' :"Please enter groom's god name",
+  'txtGroomMother' :"Please enter groom's mother name",
+  'txtGroomFather' :"Please enter groom's father name",
+  'txtGroomVillage' :"Please enter groom's village name",
+  'txtBrideMother' :"Please enter bride's mother name",
+  'txtBrideFather' :"Please enter bride's father name",
+  'txtBrideVillage' :"Please enter bride's village name",
+  'txtAavkarvaAatur' :"Please enter welcoming guest names",
+  'txtSaneha' :"Please enter affectionate names",
+  'txtMosal' :"Please enter uncle names",
+  'txtBhanej' :"Please enter nephew names",
+  'txtAtak' :"Please enter surname",
+  'txtGodSelect' :"Please select at least 3 god",
 
 };

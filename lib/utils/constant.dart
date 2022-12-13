@@ -137,6 +137,9 @@ class Constant {
   static const typeCamera = "typeCamera";
   static const typeGallery = "typeGallery";
 
+  static const typeGroomAPI = "groom";
+  static const typeBrideAPI = "bride";
+
   /*Ids*/
   static const isShowProgressUpload = "isShowProgressUpload";
   static const idMainPage = "idMainPage";

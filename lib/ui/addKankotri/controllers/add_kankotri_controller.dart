@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:spotify_flutter_code/datamodel/createData.dart';
+import 'package:spotify_flutter_code/ui/addKankotri/datamodel/getInfoData.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/newkankotridatamodel.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 
@@ -21,6 +22,10 @@ class AddKankotriController extends GetxController {
 
   bool isShowProgress = false;
   NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
+
+  List<ChirpingInfo> listOfAllChirping = [];
+  List<GodDetailInfo> listOfAllGods = [];
+  List<ChirpingInfo> listOfInvitersMessage = [];
 
   CreateData createData = CreateData();
 
@@ -93,7 +98,7 @@ class AddKankotriController extends GetxController {
       isGroomCard = arguments[0];
       Debug.printLog("Is Groom Card==>> $isGroomCard");
     }
-
+    getAllInfo(Get.context!);
     addNimantrakNameListData(true);
     addNimantrakAddressListData(true);
     addNimantrakMnoListData(true);
@@ -320,6 +325,7 @@ class AddKankotriController extends GetxController {
   }
 
   changeValueInListForGuestAllNames(int index,int mainIndex,String value) {
+    Debug.printLog("changeValueInListForGuestAllNames==>>  $value");
     guestNamesList[mainIndex].listOfGuestNames[guestNamesList[mainIndex].listOfGuestNames.indexOf(guestNamesList[mainIndex].listOfGuestNames[index])] = value;
     update([Constant.idGuestNameAll]);
   }
@@ -343,6 +349,7 @@ class AddKankotriController extends GetxController {
     dropDownTahukoMessage = value;
     update([Constant.idInviterPart]);
   }
+
   changeValueInListForGoodPlace(int index,int mainIndex,String type,String value) {
     if(type == Constant.typeGoodPlaceAddress) {
       goodPlaceNamesList[mainIndex].listOfAddressName[goodPlaceNamesList[mainIndex]
@@ -354,6 +361,253 @@ class AddKankotriController extends GetxController {
           goodPlaceNamesList[mainIndex].listOfMobile[index])] = value;
     }
     update([Constant.idGoodPlaceAll]);
+  }
+
+  bool validation(BuildContext context){
+    /*Groom Detail*/
+    if(varRajaNuNameController.text.isEmpty || groomNameController.text.isEmpty){
+      Utils.showToast(context, "txtEnterGroomName".tr);
+      return false;
+    }
+
+    /*Bride Detail*/
+    if(kanyaNuNameController.text.isEmpty || brideNameController.text.isEmpty){
+      Utils.showToast(context, "txtEnterBrideName".tr);
+      return false;
+    }
+
+    /*Mrg Date Detail*/
+    if(mrgDate == ""){
+      Utils.showToast(context, "txtMrgDate".tr);
+      return false;
+    }
+
+    /*Inviter Detail*/
+    var n1 = listNimantrakName.where((element) => element != "").toList();
+    if(n1.isEmpty){
+      Utils.showToast(context, "txtInviterName".tr);
+      return false;
+    }
+
+    var n2 = listNimantrakAddress.where((element) => element != "").toList();
+    if(n2.isEmpty){
+      Utils.showToast(context, "txtInviterAddress".tr);
+      return false;
+    }
+
+    var n3 = listNimantrakMno.where((element) => element != "").toList();
+    if(n3.isEmpty){
+      Utils.showToast(context, "txtInviterMobile".tr);
+      return false;
+    }
+
+
+
+    /*All Functions name*/
+    var functionsListF1 = functionsList.where((element) => element.functionId == "f1").toList();
+    if(functionsListF1[0].functionTime != "" || functionsListF1[0].functionDate != "") {
+      if (functionsListF1[0].functionDate == "" || functionsListF1[0].functionTime == "") {
+        if(functionsListF1[0].functionDate == ""){
+          Utils.showToast(context, "txtFunMandapMuhratDate".tr);
+        }else if(functionsListF1[0].functionTime == ""){
+          Utils.showToast(context, "txtFunMandapMuhratTime".tr);
+        }
+        return false;
+      }
+    }
+
+    var functionsListF2 = functionsList.where((element) => element.functionId == "f2").toList();
+    /*if(functionsListF2[0].functionDate == "" || functionsListF2[0].functionTime == "" || functionsListF2[0].functionMessage == "" || functionsListF2[0].listNames.isEmpty){
+      Utils.showToast(context, "txtFunBhojan".tr);
+      return false;
+    }*/
+    if(functionsListF2[0].functionTime != "" || functionsListF2[0].functionDate != "") {
+      if (functionsListF2[0].functionDate == "" || functionsListF2[0].functionTime == "") {
+        if(functionsListF2[0].functionDate == ""){
+          Utils.showToast(context, "txtFunGitSandhyaDate".tr);
+        }else if(functionsListF2[0].functionTime == ""){
+          Utils.showToast(context, "txtFunGitSandhyaTime".tr);
+        }
+        return false;
+      }
+    }
+
+    var functionsListF3 = functionsList.where((element) => element.functionId == "f3").toList();
+    /*if(functionsListF3[0].functionDate == "" || functionsListF3[0].functionTime == "" || functionsListF3[0].functionMessage == "" || functionsListF3[0].listNames.isEmpty){
+      Utils.showToast(context, "txtFunGitSandhya".tr);
+      return false;
+    }*/
+    if(functionsListF3[0].functionTime != "" || functionsListF3[0].functionDate != "") {
+      if (functionsListF3[0].functionDate == "" || functionsListF3[0].functionTime == "") {
+        if(functionsListF3[0].functionDate == ""){
+          Utils.showToast(context, "txtFunRasGarbaDate".tr);
+        }else if(functionsListF3[0].functionTime == ""){
+          Utils.showToast(context, "txtFunRasGarbaTime".tr);
+        }
+        return false;
+      }
+    }
+
+    var functionsListF4 = functionsList.where((element) => element.functionId == "f4").toList();
+    /*if(functionsListF4[0].functionDate == "" || functionsListF4[0].functionTime == "" || functionsListF4[0].functionMessage == "" || functionsListF4[0].listNames.isEmpty){
+      Utils.showToast(context, "txtFunRasGarba".tr);
+      return false;
+    }*/
+    if(functionsListF4[0].functionTime != "" || functionsListF4[0].functionDate != "") {
+      if (functionsListF4[0].functionDate == "" || functionsListF4[0].functionTime == "") {
+        if(functionsListF4[0].functionDate == ""){
+          Utils.showToast(context, "txtFunJanPrsathanDate".tr);
+        }else if(functionsListF4[0].functionTime == ""){
+          Utils.showToast(context, "txtFunJanPrsathanTime".tr);
+        }
+        return false;
+      }
+    }
+
+
+    var functionsListF5 = functionsList.where((element) => element.functionId == "f5").toList();
+    /*if(functionsListF5[0].functionDate == "" || functionsListF5[0].functionTime == "" || functionsListF5[0].functionMessage == "" || functionsListF5[0].listNames.isEmpty){
+      Utils.showToast(context, "txtFunJanPrsathan".tr);
+      return false;
+    }*/
+    if(functionsListF5[0].functionTime != "" || functionsListF5[0].functionDate != "") {
+      if (functionsListF5[0].functionDate == "" || functionsListF5[0].functionTime == "") {
+        if(functionsListF5[0].functionDate == ""){
+          Utils.showToast(context, "txtFunBhojanDate".tr);
+        }else if(functionsListF5[0].functionTime == ""){
+          Utils.showToast(context, "txtFunBhojanTime".tr);
+        }
+        return false;
+      }
+    }
+
+    var functionsListF6 = functionsList.where((element) => element.functionId == "f6").toList();
+    /*if(functionsListF6[0].functionDate == "" || functionsListF6[0].functionTime == "" || functionsListF6[0].functionMessage == "" || functionsListF6[0].listNames.isEmpty){
+      Utils.showToast(context, "txtFunHastMelap".tr);
+      return false;
+    }*/
+    if(functionsListF6[0].functionTime != "" || functionsListF6[0].functionDate != "") {
+      if (functionsListF6[0].functionDate == "" || functionsListF6[0].functionTime == "") {
+        if(functionsListF6[0].functionDate == ""){
+          Utils.showToast(context, "txtFunHastMelapDate".tr);
+        }else if(functionsListF6[0].functionTime == ""){
+          Utils.showToast(context, "txtFunHastMelapTime".tr);
+        }
+        return false;
+      }
+    }
+
+
+    /*Inviter Detail For Both*/
+    /*1.Groom*/
+    if(groomGodNameController.text.isEmpty){
+      Utils.showToast(context, "txtGroomGod".tr);
+      return false;
+    }
+    if(groomMotherNameController.text.isEmpty){
+      Utils.showToast(context, "txtGroomMother".tr);
+      return false;
+    }
+    if(groomFatherNameController.text.isEmpty){
+      Utils.showToast(context, "txtGroomFather".tr);
+      return false;
+    }
+    if(groomVillageNameController.text.isEmpty){
+      Utils.showToast(context, "txtGroomVillage".tr);
+      return false;
+    }
+    /*2.Bride*/
+    if(brideMotherNameController.text.isEmpty){
+      Utils.showToast(context, "txtBrideMother".tr);
+      return false;
+    }
+    if(brideFatherNameController.text.isEmpty){
+      Utils.showToast(context, "txtBrideFather".tr);
+      return false;
+    }
+    if(brideVillageNameController.text.isEmpty){
+      Utils.showToast(context, "txtBrideVillage".tr);
+      return false;
+    }
+    if(mrgDate == ""){
+      Utils.showToast(context, "txtMrgDate".tr);
+      return false;
+    }
+
+
+    /*Guest All Names Detail*/
+    var g1 = guestNamesList.where((element) => element.titleName == "txtAapneAavkarvaAatur".tr).toList();
+    var g11 = g1[0].listOfGuestNames.where((element) => element != "").toList();
+    if(g1[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtAavkarvaAatur".tr);
+      return false;
+    }
+    var g2 = guestNamesList.where((element) => element.titleName == "txtSanehaDhin".tr).toList();
+    if(g2[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtSaneha".tr);
+      return false;
+    }
+    var g3 = guestNamesList.where((element) => element.titleName == "txtMosalPaksh".tr).toList();
+    if(g3[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtMosal".tr);
+      return false;
+    }
+    var g4 = guestNamesList.where((element) => element.titleName == "txtBhanejPaksh".tr).toList();
+    if(g4[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtBhanej".tr);
+      return false;
+    }
+
+
+    /*Good Places Mrg Detail*/
+    /*1.Good Place*/
+    var good1 = goodPlaceNamesList.where((element) => element.titleName == "txtSubhSathal".tr).toList();
+    if(good1[0].inviterName == ""){
+      Utils.showToast(context, "txtInviterName".tr);
+      return false;
+    }
+
+    if(good1[0].listOfAddressName.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtInviterAddress".tr);
+      return false;
+    }
+
+    if(good1[0].listOfMobile.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtInviterMobile".tr);
+      return false;
+    }
+    /*2.Good Place Mrg*/
+    var good2 = goodPlaceNamesList.where((element) => element.titleName == "txtSubhLaganSathal".tr).toList();
+    if(good2[0].inviterName == ""){
+      Utils.showToast(context, "txtInviterName".tr);
+      return false;
+    }
+    if(good2[0].listOfAddressName.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtInviterAddress".tr);
+      return false;
+    }
+    if(good2[0].listOfMobile.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtInviterMobile".tr);
+      return false;
+    }
+
+
+    /*Atak*/
+    if(atakController.text.isEmpty){
+      Utils.showToast(context,"txtAtak".tr);
+      return false;
+    }
+
+
+    /*God Detail*/
+    var godArray = godInformationList.where((element) => element.isSelected == true).toList();
+    if(godArray.length < 3){
+      Utils.showToast(context, "txtGodSelect".tr);
+      return false;
+    }
+
+
+    return true;
   }
 
   getAllValue(){
@@ -413,7 +667,7 @@ class AddKankotriController extends GetxController {
     createData.marriageInvitationCardId = "2f61ff54";
     createData.marriageInvitationCardName = "from app";
     createData.marriageInvitationCardType = "mict1";
-    createData.isGroom = isGroomCard;
+    // createData.isGroom = isGroomCard;
 
     var coverImage = CoverImage();
     coverImage.isShow = true;
@@ -463,12 +717,15 @@ class AddKankotriController extends GetxController {
     /*Start For Function Data*/
     for(int i = 0; i < functionsList.length ; i++){
       var functionsClass = Functions();
+      functionsClass.functionId = functionsList[i].functionId;
       functionsClass.inviter = functionsList[i].listNames;
       functionsClass.functionTime = functionsList[i].functionTime;
       functionsClass.functionDate = functionsList[i].functionDate;
       functionsClass.functionPlace = functionsList[i].functionPlace;
       functionsClass.message = functionsList[i].functionMessage;
-      createData.marriageInvitationCard!.functions!.add(functionsClass);
+      if(functionsClass.functionTime != "" && functionsClass.functionDate != "") {
+        createData.marriageInvitationCard!.functions!.add(functionsClass);
+      }
     }
     /*End For Function Data*/
 
@@ -506,9 +763,11 @@ class AddKankotriController extends GetxController {
     /*Start For Guest All Names Data*/
     var allNamesData = Affectionate();
     var firstList = guestNamesList.where((element) => element.titleName == "txtAapneAavkarvaAatur".tr).toList();
-    allNamesData.list = firstList[0].listOfGuestNames;
-    allNamesData.title = firstList[0].titleName;
-    createData.marriageInvitationCard!.affectionate = allNamesData;
+    if(firstList[0].listOfGuestNames.where((element) => element != "").isNotEmpty) {
+      allNamesData.list = firstList[0].listOfGuestNames;
+      allNamesData.title = firstList[0].titleName;
+      createData.marriageInvitationCard!.affectionate = allNamesData;
+    }
 
     allNamesData = Affectionate();
     var secondList = guestNamesList.where((element) => element.titleName == "txtSanehaDhin".tr).toList();
@@ -586,17 +845,63 @@ class AddKankotriController extends GetxController {
   }
 
 
-  callCreateCardAPI(BuildContext context) async {
-    if (await InternetConnectivity.isInternetConnect()) {
-      Debug.printLog("Data ===>>> ${jsonEncode(createData)}");
+  getAllInfo(BuildContext context) async {
+      if (await InternetConnectivity.isInternetConnect()) {
+        isShowProgress = true;
+        update([Constant.isShowProgressUpload]);
+        await newKankotriDataModel.getInfo(context).then((value) {
+          handleKankotriInfoResponse(value,context);
+        });
+      } else {
+        Utils.showToast(context, "txtNoInternet".tr);
+      }
+  }
 
-      isShowProgress = true;
-      update([Constant.isShowProgressUpload]);
-      await newKankotriDataModel.createKankotri(context,jsonEncode(createData)).then((value) {
-        handleNewKankotriResponse(value, context);
-      });
-    }else {
-      Utils.showToast(context, "txtNoInternet".tr);
+  handleKankotriInfoResponse(GetInfoData newKankotriData, BuildContext context) async {
+    if (newKankotriData.status == Constant.responseSuccessCode) {
+      if (newKankotriData.message != null) {
+
+        listOfAllChirping = newKankotriData.result!.chirPings!;
+        listOfAllGods = newKankotriData.result!.godDetails!;
+        listOfInvitersMessage = newKankotriData.result!.invitationMessages!;
+        var listGroom = listOfInvitersMessage.where((element) => element.type == Constant.typeGroomAPI).toList();
+        var listBride = listOfInvitersMessage.where((element) => element.type == Constant.typeBrideAPI).toList();
+        Debug.printLog(
+            "handleKankotriInfoResponse Res Success ===>> ${listGroom.length}  ${listBride.length}");
+      } else {
+        Debug.printLog(
+            "handleKankotriInfoResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
+
+        if (newKankotriData.message != null && newKankotriData.message!.isNotEmpty) {
+          Utils.showToast(context,newKankotriData.message!);
+        } else {
+          Utils.showToast(context,"txtSomethingWentWrong".tr);
+        }
+      }
+    } else {
+      if (newKankotriData.message != null && newKankotriData.message!.isNotEmpty) {
+        Utils.showToast(context,newKankotriData.message!);
+      } else {
+        Utils.showToast(context,"txtSomethingWentWrong".tr);
+      }
+    }
+    isShowProgress = false;
+    update([Constant.isShowProgressUpload]);
+  }
+
+  callCreateCardAPI(BuildContext context) async {
+    if (validation(context)) {
+      if (await InternetConnectivity.isInternetConnect()) {
+        Debug.printLog("Data ===>>> ${jsonEncode(createData)}");
+        isShowProgress = true;
+        update([Constant.isShowProgressUpload]);
+        await newKankotriDataModel.createKankotri(
+            context, jsonEncode(createData)).then((value) {
+          handleNewKankotriResponse(value, context);
+        });
+      } else {
+        Utils.showToast(context, "txtNoInternet".tr);
+      }
     }
   }
 

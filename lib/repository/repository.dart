@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify_flutter_code/datamodel/createData.dart';
+import 'package:spotify_flutter_code/ui/addKankotri/datamodel/getInfoData.dart';
 import 'package:spotify_flutter_code/ui/login/datamodel/logindatamodel.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
@@ -81,7 +82,41 @@ class Repository {
   }
 
 
-  //Todo: For MultiPart Image API
+
+  Future<GetInfoData> getInfo(NewKankotriDataModel newKankotriDataModel,
+      [BuildContext? context]) async {
+    try {
+      Response response = await dioClient!.dio.get<String>("/api/marriageInvitationCard/info");
+      Debug.printLog("getInfo RESPONSE ==>> $response ");
+
+      if (response.statusCode == Constant.responseSuccessCode) {
+        var res = response.data;
+        return GetInfoData.fromJson(jsonDecode(res));
+      } else if (response.statusCode == Constant.responseFailureCode) {
+        var res = response.data;
+        try {
+          return GetInfoData.fromJson(jsonDecode(res));
+        } catch (e) {
+          Debug.printLog(e.toString());
+          return GetInfoData();
+        }
+      } else {
+        throw Exception('Exception -->> Failed to getInfo Please Try Again!');
+      }
+    } on DioError catch (ex) {
+      try {
+        var res = ex.response!.data;
+        return GetInfoData.fromJson(jsonDecode(res));
+      } catch (e) {
+        Debug.printLog(e.toString());
+        return GetInfoData();
+      }
+    }
+  }
+
+
+
+//Todo: For MultiPart Image API
   /* Future<CreateQrData> createQrCode(CreateQrDataModel createQrDataModel,
       [BuildContext? context]) async {
     try {

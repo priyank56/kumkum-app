@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -14,6 +15,9 @@ import '../../../utils/utils.dart';
 import '../datamodel/newKankotriData.dart';
 
 class AddKankotriController extends GetxController {
+
+  var arguments = Get.arguments;
+  bool isGroomCard = true;
 
   bool isShowProgress = false;
   NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
@@ -72,11 +76,8 @@ class AddKankotriController extends GetxController {
   TextEditingController brideMarriageDateController = TextEditingController();
   String dropDownFromBrideMessage = "";
 
-
-
   /*Drop Down Messages*/
   String dropDownTahukoMessage = "";
-
 
   /*Atak*/
   TextEditingController atakController = TextEditingController();
@@ -84,6 +85,26 @@ class AddKankotriController extends GetxController {
   /*Edittext Controller*/
   TextEditingController godNameController = TextEditingController();
 
+
+  @override
+  void onInit() {
+    super.onInit();
+    if(arguments[0] != null){
+      isGroomCard = arguments[0];
+      Debug.printLog("Is Groom Card==>> $isGroomCard");
+    }
+
+    addNimantrakNameListData(true);
+    addNimantrakAddressListData(true);
+    addNimantrakMnoListData(true);
+    addAllFunctionsList();
+    addInviterMessage();
+    addChirpingList();
+    addAllGuestNames();
+    addGoodPlaceNames();
+    addGodInfo();
+
+  }
 
 
   Future<void> selectDate(BuildContext context,{int index = -1}) async {
@@ -126,26 +147,8 @@ class AddKankotriController extends GetxController {
       var time = "${picked.hour}:${picked.minute}";
       functionsList[functionsList.indexOf(functionsList[index])].functionTime = time.toString();
       var date = DateFormat('hh:mm', 'gu').format(DateTime.now());
-      Debug.printLog("picked == >>> Time ${picked.hour}:${picked.minute}  ${functionsList[index].functionTime}  $date");
-
     }
     update([Constant.idFunctionsPart]);
-  }
-
-
-  @override
-  void onInit() {
-    super.onInit();
-    addNimantrakNameListData(true);
-    addNimantrakAddressListData(true);
-    addNimantrakMnoListData(true);
-    addAllFunctionsList();
-    addInviterMessage();
-    addChirpingList();
-    addAllGuestNames();
-    addGoodPlaceNames();
-    addGodInfo();
-
   }
 
   addNimantrakNameListData(bool isAdd, {int? index = 0}) {
@@ -185,12 +188,12 @@ class AddKankotriController extends GetxController {
   }
 
   addAllFunctionsList() {
-    functionsList.add(FunctionsNimantrakName("txtMadapMuhrat".tr,[""],"","","",""));
-    functionsList.add(FunctionsNimantrakName("txtBhojan".tr,[""],"","","",""));
-    functionsList.add(FunctionsNimantrakName("txtGitSandhya".tr,[""],"","","",""));
-    functionsList.add(FunctionsNimantrakName("txtRasGarba".tr,[""],"","","",""));
-    functionsList.add(FunctionsNimantrakName("txtJan".tr,[""],"","","",""));
-    functionsList.add(FunctionsNimantrakName("txtHastMelap".tr,[""],"","","",""));
+    functionsList.add(FunctionsNimantrakName("f1","txtMadapMuhrat".tr,[""],"","","",""));
+    functionsList.add(FunctionsNimantrakName("f2","txtGitSandhya".tr,[""],"","","",""));
+    functionsList.add(FunctionsNimantrakName("f3","txtRasGarba".tr,[""],"","","",""));
+    functionsList.add(FunctionsNimantrakName("f4",(isGroomCard)?"txtJan".tr:"txtJanAagman".tr,[""],"","","",""));
+    functionsList.add(FunctionsNimantrakName("f5","txtBhojan".tr,[""],"","","",""));
+    functionsList.add(FunctionsNimantrakName("f6","txtHastMelap".tr,[""],"","","",""));
     update([Constant.idFunctionsPart]);
   }
 
@@ -287,7 +290,7 @@ class AddKankotriController extends GetxController {
    /* Replace Value In List */
 
 
-  changeValueInListForNimantrak(int index,String type,dynamic value) {
+  changeValueInListForNimantrak(int index,String type,String value) {
     if(type == Constant.typeNimantrakName){
       listNimantrakName[listNimantrakName.indexOf(listNimantrakName[index])] = value;
     }else if(type == Constant.typeNimantrakSarnamu){
@@ -298,7 +301,7 @@ class AddKankotriController extends GetxController {
     update([Constant.idAddNimantrakPart]);
   }
 
-  changeValueInListForFunctions(int index,String type,dynamic value) {
+  changeValueInListForFunctions(int index,String type,String value) {
     if(type == Constant.typeFunctionDate){
       functionsList[index].functionDate = value;
     }else if(type == Constant.typeFunctionTime){
@@ -311,22 +314,22 @@ class AddKankotriController extends GetxController {
     update([Constant.idFunctionsPart]);
   }
 
-  changeValueInListForFunctionsNimantrakName(int index,int mainIndex,dynamic value) {
+  changeValueInListForFunctionsNimantrakName(int index,int mainIndex,String value) {
     functionsList[mainIndex].listNames[functionsList[mainIndex].listNames.indexOf(functionsList[mainIndex].listNames[index])] = value;
     update([Constant.idFunctionsPart]);
   }
 
-  changeValueInListForGuestAllNames(int index,int mainIndex,dynamic value) {
+  changeValueInListForGuestAllNames(int index,int mainIndex,String value) {
     guestNamesList[mainIndex].listOfGuestNames[guestNamesList[mainIndex].listOfGuestNames.indexOf(guestNamesList[mainIndex].listOfGuestNames[index])] = value;
     update([Constant.idGuestNameAll]);
   }
 
-  changeValueInListForGoodPlaceAmantrakName(int mainIndex,dynamic value) {
+  changeValueInListForGoodPlaceAmantrakName(int mainIndex,String value) {
     goodPlaceNamesList[mainIndex].inviterName = value;
     update([Constant.idGoodPlaceAll]);
   }
 
-  changeDropDownValueForGroomBride(dynamic value,String type){
+  changeDropDownValueForGroomBride(String value,String type){
     if(type == Constant.typeGroom){
       dropDownFromGroomMessage = value;
     }else{
@@ -336,11 +339,11 @@ class AddKankotriController extends GetxController {
     update([Constant.idInviterPart]);
   }
 
-  changeDropDownValueForTahuko(dynamic value){
+  changeDropDownValueForTahuko(String value){
     dropDownTahukoMessage = value;
     update([Constant.idInviterPart]);
   }
-  changeValueInListForGoodPlace(int index,int mainIndex,String type,dynamic value) {
+  changeValueInListForGoodPlace(int index,int mainIndex,String type,String value) {
     if(type == Constant.typeGoodPlaceAddress) {
       goodPlaceNamesList[mainIndex].listOfAddressName[goodPlaceNamesList[mainIndex]
           .listOfAddressName.indexOf(
@@ -354,30 +357,6 @@ class AddKankotriController extends GetxController {
   }
 
   getAllValue(){
-    Debug.printLog("Get All Value==>>> $listNimantrakName  $listNimantrakAddress  $listNimantrakMno");
-    for(int i = 0; i < functionsList.length ; i++){
-      Debug.printLog("Get All Value Functions==>>> ${functionsList[i].listNames}  ${functionsList[i].functionDate}  ${functionsList[i].functionTime}  ${functionsList[i].functionPlace}  ${functionsList[i].functionMessage}");
-    }
-
-    for(int i = 0; i < guestNamesList.length ; i++){
-      Debug.printLog("Get All Value guestNamesList==>>> ${guestNamesList[i].listOfGuestNames} ${guestNamesList[i].titleName}");
-    }
-
-    for(int i = 0; i < goodPlaceNamesList.length ; i++){
-      Debug.printLog("Get All Value goodPlaceNamesList==>>> ${goodPlaceNamesList[i].listOfAddressName} ${goodPlaceNamesList[i].listOfMobile} ${goodPlaceNamesList[i].titleName}");
-    }
-
-    selectedGodList = godInformationList.where((element) => element.isSelected == true).toList();
-
-    for(int i = 0; i < selectedGodList.length ; i++){
-      Debug.printLog("Get All Value selectedGodList==>>> ${selectedGodList[i].godImageURL} ${selectedGodList[i].godName}");
-    }
-
-    Debug.printLog("Get All Value atak==>>> ${atakController.text}");
-    Debug.printLog("Get All Value tahukoMessage==>>> $dropDownTahukoMessage  $dropDownFromGroomMessage  $dropDownFromBrideMessage");
-
-    /*====================================================================================*/
-
     /*Start init Classes*/
     createData.marriageInvitationCard = MarriageInvitationCard();
 
@@ -434,6 +413,7 @@ class AddKankotriController extends GetxController {
     createData.marriageInvitationCardId = "2f61ff54";
     createData.marriageInvitationCardName = "from app";
     createData.marriageInvitationCardType = "mict1";
+    createData.isGroom = isGroomCard;
 
     var coverImage = CoverImage();
     coverImage.isShow = true;
@@ -464,6 +444,7 @@ class AddKankotriController extends GetxController {
     pairClass.marriageDay = mrgDateDay;
 
     createData.marriageInvitationCard!.pair!.add(pairClass);
+    Debug.printLog("Pair data==>> ${createData.marriageInvitationCard!.pair}");
     /*End For VarPaksh and KanyaPaksh Data*/
 
     /*====================================================================================*/
@@ -607,9 +588,11 @@ class AddKankotriController extends GetxController {
 
   callCreateCardAPI(BuildContext context) async {
     if (await InternetConnectivity.isInternetConnect()) {
+      Debug.printLog("Data ===>>> ${jsonEncode(createData)}");
+
       isShowProgress = true;
       update([Constant.isShowProgressUpload]);
-      await newKankotriDataModel.createKankotri(context,createData).then((value) {
+      await newKankotriDataModel.createKankotri(context,jsonEncode(createData)).then((value) {
         handleNewKankotriResponse(value, context);
       });
     }else {
@@ -647,6 +630,7 @@ class AddKankotriController extends GetxController {
 }
 
 class FunctionsNimantrakName{
+  String functionId = "";
   String functionName = "";
   String functionDate = "";
   String functionTime = "";
@@ -654,7 +638,7 @@ class FunctionsNimantrakName{
   String functionMessage = "";
   List<String> listNames = [];
 
-  FunctionsNimantrakName(this.functionName,this.listNames,this.functionDate,this.functionTime,this.functionPlace,this.functionMessage);
+  FunctionsNimantrakName(this.functionId,this.functionName,this.listNames,this.functionDate,this.functionTime,this.functionPlace,this.functionMessage);
 }
 
 class GuestAllName{

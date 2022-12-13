@@ -48,12 +48,12 @@ class Repository {
   }
 
 
-  Future<NewKankotriData> createKankotri(NewKankotriDataModel newKankotriDataModel,CreateData createData,
+  Future<NewKankotriData> createKankotri(NewKankotriDataModel newKankotriDataModel,String createData,
       [BuildContext? context]) async {
     try {
       Response response = await dioClient!.dio.post<String>("/api/marriageInvitationCard",
-          data: createData.toJson().toString());
-      Debug.printLog("createKankotri RESPONSE ==>> $response ==>> Data Original  ${createData.toJson()}");
+          data: createData);
+      Debug.printLog("createKankotri RESPONSE ==>> $response ");
 
       if (response.statusCode == Constant.responseSuccessCode) {
         var res = response.data;

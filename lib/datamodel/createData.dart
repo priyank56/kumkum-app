@@ -1,4 +1,4 @@
-import 'dart:convert';
+/*import 'dart:convert';
 
 CreateData createDataFromJson(String str) => CreateData.fromJson(json.decode(str));
 
@@ -14,12 +14,12 @@ class CreateData {
         this.layoutDesignId,
     });
 
-    String? marriageInvitationCardId;
-    String? marriageInvitationCardName;
-    String? email;
-    MarriageInvitationCard? marriageInvitationCard =MarriageInvitationCard();
-    String? marriageInvitationCardType;
-    String? layoutDesignId;
+    String? marriageInvitationCardId = "";
+    String? marriageInvitationCardName = "";
+    String? email = "";
+    MarriageInvitationCard? marriageInvitationCard = MarriageInvitationCard();
+    String? marriageInvitationCardType = "";
+    String? layoutDesignId = "";
 
     factory CreateData.fromJson(Map<String, dynamic> json) => CreateData(
         marriageInvitationCardId: json["marriageInvitationCardId"],
@@ -232,14 +232,14 @@ class Functions {
         this.functionPlace,
     });
 
-    String? functionId;
-    String? functionName;
-    String? functionDate;
-    String? functionTime;
-    String? message;
+    String? functionId = "";
+    String? functionName= "";
+    String? functionDate= "";
+    String? functionTime= "";
+    String? message= "";
     List<String>? inviter = [];
-    String? banquetPerson;
-    String? functionPlace;
+    String? banquetPerson= "";
+    String? functionPlace= "";
 
     factory Functions.fromJson(Map<String, dynamic> json) => Functions(
         functionId: json["functionId"],
@@ -498,5 +498,556 @@ class Bride {
         "name": name,
         "enName": enName,
     };
+}*/
+
+// To parse this JSON data, do
+//
+//     final createData = createDataFromJson(jsonString);
+
+import 'dart:convert';
+
+CreateData createDataFromJson(String str) => CreateData.fromJson(json.decode(str));
+
+String createDataToJson(CreateData data) => json.encode(data.toJson());
+
+class CreateData {
+    CreateData({
+        this.marriageInvitationCardId,
+        this.marriageInvitationCardName,
+        this.email,
+        this.marriageInvitationCard,
+        this.marriageInvitationCardType,
+        this.layoutDesignId,
+        this.isGroom,
+    });
+
+    String? marriageInvitationCardId;
+    String? marriageInvitationCardName;
+    String? email;
+    MarriageInvitationCard? marriageInvitationCard;
+    String? marriageInvitationCardType;
+    String? layoutDesignId;
+    bool? isGroom = true;
+
+    factory CreateData.fromJson(Map<String, dynamic> json) => CreateData(
+        marriageInvitationCardId: json["marriageInvitationCardId"],
+        marriageInvitationCardName: json["marriageInvitationCardName"],
+        email: json["email"],
+        marriageInvitationCard: MarriageInvitationCard.fromJson(json["marriageInvitationCard"]),
+        marriageInvitationCardType: json["marriageInvitationCardType"],
+        layoutDesignId: json["layoutDesignId"],
+        isGroom: json["isGroom"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "marriageInvitationCardId": marriageInvitationCardId,
+        "marriageInvitationCardName": marriageInvitationCardName,
+        "email": email,
+        "marriageInvitationCard": marriageInvitationCard!.toJson(),
+        "marriageInvitationCardType": marriageInvitationCardType,
+        "layoutDesignId": layoutDesignId,
+        "isGroom": isGroom,
+    };
 }
+
+class MarriageInvitationCard {
+    MarriageInvitationCard({
+        this.coverImage,
+        this.pair,
+        this.guestName,
+        this.inviter,
+        this.functions,
+        this.invitation,
+        this.affectionate,
+        this.ambitious,
+        this.chirping,
+        this.nephewGroup,
+        this.uncleGroup,
+        this.auspiciousPlace,
+        this.auspiciousMarriagePlace,
+        this.inviterSurname,
+        this.godDetails,
+    });
+
+    CoverImage? coverImage;
+    List<Pair>? pair;
+    String? guestName;
+    InviterClass? inviter;
+    List<Functions>? functions;
+    Invitation? invitation;
+    Affectionate? affectionate;
+    Affectionate? ambitious;
+    Chirping? chirping;
+    Affectionate? nephewGroup;
+    Affectionate? uncleGroup;
+    AuspiciousPlace? auspiciousPlace;
+    AuspiciousPlace? auspiciousMarriagePlace;
+    String? inviterSurname;
+    List<GodDetail>? godDetails;
+
+    factory MarriageInvitationCard.fromJson(Map<String, dynamic> json) => MarriageInvitationCard(
+        coverImage: CoverImage.fromJson(json["coverImage"]),
+        pair: List<Pair>.from(json["pair"].map((x) => Pair.fromJson(x))),
+        guestName: json["guestName"],
+        inviter: InviterClass.fromJson(json["inviter"]),
+        functions: List<Functions>.from(json["functions"].map((x) => Functions.fromJson(x))),
+        invitation: Invitation.fromJson(json["invitation"]),
+        affectionate: Affectionate.fromJson(json["affectionate"]),
+        ambitious: Affectionate.fromJson(json["ambitious"]),
+        chirping: Chirping.fromJson(json["chirping"]),
+        nephewGroup: Affectionate.fromJson(json["nephewGroup"]),
+        uncleGroup: Affectionate.fromJson(json["uncleGroup"]),
+        auspiciousPlace: AuspiciousPlace.fromJson(json["auspiciousPlace"]),
+        auspiciousMarriagePlace: AuspiciousPlace.fromJson(json["auspiciousMarriagePlace"]),
+        inviterSurname: json["inviterSurname"],
+        godDetails: List<GodDetail>.from(json["godDetails"].map((x) => GodDetail.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "coverImage": coverImage!.toJson(),
+        "pair": List<dynamic>.from(pair!.map((x) => x.toJson())),
+        "guestName": guestName,
+        "inviter": inviter!.toJson(),
+        "functions": List<dynamic>.from(functions!.map((x) => x.toJson())),
+        "invitation": invitation!.toJson(),
+        "affectionate": affectionate!.toJson(),
+        "ambitious": ambitious!.toJson(),
+        "chirping": chirping!.toJson(),
+        "nephewGroup": nephewGroup!.toJson(),
+        "uncleGroup": uncleGroup!.toJson(),
+        "auspiciousPlace": auspiciousPlace!.toJson(),
+        "auspiciousMarriagePlace": auspiciousMarriagePlace!.toJson(),
+        "inviterSurname": inviterSurname,
+        "godDetails": List<dynamic>.from(godDetails!.map((x) => x.toJson())),
+    };
+}
+
+class Affectionate {
+    Affectionate({
+        this.title,
+        this.list,
+    });
+
+    String? title;
+    List<String>? list;
+
+    factory Affectionate.fromJson(Map<String, dynamic> json) => Affectionate(
+        title: json["title"],
+        list: List<String>.from(json["address"].map((x) => x)),
+        // list: List<ListElement>.from(json["list"].map((x) => listElementValues.map[x])),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "title": title,
+        // "list": List<dynamic>.from(list.map((x) => listElementValues.reverse[x])),
+        "list": List<String>.from(list!.map((x) => x)),
+    };
+}
+
+/*enum ListElement { CANADA, EMPTY, POLAND, LIST, PURPLE, FLUFFY, USA, TENTACLED }
+
+final listElementValues = EnumValues({
+    "શ્રી જતીનભાઈ કેશવભાઈ બોરડા ( canada )": ListElement.CANADA,
+    "શ્રી જતીનભાઈ કેશવભાઈ બોરડા": ListElement.EMPTY,
+    "શ્રી દિનેશભાઈ રાઘ\u200bવભાઈ કાત્રોડીયા": ListElement.FLUFFY,
+    "શ્રી નાગજીભાઈ દેવરાજભાઈ બોરડા": ListElement.LIST,
+    "શ્રી નાગજીભાઈ દેવરાજભાઈ બોરડા ( Poland )": ListElement.POLAND,
+    "શ્રી દિનેશભાઈ રાઘ\u200bવભાઈ કાત્રોડીયા ( રતનપર )": ListElement.PURPLE,
+    "શ્રી સુરેશભાઈ કાળુભાઈ દેસાઈ": ListElement.TENTACLED,
+    "શ્રી સુરેશભાઈ કાળુભાઈ દેસાઈ ( USA )": ListElement.USA
+});*/
+
+class AuspiciousPlace {
+    AuspiciousPlace({
+        this.title,
+        this.inviterName,
+        this.address,
+        this.mapLink,
+        this.contactNo,
+    });
+
+    String? title;
+    String? inviterName;
+    List<String>? address;
+    String? mapLink;
+    List<String>? contactNo;
+
+    factory AuspiciousPlace.fromJson(Map<String, dynamic> json) => AuspiciousPlace(
+        title: json["title"],
+        inviterName: json["inviterName"],
+        address: List<String>.from(json["address"].map((x) => x)),
+        mapLink: json["mapLink"],
+        // contactNo: json["contactNo"] == null ? null : List<String>.from(json["contactNo"].map((x) => x)),
+        contactNo: List<String>.from(json["address"].map((x) => x)),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "title": title,
+        "inviterName": inviterName,
+        "address": List<String>.from(address!.map((x) => x)),
+        "mapLink": mapLink,
+        "contactNo": List<String>.from(contactNo!.map((x) => x)),
+        // "contactNo": contactNo == null ? null : List<dynamic>.from(contactNo!.map((x) => x)),
+    };
+}
+
+class Chirping {
+    Chirping({
+        this.title,
+        this.id,
+        this.html,
+        this.value,
+        this.inviter,
+    });
+
+    String? title;
+    String? id;
+    String? html;
+    String? value;
+    String? inviter;
+
+    factory Chirping.fromJson(Map<String, dynamic> json) => Chirping(
+        title: json["title"],
+        id: json["id"],
+        html: json["html"],
+        value: json["value"],
+        inviter: json["inviter"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "title": title,
+        "id": id,
+        "html": html,
+        "value": value,
+        "inviter": inviter,
+    };
+}
+
+class CoverImage {
+    CoverImage({
+        this.isShow,
+        this.url,
+    });
+
+    bool? isShow;
+    String? url;
+
+    factory CoverImage.fromJson(Map<String, dynamic> json) => CoverImage(
+        isShow: json["isShow"],
+        url: json["url"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "isShow": isShow,
+        "url": url,
+    };
+}
+
+class Functions {
+    Functions({
+        this.functionId,
+        this.functionName,
+        this.functionDate,
+        this.functionTime,
+        this.message,
+        this.inviter,
+        this.banquetPerson,
+        this.functionPlace,
+    });
+
+    String? functionId;
+    String? functionName;
+    String? functionDate;
+    String? functionTime;
+    String? message;
+    List<String>? inviter;
+    String? banquetPerson;
+    String? functionPlace;
+
+    factory Functions.fromJson(Map<String, dynamic> json) => Functions(
+        functionId: json["functionId"],
+        functionName: json["functionName"],
+        functionDate: json["functionDate"],
+        functionTime: json["functionTime"],
+        message: json["message"],
+        inviter: List<String>.from(json["inviter"].map((x) => x)),
+        // inviter: List<String>.from(json["inviter"].map((x) => inviterElementValues.map[x])),
+        banquetPerson: json["banquetPerson"],
+        functionPlace: json["functionPlace"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "functionId": functionId,
+        "functionName": functionName,
+        "functionDate": functionDate,
+        "functionTime": functionTime,
+        "message": message,
+        "inviter": List<String>.from(inviter!.map((x) => x)),
+        // "inviter": List<dynamic>.from(inviter.map((x) => inviterElementValues.reverse[x])),
+        "banquetPerson": banquetPerson,
+        "functionPlace": functionPlace,
+    };
+}
+
+/*enum InviterElement { EMPTY, INVITER }
+
+final inviterElementValues = EnumValues({
+    "ઉર્મિલાબેન સંજયભાઈ": InviterElement.EMPTY,
+    "કલ્પનાબેન જશભાઈ": InviterElement.INVITER
+});
+
+class EnumValues<T> {
+    Map<String, T> map;
+    Map<T, String> reverseMap;
+
+    EnumValues(this.map);
+
+    Map<T, String> get reverse {
+        if (reverseMap == null) {
+            reverseMap = map.map((k, v) => new MapEntry(v, k));
+        }
+        return reverseMap;
+    }
+}*/
+
+
+class GodDetail {
+    GodDetail({
+        this.id,
+    });
+
+    String? id;
+
+    factory GodDetail.fromJson(Map<String, dynamic> json) => GodDetail(
+        id: json["id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+    };
+}
+
+class Invitation {
+    Invitation({
+        this.guestName,
+        this.brideInviter,
+        this.groomInviter,
+    });
+
+    String? guestName;
+    BrideInviter? brideInviter;
+    GroomInviter? groomInviter;
+
+    factory Invitation.fromJson(Map<String, dynamic> json) => Invitation(
+        guestName: json["guestName"],
+        brideInviter: BrideInviter.fromJson(json["brideInviter"]),
+        groomInviter: GroomInviter.fromJson(json["groomInviter"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "guestName": guestName,
+        "brideInviter": brideInviter!.toJson(),
+        "groomInviter": groomInviter!.toJson(),
+    };
+}
+
+class BrideInviter {
+    BrideInviter({
+        this.value,
+        this.type,
+        this.html,
+        this.values,
+    });
+
+    String? value;
+    String? type;
+    String? html;
+    BrideInviterValues? values;
+
+    factory BrideInviter.fromJson(Map<String, dynamic> json) => BrideInviter(
+        value: json["value"],
+        type: json["type"],
+        html: json["html"],
+        values: BrideInviterValues.fromJson(json["values"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "value": value,
+        "type": type,
+        "html": html,
+        "values": values!.toJson(),
+    };
+}
+
+class BrideInviterValues {
+    BrideInviterValues({
+        this.motherName,
+        this.fatherName,
+        this.hometownName,
+        this.date,
+        this.day,
+    });
+
+    String? motherName;
+    String? fatherName;
+    String? hometownName;
+    String? date;
+    String? day;
+
+    factory BrideInviterValues.fromJson(Map<String, dynamic> json) => BrideInviterValues(
+        motherName: json["motherName"],
+        fatherName: json["fatherName"],
+        hometownName: json["hometownName"],
+        date: json["date"],
+        day: json["day"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "motherName": motherName,
+        "fatherName": fatherName,
+        "hometownName": hometownName,
+        "date": date,
+        "day": day,
+    };
+}
+
+class GroomInviter {
+    GroomInviter({
+        this.value,
+        this.type,
+        this.html,
+        this.values,
+    });
+
+    String? value;
+    String? type;
+    String? html;
+    GroomInviterValues? values;
+
+    factory GroomInviter.fromJson(Map<String, dynamic> json) => GroomInviter(
+        value: json["value"],
+        type: json["type"],
+        html: json["html"],
+        values: GroomInviterValues.fromJson(json["values"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "value": value,
+        "type": type,
+        "html": html,
+        "values": values!.toJson(),
+    };
+}
+
+class GroomInviterValues {
+    GroomInviterValues({
+        this.godName,
+        this.motherName,
+        this.fatherName,
+        this.hometownName,
+    });
+
+    String? godName;
+    String? motherName;
+    String? fatherName;
+    String? hometownName;
+
+    factory GroomInviterValues.fromJson(Map<String, dynamic> json) => GroomInviterValues(
+        godName: json["godName"],
+        motherName: json["motherName"],
+        fatherName: json["fatherName"],
+        hometownName: json["hometownName"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "godName": godName,
+        "motherName": motherName,
+        "fatherName": fatherName,
+        "hometownName": hometownName,
+    };
+}
+
+class InviterClass {
+    InviterClass({
+        this.name,
+        this.address,
+        this.mapLink,
+        this.contactNo,
+    });
+
+    List<String>? name;
+    List<String>? address;
+    String? mapLink;
+    List<String>? contactNo;
+
+    factory InviterClass.fromJson(Map<String, dynamic> json) => InviterClass(
+        name: List<String>.from(json["name"].map((x) => x)),
+        address: List<String>.from(json["address"].map((x) => x)),
+        mapLink: json["mapLink"],
+        contactNo: List<String>.from(json["contactNo"].map((x) => x)),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "name": List<dynamic>.from(name!.map((x) => x)),
+        "address": List<dynamic>.from(address!.map((x) => x)),
+        "mapLink": mapLink,
+        "contactNo": List<dynamic>.from(contactNo!.map((x) => x)),
+    };
+}
+
+class Pair {
+    Pair({
+        this.bride,
+        this.groom,
+        this.marriageDate,
+        this.enMarriageDate,
+        this.marriageDay,
+    });
+
+    Bride? bride;
+    Bride? groom;
+    String? marriageDate;
+    String? enMarriageDate;
+    String? marriageDay;
+
+    factory Pair.fromJson(Map<String, dynamic> json) => Pair(
+        bride: Bride.fromJson(json["bride"]),
+        groom: Bride.fromJson(json["groom"]),
+        marriageDate: json["marriageDate"],
+        enMarriageDate: json["enMarriageDate"],
+        marriageDay: json["marriageDay"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "bride": bride!.toJson(),
+        "groom": groom!.toJson(),
+        "marriageDate": marriageDate,
+        "enMarriageDate": enMarriageDate,
+        "marriageDay": marriageDay,
+    };
+}
+
+class Bride {
+    Bride({
+        this.name,
+        this.enName,
+    });
+
+    String? name;
+    String? enName;
+
+    factory Bride.fromJson(Map<String, dynamic> json) => Bride(
+        name: json["name"],
+        enName: json["enName"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "name": name,
+        "enName": enName,
+    };
+}
+
+
+
+
 

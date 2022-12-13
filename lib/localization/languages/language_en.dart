@@ -56,6 +56,7 @@ final Map<String, String> enUS = {
   'txtVadhare': "વધારે",
   'txtOchu': "ઓછું",
   'txtMahitiBharo': "માહિતી ભરો",
+  'txtPasandKaro': "પસંદ કરો",
 
   /*For Add New Kankotri*/
 
@@ -81,6 +82,7 @@ final Map<String, String> enUS = {
   'txtGitSandhya': "ગીત સંધ્યા",
   'txtRasGarba': "રાસ ગરબા",
   'txtJan': "જાન પ્રસ્થાન",
+  'txtJanAagman': "જાન આગમન",
   'txtHastMelap': "હસ્ત મેળાપ",
   'txtAmantrak': "આમંત્રક",
   'txtAmantrakName': "આમંત્રક નામ",

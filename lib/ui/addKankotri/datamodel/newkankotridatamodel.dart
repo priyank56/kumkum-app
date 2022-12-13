@@ -6,7 +6,7 @@ import '../../../repository/repository.dart';
 
 class NewKankotriDataModel {
 
-  Future<NewKankotriData> createKankotri(BuildContext context, CreateData createData) {
+  Future<NewKankotriData> createKankotri(BuildContext context, String createData) {
     DioClient dioClient = DioClient(context);
     return Repository(dioClient).createKankotri(this, createData,context);
   }

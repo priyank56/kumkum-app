@@ -18,6 +18,7 @@ class Params {
   static const tokenType = "token_type";
   static const expiresIn = "expires_in";
   static const isGiftSelected = "is_gift_selected";
+  static const type = "type";
 
   static const id = "id";
   static const name = "name";

@@ -137,6 +137,8 @@ final Map<String, String> enUS = {
   'txtInviterAddress' :"Please enter inviter address",
   'txtInviterMobile' :"Please enter inviter mobile",
 
+  'txtTahukoChildNames':"Please enter inviters names",
+
   'txtFunMandapMuhratDate' :"Please enter Mandap muhrat date",
   'txtFunMandapMuhratTime' :"Please enter Mandap muhrat time",
   'txtFunMandapMuhrat' :"Please enter Mandap muhrat detail",

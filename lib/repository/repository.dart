@@ -6,6 +6,7 @@ import 'package:spotify_flutter_code/ui/addKankotri/datamodel/getInfoData.dart';
 import 'package:spotify_flutter_code/ui/login/datamodel/logindatamodel.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
+import 'package:spotify_flutter_code/utils/params.dart';
 import '../dio/dioclient.dart';
 import '../ui/addKankotri/datamodel/newKankotriData.dart';
 import '../ui/addKankotri/datamodel/newkankotridatamodel.dart';
@@ -49,11 +50,11 @@ class Repository {
   }
 
 
-  Future<NewKankotriData> createKankotri(NewKankotriDataModel newKankotriDataModel,String createData,
+  Future<NewKankotriData> createKankotri(NewKankotriDataModel newKankotriDataModel,String createData,CreateData createDataObject,
       [BuildContext? context]) async {
     try {
       Response response = await dioClient!.dio.post<String>("/api/marriageInvitationCard",
-          data: createData);
+          data: createDataObject.toJson());
       Debug.printLog("createKankotri RESPONSE ==>> $response ");
 
       if (response.statusCode == Constant.responseSuccessCode) {
@@ -83,10 +84,10 @@ class Repository {
 
 
 
-  Future<GetInfoData> getInfo(NewKankotriDataModel newKankotriDataModel,
+  Future<GetInfoData> getInfo(NewKankotriDataModel newKankotriDataModel,String mrgType,
       [BuildContext? context]) async {
     try {
-      Response response = await dioClient!.dio.get<String>("/api/marriageInvitationCard/info");
+      Response response = await dioClient!.dio.get<String>("/api/marriageInvitationCard/info",queryParameters:{Params.type:mrgType} );
       Debug.printLog("getInfo RESPONSE ==>> $response ");
 
       if (response.statusCode == Constant.responseSuccessCode) {

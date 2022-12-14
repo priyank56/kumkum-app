@@ -24,23 +24,36 @@ class AddKankotriController extends GetxController {
   NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
 
   List<ChirpingInfo> listOfAllChirping = [];
+  List<String> listOfAllStringChirping = [];
+
   List<GodDetailInfo> listOfAllGods = [];
-  List<ChirpingInfo> listOfInvitersMessage = [];
+
+
+  List<InvitationMessage> listOfInvitersMessage = [];
+  List<InvitationMessage> listOfInvitersGroomMessage = [];
+  List<InvitationMessage> listOfInvitersBrideMessage = [];
+  InvitationMessage chirpingInfoGroom = InvitationMessage();
+  InvitationMessage chirpingInfoBride = InvitationMessage();
+
+  List<String> listOfMessagesFromBride = [];
+  List<String> listOfMessagesFromGroom = [];
 
   CreateData createData = CreateData();
 
   List<String> listNimantrakName = [];
   List<String> listNimantrakAddress = [];
   List<String> listNimantrakMno = [];
-  List<String> listOfChirping = [];
-  List<String> listOfMessagesFromBride = [];
-  List<String> listOfMessagesFromGroom = [];
+
   List<String> listOfGuestNameFirst = [];
   List<FunctionsNimantrakName> functionsList = [];
   List<GuestAllName> guestNamesList = [];
+
+  List<String> listOfTahukoChildName = [];
+
+
   List<GoodPlaceAllName> goodPlaceNamesList = [];
-  List<GodInformation> godInformationList = [];
-  List<GodInformation> selectedGodList = [];
+  // List<GodInformation> godInformationList = [];
+  // List<GodInformation> selectedGodList = [];
 
   TextEditingController functionDate = TextEditingController();
   TextEditingController functionTime = TextEditingController();
@@ -78,7 +91,7 @@ class AddKankotriController extends GetxController {
   TextEditingController brideMotherNameController = TextEditingController();
   TextEditingController brideFatherNameController = TextEditingController();
   TextEditingController brideVillageNameController = TextEditingController();
-  TextEditingController brideMarriageDateController = TextEditingController();
+  TextEditingController brideGodController = TextEditingController();
   String dropDownFromBrideMessage = "";
 
   /*Drop Down Messages*/
@@ -103,11 +116,12 @@ class AddKankotriController extends GetxController {
     addNimantrakAddressListData(true);
     addNimantrakMnoListData(true);
     addAllFunctionsList();
-    addInviterMessage();
-    addChirpingList();
+    // addInviterMessage();
+    // addChirpingList();
     addAllGuestNames();
+    addRemoveTahukoChildName(true);
     addGoodPlaceNames();
-    addGodInfo();
+    // addGodInfo();
 
   }
 
@@ -211,6 +225,20 @@ class AddKankotriController extends GetxController {
     update([Constant.idGuestNameAll]);
   }
 
+  addRemoveTahukoChildName(bool isAdd,{int? index = 0}){
+    if (isAdd) {
+      listOfTahukoChildName.add("");
+    } else {
+      listOfTahukoChildName.removeAt(index!);
+    }
+    update([Constant.idTahukoPart]);
+  }
+
+  changeValueInListForTahukoChildName(int index,String value) {
+    listOfTahukoChildName[index] = value;
+    update([Constant.idTahukoPart]);
+  }
+
   addRemoveGuestNamesName(bool isAdd,int mainIndex,{int? index = 0}){
     if (isAdd) {
       guestNamesList[mainIndex].listOfGuestNames.add("");
@@ -244,30 +272,35 @@ class AddKankotriController extends GetxController {
     update([Constant.idGoodPlaceAll]);
   }
 
-  addGodInfo(){
+ /* addGodInfo(){
     godInformationList.add(GodInformation(Constant.godDemoImageURl, "શ્રી ગણેશાય નમઃ",false));
     godInformationList.add(GodInformation(Constant.godDemoImageURl, "શ્રી ગેલ અંબે માતાજી",false));
     godInformationList.add(GodInformation(Constant.godDemoImageURl, "ૐ નમઃ શિવાય",false));
-  }
+  }*/
 
   addRemoveGodNamesName(bool isAdd, int index,String name){
     if(name == ""){
       return;
     }
     if (isAdd) {
-      godInformationList.add(GodInformation("", name,false));
+      var god = GodDetailInfo();
+      god.name = name;
+      god.image = "";
+      god.isSelected = false;
+      god.id = "";
+      listOfAllGods.add(god);
     } else {
-      godInformationList.removeAt(index);
+      listOfAllGods.removeAt(index);
     }
     update([Constant.idGodNames]);
   }
 
   godSelectOnTap(int index){
-    godInformationList[index].isSelected = !godInformationList[index].isSelected!;
+    listOfAllGods[index].isSelected = !listOfAllGods[index].isSelected!;
     update([Constant.idGodNames]);
   }
 
-  addInviterMessage() {
+  /*addInviterMessage() {
     listOfMessagesFromGroom.add("Messages Groom 1");
     listOfMessagesFromGroom.add("Messages Groom 2");
     dropDownFromGroomMessage = listOfMessagesFromGroom[0];
@@ -277,15 +310,15 @@ class AddKankotriController extends GetxController {
     dropDownFromBrideMessage = listOfMessagesFromBride[0];
 
     update([Constant.idInviterPart]);
-   }
+   }*/
 
-   addChirpingList() {
+ /*  addChirpingList() {
      listOfChirping.add("Tahuko 1");
      listOfChirping.add("Tahuko 2");
      dropDownTahukoMessage = listOfChirping[0];
      update([Constant.idTahukoPart]);
 
-   }
+   }*/
 
    changeGodName(String name){
      newGodName = name;
@@ -337,8 +370,14 @@ class AddKankotriController extends GetxController {
 
   changeDropDownValueForGroomBride(String value,String type){
     if(type == Constant.typeGroom){
+      var selectedGroomList = listOfInvitersGroomMessage.where((element) => element.html == value).toList();
+      chirpingInfoGroom = selectedGroomList[0];
+
       dropDownFromGroomMessage = value;
     }else{
+      var selectedBrideList = listOfInvitersBrideMessage.where((element) => element.html == value).toList();
+      chirpingInfoBride = selectedBrideList[0];
+
       dropDownFromBrideMessage = value;
     }
 
@@ -500,10 +539,10 @@ class AddKankotriController extends GetxController {
 
     /*Inviter Detail For Both*/
     /*1.Groom*/
-    if(groomGodNameController.text.isEmpty){
+    /*if(groomGodNameController.text.isEmpty){
       Utils.showToast(context, "txtGroomGod".tr);
       return false;
-    }
+    }*/
     if(groomMotherNameController.text.isEmpty){
       Utils.showToast(context, "txtGroomMother".tr);
       return false;
@@ -559,6 +598,13 @@ class AddKankotriController extends GetxController {
     }
 
 
+    /*Tahuko Names Detail*/
+    if(listOfTahukoChildName.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtTahukoChildNames".tr);
+      return false;
+    }
+
+
     /*Good Places Mrg Detail*/
     /*1.Good Place*/
     var good1 = goodPlaceNamesList.where((element) => element.titleName == "txtSubhSathal".tr).toList();
@@ -566,12 +612,10 @@ class AddKankotriController extends GetxController {
       Utils.showToast(context, "txtInviterName".tr);
       return false;
     }
-
     if(good1[0].listOfAddressName.where((element) => element != "").toList().isEmpty){
       Utils.showToast(context, "txtInviterAddress".tr);
       return false;
     }
-
     if(good1[0].listOfMobile.where((element) => element != "").toList().isEmpty){
       Utils.showToast(context, "txtInviterMobile".tr);
       return false;
@@ -600,7 +644,7 @@ class AddKankotriController extends GetxController {
 
 
     /*God Detail*/
-    var godArray = godInformationList.where((element) => element.isSelected == true).toList();
+    var godArray = listOfAllGods.where((element) => element.isSelected == true).toList();
     if(godArray.length < 3){
       Utils.showToast(context, "txtGodSelect".tr);
       return false;
@@ -735,23 +779,61 @@ class AddKankotriController extends GetxController {
     var invitation = Invitation();
 
     var groomData = GroomInviter();
-    groomData.value = dropDownFromGroomMessage;
+    groomData.id = chirpingInfoGroom.id;
+    groomData.type = chirpingInfoGroom.type;
+    groomData.marriageOf = chirpingInfoGroom.marriageOf;
+    groomData.html = dropDownFromGroomMessage;
     var groomInviterValues= GroomInviterValues();
-    groomInviterValues.godName = groomGodNameController.text;
-    groomInviterValues.motherName = groomMotherNameController.text;
-    groomInviterValues.fatherName = groomFatherNameController.text;
-    groomInviterValues.hometownName = groomVillageNameController.text;
+
+    if(chirpingInfoGroom.values!.day != null) {
+      groomInviterValues.day = mrgDateDay;
+    }
+    if(chirpingInfoGroom.values!.date != null) {
+      groomInviterValues.date = mrgDateGujarati;
+    }
+    if(chirpingInfoGroom.values!.godName != null) {
+      groomInviterValues.godName = groomGodNameController.text;
+    }
+    if(chirpingInfoGroom.values!.godName != null) {
+      groomInviterValues.motherName = groomMotherNameController.text;
+    }
+    if(chirpingInfoGroom.values!.godName != null) {
+      groomInviterValues.fatherName = groomFatherNameController.text;
+    }
+    if(chirpingInfoGroom.values!.godName != null) {
+      groomInviterValues.hometownName = groomVillageNameController.text;
+    }
+
     invitation.groomInviter = groomData;
     invitation.groomInviter!.values = groomInviterValues;
 
+
+
     var brideData = BrideInviter();
-    brideData.value = dropDownFromBrideMessage;
+    brideData.id = chirpingInfoBride.id;
+    brideData.type = chirpingInfoBride.type;
+    brideData.marriageOf = chirpingInfoBride.marriageOf;
+    brideData.html = dropDownFromBrideMessage;
     var brideInviterValues= BrideInviterValues();
-    brideInviterValues.day = mrgDateDay;
-    brideInviterValues.date = mrgDateGujarati;
-    brideInviterValues.motherName = brideMotherNameController.text;
-    brideInviterValues.fatherName = brideFatherNameController.text;
-    brideInviterValues.hometownName = brideVillageNameController.text;
+    if(chirpingInfoBride.values!.day != null) {
+      brideInviterValues.day = mrgDateDay;
+    }
+    if(chirpingInfoBride.values!.date != null) {
+      brideInviterValues.date = mrgDateGujarati;
+    }
+    if(chirpingInfoBride.values!.motherName != null) {
+      brideInviterValues.motherName = brideMotherNameController.text;
+    }
+    if(chirpingInfoBride.values!.fatherName != null) {
+      brideInviterValues.fatherName = brideFatherNameController.text;
+    }
+    if(chirpingInfoBride.values!.hometownName != null) {
+      brideInviterValues.hometownName = brideVillageNameController.text;
+    }
+    if(chirpingInfoBride.values!.godName != null) {
+      brideInviterValues.godName = brideGodController.text;
+    }
+
     invitation.brideInviter = brideData;
     invitation.brideInviter!.values = brideInviterValues;
 
@@ -790,6 +872,21 @@ class AddKankotriController extends GetxController {
 
     /*====================================================================================*/
 
+
+    /*Start For Tahuko Names Data*/
+    var tahukoInviterName = Chirping();
+    tahukoInviterName.html = dropDownTahukoMessage.toString();
+    tahukoInviterName.title = "txtTahuko".tr;
+    var listSelectChirp = listOfAllChirping.where((element) => element.html == dropDownTahukoMessage).toList();
+    tahukoInviterName.id = listSelectChirp[0].id;
+    tahukoInviterName.inviter = listOfTahukoChildName.toString();
+    createData.marriageInvitationCard!.chirping = tahukoInviterName;
+
+    /*End For Tahuko Names Data*/
+
+
+    /*====================================================================================*/
+
     /*Start For Good Place Data*/
     for(int i = 0; i < goodPlaceNamesList.length ; i++){
       var goodPlace = AuspiciousPlace();
@@ -810,22 +907,24 @@ class AddKankotriController extends GetxController {
     /*====================================================================================*/
 
     /*Start For Surname Data*/
-
     createData.marriageInvitationCard!.inviterSurname = atakController.text ?? "";
-
     /*End For Surname Data*/
 
     /*====================================================================================*/
 
     /*Start For God's Data*/
-
-    var godDetail = GodDetail();
-    godDetail.id = "f8753460";
-    createData.marriageInvitationCard!.godDetails!.add(godDetail);
-
+    for(int i = 0; i<listOfAllGods.length;i++){
+      if(listOfAllGods[i].isSelected) {
+        var godDetail = GodDetail();
+        godDetail.id = listOfAllGods[i].id ?? "";
+        godDetail.name = listOfAllGods[i].name ?? "";
+        godDetail.image = listOfAllGods[i].image ?? "";
+        createData.marriageInvitationCard!.godDetails!.add(godDetail);
+      }
+    }
     /*End For God's Data*/
 
-    Debug.printLog("MarriageInvitationCard==>> ${createData.toJson().toString()}");
+    Debug.printLog("MarriageInvitationCard==>> ${jsonEncode(createData)}");
 
   }
 
@@ -849,7 +948,8 @@ class AddKankotriController extends GetxController {
       if (await InternetConnectivity.isInternetConnect()) {
         isShowProgress = true;
         update([Constant.isShowProgressUpload]);
-        await newKankotriDataModel.getInfo(context).then((value) {
+        var mrgType = (isGroomCard)?Constant.typeGroom:Constant.typeBride;
+        await newKankotriDataModel.getInfo(context,mrgType).then((value) {
           handleKankotriInfoResponse(value,context);
         });
       } else {
@@ -860,14 +960,46 @@ class AddKankotriController extends GetxController {
   handleKankotriInfoResponse(GetInfoData newKankotriData, BuildContext context) async {
     if (newKankotriData.status == Constant.responseSuccessCode) {
       if (newKankotriData.message != null) {
-
-        listOfAllChirping = newKankotriData.result!.chirPings!;
-        listOfAllGods = newKankotriData.result!.godDetails!;
-        listOfInvitersMessage = newKankotriData.result!.invitationMessages!;
-        var listGroom = listOfInvitersMessage.where((element) => element.type == Constant.typeGroomAPI).toList();
-        var listBride = listOfInvitersMessage.where((element) => element.type == Constant.typeBrideAPI).toList();
         Debug.printLog(
-            "handleKankotriInfoResponse Res Success ===>> ${listGroom.length}  ${listBride.length}");
+            "handleKankotriInfoResponse Res Success ===>> ${newKankotriData.toJson()} ");
+        listOfAllChirping = newKankotriData.result!.chirPings!;
+        if(listOfAllChirping.isNotEmpty){
+          for(int i = 0 ;i < listOfAllChirping.length; i++){
+            listOfAllStringChirping.add(listOfAllChirping[i].html.toString());
+          }
+          dropDownTahukoMessage = listOfAllStringChirping[0];
+        }
+        else{
+          listOfAllStringChirping.add("");
+          dropDownTahukoMessage = "";
+        }
+
+        listOfAllGods = newKankotriData.result!.godDetails!;
+
+
+        listOfInvitersMessage = newKankotriData.result!.invitationMessages!;
+        if(listOfInvitersMessage.isNotEmpty) {
+          listOfInvitersGroomMessage = listOfInvitersMessage.where((element) => element.type == Constant.typeGroomAPI).toList();
+          chirpingInfoGroom = listOfInvitersGroomMessage[0];
+          listOfInvitersBrideMessage = listOfInvitersMessage.where((element) => element.type == Constant.typeBrideAPI).toList();
+          chirpingInfoBride = listOfInvitersBrideMessage[0];
+
+          for (int i = 0; i < listOfInvitersGroomMessage.length; i++) {
+            listOfMessagesFromGroom.add(listOfInvitersGroomMessage[i].html.toString());
+          }
+          for (int i = 0; i < listOfInvitersBrideMessage.length; i++) {
+            listOfMessagesFromBride.add(listOfInvitersBrideMessage[i].html.toString());
+          }
+          dropDownFromGroomMessage = listOfMessagesFromGroom[0];
+          dropDownFromBrideMessage = listOfMessagesFromBride[0];
+        }
+        else{
+          listOfMessagesFromGroom.add("");
+          listOfMessagesFromBride.add("");
+          dropDownFromGroomMessage = "";
+          dropDownFromBrideMessage = "";
+        }
+
       } else {
         Debug.printLog(
             "handleKankotriInfoResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
@@ -886,7 +1018,7 @@ class AddKankotriController extends GetxController {
       }
     }
     isShowProgress = false;
-    update([Constant.isShowProgressUpload]);
+    update([Constant.isShowProgressUpload,Constant.idInviterPart,Constant.idTahukoPart,Constant.idGodNames]);
   }
 
   callCreateCardAPI(BuildContext context) async {
@@ -896,7 +1028,7 @@ class AddKankotriController extends GetxController {
         isShowProgress = true;
         update([Constant.isShowProgressUpload]);
         await newKankotriDataModel.createKankotri(
-            context, jsonEncode(createData)).then((value) {
+            context, jsonEncode(createData),createData).then((value) {
           handleNewKankotriResponse(value, context);
         });
       } else {
@@ -932,6 +1064,10 @@ class AddKankotriController extends GetxController {
     update([Constant.isShowProgressUpload]);
   }
 
+  setDummyData(){
+
+  }
+
 }
 
 class FunctionsNimantrakName{
@@ -961,10 +1097,11 @@ class GoodPlaceAllName{
   GoodPlaceAllName(this.titleName,this.listOfAddressName,this.listOfMobile,this.inviterName);
 }
 
+/*
 class GodInformation{
   String godImageURL = "";
   String godName = "";
   bool? isSelected = false;
 
   GodInformation(this.godImageURL,this.godName,this.isSelected);
-}
+}*/

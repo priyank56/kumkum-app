@@ -696,29 +696,25 @@ class Chirping {
         this.title,
         this.id,
         this.html,
-        this.value,
         this.inviter,
     });
 
     String? title;
     String? id;
     String? html;
-    String? value;
     String? inviter;
 
     factory Chirping.fromJson(Map<String, dynamic> json) => Chirping(
         title: json["title"],
         id: json["id"],
         html: json["html"],
-        value: json["value"],
         inviter: json["inviter"],
     );
 
     Map<String, dynamic> toJson() => {
         "title": title,
-        "id": id,
+        "_id": id,
         "html": html,
-        "value": value,
         "inviter": inviter,
     };
 }
@@ -812,7 +808,7 @@ class EnumValues<T> {
 
 
 class GodDetail {
-    GodDetail({
+    /*GodDetail({
         this.id,
     });
 
@@ -824,6 +820,27 @@ class GodDetail {
 
     Map<String, dynamic> toJson() => {
         "id": id,
+    };*/
+    GodDetail({
+        this.id,
+        this.name,
+        this.image,
+    });
+
+    String? id;
+    String? name;
+    String? image;
+
+    factory GodDetail.fromJson(Map<String, dynamic> json) => GodDetail(
+        id: json["_id"],
+        name: json["name"],
+        image: json["image"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "_id": id,
+        "name": name,
+        "image": image,
     };
 }
 
@@ -853,28 +870,32 @@ class Invitation {
 
 class BrideInviter {
     BrideInviter({
-        this.value,
+        this.id,
         this.type,
         this.html,
+        this.marriageOf,
         this.values,
     });
 
-    String? value;
+    String? id;
     String? type;
     String? html;
+    String? marriageOf;
     BrideInviterValues? values;
 
     factory BrideInviter.fromJson(Map<String, dynamic> json) => BrideInviter(
-        value: json["value"],
+        id: json["_id"],
         type: json["type"],
         html: json["html"],
+        marriageOf: json["marriageOf"],
         values: BrideInviterValues.fromJson(json["values"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "value": value,
+        "_id": id,
         "type": type,
         "html": html,
+        "marriageOf": marriageOf,
         "values": values!.toJson(),
     };
 }
@@ -884,6 +905,7 @@ class BrideInviterValues {
         this.motherName,
         this.fatherName,
         this.hometownName,
+        this.godName,
         this.date,
         this.day,
     });
@@ -891,10 +913,12 @@ class BrideInviterValues {
     String? motherName;
     String? fatherName;
     String? hometownName;
+    String? godName;
     String? date;
     String? day;
 
     factory BrideInviterValues.fromJson(Map<String, dynamic> json) => BrideInviterValues(
+        godName: json["godName"],
         motherName: json["motherName"],
         fatherName: json["fatherName"],
         hometownName: json["hometownName"],
@@ -903,6 +927,7 @@ class BrideInviterValues {
     );
 
     Map<String, dynamic> toJson() => {
+        "godName": godName,
         "motherName": motherName,
         "fatherName": fatherName,
         "hometownName": hometownName,
@@ -913,28 +938,32 @@ class BrideInviterValues {
 
 class GroomInviter {
     GroomInviter({
-        this.value,
+        this.id,
         this.type,
         this.html,
+        this.marriageOf,
         this.values,
     });
 
-    String? value;
+    String? id;
     String? type;
     String? html;
+    String? marriageOf;
     GroomInviterValues? values;
 
     factory GroomInviter.fromJson(Map<String, dynamic> json) => GroomInviter(
-        value: json["value"],
+        id: json["_id"],
         type: json["type"],
         html: json["html"],
+        marriageOf: json["marriageOf"],
         values: GroomInviterValues.fromJson(json["values"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "value": value,
+        "_id": id,
         "type": type,
         "html": html,
+        "marriageOf": marriageOf,
         "values": values!.toJson(),
     };
 }
@@ -945,18 +974,24 @@ class GroomInviterValues {
         this.motherName,
         this.fatherName,
         this.hometownName,
+        this.date,
+        this.day,
     });
 
     String? godName;
     String? motherName;
     String? fatherName;
     String? hometownName;
+    String? date;
+    String? day;
 
     factory GroomInviterValues.fromJson(Map<String, dynamic> json) => GroomInviterValues(
         godName: json["godName"],
         motherName: json["motherName"],
         fatherName: json["fatherName"],
         hometownName: json["hometownName"],
+        date: json["date"],
+        day: json["day"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -964,6 +999,8 @@ class GroomInviterValues {
         "motherName": motherName,
         "fatherName": fatherName,
         "hometownName": hometownName,
+        "date": date,
+        "day": day,
     };
 }
 

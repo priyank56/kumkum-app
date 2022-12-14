@@ -35,12 +35,13 @@ class Result {
         this.chirPings,
     });
 
-    List<ChirpingInfo>? invitationMessages;
+    List<InvitationMessage>? invitationMessages;
     List<GodDetailInfo>? godDetails;
+    // List<InvitationMessage>? chirPings;
     List<ChirpingInfo>? chirPings;
 
     factory Result.fromJson(Map<String, dynamic> json) => Result(
-        invitationMessages: List<ChirpingInfo>.from(json["invitationMessages"].map((x) => ChirpingInfo.fromJson(x))),
+        invitationMessages: List<InvitationMessage>.from(json["invitationMessages"].map((x) => InvitationMessage.fromJson(x))),
         godDetails: List<GodDetailInfo>.from(json["godDetails"].map((x) => GodDetailInfo.fromJson(x))),
         chirPings: List<ChirpingInfo>.from(json["chirpings"].map((x) => ChirpingInfo.fromJson(x))),
     );
@@ -57,52 +58,115 @@ class ChirpingInfo {
         this.id,
         this.value,
         this.html,
-        this.type,
     });
 
     String? id;
     String? value;
     String? html;
-    String? type;
 
     factory ChirpingInfo.fromJson(Map<String, dynamic> json) => ChirpingInfo(
         id: json["_id"],
         value: json["value"],
         html: json["html"],
-        type: json["type"],
     );
 
     Map<String, dynamic> toJson() => {
         "_id": id,
         "value": value,
         "html": html,
-        "type": type,
     };
 }
+
+
+class InvitationMessage {
+    InvitationMessage({
+        this.id,
+        this.values,
+        this.html,
+        this.type,
+        this.marriageOf,
+    });
+
+    String? id;
+    ValuesInfo? values = ValuesInfo();
+    String? html;
+    String? type;
+    String? marriageOf;
+
+    factory InvitationMessage.fromJson(Map<String, dynamic> json) => InvitationMessage(
+        id: json["_id"],
+        values: ValuesInfo.fromJson(json["values"]),
+        html: json["html"],
+        type: json["type"],
+        marriageOf: json["marriageOf"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "_id": id,
+        "values": values!.toJson(),
+        "html": html,
+        "type": type,
+        "marriageOf": marriageOf,
+    };
+}
+
+class ValuesInfo {
+    ValuesInfo({
+        this.motherName,
+        this.fatherName,
+        this.hometownName,
+        this.date,
+        this.day,
+        this.godName,
+    });
+
+    String? motherName;
+    String? fatherName;
+    String? hometownName;
+    String? date;
+    String? day;
+    String? godName;
+
+    factory ValuesInfo.fromJson(Map<String, dynamic> json) => ValuesInfo(
+        motherName: json["motherName"],
+        fatherName: json["fatherName"],
+        hometownName: json["hometownName"],
+        date: json["date"],
+        day: json["day"],
+        godName: json["godName"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "motherName": motherName,
+        "fatherName": fatherName,
+        "hometownName": hometownName,
+        "date": date,
+        "day": day,
+        "godName": godName,
+    };
+}
+
 
 class GodDetailInfo {
     GodDetailInfo({
         this.id,
-        this.godDetailId,
         this.name,
         this.image,
     });
 
     String? id;
-    String? godDetailId;
     String? name;
     String? image;
+    bool isSelected = false;
 
     factory GodDetailInfo.fromJson(Map<String, dynamic> json) => GodDetailInfo(
         id: json["_id"],
-        godDetailId: json["id"],
         name: json["name"],
         image: json["image"],
     );
 
     Map<String, dynamic> toJson() => {
         "_id": id,
-        "id": godDetailId,
         "name": name,
         "image": image,
     };

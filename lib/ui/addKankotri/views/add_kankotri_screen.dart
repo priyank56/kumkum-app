@@ -12,6 +12,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../datamodel/getInfoData.dart';
+
 class AddKankotriScreen extends StatelessWidget {
   const AddKankotriScreen({Key? key}) : super(key: key);
 
@@ -1231,11 +1233,12 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              (logic.listOfInvitersGroomMessage.isNotEmpty && logic.chirpingInfoGroom.values!.godName != null)?
               Container(
                 color: CColor.white70,
                 height: Utils.getAddKankotriHeight(),
                 child: TextField(
-                  controller: logic.groomGodNameController,
+                  controller: logic.brideGodController,
                   decoration: InputDecoration(
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(width: 2, color: CColor.grayDark),
@@ -1246,7 +1249,9 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtBhagavaNuName'.tr,
                   ),
                 ),
-              ),
+              ):Container(),
+
+              (logic.listOfInvitersGroomMessage.isNotEmpty && logic.chirpingInfoGroom.values!.motherName != null)?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -1265,7 +1270,9 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtMataNuName'.tr,
                   ),
                 ),
-              ),
+              ):Container(),
+
+              (logic.listOfInvitersGroomMessage.isNotEmpty && logic.chirpingInfoGroom.values!.fatherName != null)?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -1284,7 +1291,9 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtPitajiNuName'.tr,
                   ),
                 ),
-              ),
+              ):Container(),
+
+              (logic.listOfInvitersGroomMessage.isNotEmpty && logic.chirpingInfoGroom.values!.hometownName != null)?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -1303,7 +1312,7 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtGamNuName'.tr,
                   ),
                 ),
-              ),
+              ):Container(),
             ],
           );
         });
@@ -1411,6 +1420,8 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
+              (logic.listOfInvitersBrideMessage.isNotEmpty && logic.chirpingInfoBride.values!.motherName != null)?
               Container(
                 color: CColor.white70,
                 height: Utils.getAddKankotriHeight(),
@@ -1426,7 +1437,9 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtMataNuName'.tr,
                   ),
                 ),
-              ),
+              ):Container(),
+
+              (logic.listOfInvitersBrideMessage.isNotEmpty && logic.chirpingInfoBride.values!.fatherName != null)?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -1445,7 +1458,9 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtPitajiNuName'.tr,
                   ),
                 ),
-              ),
+              ):Container(),
+
+              (logic.listOfInvitersBrideMessage.isNotEmpty && logic.chirpingInfoBride.values!.hometownName != null)?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -1464,8 +1479,30 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtGamNuName'.tr,
                   ),
                 ),
-              ),
+              ):Container(),
+
+              (logic.listOfInvitersBrideMessage.isNotEmpty && logic.chirpingInfoBride.values!.godName != null)?
               Container(
+                margin: EdgeInsets.only(
+                  top: Sizes.height_2,
+                ),
+                color: CColor.white70,
+                height: Utils.getAddKankotriHeight(),
+                child: TextField(
+                  controller: logic.groomGodNameController,
+                  decoration: InputDecoration(
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(width: 2, color: CColor.grayDark),
+                    ),
+                    border: const OutlineInputBorder(),
+                    labelText: 'txtBhagavaNuName'.tr,
+                    labelStyle: const TextStyle(color: CColor.grayDark),
+                    hintText: 'txtBhagavaNuName'.tr,
+                  ),
+                ),
+              ):Container(),
+
+              /*Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
                   top: Sizes.height_2,
@@ -1479,12 +1516,14 @@ class AddKankotriScreen extends StatelessWidget {
                   readOnly: true,
                   cursorWidth: 0,
                   decoration: InputDecoration(
-                    /*suffixIcon: Container(
+                    */
+              /*suffixIcon: Container(
                 margin: EdgeInsets.all(Sizes.height_1),
                 child: SvgPicture.asset(
                   "assets/svg/ic_date.svg",
                 ),
               ),*/
+              /*
                     suffixIcon: Container(
                       padding: EdgeInsets.all(Sizes.height_1),
                       child: SvgPicture.asset(
@@ -1503,7 +1542,7 @@ class AddKankotriScreen extends StatelessWidget {
                         : 'txtLaganTarikh'.tr,
                   ),
                 ),
-              ),
+              ),*/
             ],
           );
         });
@@ -1654,6 +1693,7 @@ class AddKankotriScreen extends StatelessWidget {
         id: Constant.idTahukoPart,
         builder: (logic) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
                 margin: EdgeInsets.only(top: Sizes.height_3),
@@ -1692,7 +1732,7 @@ class AddKankotriScreen extends StatelessWidget {
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2(
                     isExpanded: true,
-                    items: logic.listOfChirping
+                    items: logic.listOfAllStringChirping
                         .map((item) => DropdownMenuItem<String>(
                               value: item,
                               child: Text(
@@ -1737,9 +1777,100 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(top: Sizes.height_3, left: Sizes.width_1),
+                child: Text(
+                  "txtAmantrakName".tr,
+                  style: TextStyle(
+                    color: CColor.grayDark,
+                    fontSize: FontSize.size_12,
+                    fontFamily: Constant.appFont,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              ListView.builder(
+                itemBuilder: (context, index) {
+                  return _listViewTahukoChildNames(context, index, logic);
+                },
+                shrinkWrap: true,
+                itemCount: logic.listOfTahukoChildName.length,
+                physics: const NeverScrollableScrollPhysics(),
+              ),
+              Material(
+                color: CColor.transparent,
+                child: InkWell(
+                  splashColor: CColor.grayDark,
+                  onTap: () {
+                    logic.addRemoveTahukoChildName(true);
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    margin: EdgeInsets.only(
+                      top: Sizes.height_1,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Sizes.width_4, vertical: Sizes.height_1),
+                    decoration: BoxDecoration(
+                      color: CColor.grayDark,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      "+ ${"txtAdd".tr}",
+                      style: TextStyle(
+                        color: CColor.white,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: Constant.appFont,
+                        fontSize: FontSize.size_12,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           );
         });
+  }
+
+  _listViewTahukoChildNames(BuildContext context,int index,AddKankotriController logic){
+    return Container(
+      margin: EdgeInsets.only(top:Sizes.height_1),
+      height: Utils.getAddKankotriHeight(),
+      width: MediaQuery.of(context).size.width * 0.9,
+      color: CColor.white70,
+      child: TextField(
+        onChanged: (value) {
+          logic.changeValueInListForTahukoChildName(
+              index, value);
+        },
+        decoration: InputDecoration(
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(width: 2, color: CColor.grayDark),
+          ),
+          suffixIcon: (logic.listOfTahukoChildName.length == 1)
+              ? null
+              : InkWell(
+            onTap: () {
+              logic.addRemoveTahukoChildName(false, index: index);
+            },
+            child: Container(
+              padding: EdgeInsets.all(Sizes.height_1),
+              child: SvgPicture.asset(
+                "assets/svg/ic_close.svg",
+              ),
+            ),
+          ),
+          suffixIconConstraints: BoxConstraints(
+              minHeight: Sizes.height_3, minWidth: Sizes.height_3),
+          border: const OutlineInputBorder(),
+          labelText: "txtName".tr,
+          labelStyle: const TextStyle(color: CColor.grayDark),
+          hintText: 'txtName'.tr,
+        ),
+      ),
+    );
   }
 
   /*શુભ સ્થળ & શુભ લગ્ન સ્થળ*/
@@ -2141,10 +2272,10 @@ class AddKankotriScreen extends StatelessWidget {
                 ListView.builder(
                   itemBuilder: (context, index) {
                     return _listViewGodInfo(
-                        context, logic, logic.godInformationList, index);
+                        context, logic, logic.listOfAllGods, index);
                   },
                   shrinkWrap: true,
-                  itemCount: logic.godInformationList.length,
+                  itemCount: logic.listOfAllGods.length,
                   physics: const NeverScrollableScrollPhysics(),
                 ),
                 Material(
@@ -2185,7 +2316,7 @@ class AddKankotriScreen extends StatelessWidget {
   }
 
   Widget _listViewGodInfo(BuildContext context, AddKankotriController logic,
-      List<GodInformation> godInformationList, int index) {
+      List<GodDetailInfo> godInformationList, int index) {
     return Material(
       color: CColor.transparent,
       child: InkWell(
@@ -2197,7 +2328,7 @@ class AddKankotriScreen extends StatelessWidget {
           margin: EdgeInsets.only(top: Sizes.height_2),
           child: Row(
             children: [
-              (godInformationList[index].godImageURL != "")
+              (godInformationList[index].image != "")
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: SizedBox(
@@ -2207,7 +2338,7 @@ class AddKankotriScreen extends StatelessWidget {
                           fadeInDuration: const Duration(milliseconds: 10),
                           fadeOutDuration: const Duration(milliseconds: 10),
                           fit: BoxFit.cover,
-                          imageUrl: godInformationList[index].godImageURL,
+                          imageUrl: godInformationList[index].image.toString(),
                           placeholder: (context, url) => const Center(
                             child: SizedBox(
                               width: 60.0,
@@ -2245,7 +2376,7 @@ class AddKankotriScreen extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
                   child: Text(
-                    godInformationList[index].godName,
+                    godInformationList[index].name.toString(),
                     style: TextStyle(
                       color: CColor.grayDark,
                       fontSize: FontSize.size_14,
@@ -2255,7 +2386,7 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              (godInformationList[index].isSelected!)
+              (godInformationList[index].isSelected)
                   ? SizedBox(
                       height: Sizes.height_3,
                       width: Sizes.height_3,
@@ -2289,7 +2420,7 @@ class AddKankotriScreen extends StatelessWidget {
           );
         }).whenComplete(() => {
           logic.addRemoveGodNamesName(
-              true, logic.godInformationList.length + 1, logic.newGodName),
+              true, logic.listOfAllGods.length + 1, logic.newGodName),
         });
   }
 

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:spotify_flutter_code/datamodel/createData.dart';
+import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/getInfoData.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/newkankotridatamodel.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
@@ -14,6 +15,8 @@ import '../../../connectivitymanager/connectivitymanager.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
 import '../datamodel/newKankotriData.dart';
+import '../../addKankotri/datamodel/newKankotriData.dart';
+import '../../addKankotri/datamodel/newkankotridatamodel.dart';
 
 class AddKankotriController extends GetxController {
 
@@ -39,10 +42,14 @@ class AddKankotriController extends GetxController {
   List<String> listOfMessagesFromGroom = [];
 
   CreateData createData = CreateData();
+  ResultGet getAllInvitationCard = ResultGet();
 
   List<String> listNimantrakName = [];
   List<String> listNimantrakAddress = [];
   List<String> listNimantrakMno = [];
+  List<TextEditingController> nimantrakNameController = [];
+  List<TextEditingController> nimantrakMnoController = [];
+  List<TextEditingController> nimantrakAddressController = [];
 
   List<String> listOfGuestNameFirst = [];
   List<FunctionsNimantrakName> functionsList = [];
@@ -112,17 +119,20 @@ class AddKankotriController extends GetxController {
       Debug.printLog("Is Groom Card==>> $isGroomCard");
     }
     getAllInfo(Get.context!);
-    addNimantrakNameListData(true);
-    addNimantrakAddressListData(true);
-    addNimantrakMnoListData(true);
-    addAllFunctionsList();
-    // addInviterMessage();
-    // addChirpingList();
-    addAllGuestNames();
-    addRemoveTahukoChildName(true);
-    addGoodPlaceNames();
-    // addGodInfo();
 
+    if(arguments[1] != null){
+      getAllInvitationCard = arguments[1];
+      setAllData();
+      Debug.printLog("Is Groom Card==>> $isGroomCard");
+    }else {
+      addNimantrakNameListData(true);
+      addNimantrakAddressListData(true);
+      addNimantrakMnoListData(true);
+      addAllFunctionsList();
+      addAllGuestNames();
+      addRemoveTahukoChildName(true);
+      addGoodPlaceNames();
+    }
   }
 
 
@@ -331,10 +341,13 @@ class AddKankotriController extends GetxController {
   changeValueInListForNimantrak(int index,String type,String value) {
     if(type == Constant.typeNimantrakName){
       listNimantrakName[listNimantrakName.indexOf(listNimantrakName[index])] = value;
+      nimantrakNameController.add(TextEditingController(text: value));
     }else if(type == Constant.typeNimantrakSarnamu){
       listNimantrakAddress[listNimantrakAddress.indexOf(listNimantrakAddress[index])] = value;
+      nimantrakAddressController.add(TextEditingController(text: value));
     }else if(type == Constant.typeNimantrakMobile){
       listNimantrakMno[listNimantrakMno.indexOf(listNimantrakMno[index])] = value;
+      nimantrakMnoController.add(TextEditingController(text: value));
     }
     update([Constant.idAddNimantrakPart]);
   }
@@ -706,12 +719,12 @@ class AddKankotriController extends GetxController {
     /*====================================================================================*/
 
     /*Fill Up Values In The Class Map*/
-    createData.email = "email.com";
-    createData.layoutDesignId = "3409e5aac99c";
-    createData.marriageInvitationCardId = "2f61ff54";
-    createData.marriageInvitationCardName = "from app";
-    createData.marriageInvitationCardType = "mict1";
-    // createData.isGroom = isGroomCard;
+    createData.email = (getAllInvitationCard.email != "")?getAllInvitationCard.email:"email.com";
+    createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != "")?getAllInvitationCard.layoutDesignId:"3409e5aac99c";
+    createData.marriageInvitationCardId = (getAllInvitationCard.marriageInvitationCardId != "")?getAllInvitationCard.marriageInvitationCardId:"2f61ff54";
+    createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != "")?getAllInvitationCard.marriageInvitationCardName:"from app";
+    createData.marriageInvitationCardType =(getAllInvitationCard.marriageInvitationCardType != "")?getAllInvitationCard.marriageInvitationCardType: "mict1";
+    createData.isGroom = isGroomCard;
 
     var coverImage = CoverImage();
     coverImage.isShow = true;
@@ -762,6 +775,7 @@ class AddKankotriController extends GetxController {
     for(int i = 0; i < functionsList.length ; i++){
       var functionsClass = Functions();
       functionsClass.functionId = functionsList[i].functionId;
+      functionsClass.functionName = functionsList[i].functionName;
       functionsClass.inviter = functionsList[i].listNames;
       functionsClass.functionTime = functionsList[i].functionTime;
       functionsClass.functionDate = functionsList[i].functionDate;
@@ -879,7 +893,7 @@ class AddKankotriController extends GetxController {
     tahukoInviterName.title = "txtTahuko".tr;
     var listSelectChirp = listOfAllChirping.where((element) => element.html == dropDownTahukoMessage).toList();
     tahukoInviterName.id = listSelectChirp[0].id;
-    tahukoInviterName.inviter = listOfTahukoChildName.toString();
+    tahukoInviterName.inviter = listOfTahukoChildName;
     createData.marriageInvitationCard!.chirping = tahukoInviterName;
 
     /*End For Tahuko Names Data*/
@@ -1043,6 +1057,7 @@ class AddKankotriController extends GetxController {
         Debug.printLog(
             "handleNewKankotriResponse Res Success ===>> ${newKankotriData.toJson().toString()}");
         Utils.showToast(context,newKankotriData.message.toString());
+        Get.toNamed(AppRoutes.preview,arguments: [createData]);
       } else {
         Debug.printLog(
             "handleNewKankotriResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
@@ -1064,11 +1079,189 @@ class AddKankotriController extends GetxController {
     update([Constant.isShowProgressUpload]);
   }
 
-  setDummyData(){
 
+  void setAllData() {
+
+    var mrgInvitationCard = getAllInvitationCard.marriageInvitationCard!;
+    /*====================================================================================*/
+
+    /*Start For VarPaksh and KanyaPaksh Data*/
+    kanyaNuNameController.text = mrgInvitationCard.pair![0].bride!.name.toString();
+    brideNameController.text = mrgInvitationCard.pair![0].bride!.enName.toString();
+
+    varRajaNuNameController.text = mrgInvitationCard.pair![0].groom!.name.toString();
+    groomNameController.text = mrgInvitationCard.pair![0].groom!.enName.toString();
+
+    mrgDateGujarati = mrgInvitationCard.pair![0].marriageDate.toString();
+    mrgDate = mrgInvitationCard.pair![0].enMarriageDate.toString();
+    mrgDateDay = mrgInvitationCard.pair![0].marriageDay.toString();
+    update([Constant.idGroomPaksh,Constant.idBridePaksh]);
+    /*End For VarPaksh and KanyaPaksh Data*/
+
+    /*====================================================================================*/
+
+    /*Start For Nimantrak Data*/
+    var listNimantrakNameGet = mrgInvitationCard.inviter!.name;
+    for(int i =0; i<listNimantrakNameGet!.length; i++){
+      listNimantrakName.add(listNimantrakNameGet[i]);
+      // listNimantrakName[listNimantrakName.indexOf(listNimantrakName[i])] = listNimantrakNameGet[i];
+      changeValueInListForNimantrak(i, Constant.typeNimantrakName, listNimantrakNameGet[i]);
+    }
+
+    var listNimantrakMnoGet = mrgInvitationCard.inviter!.contactNo;
+    for(int i =0; i<listNimantrakMnoGet!.length; i++){
+      listNimantrakMno.add(listNimantrakMnoGet[i]);
+      // listNimantrakMno[listNimantrakMno.indexOf(listNimantrakMno[i])] = listNimantrakMnoGet[i];
+      changeValueInListForNimantrak(i, Constant.typeNimantrakMobile, listNimantrakMnoGet[i]);
+    }
+
+    var listNimantrakAddressGet = mrgInvitationCard.inviter!.address;
+    for(int i =0; i<listNimantrakAddressGet!.length; i++){
+      listNimantrakAddress.add(listNimantrakAddressGet[i]);
+      // listNimantrakAddress[listNimantrakAddress.indexOf(listNimantrakAddress[i])] = listNimantrakAddressGet[i];
+      changeValueInListForNimantrak(i, Constant.typeNimantrakSarnamu, listNimantrakAddressGet[i]);
+    }
+    Debug.printLog("Nimantrak Data===>> $listNimantrakName  $listNimantrakMno $listNimantrakAddress");
+    update([Constant.idAddNimantrakPart]);
+    /*End For Nimantrak Data*/
+
+
+    /*Start For Function Data*/
+    var functionsListGet =  mrgInvitationCard.functions!;
+    for(var i = 0 ; i < functionsListGet.length ; i ++){
+      var functions = functionsListGet[i];
+      functionsList.add(FunctionsNimantrakName(functions.functionId! ?? "", functions.functionName ?? "", functions.inviter!, functions.functionDate ?? "", functions.functionTime ?? "",
+          functions.functionPlace ?? "", functions.message ?? ""));
+    }
+    update([Constant.idFunctionsPart]);
+    /*End For Function Data*/
+
+    /*====================================================================================*/
+
+    /*Start For Amantrak*/
+    var groomAmantrak = mrgInvitationCard.invitation!.groomInviter;
+    if(groomAmantrak != null){
+      if(groomAmantrak.values!.date != null) {
+        mrgDateDay = groomAmantrak.values!.date!;
+      }
+
+      if(groomAmantrak.values!.date != null) {
+        mrgDateGujarati = groomAmantrak.values!.day!;
+      }
+
+      if(groomAmantrak.values!.godName != null) {
+        groomGodNameController.text = groomAmantrak.values!.godName!;
+      }
+
+      if(groomAmantrak.values!.motherName != null) {
+        groomMotherNameController.text = groomAmantrak.values!.motherName!;
+      }
+
+      if(groomAmantrak.values!.fatherName != null) {
+        groomFatherNameController.text = groomAmantrak.values!.fatherName!;
+      }
+
+      if(groomAmantrak.values!.hometownName != null) {
+        groomVillageNameController.text = groomAmantrak.values!.hometownName!;
+      }
+    }
+
+    var brideAmantrak = mrgInvitationCard.invitation!.brideInviter;
+    if(brideAmantrak != null){
+      if(brideAmantrak.values!.date != null) {
+        mrgDateDay = brideAmantrak.values!.date!;
+      }
+
+      if(brideAmantrak.values!.date != null) {
+        mrgDateGujarati = brideAmantrak.values!.day!;
+      }
+
+      if(brideAmantrak.values!.godName != null) {
+        brideGodController.text = brideAmantrak.values!.godName!;
+      }
+
+      if(brideAmantrak.values!.motherName != null) {
+        brideMotherNameController.text = brideAmantrak.values!.motherName!;
+      }
+
+      if(brideAmantrak.values!.fatherName != null) {
+        brideFatherNameController.text = brideAmantrak.values!.fatherName!;
+      }
+
+      if(brideAmantrak.values!.hometownName != null) {
+        brideVillageNameController.text = brideAmantrak.values!.hometownName!;
+      }
+    }
+
+    /*2 Dropdown Pending*/
+    update([Constant.idInviterPart]);
+    /*End For Amantrak*/
+
+    /*====================================================================================*/
+
+    /*Start For Guest All Names Data*/
+    var allNamesDataGetFirst = mrgInvitationCard.affectionate;
+    guestNamesList.add(GuestAllName(allNamesDataGetFirst!.title!, allNamesDataGetFirst.list!));
+    var allNamesDataGetSecond = mrgInvitationCard.affectionate;
+    guestNamesList.add(GuestAllName(allNamesDataGetSecond!.title!, allNamesDataGetSecond.list!));
+    var allNamesDataGetThird = mrgInvitationCard.affectionate;
+    guestNamesList.add(GuestAllName(allNamesDataGetThird!.title!, allNamesDataGetThird.list!));
+    var allNamesDataGetFourth = mrgInvitationCard.affectionate;
+    guestNamesList.add(GuestAllName(allNamesDataGetFourth!.title!, allNamesDataGetFourth.list!));
+    update([Constant.idGuestNameAll]);
+
+    /*End For Guest All Names Data*/
+
+    /*====================================================================================*/
+
+
+    /*Start For Tahuko Names Data*/
+    /*var tahukoInviterName = Chirping();
+    tahukoInviterName.html = dropDownTahukoMessage.toString();
+    tahukoInviterName.title = "txtTahuko".tr;
+    var listSelectChirp = listOfAllChirping.where((element) => element.html == dropDownTahukoMessage).toList();
+    tahukoInviterName.id = listSelectChirp[0].id;
+    tahukoInviterName.inviter = listOfTahukoChildName;
+    createData.marriageInvitationCard!.chirping = tahukoInviterName;*/
+    /*1 Dropdown Pending*/
+    update([Constant.idTahukoPart]);
+    /*End For Tahuko Names Data*/
+
+    /*====================================================================================*/
+
+    /*Start For Good Place Data*/
+    var goodPlace = mrgInvitationCard.auspiciousPlace;
+    goodPlaceNamesList.add(GoodPlaceAllName(goodPlace!.title!, goodPlace.address!, goodPlace.contactNo!, goodPlace.inviterName!));
+    var goodMrgPlace = mrgInvitationCard.auspiciousMarriagePlace;
+    goodPlaceNamesList.add(GoodPlaceAllName(goodMrgPlace!.title!, goodMrgPlace.address!, goodMrgPlace.contactNo!, goodMrgPlace.inviterName!));
+    update([Constant.idGoodPlaceAll]);
+    /*End For Good Place Data*/
+
+    /*====================================================================================*/
+
+    /*Start For Surname Data*/
+    atakController.text = mrgInvitationCard.inviterSurname!;
+    /*End For Surname Data*/
+
+    /*====================================================================================*/
+
+    /*Start For God's Data*/
+
+    /*var godDetailGetList = mrgInvitationCard.godDetails;
+
+
+    for(int i = 0; i<listOfAllGods.length;i++){
+      if(listOfAllGods[i].isSelected) {
+        var godDetail = GodDetail();
+        godDetail.id = listOfAllGods[i].id ?? "";
+        godDetail.name = listOfAllGods[i].name ?? "";
+        godDetail.image = listOfAllGods[i].image ?? "";
+        createData.marriageInvitationCard!.godDetails!.add(godDetail);
+      }*/
+    }
+    /*End For God's Data*/
   }
 
-}
 
 class FunctionsNimantrakName{
   String functionId = "";

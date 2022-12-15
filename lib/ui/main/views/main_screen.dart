@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/ui/category/views/category_screen.dart';
 import 'package:spotify_flutter_code/ui/contact/views/contact_screen.dart';
-import 'package:spotify_flutter_code/ui/favourite/views/favourite_screen.dart';
 import 'package:spotify_flutter_code/ui/home/views/home_screen.dart';
+import 'package:spotify_flutter_code/ui/yourCard/views/your_card_screen.dart';
 import 'package:spotify_flutter_code/utils/color.dart';
 import 'package:spotify_flutter_code/utils/sizer_utils.dart';
 import '../../../utils/debug.dart';
@@ -98,7 +98,7 @@ class MainScreen extends StatelessWidget {
           children: [
             HomeScreen(),
             CategoryScreen(),
-            FavouriteScreen(),
+            YourCardsScreen(),
             ContactScreen()
           ],
           onPageChanged: (pos) {

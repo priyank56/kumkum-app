@@ -702,20 +702,22 @@ class Chirping {
     String? title;
     String? id;
     String? html;
-    String? inviter;
+    List<String>? inviter;
 
     factory Chirping.fromJson(Map<String, dynamic> json) => Chirping(
         title: json["title"],
         id: json["id"],
         html: json["html"],
-        inviter: json["inviter"],
+        // inviter: json["inviter"],
+        inviter: List<String>.from(json["inviter"].map((x) => x)),
     );
 
     Map<String, dynamic> toJson() => {
         "title": title,
         "_id": id,
         "html": html,
-        "inviter": inviter,
+        // "inviter": inviter,
+        "inviter": List<String>.from(inviter!.map((x) => x)),
     };
 }
 

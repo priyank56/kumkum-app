@@ -16,4 +16,9 @@ class NewKankotriDataModel {
     DioClient dioClient = DioClient(context);
     return Repository(dioClient).getInfo(this,mrgType,context);
   }
+
+  Future<NewKankotriData> getAllInvitationCards(BuildContext context) {
+    DioClient dioClient = DioClient(context);
+    return Repository(dioClient).getYourInvitationCard(this,context);
+  }
 }

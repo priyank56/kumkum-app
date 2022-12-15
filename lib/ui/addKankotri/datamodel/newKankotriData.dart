@@ -12,28 +12,28 @@ class NewKankotriData {
     NewKankotriData({
         this.status,
         this.message,
-        // this.result,
+        this.result,
     });
 
     int? status;
     String? message;
-    // Result? result;
+    List<ResultGet>? result;
 
     factory NewKankotriData.fromJson(Map<String, dynamic> json) => NewKankotriData(
         status: json["status"],
         message: json["message"],
-        // result: Result.fromJson(json["result"]),
+        result: List<ResultGet>.from(json["result"].map((x) => ResultGet.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        // "result": result!.toJson(),
+        "result": List<dynamic>.from(result!.map((x) => x.toJson())),
     };
 }
 
-class Result {
-    Result({
+class ResultGet {
+    ResultGet({
         this.marriageInvitationCardId,
         this.marriageInvitationCardName,
         this.email,
@@ -53,11 +53,11 @@ class Result {
     String? marriageInvitationCardType;
     String? layoutDesignId;
     String? id;
-    DateTime? createdAt;
-    DateTime? updatedAt;
+    String? createdAt;
+    String? updatedAt;
     int? v;
 
-    factory Result.fromJson(Map<String, dynamic> json) => Result(
+    factory ResultGet.fromJson(Map<String, dynamic> json) => ResultGet(
         marriageInvitationCardId: json["marriageInvitationCardId"],
         marriageInvitationCardName: json["marriageInvitationCardName"],
         email: json["email"],
@@ -65,8 +65,8 @@ class Result {
         marriageInvitationCardType: json["marriageInvitationCardType"],
         layoutDesignId: json["layoutDesignId"],
         id: json["_id"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        createdAt: json["createdAt"],
+        updatedAt: json["updatedAt"],
         v: json["__v"],
     );
 
@@ -78,8 +78,8 @@ class Result {
         "marriageInvitationCardType": marriageInvitationCardType,
         "layoutDesignId": layoutDesignId,
         "_id": id,
-        "createdAt": createdAt!.toIso8601String(),
-        "updatedAt": updatedAt!.toIso8601String(),
+        "createdAt": createdAt,
+        "updatedAt": updatedAt,
         "__v": v,
     };
 }
@@ -274,7 +274,7 @@ class FunctionsRes {
 
     String? functionId;
     dynamic functionName;
-    DateTime? functionDate;
+    String? functionDate;
     String? functionTime;
     String? message;
     List<String>? inviter;
@@ -284,7 +284,7 @@ class FunctionsRes {
     factory FunctionsRes.fromJson(Map<String, dynamic> json) => FunctionsRes(
         functionId: json["functionId"],
         functionName: json["functionName"],
-        functionDate: DateTime.parse(json["functionDate"]),
+        functionDate: json["functionDate"],
         functionTime: json["functionTime"],
         message: json["message"],
         inviter: List<String>.from(json["inviter"].map((x) => x)),
@@ -295,7 +295,7 @@ class FunctionsRes {
     Map<String, dynamic> toJson() => {
         "functionId": functionId,
         "functionName": functionName,
-        "functionDate": "${functionDate!.year.toString().padLeft(4, '0')}-${functionDate!.month.toString().padLeft(2, '0')}-${functionDate!.day.toString().padLeft(2, '0')}",
+        "functionDate": functionDate,
         "functionTime": functionTime,
         "message": message,
         "inviter": List<dynamic>.from(inviter!.map((x) => x)),
@@ -374,6 +374,7 @@ class BrideInviterRes {
 
 class BrideInviterValuesRes {
     BrideInviterValuesRes({
+        this.godName,
         this.motherName,
         this.fatherName,
         this.hometownName,
@@ -381,25 +382,28 @@ class BrideInviterValuesRes {
         this.day,
     });
 
+    String? godName;
     String? motherName;
     String? fatherName;
     String? hometownName;
-    DateTime? date;
+    String? date;
     String? day;
 
     factory BrideInviterValuesRes.fromJson(Map<String, dynamic> json) => BrideInviterValuesRes(
+        godName: json["godName"],
         motherName: json["motherName"],
         fatherName: json["fatherName"],
         hometownName: json["hometownName"],
-        date: DateTime.parse(json["date"]),
+        date: json["date"],
         day: json["day"],
     );
 
     Map<String, dynamic> toJson() => {
+        "godName": godName,
         "motherName": motherName,
         "fatherName": fatherName,
         "hometownName": hometownName,
-        "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+        "date": date,
         "day": day,
     };
 }
@@ -438,18 +442,24 @@ class GroomInviterValuesRes {
         this.motherName,
         this.fatherName,
         this.hometownName,
+        this.date,
+        this.day,
     });
 
     String? godName;
     String? motherName;
     String? fatherName;
     String? hometownName;
+    String? date;
+    String? day;
 
     factory GroomInviterValuesRes.fromJson(Map<String, dynamic> json) => GroomInviterValuesRes(
         godName: json["godName"],
         motherName: json["motherName"],
         fatherName: json["fatherName"],
         hometownName: json["hometownName"],
+        date: json["date"],
+        day: json["day"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -457,6 +467,8 @@ class GroomInviterValuesRes {
         "motherName": motherName,
         "fatherName": fatherName,
         "hometownName": hometownName,
+        "date": date,
+        "day": day,
     };
 }
 
@@ -499,23 +511,23 @@ class PairRes {
 
     BrideRes? bride;
     BrideRes? groom;
-    DateTime? marriageDate;
-    DateTime? enMarriageDate;
+    String? marriageDate;
+    String? enMarriageDate;
     String? marriageDay;
 
     factory PairRes.fromJson(Map<String, dynamic> json) => PairRes(
         bride: BrideRes.fromJson(json["bride"]),
         groom: BrideRes.fromJson(json["groom"]),
-        marriageDate: DateTime.parse(json["marriageDate"]),
-        enMarriageDate: DateTime.parse(json["enMarriageDate"]),
+        marriageDate: json["marriageDate"],
+        enMarriageDate: json["enMarriageDate"],
         marriageDay: json["marriageDay"],
     );
 
     Map<String, dynamic> toJson() => {
         "bride": bride!.toJson(),
         "groom": groom!.toJson(),
-        "marriageDate": "${marriageDate!.year.toString().padLeft(4, '0')}-${marriageDate!.month.toString().padLeft(2, '0')}-${marriageDate!.day.toString().padLeft(2, '0')}",
-        "enMarriageDate": "${enMarriageDate!.year.toString().padLeft(4, '0')}-${enMarriageDate!.month.toString().padLeft(2, '0')}-${enMarriageDate!.day.toString().padLeft(2, '0')}",
+        "marriageDate": marriageDate,
+        "enMarriageDate": enMarriageDate,
         "marriageDay": marriageDay,
     };
 }

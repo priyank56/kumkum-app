@@ -6,8 +6,6 @@ import 'package:spotify_flutter_code/ui/addKankotri/bindings/add_kankotri_bindin
 import 'package:spotify_flutter_code/ui/addKankotri/views/add_kankotri_screen.dart';
 import 'package:spotify_flutter_code/ui/category/bindings/category_binding.dart';
 import 'package:spotify_flutter_code/ui/contact/views/contact_screen.dart';
-import 'package:spotify_flutter_code/ui/favourite/bindings/favourite_binding.dart';
-import 'package:spotify_flutter_code/ui/favourite/views/favourite_screen.dart';
 import 'package:spotify_flutter_code/ui/forgotpass/bindings/forgot_binding.dart';
 import 'package:spotify_flutter_code/ui/login/bindings/login_binding.dart';
 import 'package:spotify_flutter_code/ui/main/bindings/main_binding.dart';
@@ -18,12 +16,14 @@ import 'package:spotify_flutter_code/ui/preview/bindings/preview_binding.dart';
 import 'package:spotify_flutter_code/ui/preview/views/preview_screen.dart';
 import 'package:spotify_flutter_code/ui/signup/bindings/signup_binding.dart';
 import 'package:spotify_flutter_code/ui/signup/views/signup_screen.dart';
+import 'package:spotify_flutter_code/ui/yourCard/views/your_card_screen.dart';
 import '../ui/category/views/category_screen.dart';
 import '../ui/contact/bindings/contact_binding.dart';
 import '../ui/forgotpass/views/forgot_screen.dart';
 import '../ui/home/bindings/home_binding.dart';
 import '../ui/home/views/home_screen.dart';
 import '../ui/login/views/login_screen.dart';
+import '../ui/yourCard/bindings/your_card_binding.dart';
 import '../utils/color.dart';
 import 'app_routes.dart';
 
@@ -137,9 +137,9 @@ class AppPages {
       transition: Transition.fade,
     ),
     GetPage(
-      name: AppRoutes.favourite,
-      page: () => const FavouriteScreen(),
-      binding: FavouriteBinding(),
+      name: AppRoutes.yourCard,
+      page: () => const YourCardsScreen(),
+      binding: YourCardBinding(),
       transition: Transition.fade,
     ),
     GetPage(

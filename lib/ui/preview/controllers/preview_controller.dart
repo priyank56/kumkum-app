@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:get/get.dart';
+import 'package:spotify_flutter_code/datamodel/createData.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 
@@ -17,6 +18,8 @@ class PreviewController extends GetxController {
   String? selectedValue;
 
   List<String> listTitle = [];
+  CreateData createData = CreateData();
+  dynamic argument = Get.arguments;
 
 
   changeAdvanced(){
@@ -50,6 +53,12 @@ class PreviewController extends GetxController {
   void onInit() {
     super.onInit();
     isShowProgress = true;
+    if(argument != null){
+      if(argument[0] != null){
+        createData = argument[0];
+        Debug.printLog("createData==>> Preview==>> ${jsonEncode(createData)}");
+      }
+    }
     selectedSendWp = Constant.selectedSendWpSarvo;
     displayDefaultVal = "txtSarvo".tr;
 

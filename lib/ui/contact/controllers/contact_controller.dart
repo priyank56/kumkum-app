@@ -12,9 +12,9 @@ class ContactController extends GetxController {
 
   changeBottomViewPos(int pos){
     currentPos = pos;
-    /*if(pos == 2){
+    if(pos == 2){
       getAllContact();
-    }*/
+    }
     update([Constant.idNextPrevious,Constant.idBottomText,Constant.idBottomViewPos,Constant.idMainPage,]);
   }
 

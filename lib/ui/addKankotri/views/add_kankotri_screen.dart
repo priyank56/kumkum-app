@@ -34,10 +34,10 @@ class AddKankotriScreen extends StatelessWidget {
             GetBuilder<AddKankotriController>(
                 id: Constant.isShowProgressUpload,
                 builder: (logic) {
-              return ProgressDialog(
-                  inAsyncCall: logic.isShowProgress,
-                  child: Container());
-            }),
+                  return ProgressDialog(
+                      inAsyncCall: logic.isShowProgress,
+                      child: Container());
+                }),
           ],
         ),
       ),
@@ -125,14 +125,18 @@ class AddKankotriScreen extends StatelessWidget {
         builder: (logic) {
           return InkWell(
             onTap: () async {
-              if (await Permission.storage.request().isGranted) {
+              if (await Permission.storage
+                  .request()
+                  .isGranted) {
                 showOptionsDialog(contex, logic);
               } else if (await Permission.storage
                   .request()
                   .isPermanentlyDenied) {
                 await openAppSettings();
               }
-              if (await Permission.storage.request().isDenied) {
+              if (await Permission.storage
+                  .request()
+                  .isDenied) {
                 Get.back();
               }
             },
@@ -140,213 +144,237 @@ class AddKankotriScreen extends StatelessWidget {
               margin: EdgeInsets.only(top: Sizes.height_3),
               child: (logic.imgFile == null)
                   ? Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          height: Sizes.height_15,
-                          width: Sizes.height_15,
-                          decoration: const BoxDecoration(
-                            color: CColor.grayDark,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        SvgPicture.asset(
-                          'assets/svg/ic_image.svg',
-                          color: CColor.gray,
-                          width: Sizes.height_5,
-                          height: Sizes.height_5,
-                        ),
-                      ],
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(Sizes.height_20),
-                      child: SizedBox(
-                        height: Sizes.height_15,
-                        width: Sizes.height_15,
-                        child: Image.file(
-                          logic.imgFile!,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: Sizes.height_15,
+                    width: Sizes.height_15,
+                    decoration: const BoxDecoration(
+                      color: CColor.grayDark,
+                      shape: BoxShape.circle,
                     ),
+                  ),
+                  SvgPicture.asset(
+                    'assets/svg/ic_image.svg',
+                    color: CColor.gray,
+                    width: Sizes.height_5,
+                    height: Sizes.height_5,
+                  ),
+                ],
+              )
+                  : ClipRRect(
+                borderRadius: BorderRadius.circular(Sizes.height_20),
+                child: SizedBox(
+                  height: Sizes.height_15,
+                  width: Sizes.height_15,
+                  child: Image.file(
+                    logic.imgFile!,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
             ),
           );
         });
   }
 
   Widget _varPaksh(AddKankotriController logic, BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(top: Sizes.height_3),
-          child: Row(
-            children: [
-              const Expanded(
-                child: Divider(
-                  thickness: 2,
-                  color: CColor.black,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
-                child: Text(
-                  "txtVarPaksh".tr,
-                  style: TextStyle(
-                    color: CColor.grayDark,
-                    fontSize: FontSize.size_14,
-                    fontFamily: Constant.appFont,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              const Expanded(
-                child: Divider(
-                  thickness: 2,
-                  color: CColor.black,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: Sizes.height_3),
-          child: Row(
+    return GetBuilder<AddKankotriController>(
+        id: Constant.idGroomPaksh,
+        builder: (logic) {
+          return Column(
             children: [
               Container(
-                height: Utils.getAddKankotriHeight(),
-                width: MediaQuery.of(context).size.width * 0.9,
-                color: CColor.white70,
-                // margin: EdgeInsets.only(left: Sizes.width_5),
-                child: TextField(
-                  controller: logic.varRajaNuNameController,
-                  decoration: InputDecoration(
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(width: 2, color: CColor.grayDark),
+                margin: EdgeInsets.only(top: Sizes.height_3),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: Divider(
+                        thickness: 2,
+                        color: CColor.black,
+                      ),
                     ),
-                    border: const OutlineInputBorder(),
-                    labelText: 'txtVarRajaNuName'.tr,
-                    labelStyle: const TextStyle(color: CColor.grayDark),
-                    hintText: 'txtName'.tr,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: Sizes.height_3),
-          child: Row(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: Utils.getAddKankotriHeight(),
-                color: CColor.white70,
-                // margin: EdgeInsets.only(left: Sizes.width_5),
-                child: TextField(
-                  controller: logic.groomNameController,
-                  decoration: InputDecoration(
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(width: 2, color: CColor.grayDark),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
+                      child: Text(
+                        "txtVarPaksh".tr,
+                        style: TextStyle(
+                          color: CColor.grayDark,
+                          fontSize: FontSize.size_14,
+                          fontFamily: Constant.appFont,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ),
-                    border: const OutlineInputBorder(),
-                    labelText: 'txtGroomName'.tr,
-                    labelStyle: const TextStyle(color: CColor.grayDark),
-                    hintText: 'txtNameEn'.tr,
-                  ),
+                    const Expanded(
+                      child: Divider(
+                        thickness: 2,
+                        color: CColor.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: Sizes.height_3),
+                child: Row(
+                  children: [
+                    Container(
+                      height: Utils.getAddKankotriHeight(),
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.9,
+                      color: CColor.white70,
+                      // margin: EdgeInsets.only(left: Sizes.width_5),
+                      child: TextField(
+                        controller: logic.varRajaNuNameController,
+                        decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2, color: CColor.grayDark),
+                          ),
+                          border: const OutlineInputBorder(),
+                          labelText: 'txtVarRajaNuName'.tr,
+                          labelStyle: const TextStyle(color: CColor.grayDark),
+                          hintText: 'txtName'.tr,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: Sizes.height_3),
+                child: Row(
+                  children: [
+                    Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.9,
+                      height: Utils.getAddKankotriHeight(),
+                      color: CColor.white70,
+                      // margin: EdgeInsets.only(left: Sizes.width_5),
+                      child: TextField(
+                        controller: logic.groomNameController,
+                        decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2, color: CColor.grayDark),
+                          ),
+                          border: const OutlineInputBorder(),
+                          labelText: 'txtGroomName'.tr,
+                          labelStyle: const TextStyle(color: CColor.grayDark),
+                          hintText: 'txtNameEn'.tr,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
-        ),
-      ],
-    );
+          );
+        });
   }
 
   Widget _kanyaPaksh(AddKankotriController logic, BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(top: Sizes.height_3),
-          child: Row(
-            children: [
-              const Expanded(
-                child: Divider(
-                  thickness: 2,
-                  color: CColor.black,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
-                child: Text(
-                  "txtKanyaPaksh".tr,
-                  style: TextStyle(
-                    color: CColor.grayDark,
-                    fontSize: FontSize.size_14,
-                    fontFamily: Constant.appFont,
-                    fontWeight: FontWeight.w700,
+    return GetBuilder<AddKankotriController>(
+        id: Constant.idBridePaksh,
+        builder: (logic) {
+      return Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: Sizes.height_3),
+            child: Row(
+              children: [
+                const Expanded(
+                  child: Divider(
+                    thickness: 2,
+                    color: CColor.black,
                   ),
                 ),
-              ),
-              const Expanded(
-                child: Divider(
-                  thickness: 2,
-                  color: CColor.black,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: Sizes.height_3),
-          child: Row(
-            children: [
-              Container(
-                height: Utils.getAddKankotriHeight(),
-                width: MediaQuery.of(context).size.width * 0.9,
-                color: CColor.white70,
-                // margin: EdgeInsets.only(left: Sizes.width_5),
-                child: TextField(
-                  controller: logic.kanyaNuNameController,
-                  decoration: InputDecoration(
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(width: 2, color: CColor.grayDark),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
+                  child: Text(
+                    "txtKanyaPaksh".tr,
+                    style: TextStyle(
+                      color: CColor.grayDark,
+                      fontSize: FontSize.size_14,
+                      fontFamily: Constant.appFont,
+                      fontWeight: FontWeight.w700,
                     ),
-                    border: const OutlineInputBorder(),
-                    labelText: 'txtKanyaNuName'.tr,
-                    labelStyle: const TextStyle(color: CColor.grayDark),
-                    hintText: 'txtName'.tr,
                   ),
                 ),
-              ),
-            ],
+                const Expanded(
+                  child: Divider(
+                    thickness: 2,
+                    color: CColor.black,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: Sizes.height_3),
-          child: Row(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                color: CColor.white70,
-                height: Utils.getAddKankotriHeight(),
-                child: TextField(
-                  controller: logic.brideNameController,
-                  decoration: InputDecoration(
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(width: 2, color: CColor.grayDark),
+          Container(
+            margin: EdgeInsets.only(top: Sizes.height_3),
+            child: Row(
+              children: [
+                Container(
+                  height: Utils.getAddKankotriHeight(),
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.9,
+                  color: CColor.white70,
+                  // margin: EdgeInsets.only(left: Sizes.width_5),
+                  child: TextField(
+                    controller: logic.kanyaNuNameController,
+                    decoration: InputDecoration(
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 2, color: CColor.grayDark),
+                      ),
+                      border: const OutlineInputBorder(),
+                      labelText: 'txtKanyaNuName'.tr,
+                      labelStyle: const TextStyle(color: CColor.grayDark),
+                      hintText: 'txtName'.tr,
                     ),
-                    border: const OutlineInputBorder(),
-                    labelText: 'txtBrideName'.tr,
-                    labelStyle: const TextStyle(color: CColor.grayDark),
-                    hintText: 'txtNameEn'.tr,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    );
+          Container(
+            margin: EdgeInsets.only(top: Sizes.height_3),
+            child: Row(
+              children: [
+                Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.9,
+                  color: CColor.white70,
+                  height: Utils.getAddKankotriHeight(),
+                  child: TextField(
+                    controller: logic.brideNameController,
+                    decoration: InputDecoration(
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 2, color: CColor.grayDark),
+                      ),
+                      border: const OutlineInputBorder(),
+                      labelText: 'txtBrideName'.tr,
+                      labelStyle: const TextStyle(color: CColor.grayDark),
+                      hintText: 'txtNameEn'.tr,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    });
   }
 
   Widget _mrgTarikh(AddKankotriController logic, BuildContext context) {
@@ -392,7 +420,10 @@ class AddKankotriScreen extends StatelessWidget {
                   children: [
                     Container(
                       height: Utils.getAddKankotriHeight(),
-                      width: MediaQuery.of(context).size.width * 0.9,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.9,
                       color: CColor.white70,
                       child: TextField(
                         // controller: logic.marriageDateController,
@@ -414,7 +445,7 @@ class AddKankotriScreen extends StatelessWidget {
                                 minWidth: Sizes.height_3),
                             focusedBorder: const OutlineInputBorder(
                               borderSide:
-                                  BorderSide(width: 2, color: CColor.grayDark),
+                              BorderSide(width: 2, color: CColor.grayDark),
                             ),
                             // labelText: (logic.mrgDate != "")?logic.mrgDate:'txtTarikh'.tr,
                             border: const OutlineInputBorder(),
@@ -514,7 +545,10 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
               margin: EdgeInsets.only(
                 top: Sizes.height_1,
               ),
@@ -540,19 +574,23 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  Widget _listViewNimantrakName(
-      BuildContext context, int index, AddKankotriController logic) {
+  Widget _listViewNimantrakName(BuildContext context, int index,
+      AddKankotriController logic) {
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         color: CColor.white70,
         child: TextField(
           onChanged: (value) {
             logic.changeValueInListForNimantrak(
                 index, Constant.typeNimantrakName, value);
           },
+          controller: logic.nimantrakNameController[index],
           decoration: InputDecoration(
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(width: 2, color: CColor.grayDark),
@@ -560,16 +598,16 @@ class AddKankotriScreen extends StatelessWidget {
             suffixIcon: (logic.listNimantrakName.length == 1)
                 ? null
                 : InkWell(
-                    onTap: () {
-                      logic.addNimantrakNameListData(false, index: index);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(Sizes.height_1),
-                      child: SvgPicture.asset(
-                        "assets/svg/ic_close.svg",
-                      ),
-                    ),
-                  ),
+              onTap: () {
+                logic.addNimantrakNameListData(false, index: index);
+              },
+              child: Container(
+                padding: EdgeInsets.all(Sizes.height_1),
+                child: SvgPicture.asset(
+                  "assets/svg/ic_close.svg",
+                ),
+              ),
+            ),
             suffixIconConstraints: BoxConstraints(
                 minHeight: Sizes.height_3, minWidth: Sizes.height_3),
             border: const OutlineInputBorder(),
@@ -584,8 +622,8 @@ class AddKankotriScreen extends StatelessWidget {
 
   /*િમંત્રક સરનામું*/
 
-  Widget _nimantrakAddressPart(
-      BuildContext context, AddKankotriController logic) {
+  Widget _nimantrakAddressPart(BuildContext context,
+      AddKankotriController logic) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -620,7 +658,10 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
               margin: EdgeInsets.only(
                 top: Sizes.height_1,
               ),
@@ -646,15 +687,19 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  Widget _listViewNimantrakAddress(
-      BuildContext context, int index, AddKankotriController logic) {
+  Widget _listViewNimantrakAddress(BuildContext context, int index,
+      AddKankotriController logic) {
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         color: CColor.white70,
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         child: TextField(
+          controller: logic.nimantrakAddressController[index],
           onChanged: (value) {
             logic.changeValueInListForNimantrak(
                 index, Constant.typeNimantrakSarnamu, value);
@@ -666,16 +711,16 @@ class AddKankotriScreen extends StatelessWidget {
             suffixIcon: (logic.listNimantrakAddress.length == 1)
                 ? null
                 : InkWell(
-                    onTap: () {
-                      logic.addNimantrakAddressListData(false, index: index);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(Sizes.height_1),
-                      child: SvgPicture.asset(
-                        "assets/svg/ic_close.svg",
-                      ),
-                    ),
-                  ),
+              onTap: () {
+                logic.addNimantrakAddressListData(false, index: index);
+              },
+              child: Container(
+                padding: EdgeInsets.all(Sizes.height_1),
+                child: SvgPicture.asset(
+                  "assets/svg/ic_close.svg",
+                ),
+              ),
+            ),
             suffixIconConstraints: BoxConstraints(
                 minHeight: Sizes.height_3, minWidth: Sizes.height_3),
             border: const OutlineInputBorder(),
@@ -690,8 +735,8 @@ class AddKankotriScreen extends StatelessWidget {
 
   /*િમંત્રક મોબાઈલ*/
 
-  Widget _nimantrakMobilePart(
-      BuildContext context, AddKankotriController logic) {
+  Widget _nimantrakMobilePart(BuildContext context,
+      AddKankotriController logic) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -726,7 +771,10 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
               margin: EdgeInsets.only(top: Sizes.height_1),
               padding: EdgeInsets.symmetric(
                   horizontal: Sizes.width_4, vertical: Sizes.height_1),
@@ -750,15 +798,19 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  Widget _listViewNimantrakMobile(
-      BuildContext context, int index, AddKankotriController logic) {
+  Widget _listViewNimantrakMobile(BuildContext context, int index,
+      AddKankotriController logic) {
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         color: CColor.white70,
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         child: TextField(
+          controller: logic.nimantrakMnoController[index],
           onChanged: (value) {
             logic.changeValueInListForNimantrak(
                 index, Constant.typeNimantrakMobile, value);
@@ -770,16 +822,16 @@ class AddKankotriScreen extends StatelessWidget {
             suffixIcon: (logic.listNimantrakMno.length == 1)
                 ? null
                 : InkWell(
-                    onTap: () {
-                      logic.addNimantrakMnoListData(false, index: index);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(Sizes.height_1),
-                      child: SvgPicture.asset(
-                        "assets/svg/ic_close.svg",
-                      ),
-                    ),
-                  ),
+              onTap: () {
+                logic.addNimantrakMnoListData(false, index: index);
+              },
+              child: Container(
+                padding: EdgeInsets.all(Sizes.height_1),
+                child: SvgPicture.asset(
+                  "assets/svg/ic_close.svg",
+                ),
+              ),
+            ),
             suffixIconConstraints: BoxConstraints(
                 minHeight: Sizes.height_3, minWidth: Sizes.height_3),
             border: const OutlineInputBorder(),
@@ -881,7 +933,7 @@ class AddKankotriScreen extends StatelessWidget {
                           minHeight: Sizes.height_3, minWidth: Sizes.height_3),
                       focusedBorder: const OutlineInputBorder(
                         borderSide:
-                            BorderSide(width: 2, color: CColor.grayDark),
+                        BorderSide(width: 2, color: CColor.grayDark),
                       ),
                       border: const OutlineInputBorder(),
                       hintText: (functionsList[index].functionDate != "")
@@ -925,7 +977,7 @@ class AddKankotriScreen extends StatelessWidget {
                           minHeight: Sizes.height_3, minWidth: Sizes.height_3),
                       focusedBorder: const OutlineInputBorder(
                         borderSide:
-                            BorderSide(width: 2, color: CColor.grayDark),
+                        BorderSide(width: 2, color: CColor.grayDark),
                       ),
                       border: const OutlineInputBorder(),
                       // labelText: 'txtKanyaNuName'.tr,
@@ -985,15 +1037,15 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  Widget _functionsNimantrakNamePart(
-      BuildContext context, int mainIndex, AddKankotriController logic) {
+  Widget _functionsNimantrakNamePart(BuildContext context, int mainIndex,
+      AddKankotriController logic) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
           alignment: Alignment.centerLeft,
           margin:
-              EdgeInsets.only(bottom: Sizes.height_0_5, top: Sizes.height_2),
+          EdgeInsets.only(bottom: Sizes.height_0_5, top: Sizes.height_2),
           child: AutoSizeText(
             maxLines: 1,
             "txtNimantrak".tr,
@@ -1023,7 +1075,10 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
               margin: EdgeInsets.only(top: Sizes.height_1),
               padding: EdgeInsets.symmetric(
                   horizontal: Sizes.width_4, vertical: Sizes.height_1),
@@ -1053,7 +1108,10 @@ class AddKankotriScreen extends StatelessWidget {
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         color: CColor.white70,
         child: TextField(
           onChanged: (value) {
@@ -1067,17 +1125,17 @@ class AddKankotriScreen extends StatelessWidget {
             suffixIcon: (logic.functionsList[mainIndex].listNames.length == 1)
                 ? null
                 : InkWell(
-                    onTap: () {
-                      logic.addRemoveFunctionsNimantrakName(false, mainIndex,
-                          index: index);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(Sizes.height_1),
-                      child: SvgPicture.asset(
-                        "assets/svg/ic_close.svg",
-                      ),
-                    ),
-                  ),
+              onTap: () {
+                logic.addRemoveFunctionsNimantrakName(false, mainIndex,
+                    index: index);
+              },
+              child: Container(
+                padding: EdgeInsets.all(Sizes.height_1),
+                child: SvgPicture.asset(
+                  "assets/svg/ic_close.svg",
+                ),
+              ),
+            ),
             suffixIconConstraints: BoxConstraints(
                 minHeight: Sizes.height_3, minWidth: Sizes.height_3),
             border: const OutlineInputBorder(),
@@ -1172,18 +1230,19 @@ class AddKankotriScreen extends StatelessWidget {
                   child: DropdownButton2(
                     isExpanded: true,
                     items: logic.listOfMessagesFromGroom
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: CColor.black,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ))
+                        .map((item) =>
+                        DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: CColor.black,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ))
                         .toList(),
                     value: logic.dropDownFromGroomMessage,
                     onChanged: (value) {
@@ -1233,7 +1292,8 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              (logic.listOfInvitersGroomMessage.isNotEmpty && logic.chirpingInfoGroom.values!.godName != null)?
+              (logic.listOfInvitersGroomMessage.isNotEmpty &&
+                  logic.chirpingInfoGroom.values!.godName != null) ?
               Container(
                 color: CColor.white70,
                 height: Utils.getAddKankotriHeight(),
@@ -1249,9 +1309,10 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtBhagavaNuName'.tr,
                   ),
                 ),
-              ):Container(),
+              ) : Container(),
 
-              (logic.listOfInvitersGroomMessage.isNotEmpty && logic.chirpingInfoGroom.values!.motherName != null)?
+              (logic.listOfInvitersGroomMessage.isNotEmpty &&
+                  logic.chirpingInfoGroom.values!.motherName != null) ?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -1270,9 +1331,10 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtMataNuName'.tr,
                   ),
                 ),
-              ):Container(),
+              ) : Container(),
 
-              (logic.listOfInvitersGroomMessage.isNotEmpty && logic.chirpingInfoGroom.values!.fatherName != null)?
+              (logic.listOfInvitersGroomMessage.isNotEmpty &&
+                  logic.chirpingInfoGroom.values!.fatherName != null) ?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -1291,9 +1353,10 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtPitajiNuName'.tr,
                   ),
                 ),
-              ):Container(),
+              ) : Container(),
 
-              (logic.listOfInvitersGroomMessage.isNotEmpty && logic.chirpingInfoGroom.values!.hometownName != null)?
+              (logic.listOfInvitersGroomMessage.isNotEmpty &&
+                  logic.chirpingInfoGroom.values!.hometownName != null) ?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -1312,7 +1375,7 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtGamNuName'.tr,
                   ),
                 ),
-              ):Container(),
+              ) : Container(),
             ],
           );
         });
@@ -1359,18 +1422,19 @@ class AddKankotriScreen extends StatelessWidget {
                   child: DropdownButton2(
                     isExpanded: true,
                     items: logic.listOfMessagesFromBride
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: CColor.black,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ))
+                        .map((item) =>
+                        DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: CColor.black,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ))
                         .toList(),
                     value: logic.dropDownFromBrideMessage,
                     onChanged: (value) {
@@ -1421,7 +1485,8 @@ class AddKankotriScreen extends StatelessWidget {
                 ),
               ),
 
-              (logic.listOfInvitersBrideMessage.isNotEmpty && logic.chirpingInfoBride.values!.motherName != null)?
+              (logic.listOfInvitersBrideMessage.isNotEmpty &&
+                  logic.chirpingInfoBride.values!.motherName != null) ?
               Container(
                 color: CColor.white70,
                 height: Utils.getAddKankotriHeight(),
@@ -1437,9 +1502,10 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtMataNuName'.tr,
                   ),
                 ),
-              ):Container(),
+              ) : Container(),
 
-              (logic.listOfInvitersBrideMessage.isNotEmpty && logic.chirpingInfoBride.values!.fatherName != null)?
+              (logic.listOfInvitersBrideMessage.isNotEmpty &&
+                  logic.chirpingInfoBride.values!.fatherName != null) ?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -1458,9 +1524,10 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtPitajiNuName'.tr,
                   ),
                 ),
-              ):Container(),
+              ) : Container(),
 
-              (logic.listOfInvitersBrideMessage.isNotEmpty && logic.chirpingInfoBride.values!.hometownName != null)?
+              (logic.listOfInvitersBrideMessage.isNotEmpty &&
+                  logic.chirpingInfoBride.values!.hometownName != null) ?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -1479,9 +1546,10 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtGamNuName'.tr,
                   ),
                 ),
-              ):Container(),
+              ) : Container(),
 
-              (logic.listOfInvitersBrideMessage.isNotEmpty && logic.chirpingInfoBride.values!.godName != null)?
+              (logic.listOfInvitersBrideMessage.isNotEmpty &&
+                  logic.chirpingInfoBride.values!.godName != null) ?
               Container(
                 margin: EdgeInsets.only(
                   top: Sizes.height_2,
@@ -1500,7 +1568,7 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtBhagavaNuName'.tr,
                   ),
                 ),
-              ):Container(),
+              ) : Container(),
 
               /*Container(
                 color: CColor.white70,
@@ -1618,7 +1686,10 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
               margin: EdgeInsets.only(
                 top: Sizes.height_1,
               ),
@@ -1650,7 +1721,10 @@ class AddKankotriScreen extends StatelessWidget {
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         color: CColor.white70,
         child: TextField(
           onChanged: (value) {
@@ -1661,20 +1735,20 @@ class AddKankotriScreen extends StatelessWidget {
               borderSide: BorderSide(width: 2, color: CColor.grayDark),
             ),
             suffixIcon:
-                (logic.guestNamesList[mainIndex].listOfGuestNames.length == 1)
-                    ? null
-                    : InkWell(
-                        onTap: () {
-                          logic.addRemoveGuestNamesName(false, mainIndex,
-                              index: index);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(Sizes.height_1),
-                          child: SvgPicture.asset(
-                            "assets/svg/ic_close.svg",
-                          ),
-                        ),
-                      ),
+            (logic.guestNamesList[mainIndex].listOfGuestNames.length == 1)
+                ? null
+                : InkWell(
+              onTap: () {
+                logic.addRemoveGuestNamesName(false, mainIndex,
+                    index: index);
+              },
+              child: Container(
+                padding: EdgeInsets.all(Sizes.height_1),
+                child: SvgPicture.asset(
+                  "assets/svg/ic_close.svg",
+                ),
+              ),
+            ),
             suffixIconConstraints: BoxConstraints(
                 minHeight: Sizes.height_3, minWidth: Sizes.height_3),
             border: const OutlineInputBorder(),
@@ -1733,18 +1807,19 @@ class AddKankotriScreen extends StatelessWidget {
                   child: DropdownButton2(
                     isExpanded: true,
                     items: logic.listOfAllStringChirping
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: CColor.black,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ))
+                        .map((item) =>
+                        DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: CColor.black,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ))
                         .toList(),
                     value: logic.dropDownTahukoMessage,
                     onChanged: (value) {
@@ -1779,7 +1854,8 @@ class AddKankotriScreen extends StatelessWidget {
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(top: Sizes.height_3, left: Sizes.width_1),
+                margin: EdgeInsets.only(
+                    top: Sizes.height_3, left: Sizes.width_1),
                 child: Text(
                   "txtAmantrakName".tr,
                   style: TextStyle(
@@ -1807,7 +1883,10 @@ class AddKankotriScreen extends StatelessWidget {
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.22,
                     margin: EdgeInsets.only(
                       top: Sizes.height_1,
                     ),
@@ -1834,11 +1913,15 @@ class AddKankotriScreen extends StatelessWidget {
         });
   }
 
-  _listViewTahukoChildNames(BuildContext context,int index,AddKankotriController logic){
+  _listViewTahukoChildNames(BuildContext context, int index,
+      AddKankotriController logic) {
     return Container(
-      margin: EdgeInsets.only(top:Sizes.height_1),
+      margin: EdgeInsets.only(top: Sizes.height_1),
       height: Utils.getAddKankotriHeight(),
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width * 0.9,
       color: CColor.white70,
       child: TextField(
         onChanged: (value) {
@@ -1941,7 +2024,10 @@ class AddKankotriScreen extends StatelessWidget {
         ),
         Container(
           height: Utils.getAddKankotriHeight(),
-          width: MediaQuery.of(context).size.width * 0.9,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.9,
           color: CColor.white70,
           child: TextField(
             onChanged: (value) {
@@ -1982,7 +2068,7 @@ class AddKankotriScreen extends StatelessWidget {
           },
           shrinkWrap: true,
           itemCount:
-              logic.goodPlaceNamesList[mainIndex].listOfAddressName.length,
+          logic.goodPlaceNamesList[mainIndex].listOfAddressName.length,
           physics: const NeverScrollableScrollPhysics(),
         ),
         Material(
@@ -1994,7 +2080,10 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
               margin: EdgeInsets.only(
                 top: Sizes.height_1,
               ),
@@ -2047,7 +2136,10 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.22,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.22,
               margin: EdgeInsets.only(
                 top: Sizes.height_1,
               ),
@@ -2073,8 +2165,7 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  Widget _listViewGoodAddress(
-      BuildContext context,
+  Widget _listViewGoodAddress(BuildContext context,
       int index,
       AddKankotriController logic,
       List<String> listOfAddressName,
@@ -2085,7 +2176,10 @@ class AddKankotriScreen extends StatelessWidget {
         children: [
           Container(
             height: Utils.getAddKankotriHeight(),
-            width: MediaQuery.of(context).size.width * 0.9,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 0.9,
             color: CColor.white70,
             child: TextField(
               onChanged: (value) {
@@ -2099,18 +2193,18 @@ class AddKankotriScreen extends StatelessWidget {
                 suffixIcon: (listOfAddressName.length == 1)
                     ? null
                     : InkWell(
-                        onTap: () {
-                          logic.addRemoveGoodPlaceNamesName(
-                              false, mainIndex, true,
-                              index: index);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(Sizes.height_1),
-                          child: SvgPicture.asset(
-                            "assets/svg/ic_close.svg",
-                          ),
-                        ),
-                      ),
+                  onTap: () {
+                    logic.addRemoveGoodPlaceNamesName(
+                        false, mainIndex, true,
+                        index: index);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(Sizes.height_1),
+                    child: SvgPicture.asset(
+                      "assets/svg/ic_close.svg",
+                    ),
+                  ),
+                ),
                 suffixIconConstraints: BoxConstraints(
                     minHeight: Sizes.height_3, minWidth: Sizes.height_3),
                 border: const OutlineInputBorder(),
@@ -2131,7 +2225,10 @@ class AddKankotriScreen extends StatelessWidget {
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         height: Utils.getAddKankotriHeight(),
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.9,
         color: CColor.white70,
         child: TextField(
           onChanged: (value) {
@@ -2145,17 +2242,17 @@ class AddKankotriScreen extends StatelessWidget {
             suffixIcon: (listOfMno.length == 1)
                 ? null
                 : InkWell(
-                    onTap: () {
-                      logic.addRemoveGoodPlaceNamesName(false, mainIndex, false,
-                          index: index);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(Sizes.height_1),
-                      child: SvgPicture.asset(
-                        "assets/svg/ic_close.svg",
-                      ),
-                    ),
-                  ),
+              onTap: () {
+                logic.addRemoveGoodPlaceNamesName(false, mainIndex, false,
+                    index: index);
+              },
+              child: Container(
+                padding: EdgeInsets.all(Sizes.height_1),
+                child: SvgPicture.asset(
+                  "assets/svg/ic_close.svg",
+                ),
+              ),
+            ),
             suffixIconConstraints: BoxConstraints(
                 minHeight: Sizes.height_3, minWidth: Sizes.height_3),
             border: const OutlineInputBorder(),
@@ -2208,7 +2305,10 @@ class AddKankotriScreen extends StatelessWidget {
             margin: EdgeInsets.only(top: Sizes.height_3),
             child: Container(
               height: Utils.getAddKankotriHeight(),
-              width: MediaQuery.of(context).size.width * 0.9,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.9,
               color: CColor.white70,
               child: TextField(
                 controller: logic.atakController,
@@ -2287,7 +2387,10 @@ class AddKankotriScreen extends StatelessWidget {
                     },
                     child: Container(
                       alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width * 0.9,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.9,
                       margin: EdgeInsets.only(
                         top: Sizes.height_3,
                       ),
@@ -2330,48 +2433,49 @@ class AddKankotriScreen extends StatelessWidget {
             children: [
               (godInformationList[index].image != "")
                   ? ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(50),
+                child: SizedBox(
+                  height: Sizes.height_10,
+                  width: Sizes.height_10,
+                  child: CachedNetworkImage(
+                    fadeInDuration: const Duration(milliseconds: 10),
+                    fadeOutDuration: const Duration(milliseconds: 10),
+                    fit: BoxFit.cover,
+                    imageUrl: godInformationList[index].image.toString(),
+                    placeholder: (context, url) =>
+                    const Center(
                       child: SizedBox(
-                        height: Sizes.height_10,
-                        width: Sizes.height_10,
-                        child: CachedNetworkImage(
-                          fadeInDuration: const Duration(milliseconds: 10),
-                          fadeOutDuration: const Duration(milliseconds: 10),
-                          fit: BoxFit.cover,
-                          imageUrl: godInformationList[index].image.toString(),
-                          placeholder: (context, url) => const Center(
-                            child: SizedBox(
-                              width: 60.0,
-                              height: 60.0,
-                              child: CircularProgressIndicator(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : SizedBox(
-                      height: Sizes.height_10,
-                      width: Sizes.height_10,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            height: Sizes.height_10,
-                            width: Sizes.height_10,
-                            decoration: const BoxDecoration(
-                              color: CColor.grayDark,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          SvgPicture.asset(
-                            'assets/svg/ic_image.svg',
-                            color: CColor.gray,
-                            width: Sizes.height_5,
-                            height: Sizes.height_5,
-                          ),
-                        ],
+                        width: 60.0,
+                        height: 60.0,
+                        child: CircularProgressIndicator(),
                       ),
                     ),
+                  ),
+                ),
+              )
+                  : SizedBox(
+                height: Sizes.height_10,
+                width: Sizes.height_10,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      height: Sizes.height_10,
+                      width: Sizes.height_10,
+                      decoration: const BoxDecoration(
+                        color: CColor.grayDark,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    SvgPicture.asset(
+                      'assets/svg/ic_image.svg',
+                      color: CColor.gray,
+                      width: Sizes.height_5,
+                      height: Sizes.height_5,
+                    ),
+                  ],
+                ),
+              ),
               Expanded(
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
@@ -2388,14 +2492,14 @@ class AddKankotriScreen extends StatelessWidget {
               ),
               (godInformationList[index].isSelected)
                   ? SizedBox(
-                      height: Sizes.height_3,
-                      width: Sizes.height_3,
-                      child: SvgPicture.asset("assets/svg/ic_selected.svg"),
-                    )
+                height: Sizes.height_3,
+                width: Sizes.height_3,
+                child: SvgPicture.asset("assets/svg/ic_selected.svg"),
+              )
                   : SizedBox(
-                      height: Sizes.height_3,
-                      width: Sizes.height_3,
-                    )
+                height: Sizes.height_3,
+                width: Sizes.height_3,
+              )
             ],
           ),
         ),
@@ -2403,8 +2507,8 @@ class AddKankotriScreen extends StatelessWidget {
     );
   }
 
-  showCustomizeDialogForAddName(
-      BuildContext context, AddKankotriController logic) {
+  showCustomizeDialogForAddName(BuildContext context,
+      AddKankotriController logic) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -2418,10 +2522,11 @@ class AddKankotriScreen extends StatelessWidget {
               ),
             ],
           );
-        }).whenComplete(() => {
-          logic.addRemoveGodNamesName(
-              true, logic.listOfAllGods.length + 1, logic.newGodName),
-        });
+        }).whenComplete(() =>
+    {
+      logic.addRemoveGodNamesName(
+          true, logic.listOfAllGods.length + 1, logic.newGodName),
+    });
   }
 
   contentBox(BuildContext context) {
@@ -2436,13 +2541,16 @@ class AddKankotriScreen extends StatelessWidget {
                   margin: EdgeInsets.only(top: Sizes.height_3),
                   child: Container(
                     height: Utils.getAddKankotriHeight(),
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.7,
                     color: CColor.white,
                     child: TextField(
                       decoration: InputDecoration(
                         focusedBorder: const OutlineInputBorder(
                           borderSide:
-                              BorderSide(width: 2, color: CColor.grayDark),
+                          BorderSide(width: 2, color: CColor.grayDark),
                         ),
                         border: const OutlineInputBorder(),
                         labelText: "txtBhagavaNuName".tr,
@@ -2619,8 +2727,8 @@ class AddKankotriScreen extends StatelessWidget {
   }
 
   /*Image Picker Dialog*/
-  Future<void> showOptionsDialog(
-      BuildContext context, AddKankotriController logic) {
+  Future<void> showOptionsDialog(BuildContext context,
+      AddKankotriController logic) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {

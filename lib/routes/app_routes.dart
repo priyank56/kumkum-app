@@ -10,7 +10,7 @@ class AppRoutes {
   /*Bottom Bar Navigation*/
   static const String home = '/home';
   static const String category = '/category';
-  static const String favourite = '/favourite';
+  static const String yourCard = '/yourCard';
   static const String contact = '/contact';
   static const String preview = '/preview';
 }

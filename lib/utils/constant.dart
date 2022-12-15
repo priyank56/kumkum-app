@@ -159,6 +159,9 @@ class Constant {
   static const idGodNames = "idGodNames";
   static const idMrgDate = "idMrgDate";
   static const idSetMainImage = "idSetMainImage";
+  static const idGetAllYourCards = "idGetAllYourCards";
+  static const idGroomPaksh = "idGroomPaksh";
+  static const idBridePaksh = "idBridePaksh";
 
 
 }

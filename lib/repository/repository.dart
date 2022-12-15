@@ -115,6 +115,37 @@ class Repository {
     }
   }
 
+  Future<NewKankotriData> getYourInvitationCard(NewKankotriDataModel newKankotriDataModel,
+      [BuildContext? context]) async {
+    try {
+      Response response = await dioClient!.dio.get<String>("/api/marriageInvitationCard" );
+      Debug.printLog("getYourInvitationCard RESPONSE ==>> $response ");
+
+      if (response.statusCode == Constant.responseSuccessCode) {
+        var res = response.data;
+        return NewKankotriData.fromJson(jsonDecode(res));
+      } else if (response.statusCode == Constant.responseFailureCode) {
+        var res = response.data;
+        try {
+          return NewKankotriData.fromJson(jsonDecode(res));
+        } catch (e) {
+          Debug.printLog(e.toString());
+          return NewKankotriData();
+        }
+      } else {
+        throw Exception('Exception -->> Failed to getInfo Please Try Again!');
+      }
+    } on DioError catch (ex) {
+      try {
+        var res = ex.response!.data;
+        return NewKankotriData.fromJson(jsonDecode(res));
+      } catch (e) {
+        Debug.printLog(e.toString());
+        return NewKankotriData();
+      }
+    }
+  }
+
 
 
 //Todo: For MultiPart Image API

@@ -211,32 +211,32 @@ class AuspiciousPlaceRes {
 class ChirpingRes {
     ChirpingRes({
         this.title,
-        this.id,
+        this.chirpingId,
         this.html,
-        this.value,
         this.inviter,
+        this.id,
     });
 
-    dynamic title;
-    dynamic id;
-    dynamic html;
-    dynamic value;
-    dynamic inviter;
+    String? title;
+    String? chirpingId;
+    String? html;
+    List<String>? inviter;
+    String? id;
 
     factory ChirpingRes.fromJson(Map<String, dynamic> json) => ChirpingRes(
         title: json["title"],
-        id: json["id"],
+        chirpingId: json["id"],
         html: json["html"],
-        value: json["value"],
-        inviter: json["inviter"],
+        inviter: List<String>.from(json["inviter"].map((x) => x)),
+        id: json["_id"],
     );
 
     Map<String, dynamic> toJson() => {
         "title": title,
-        "id": id,
+        "id": chirpingId,
         "html": html,
-        "value": value,
-        "inviter": inviter,
+        "inviter": List<dynamic>.from(inviter!.map((x) => x)),
+        "_id": id,
     };
 }
 
@@ -304,21 +304,31 @@ class FunctionsRes {
     };
 }
 
+
 class GodDetailRes {
     GodDetailRes({
         this.id,
+        this.name,
+        this.image,
     });
 
     String? id;
+    String? name;
+    String? image;
 
     factory GodDetailRes.fromJson(Map<String, dynamic> json) => GodDetailRes(
-        id: json["id"],
+        id: json["_id"],
+        name: json["name"],
+        image: json["image"],
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
+        "_id": id,
+        "name": name,
+        "image": image,
     };
 }
+
 
 class InvitationRes {
     InvitationRes({

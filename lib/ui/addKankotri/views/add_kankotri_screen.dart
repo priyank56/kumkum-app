@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:spotify_flutter_code/main.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/controllers/add_kankotri_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
@@ -997,6 +998,7 @@ class AddKankotriScreen extends StatelessWidget {
           height: Utils.getAddKankotriHeight(),
           margin: EdgeInsets.only(top: Sizes.height_2),
           child: TextField(
+            controller: logic.functionsPlaceListController[index],
             onChanged: (value) {
               logic.changeValueInListForFunctions(
                   index, Constant.typeFunctionPlace, value);
@@ -1017,6 +1019,7 @@ class AddKankotriScreen extends StatelessWidget {
           height: Utils.getAddKankotriHeight(),
           margin: EdgeInsets.only(top: Sizes.height_2),
           child: TextField(
+            controller: logic.functionsMessageListController[index],
             onChanged: (value) {
               logic.changeValueInListForFunctions(
                   index, Constant.typeFunctionMessage, value);
@@ -1114,6 +1117,7 @@ class AddKankotriScreen extends StatelessWidget {
             .width * 0.9,
         color: CColor.white70,
         child: TextField(
+          controller: logic.functionsList[mainIndex].listEditTextNames[index],
           onChanged: (value) {
             logic.changeValueInListForFunctionsNimantrakName(
                 index, mainIndex, value);
@@ -1727,6 +1731,7 @@ class AddKankotriScreen extends StatelessWidget {
             .width * 0.9,
         color: CColor.white70,
         child: TextField(
+          controller: logic.guestNamesList[mainIndex].listOfGuestNamesController![index],
           onChanged: (value) {
             logic.changeValueInListForGuestAllNames(index, mainIndex, value);
           },
@@ -1852,62 +1857,69 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(
-                    top: Sizes.height_3, left: Sizes.width_1),
-                child: Text(
-                  "txtAmantrakName".tr,
-                  style: TextStyle(
-                    color: CColor.grayDark,
-                    fontSize: FontSize.size_12,
-                    fontFamily: Constant.appFont,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              ListView.builder(
-                itemBuilder: (context, index) {
-                  return _listViewTahukoChildNames(context, index, logic);
-                },
-                shrinkWrap: true,
-                itemCount: logic.listOfTahukoChildName.length,
-                physics: const NeverScrollableScrollPhysics(),
-              ),
-              Material(
-                color: CColor.transparent,
-                child: InkWell(
-                  splashColor: CColor.grayDark,
-                  onTap: () {
-                    logic.addRemoveTahukoChildName(true);
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.22,
+              (logic.tahukoChildController.isNotEmpty)?
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(
-                      top: Sizes.height_1,
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Sizes.width_4, vertical: Sizes.height_1),
-                    decoration: BoxDecoration(
-                      color: CColor.grayDark,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                        top: Sizes.height_3, left: Sizes.width_1),
                     child: Text(
-                      "+ ${"txtAdd".tr}",
+                      "txtAmantrakName".tr,
                       style: TextStyle(
-                        color: CColor.white,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: Constant.appFont,
+                        color: CColor.grayDark,
                         fontSize: FontSize.size_12,
+                        fontFamily: Constant.appFont,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
-                ),
-              ),
+                  ListView.builder(
+                    itemBuilder: (context, index) {
+                      return _listViewTahukoChildNames(context, index, logic);
+                    },
+                    shrinkWrap: true,
+                    itemCount: logic.listOfTahukoChildName.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
+                  Material(
+                    color: CColor.transparent,
+                    child: InkWell(
+                      splashColor: CColor.grayDark,
+                      onTap: () {
+                        logic.addRemoveTahukoChildName(true);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.22,
+                        margin: EdgeInsets.only(
+                          top: Sizes.height_1,
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: Sizes.width_4, vertical: Sizes.height_1),
+                        decoration: BoxDecoration(
+                          color: CColor.grayDark,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          "+ ${"txtAdd".tr}",
+                          style: TextStyle(
+                            color: CColor.white,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: Constant.appFont,
+                            fontSize: FontSize.size_12,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ):Container(),
+
             ],
           );
         });
@@ -1924,6 +1936,7 @@ class AddKankotriScreen extends StatelessWidget {
           .width * 0.9,
       color: CColor.white70,
       child: TextField(
+        controller: logic.tahukoChildController[index],
         onChanged: (value) {
           logic.changeValueInListForTahukoChildName(
               index, value);
@@ -2030,6 +2043,7 @@ class AddKankotriScreen extends StatelessWidget {
               .width * 0.9,
           color: CColor.white70,
           child: TextField(
+            controller: logic.goodPlaceNamesList[mainIndex].inviterController,
             onChanged: (value) {
               logic.changeValueInListForGoodPlaceAmantrakName(mainIndex, value);
             },
@@ -2182,6 +2196,7 @@ class AddKankotriScreen extends StatelessWidget {
                 .width * 0.9,
             color: CColor.white70,
             child: TextField(
+              controller: logic.goodPlaceNamesList[mainIndex].listEditTextAddress[index],
               onChanged: (value) {
                 logic.changeValueInListForGoodPlace(
                     index, mainIndex, Constant.typeGoodPlaceAddress, value);
@@ -2231,6 +2246,7 @@ class AddKankotriScreen extends StatelessWidget {
             .width * 0.9,
         color: CColor.white70,
         child: TextField(
+          controller: logic.goodPlaceNamesList[mainIndex].listEditTextMobile[index],
           onChanged: (value) {
             logic.changeValueInListForGoodPlace(
                 index, mainIndex, Constant.typeGoodPlaceMno, value);

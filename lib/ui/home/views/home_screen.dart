@@ -128,7 +128,7 @@ class HomeScreen extends StatelessWidget {
                         child: InkWell(
                           splashColor: CColor.grayDark,
                           onTap: () {
-                            Get.toNamed(AppRoutes.addKankotri,arguments: [true])!.then((value) => Get.back());
+                            Get.toNamed(AppRoutes.addKankotri,arguments: [true,null])!.then((value) => Get.back());
                           },
                           child: Container(
                             alignment: Alignment.center,

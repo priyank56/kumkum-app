@@ -159,15 +159,15 @@ class AddKankotriController extends GetxController {
     if (picked != null) {
       String convertedDateTime =
           "${picked.year.toString()}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
-      Debug.printLog("convertedDateTime==>> $convertedDateTime $mrgDateDay $mrgDateGujarati $index");
       if(index != -1){
         var date = DateFormat("yyyy-MM-dd","gu").format(picked);
         functionsList[functionsList.indexOf(functionsList[index])].functionDate = date.toString();
       }else{
         mrgDate = convertedDateTime.toString();
-        mrgDateGujarati = DateFormat("yyyy-MM-dd","gu").format(picked);
-        mrgDateDay = DateFormat("EEEE","gu").format(picked);
+        mrgDateGujarati = DateFormat("yyyy-MM-dd EEEE","gu_IN").format(picked);
+        mrgDateDay = DateFormat("EEEE","gu_IN").format(picked);
       }
+      Debug.printLog("convertedDateTime==>> $mrgDateDay $mrgDateGujarati ");
 
       update([Constant.idMrgDate,Constant.idFunctionsPart,Constant.idInviterPart]);
 
@@ -483,19 +483,22 @@ class AddKankotriController extends GetxController {
 
     /*Inviter Detail*/
     var n1 = listNimantrakName.where((element) => element != "").toList();
-    if(n1.isEmpty){
+    // if(n1.isEmpty){
+    if(n1.length != listNimantrakName.length){
       Utils.showToast(context, "txtInviterName".tr);
       return false;
     }
 
     var n2 = listNimantrakAddress.where((element) => element != "").toList();
-    if(n2.isEmpty){
+    // if(n2.isEmpty){
+    if(n2.length != listNimantrakAddress.length){
       Utils.showToast(context, "txtInviterAddress".tr);
       return false;
     }
 
     var n3 = listNimantrakMno.where((element) => element != "").toList();
-    if(n3.isEmpty){
+    // if(n3.isEmpty){
+    if(n3.length != listNimantrakMno.length){
       Utils.showToast(context, "txtInviterMobile".tr);
       return false;
     }
@@ -623,10 +626,11 @@ class AddKankotriController extends GetxController {
 
     /*Inviter Detail For Both*/
     /*1.Groom*/
-    /*if(groomGodNameController.text.isEmpty){
+    if(groomGodNameController.text.isEmpty && listOfInvitersGroomMessage.isNotEmpty &&
+        chirpingInfoBride.values!.godName != null){
       Utils.showToast(context, "txtGroomGod".tr);
       return false;
-    }*/
+    }
     if(groomMotherNameController.text.isEmpty){
       Utils.showToast(context, "txtGroomMother".tr);
       return false;
@@ -639,6 +643,7 @@ class AddKankotriController extends GetxController {
       Utils.showToast(context, "txtGroomVillage".tr);
       return false;
     }
+
     /*2.Bride*/
     if(brideMotherNameController.text.isEmpty){
       Utils.showToast(context, "txtBrideMother".tr);
@@ -652,6 +657,12 @@ class AddKankotriController extends GetxController {
       Utils.showToast(context, "txtBrideVillage".tr);
       return false;
     }
+    if (brideGodController.text.isEmpty &&
+        listOfInvitersBrideMessage.isNotEmpty &&
+        chirpingInfoBride.values!.godName != null) {
+      Utils.showToast(context, "txtBrideGod".tr);
+      return false;
+    }
     if(mrgDate == ""){
       Utils.showToast(context, "txtMrgDate".tr);
       return false;
@@ -661,33 +672,45 @@ class AddKankotriController extends GetxController {
     /*Guest All Names Detail*/
     var g1 = guestNamesList.where((element) => element.titleName == "txtAapneAavkarvaAatur".tr).toList();
     var g11 = g1[0].listOfGuestNames.where((element) => element != "").toList();
-    if(g1[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+    // if(g1[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+    if(g1[0].listOfGuestNames.length != g11.length){
       Utils.showToast(context, "txtAavkarvaAatur".tr);
       return false;
     }
     var g2 = guestNamesList.where((element) => element.titleName == "txtSanehaDhin".tr).toList();
-    if(g2[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+    var g22 = g2[0].listOfGuestNames.where((element) => element != "").toList();
+    // if(g2[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+    if(g2[0].listOfGuestNames.length != g22.length){
       Utils.showToast(context, "txtSaneha".tr);
       return false;
     }
     var g3 = guestNamesList.where((element) => element.titleName == "txtMosalPaksh".tr).toList();
-    if(g3[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+    var g33 = g3[0].listOfGuestNames.where((element) => element != "").toList();
+    // if(g3[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+    if(g3[0].listOfGuestNames.length != g33.length){
       Utils.showToast(context, "txtMosal".tr);
       return false;
     }
     var g4 = guestNamesList.where((element) => element.titleName == "txtBhanejPaksh".tr).toList();
-    if(g4[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+    var g44 = g4[0].listOfGuestNames.where((element) => element != "").toList();
+    // if(g4[0].listOfGuestNames.where((element) => element != "").toList().isEmpty){
+    if(g4[0].listOfGuestNames.length != g44.length){
       Utils.showToast(context, "txtBhanej".tr);
       return false;
     }
 
 
     /*Tahuko Names Detail*/
-    if(listOfTahukoChildName.where((element) => element != "").toList().isEmpty){
+    /*if(listOfTahukoChildName.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtTahukoChildNames".tr);
+      return false;
+    }*/
+
+    var tahukoChild = listOfTahukoChildName.where((element) => element != "").toList();
+    if(tahukoChild.length != listOfTahukoChildName.length){
       Utils.showToast(context, "txtTahukoChildNames".tr);
       return false;
     }
-
 
     /*Good Places Mrg Detail*/
     /*1.Good Place*/
@@ -696,25 +719,49 @@ class AddKankotriController extends GetxController {
       Utils.showToast(context, "txtInviterName".tr);
       return false;
     }
-    if(good1[0].listOfAddressName.where((element) => element != "").toList().isEmpty){
+
+    var good1Address = good1[0].listOfAddressName.where((element) => element != "").toList();
+    if(good1[0].listOfAddressName.length != good1Address.length){
       Utils.showToast(context, "txtInviterAddress".tr);
       return false;
     }
-    if(good1[0].listOfMobile.where((element) => element != "").toList().isEmpty){
+
+    /*if(good1[0].listOfAddressName.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtInviterAddress".tr);
+      return false;
+    }*/
+    var good1Mno = good1[0].listOfMobile.where((element) => element != "").toList();
+    if(good1[0].listOfMobile.length != good1Mno.length){
       Utils.showToast(context, "txtInviterMobile".tr);
       return false;
     }
+
+    /*if(good1[0].listOfMobile.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtInviterMobile".tr);
+      return false;
+    }*/
     /*2.Good Place Mrg*/
     var good2 = goodPlaceNamesList.where((element) => element.titleName == "txtSubhLaganSathal".tr).toList();
     if(good2[0].inviterName == ""){
       Utils.showToast(context, "txtInviterName".tr);
       return false;
     }
-    if(good2[0].listOfAddressName.where((element) => element != "").toList().isEmpty){
+   /* if(good2[0].listOfAddressName.where((element) => element != "").toList().isEmpty){
       Utils.showToast(context, "txtInviterAddress".tr);
       return false;
     }
     if(good2[0].listOfMobile.where((element) => element != "").toList().isEmpty){
+      Utils.showToast(context, "txtInviterMobile".tr);
+      return false;
+    }*/
+
+    var good2Address = good2[0].listOfAddressName.where((element) => element != "").toList();
+    if(good2[0].listOfAddressName.length != good2Address.length){
+      Utils.showToast(context, "txtInviterAddress".tr);
+      return false;
+    }
+    var good2Mno = good2[0].listOfMobile.where((element) => element != "").toList();
+    if(good2[0].listOfMobile.length != good2Mno.length){
       Utils.showToast(context, "txtInviterMobile".tr);
       return false;
     }
@@ -1184,7 +1231,7 @@ class AddKankotriController extends GetxController {
     mrgDate = mrgInvitationCard.pair![0].enMarriageDate.toString();
     mrgDateDay = mrgInvitationCard.pair![0].marriageDay.toString();
     marriageDateController.text = mrgDateGujarati;
-    update([Constant.idGroomPaksh,Constant.idBridePaksh]);
+    update([Constant.idGroomPaksh,Constant.idBridePaksh,Constant.idMrgDate]);
     /*End For VarPaksh and KanyaPaksh Data*/
 
     /*====================================================================================*/
@@ -1419,17 +1466,34 @@ class AddKankotriController extends GetxController {
     var godDetailGetList = mrgInvitationCard.godDetails!;
     List<String> godIds = [];
     for(int i =0;i< godDetailGetList.length;i++){
-      godIds.add(godDetailGetList[i].id!);
+      if(godDetailGetList[i].id != "") {
+        godIds.add(godDetailGetList[i].id!);
+      }else{
+        godIds.add("");
+      }
     }
+
+
     for(int i=0;i<listOfAllGods.length;i++){
       if(godIds.contains(listOfAllGods[i].id!)){
         Debug.printLog("Contain Id==>> ");
         listOfAllGods[i].isSelected = true;
       }else{
         listOfAllGods[i].isSelected = false;
-        Debug.printLog("Contain Not Id==>> ");
+        Debug.printLog("Contain Not Id==>> $godIds");
       }
     }
+
+    var anotherList = godDetailGetList.where((element) => element.id == "").toList();
+    for(int i = 0 ; i < anotherList.length; i++){
+      var god = GodDetailInfo();
+      god.name = anotherList[i].name;
+      god.image = "";
+      god.isSelected = true;
+      god.id = "";
+      listOfAllGods.add(god);
+    }
+
     update([Constant.idGodNames]);
 
 

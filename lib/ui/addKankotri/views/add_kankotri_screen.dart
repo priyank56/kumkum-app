@@ -69,7 +69,7 @@ class AddKankotriScreen extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              "txtAddKankotri".tr,
+              (logic.isFromAddUpdate == Constant.isFromUpdate)?"txtUpdateKankotri".tr:"txtAddKankotri".tr,
               style: TextStyle(
                 color: CColor.black,
                 fontSize: FontSize.size_14,
@@ -1301,7 +1301,7 @@ class AddKankotriScreen extends StatelessWidget {
                 color: CColor.white70,
                 height: Utils.getAddKankotriHeight(),
                 child: TextField(
-                  controller: logic.brideGodController,
+                  controller: logic.groomGodNameController,
                   decoration: InputDecoration(
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(width: 2, color: CColor.grayDark),
@@ -1560,7 +1560,7 @@ class AddKankotriScreen extends StatelessWidget {
                 color: CColor.white70,
                 height: Utils.getAddKankotriHeight(),
                 child: TextField(
-                  controller: logic.groomGodNameController,
+                  controller: logic.brideGodController,
                   decoration: InputDecoration(
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(width: 2, color: CColor.grayDark),

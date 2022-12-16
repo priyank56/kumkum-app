@@ -22,6 +22,7 @@ import 'package:firebase_core/firebase_core.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  initializeDateFormatting('gu_IN', null);
   await Preference().instance();
   await InternetConnectivity().instance();
 

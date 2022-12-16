@@ -56,23 +56,23 @@ class Result {
 class ChirpingInfo {
     ChirpingInfo({
         this.id,
-        this.value,
+        this.previewText,
         this.html,
     });
 
     String? id;
-    String? value;
+    String? previewText;
     String? html;
 
     factory ChirpingInfo.fromJson(Map<String, dynamic> json) => ChirpingInfo(
         id: json["_id"],
-        value: json["value"],
+        previewText: json["previewText"],
         html: json["html"],
     );
 
     Map<String, dynamic> toJson() => {
         "_id": id,
-        "value": value,
+        "previewText": previewText,
         "html": html,
     };
 }
@@ -85,6 +85,7 @@ class InvitationMessage {
         this.html,
         this.type,
         this.marriageOf,
+        this.previewText,
     });
 
     String? id;
@@ -92,6 +93,7 @@ class InvitationMessage {
     String? html;
     String? type;
     String? marriageOf;
+    String? previewText;
 
     factory InvitationMessage.fromJson(Map<String, dynamic> json) => InvitationMessage(
         id: json["_id"],
@@ -99,6 +101,7 @@ class InvitationMessage {
         html: json["html"],
         type: json["type"],
         marriageOf: json["marriageOf"],
+        previewText: json["previewText"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -107,6 +110,7 @@ class InvitationMessage {
         "html": html,
         "type": type,
         "marriageOf": marriageOf,
+        "previewText": previewText,
     };
 }
 

@@ -696,18 +696,21 @@ class Chirping {
         this.title,
         this.id,
         this.html,
+        this.previewText,
         this.inviter,
     });
 
     String? title;
     String? id;
     String? html;
+    String? previewText;
     List<String>? inviter;
 
     factory Chirping.fromJson(Map<String, dynamic> json) => Chirping(
         title: json["title"],
         id: json["id"],
         html: json["html"],
+        previewText: json["previewText"],
         // inviter: json["inviter"],
         inviter: List<String>.from(json["inviter"].map((x) => x)),
     );
@@ -716,6 +719,7 @@ class Chirping {
         "title": title,
         "_id": id,
         "html": html,
+        "previewText": previewText,
         // "inviter": inviter,
         "inviter": List<String>.from(inviter!.map((x) => x)),
     };
@@ -876,6 +880,7 @@ class BrideInviter {
         this.type,
         this.html,
         this.marriageOf,
+        this.previewText,
         this.values,
     });
 
@@ -883,6 +888,7 @@ class BrideInviter {
     String? type;
     String? html;
     String? marriageOf;
+    String? previewText;
     BrideInviterValues? values;
 
     factory BrideInviter.fromJson(Map<String, dynamic> json) => BrideInviter(
@@ -890,6 +896,7 @@ class BrideInviter {
         type: json["type"],
         html: json["html"],
         marriageOf: json["marriageOf"],
+        previewText: json["previewText"],
         values: BrideInviterValues.fromJson(json["values"]),
     );
 
@@ -898,6 +905,7 @@ class BrideInviter {
         "type": type,
         "html": html,
         "marriageOf": marriageOf,
+        "previewText": previewText,
         "values": values!.toJson(),
     };
 }
@@ -943,6 +951,7 @@ class GroomInviter {
         this.id,
         this.type,
         this.html,
+        this.previewText,
         this.marriageOf,
         this.values,
     });
@@ -950,6 +959,7 @@ class GroomInviter {
     String? id;
     String? type;
     String? html;
+    String? previewText;
     String? marriageOf;
     GroomInviterValues? values;
 
@@ -957,6 +967,7 @@ class GroomInviter {
         id: json["_id"],
         type: json["type"],
         html: json["html"],
+        previewText: json["previewText"],
         marriageOf: json["marriageOf"],
         values: GroomInviterValues.fromJson(json["values"]),
     );
@@ -965,6 +976,7 @@ class GroomInviter {
         "_id": id,
         "type": type,
         "html": html,
+        "previewText": previewText,
         "marriageOf": marriageOf,
         "values": values!.toJson(),
     };

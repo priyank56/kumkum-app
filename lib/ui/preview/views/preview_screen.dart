@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../custom/dialog/progressdialog.dart';
 import '../../../utils/color.dart';
@@ -23,72 +24,82 @@ class PreviewScreen extends StatelessWidget {
   }
 
   _webView(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: GetBuilder<PreviewController>(builder: (logic) {
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Material(
-                    color: CColor.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      splashColor: CColor.black,
-                      child: Container(
-                        margin: EdgeInsets.all(Sizes.height_2),
-                        child: SvgPicture.asset(
-                          "assets/svg/login_flow/ic_back.svg",
-                          height: Sizes.height_4,
-                          width: Sizes.height_4,
+    return WillPopScope(
+      onWillPop:  ()async {
+        // Get.offAllNamed(AppRoutes.main);
+        Get.back();
+        Get.back();
+        return true;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: GetBuilder<PreviewController>(builder: (logic) {
+            return Column(
+              children: [
+                Row(
+                  children: [
+                    Material(
+                      color: CColor.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          // Get.offAllNamed(AppRoutes.main);
+                          Get.back();
+                          Get.back();
+                        },
+                        splashColor: CColor.black,
+                        child: Container(
+                          margin: EdgeInsets.all(Sizes.height_2),
+                          child: SvgPicture.asset(
+                            "assets/svg/login_flow/ic_back.svg",
+                            height: Sizes.height_4,
+                            width: Sizes.height_4,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Text(
-                        "txtPreview".tr,
-                        style: TextStyle(
-                            color: CColor.black,
-                            fontSize: FontSize.size_14,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: Constant.appFont),
-                      ),
-                    ),
-                  ),
-                  Material(
-                    color: CColor.transparent,
-                    child: InkWell(
-                      splashColor: CColor.black,
-                      onTap: () {
-                        showCustomizeDialog(context, logic);
-                      },
+                    Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(right: Sizes.width_5),
-                        child: SvgPicture.asset("assets/svg/ic_download.svg",
-                            height: Sizes.height_3, width: Sizes.height_3),
+                        child: Text(
+                          "txtPreview".tr,
+                          style: TextStyle(
+                              color: CColor.black,
+                              fontSize: FontSize.size_14,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: Constant.appFont),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: WebView(
-                  initialUrl: 'https://resume-builder-nu-indol.vercel.app/resume/M2a4x0rbAL',
-                  onPageFinished: (url) {
-                    logic.changeProgressValue(false);
-                  },
+                    Material(
+                      color: CColor.transparent,
+                      child: InkWell(
+                        splashColor: CColor.black,
+                        onTap: () {
+                          showCustomizeDialog(context, logic);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: Sizes.width_5),
+                          child: SvgPicture.asset("assets/svg/ic_download.svg",
+                              height: Sizes.height_3, width: Sizes.height_3),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                /*SfPdfViewer.memory(
-                  logic.decodedbytes,
-                ),*/
-              ),
-            ],
-          );
-        }),
+                Expanded(
+                  child: WebView(
+                    initialUrl: 'https://resume-builder-nu-indol.vercel.app/resume/M2a4x0rbAL',
+                    onPageFinished: (url) {
+                      logic.changeProgressValue(false);
+                    },
+                  ),
+                  /*SfPdfViewer.memory(
+                    logic.decodedbytes,
+                  ),*/
+                ),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }

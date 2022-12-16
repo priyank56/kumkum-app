@@ -85,6 +85,43 @@ class Repository {
 
 
 
+  Future<CreateKankotriData> updateKankotri(NewKankotriDataModel newKankotriDataModel,String createData,CreateData createDataObject,String cardId,
+      [BuildContext? context]) async {
+    try {
+
+      Response response = await dioClient!.dio.put<String>("/api/marriageInvitationCard/$cardId",
+          data: createDataObject.toJson());
+      Debug.printLog("updateKankotri RESPONSE ==>> $response ==>>> $cardId");
+
+      if (response.statusCode == Constant.responseSuccessCode) {
+        var res = response.data;
+        return CreateKankotriData.fromJson(jsonDecode(res));
+      } else if (response.statusCode == Constant.responseFailureCode) {
+        var res = response.data;
+        try {
+          return CreateKankotriData.fromJson(jsonDecode(res));
+        } catch (e) {
+          Debug.printLog(e.toString());
+          return CreateKankotriData();
+        }
+      } else {
+        throw Exception('Exception -->> Failed to createKankotri Please Try Again!');
+      }
+    } on DioError catch (ex) {
+      try {
+        var res = ex.response!.data;
+        return CreateKankotriData.fromJson(jsonDecode(res));
+      } catch (e) {
+        Debug.printLog(e.toString());
+        return CreateKankotriData();
+      }
+    }
+  }
+
+
+
+
+
   Future<GetInfoData> getInfo(NewKankotriDataModel newKankotriDataModel,String mrgType,
       [BuildContext? context]) async {
     try {

@@ -140,6 +140,9 @@ class Constant {
   static const typeGroomAPI = "groom";
   static const typeBrideAPI = "bride";
 
+  static const isFromUpdate = "isFromUpdate";
+  static const isFromCreate = "isFromCreate";
+
   /*Ids*/
   static const isShowProgressUpload = "isShowProgressUpload";
   static const idMainPage = "idMainPage";
@@ -162,6 +165,7 @@ class Constant {
   static const idGetAllYourCards = "idGetAllYourCards";
   static const idGroomPaksh = "idGroomPaksh";
   static const idBridePaksh = "idBridePaksh";
+  static const idContactList = "idContactList";
 
 
 }

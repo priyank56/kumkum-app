@@ -295,45 +295,45 @@ class ContactScreen extends StatelessWidget {
     return GetBuilder<ContactController>(
         id: Constant.idBottomViewPos,
         builder: (logic) {
-      return Container(
-        alignment: Alignment.bottomCenter,
-        child: SlidingUpPanel(
-          renderPanelSheet: false,
-          maxHeight: MediaQuery
-              .of(context)
-              .size
-              .height * 1,
-          minHeight: MediaQuery
-              .of(context)
-              .size
-              .height * 0.401,
+          return Container(
+            alignment: Alignment.bottomCenter,
+            child: SlidingUpPanel(
+              renderPanelSheet: false,
+              maxHeight: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 1,
+              minHeight: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.401,
 
-          /*When Slide Panel Open*/
-          panel: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(24.0)),
-            ),
-            child: _listViewContact(context, logic, needFullScreen: true),
-            // child: Container(),
-          ),
+              /*When Slide Panel Open*/
+              panel: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0)),
+                ),
+                child: _listViewContact(context, logic, needFullScreen: true),
+                // child: Container(),
+              ),
 
-          /*When Slide Panel Not Open*/
-          collapsed: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(24.0)),
+              /*When Slide Panel Not Open*/
+              collapsed: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0)),
+                ),
+                child: _listViewContact(context, logic),
+                // child: Container(),
+              ),
             ),
-            child: _listViewContact(context, logic),
-            // child: Container(),
-          ),
-        ),
-      );
-    });
+          );
+        });
   }
 
   _listViewContact(BuildContext context, ContactController logic,
@@ -396,7 +396,7 @@ class ContactScreen extends StatelessWidget {
                     child: Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(
-                          right: Sizes.width_5, left: Sizes.width_1),
+                          right: Sizes.width_2, left: Sizes.width_1),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: (logic.selectedSendWp ==
@@ -418,103 +418,161 @@ class ContactScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              Expanded(
+                child: Material(
+                  color: CColor.transparent,
+                  child: InkWell(
+                    splashColor: CColor.black,
+                    onTap: () {
+                      logic.changeSendOption(Constant.selectedSendWp1Person);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                        right: Sizes.width_5,),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: (logic.selectedSendWp ==
+                              Constant.selectedSendWp1Person)
+                              ? CColor.themeDark
+                              : CColor.gray,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Text(
+                        "txt1".tr,
+                        style: TextStyle(
+                            color: (logic.selectedSendWp ==
+                                Constant.selectedSendWp1Person)
+                                ? CColor.white
+                                : CColor.black,
+                            fontSize: FontSize.size_12,
+                            fontFamily: Constant.appFont),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-        Expanded(
-          child: (logic.contactList.isNotEmpty)?
-          Container(
-            height: (needFullScreen) ? MediaQuery
-                .of(context)
-                .size
-                .height * 1 : MediaQuery
-                .of(context)
-                .size
-                .height * 0.3,
-            // padding: EdgeInsets.only(top: Sizes.height_3, left: Sizes.width_5,right:  Sizes.width_5),
-            padding: EdgeInsets.only(
-                top: Sizes.height_2, bottom: Sizes.height_2_5),
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return _itemContactView(index, context, logic);
-              },
-              physics: const AlwaysScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: logic.contactList.length,
-              scrollDirection: Axis.vertical,
-            ),
-          ) :Container(),
-        ),
+        GetBuilder<ContactController>(
+            id: Constant.idContactList,
+            builder: (logic) {
+          return Expanded(
+            child: (logic.contactList.isNotEmpty) ?
+            Container(
+              height: (needFullScreen) ? MediaQuery
+                  .of(context)
+                  .size
+                  .height * 1 : MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.3,
+              // padding: EdgeInsets.only(top: Sizes.height_3, left: Sizes.width_5,right:  Sizes.width_5),
+              padding: EdgeInsets.only(
+                  top: Sizes.height_2, bottom: Sizes.height_2_5),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return _itemContactView(index, context, logic,
+                      (logic.selectedSendWp == Constant.selectedSendWpSarvo)
+                          ? logic.contactListSarvo
+                          : (logic.selectedSendWp ==
+                          Constant.selectedSendWpSajode)
+                          ? logic.contactListSajode
+                          : logic.contactList1Person);
+                },
+                physics: const AlwaysScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount:
+                (logic.selectedSendWp == Constant.selectedSendWpSarvo)
+                    ? logic.contactListSarvo.length
+                    : (logic.selectedSendWp ==
+                    Constant.selectedSendWpSajode)
+                    ? logic.contactListSajode.length
+                    : logic.contactList1Person.length,
+                scrollDirection: Axis.vertical,
+              ),
+            ) : Container(),
+          );
+        }),
       ],
     );
   }
 
-  _itemContactView(int index, BuildContext context, ContactController logic) {
-    return Column(
-      children: [
-        const Divider(
-          height: 1,
-          thickness: 2,
-          color: CColor.gray,
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: Sizes.width_5),
-          margin:
-          EdgeInsets.only(top: Sizes.height_1_4, bottom: Sizes.height_1_4),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  logic.changeCheckValue(logic.contactList[index].isSelected,index,logic.selectedSendWp);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                          color:
-                          (logic.contactList[index].isSelected) ? CColor.black : CColor.grayEF,
-                          width: 2)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: Sizes.width_2_5),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AutoSizeText(
-                      logic.contactList[index].contactName.toString(),
-                      style: TextStyle(
-                          color: CColor.black,
-                          fontSize: FontSize.size_12,
-                          fontFamily: Constant.appFont,
-                          fontWeight: FontWeight.w500),
-                      textAlign: TextAlign.start,
-                      maxLines: 3,
-                      // maxLines: 5,
+  _itemContactView(int index, BuildContext context, ContactController logic,
+      List<AllContact> list) {
+    return Material(
+      color: CColor.transparent,
+      child: InkWell(
+        onTap: () {
+          logic.changeCheckValue(
+              list[index].isSelected, index, logic.selectedSendWp);
+        },
+        child: Column(
+          children: [
+            const Divider(
+              height: 1,
+              thickness: 2,
+              color: CColor.gray,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: Sizes.width_5),
+              margin:
+              EdgeInsets.only(top: Sizes.height_1_4, bottom: Sizes.height_1_4),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color:
+                              (list[index].isSelected) ? CColor.black : CColor
+                                  .grayEF,
+                              width: 2)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(),
+                      ),
                     ),
-                    AutoSizeText(
-                      logic.contactList[index].contactNumber.toString(),
-                      style: TextStyle(
-                          color: CColor.black,
-                          fontSize: FontSize.size_10,
-                          fontFamily: Constant.appFont,
-                          fontWeight: FontWeight.w400),
-                      textAlign: TextAlign.start,
-                      maxLines: 3,
-                      // maxLines: 5,
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: Sizes.width_2_5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AutoSizeText(
+                          list[index].contactName.toString(),
+                          style: TextStyle(
+                              color: CColor.black,
+                              fontSize: FontSize.size_12,
+                              fontFamily: Constant.appFont,
+                              fontWeight: FontWeight.w500),
+                          textAlign: TextAlign.start,
+                          maxLines: 3,
+                          // maxLines: 5,
+                        ),
+                        AutoSizeText(
+                          list[index].contactNumber.toString(),
+                          style: TextStyle(
+                              color: CColor.black,
+                              fontSize: FontSize.size_10,
+                              fontFamily: Constant.appFont,
+                              fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.start,
+                          maxLines: 3,
+                          // maxLines: 5,
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -542,8 +600,7 @@ class ContactScreen extends StatelessWidget {
                               child: InkWell(
                                 splashColor: CColor.black,
                                 onTap: () {
-                                  logic.changeSendOption(
-                                      Constant.selectedSendWpSarvo);
+                                  // logic.changeSendOption(Constant.selectedSendWpSarvo);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -577,8 +634,7 @@ class ContactScreen extends StatelessWidget {
                               child: InkWell(
                                 splashColor: CColor.black,
                                 onTap: () {
-                                  logic.changeSendOption(
-                                      Constant.selectedSendWpSajode);
+                                  // logic.changeSendOption(Constant.selectedSendWpSajode);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

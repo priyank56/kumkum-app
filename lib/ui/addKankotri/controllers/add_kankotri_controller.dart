@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:spotify_flutter_code/datamodel/createData.dart';
@@ -23,6 +24,7 @@ class AddKankotriController extends GetxController {
 
   var arguments = Get.arguments;
   bool isGroomCard = true;
+  String isFromAddUpdate = "";
 
   bool isShowProgress = false;
   NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
@@ -123,14 +125,13 @@ class AddKankotriController extends GetxController {
     super.onInit();
     if(arguments[0] != null){
       isGroomCard = arguments[0];
-      Debug.printLog("Is Groom Card==>> $isGroomCard");
+      Debug.printLog("Card arguments 0==>> $isGroomCard");
     }
     getAllInfo(Get.context!);
 
     if(arguments[1] != null){
       getAllInvitationCard = arguments[1];
       // setAllData();
-      Debug.printLog("Is Groom Card==>> $isGroomCard");
     }else {
       addNimantrakNameListData(true);
       addNimantrakAddressListData(true);
@@ -139,6 +140,12 @@ class AddKankotriController extends GetxController {
       addAllGuestNames();
       addRemoveTahukoChildName(true);
       addGoodPlaceNames();
+    }
+
+    if(arguments[2] != null){
+      isFromAddUpdate = arguments[2];
+      Debug.printLog("Card arguments 2==>> $isFromAddUpdate");
+
     }
   }
 
@@ -420,24 +427,26 @@ class AddKankotriController extends GetxController {
   }
 
   changeDropDownValueForGroomBride(String value,String type){
+
     if(type == Constant.typeGroom){
-      var selectedGroomList = listOfInvitersGroomMessage.where((element) => element.html == value).toList();
+      var selectedGroomList = listOfInvitersGroomMessage.where((element) => element.previewText == value).toList();
       chirpingInfoGroom = selectedGroomList[0];
 
       dropDownFromGroomMessage = value;
     }else{
-      var selectedBrideList = listOfInvitersBrideMessage.where((element) => element.html == value).toList();
+      var selectedBrideList = listOfInvitersBrideMessage.where((element) => element.previewText == value).toList();
       chirpingInfoBride = selectedBrideList[0];
 
       dropDownFromBrideMessage = value;
     }
-
+    Debug.printLog("changeDropDownValueForGroomBride==>> $value  $type");
     update([Constant.idInviterPart]);
   }
 
   changeDropDownValueForTahuko(String value){
     dropDownTahukoMessage = value;
-    update([Constant.idInviterPart]);
+    Debug.printLog("changeDropDownValueForTahuko===>> $value");
+    update([Constant.idTahukoPart]);
   }
 
   changeValueInListForGoodPlace(int index,int mainIndex,String type,String value) {
@@ -495,14 +504,18 @@ class AddKankotriController extends GetxController {
 
     /*All Functions name*/
     var functionsListF1 = functionsList.where((element) => element.functionId == "f1").toList();
-    if(functionsListF1[0].functionTime != "" || functionsListF1[0].functionDate != "") {
-      if (functionsListF1[0].functionDate == "" || functionsListF1[0].functionTime == "") {
-        if(functionsListF1[0].functionDate == ""){
-          Utils.showToast(context, "txtFunMandapMuhratDate".tr);
-        }else if(functionsListF1[0].functionTime == ""){
-          Utils.showToast(context, "txtFunMandapMuhratTime".tr);
+    if(functionsListF1.isNotEmpty) {
+      if (functionsListF1[0].functionTime != "" ||
+          functionsListF1[0].functionDate != "") {
+        if (functionsListF1[0].functionDate == "" ||
+            functionsListF1[0].functionTime == "") {
+          if (functionsListF1[0].functionDate == "") {
+            Utils.showToast(context, "txtFunMandapMuhratDate".tr);
+          } else if (functionsListF1[0].functionTime == "") {
+            Utils.showToast(context, "txtFunMandapMuhratTime".tr);
+          }
+          return false;
         }
-        return false;
       }
     }
 
@@ -511,14 +524,18 @@ class AddKankotriController extends GetxController {
       Utils.showToast(context, "txtFunBhojan".tr);
       return false;
     }*/
-    if(functionsListF2[0].functionTime != "" || functionsListF2[0].functionDate != "") {
-      if (functionsListF2[0].functionDate == "" || functionsListF2[0].functionTime == "") {
-        if(functionsListF2[0].functionDate == ""){
-          Utils.showToast(context, "txtFunGitSandhyaDate".tr);
-        }else if(functionsListF2[0].functionTime == ""){
-          Utils.showToast(context, "txtFunGitSandhyaTime".tr);
+    if(functionsListF2.isNotEmpty) {
+      if (functionsListF2[0].functionTime != "" ||
+          functionsListF2[0].functionDate != "") {
+        if (functionsListF2[0].functionDate == "" ||
+            functionsListF2[0].functionTime == "") {
+          if (functionsListF2[0].functionDate == "") {
+            Utils.showToast(context, "txtFunGitSandhyaDate".tr);
+          } else if (functionsListF2[0].functionTime == "") {
+            Utils.showToast(context, "txtFunGitSandhyaTime".tr);
+          }
+          return false;
         }
-        return false;
       }
     }
 
@@ -527,14 +544,18 @@ class AddKankotriController extends GetxController {
       Utils.showToast(context, "txtFunGitSandhya".tr);
       return false;
     }*/
-    if(functionsListF3[0].functionTime != "" || functionsListF3[0].functionDate != "") {
-      if (functionsListF3[0].functionDate == "" || functionsListF3[0].functionTime == "") {
-        if(functionsListF3[0].functionDate == ""){
-          Utils.showToast(context, "txtFunRasGarbaDate".tr);
-        }else if(functionsListF3[0].functionTime == ""){
-          Utils.showToast(context, "txtFunRasGarbaTime".tr);
+    if(functionsListF3.isNotEmpty) {
+      if (functionsListF3[0].functionTime != "" ||
+          functionsListF3[0].functionDate != "") {
+        if (functionsListF3[0].functionDate == "" ||
+            functionsListF3[0].functionTime == "") {
+          if (functionsListF3[0].functionDate == "") {
+            Utils.showToast(context, "txtFunRasGarbaDate".tr);
+          } else if (functionsListF3[0].functionTime == "") {
+            Utils.showToast(context, "txtFunRasGarbaTime".tr);
+          }
+          return false;
         }
-        return false;
       }
     }
 
@@ -543,14 +564,18 @@ class AddKankotriController extends GetxController {
       Utils.showToast(context, "txtFunRasGarba".tr);
       return false;
     }*/
-    if(functionsListF4[0].functionTime != "" || functionsListF4[0].functionDate != "") {
-      if (functionsListF4[0].functionDate == "" || functionsListF4[0].functionTime == "") {
-        if(functionsListF4[0].functionDate == ""){
-          Utils.showToast(context, "txtFunJanPrsathanDate".tr);
-        }else if(functionsListF4[0].functionTime == ""){
-          Utils.showToast(context, "txtFunJanPrsathanTime".tr);
+    if(functionsListF4.isNotEmpty) {
+      if (functionsListF4[0].functionTime != "" ||
+          functionsListF4[0].functionDate != "") {
+        if (functionsListF4[0].functionDate == "" ||
+            functionsListF4[0].functionTime == "") {
+          if (functionsListF4[0].functionDate == "") {
+            Utils.showToast(context, "txtFunJanPrsathanDate".tr);
+          } else if (functionsListF4[0].functionTime == "") {
+            Utils.showToast(context, "txtFunJanPrsathanTime".tr);
+          }
+          return false;
         }
-        return false;
       }
     }
 
@@ -560,14 +585,18 @@ class AddKankotriController extends GetxController {
       Utils.showToast(context, "txtFunJanPrsathan".tr);
       return false;
     }*/
-    if(functionsListF5[0].functionTime != "" || functionsListF5[0].functionDate != "") {
-      if (functionsListF5[0].functionDate == "" || functionsListF5[0].functionTime == "") {
-        if(functionsListF5[0].functionDate == ""){
-          Utils.showToast(context, "txtFunBhojanDate".tr);
-        }else if(functionsListF5[0].functionTime == ""){
-          Utils.showToast(context, "txtFunBhojanTime".tr);
+    if(functionsListF5.isNotEmpty) {
+      if (functionsListF5[0].functionTime != "" ||
+          functionsListF5[0].functionDate != "") {
+        if (functionsListF5[0].functionDate == "" ||
+            functionsListF5[0].functionTime == "") {
+          if (functionsListF5[0].functionDate == "") {
+            Utils.showToast(context, "txtFunBhojanDate".tr);
+          } else if (functionsListF5[0].functionTime == "") {
+            Utils.showToast(context, "txtFunBhojanTime".tr);
+          }
+          return false;
         }
-        return false;
       }
     }
 
@@ -576,14 +605,18 @@ class AddKankotriController extends GetxController {
       Utils.showToast(context, "txtFunHastMelap".tr);
       return false;
     }*/
-    if(functionsListF6[0].functionTime != "" || functionsListF6[0].functionDate != "") {
-      if (functionsListF6[0].functionDate == "" || functionsListF6[0].functionTime == "") {
-        if(functionsListF6[0].functionDate == ""){
-          Utils.showToast(context, "txtFunHastMelapDate".tr);
-        }else if(functionsListF6[0].functionTime == ""){
-          Utils.showToast(context, "txtFunHastMelapTime".tr);
+    if(functionsListF6.isNotEmpty) {
+      if (functionsListF6[0].functionTime != "" ||
+          functionsListF6[0].functionDate != "") {
+        if (functionsListF6[0].functionDate == "" ||
+            functionsListF6[0].functionTime == "") {
+          if (functionsListF6[0].functionDate == "") {
+            Utils.showToast(context, "txtFunHastMelapDate".tr);
+          } else if (functionsListF6[0].functionTime == "") {
+            Utils.showToast(context, "txtFunHastMelapTime".tr);
+          }
+          return false;
         }
-        return false;
       }
     }
 
@@ -834,7 +867,8 @@ class AddKankotriController extends GetxController {
     groomData.id = chirpingInfoGroom.id;
     groomData.type = chirpingInfoGroom.type;
     groomData.marriageOf = chirpingInfoGroom.marriageOf;
-    groomData.html = dropDownFromGroomMessage;
+    groomData.html = chirpingInfoGroom.html;
+    groomData.previewText = dropDownFromGroomMessage;
     var groomInviterValues= GroomInviterValues();
 
     if(chirpingInfoGroom.values!.day != null) {
@@ -846,13 +880,13 @@ class AddKankotriController extends GetxController {
     if(chirpingInfoGroom.values!.godName != null) {
       groomInviterValues.godName = groomGodNameController.text;
     }
-    if(chirpingInfoGroom.values!.godName != null) {
+    if(chirpingInfoGroom.values!.motherName != null) {
       groomInviterValues.motherName = groomMotherNameController.text;
     }
-    if(chirpingInfoGroom.values!.godName != null) {
+    if(chirpingInfoGroom.values!.fatherName != null) {
       groomInviterValues.fatherName = groomFatherNameController.text;
     }
-    if(chirpingInfoGroom.values!.godName != null) {
+    if(chirpingInfoGroom.values!.hometownName != null) {
       groomInviterValues.hometownName = groomVillageNameController.text;
     }
 
@@ -865,7 +899,8 @@ class AddKankotriController extends GetxController {
     brideData.id = chirpingInfoBride.id;
     brideData.type = chirpingInfoBride.type;
     brideData.marriageOf = chirpingInfoBride.marriageOf;
-    brideData.html = dropDownFromBrideMessage;
+    brideData.html = chirpingInfoBride.html;
+    brideData.previewText = dropDownFromBrideMessage;
     var brideInviterValues= BrideInviterValues();
     if(chirpingInfoBride.values!.day != null) {
       brideInviterValues.day = mrgDateDay;
@@ -927,9 +962,10 @@ class AddKankotriController extends GetxController {
 
     /*Start For Tahuko Names Data*/
     var tahukoInviterName = Chirping();
-    tahukoInviterName.html = dropDownTahukoMessage.toString();
+    var listSelectChirp = listOfAllChirping.where((element) => element.previewText == dropDownTahukoMessage).toList();
+    tahukoInviterName.html = listSelectChirp[0].html;
+    tahukoInviterName.previewText = dropDownTahukoMessage.toString();
     tahukoInviterName.title = "txtTahuko".tr;
-    var listSelectChirp = listOfAllChirping.where((element) => element.html == dropDownTahukoMessage).toList();
     tahukoInviterName.id = listSelectChirp[0].id;
     tahukoInviterName.inviter = listOfTahukoChildName;
     createData.marriageInvitationCard!.chirping = tahukoInviterName;
@@ -1017,7 +1053,7 @@ class AddKankotriController extends GetxController {
         listOfAllChirping = newKankotriData.result!.chirPings!;
         if(listOfAllChirping.isNotEmpty){
           for(int i = 0 ;i < listOfAllChirping.length; i++){
-            listOfAllStringChirping.add(listOfAllChirping[i].html.toString());
+            listOfAllStringChirping.add(listOfAllChirping[i].previewText.toString());
           }
           dropDownTahukoMessage = listOfAllStringChirping[0];
         }
@@ -1030,6 +1066,7 @@ class AddKankotriController extends GetxController {
 
 
         listOfInvitersMessage = newKankotriData.result!.invitationMessages!;
+
         if(listOfInvitersMessage.isNotEmpty) {
           listOfInvitersGroomMessage = listOfInvitersMessage.where((element) => element.type == Constant.typeGroomAPI).toList();
           chirpingInfoGroom = listOfInvitersGroomMessage[0];
@@ -1037,10 +1074,10 @@ class AddKankotriController extends GetxController {
           chirpingInfoBride = listOfInvitersBrideMessage[0];
 
           for (int i = 0; i < listOfInvitersGroomMessage.length; i++) {
-            listOfMessagesFromGroom.add(listOfInvitersGroomMessage[i].html.toString());
+            listOfMessagesFromGroom.add(listOfInvitersGroomMessage[i].previewText.toString());
           }
           for (int i = 0; i < listOfInvitersBrideMessage.length; i++) {
-            listOfMessagesFromBride.add(listOfInvitersBrideMessage[i].html.toString());
+            listOfMessagesFromBride.add(listOfInvitersBrideMessage[i].previewText.toString());
           }
           dropDownFromGroomMessage = listOfMessagesFromGroom[0];
           dropDownFromBrideMessage = listOfMessagesFromBride[0];
@@ -1079,16 +1116,23 @@ class AddKankotriController extends GetxController {
     update([Constant.isShowProgressUpload,Constant.idInviterPart,Constant.idTahukoPart,Constant.idGodNames]);
   }
 
-  callCreateCardAPI(BuildContext context) async {
+  callCreateUpdateCardAPI(BuildContext context) async {
     if (validation(context)) {
       if (await InternetConnectivity.isInternetConnect()) {
         Debug.printLog("Data ===>>> ${jsonEncode(createData)}");
         isShowProgress = true;
         update([Constant.isShowProgressUpload]);
-        await newKankotriDataModel.createKankotri(
-            context, jsonEncode(createData),createData).then((value) {
-          handleNewKankotriResponse(value, context);
-        });
+        if(isFromAddUpdate == Constant.isFromUpdate){
+          await newKankotriDataModel.updateKankotri(
+              context, jsonEncode(createData), createData,createData.marriageInvitationCardId.toString()).then((value) {
+            handleNewKankotriResponse(value, context);
+          });
+        }else {
+          await newKankotriDataModel.createKankotri(
+              context, jsonEncode(createData), createData).then((value) {
+            handleNewKankotriResponse(value, context);
+          });
+        }
       } else {
         Utils.showToast(context, "txtNoInternet".tr);
       }
@@ -1139,6 +1183,7 @@ class AddKankotriController extends GetxController {
     mrgDateGujarati = mrgInvitationCard.pair![0].marriageDate.toString();
     mrgDate = mrgInvitationCard.pair![0].enMarriageDate.toString();
     mrgDateDay = mrgInvitationCard.pair![0].marriageDay.toString();
+    marriageDateController.text = mrgDateGujarati;
     update([Constant.idGroomPaksh,Constant.idBridePaksh]);
     /*End For VarPaksh and KanyaPaksh Data*/
 
@@ -1243,6 +1288,14 @@ class AddKankotriController extends GetxController {
     }
 
     /*2 Dropdown Pending*/
+    dropDownFromBrideMessage = brideAmantrak!.previewText!;
+    changeDropDownValueForGroomBride(dropDownFromBrideMessage,Constant.typeBride);
+
+
+    dropDownFromGroomMessage = groomAmantrak!.previewText!;
+    changeDropDownValueForGroomBride(dropDownFromGroomMessage,Constant.typeGroom);
+
+
     update([Constant.idInviterPart]);
     /*End For Amantrak*/
 
@@ -1300,19 +1353,13 @@ class AddKankotriController extends GetxController {
 
 
     /*Start For Tahuko Names Data*/
-    /*var tahukoInviterName = Chirping();
-    tahukoInviterName.html = dropDownTahukoMessage.toString();
-    tahukoInviterName.title = "txtTahuko".tr;
-    var listSelectChirp = listOfAllChirping.where((element) => element.html == dropDownTahukoMessage).toList();
-    tahukoInviterName.id = listSelectChirp[0].id;
-    tahukoInviterName.inviter = listOfTahukoChildName;
-    createData.marriageInvitationCard!.chirping = tahukoInviterName;*/
     listOfTahukoChildName = mrgInvitationCard.chirping!.inviter!;
+    dropDownTahukoMessage = mrgInvitationCard.chirping!.previewText!;
+    changeDropDownValueForTahuko(dropDownTahukoMessage);
     var childNameList = mrgInvitationCard.chirping!.inviter;
     for (int i = 0; i < childNameList!.length; i++) {
       tahukoChildController.add(TextEditingController(text: childNameList[i]));
     }
-    /*1 Dropdown Pending*/
     update([Constant.idTahukoPart]);
     /*End For Tahuko Names Data*/
 

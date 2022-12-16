@@ -13,6 +13,11 @@ class NewKankotriDataModel {
     return Repository(dioClient).createKankotri(this, createData,createDataObject,context);
   }
 
+  Future<CreateKankotriData> updateKankotri(BuildContext context, String createData,CreateData createDataObject,String cardId) {
+    DioClient dioClient = DioClient(context);
+    return Repository(dioClient).updateKankotri(this, createData,createDataObject,cardId,context);
+  }
+
   Future<GetInfoData> getInfo(BuildContext context,String mrgType) {
     DioClient dioClient = DioClient(context);
     return Repository(dioClient).getInfo(this,mrgType,context);

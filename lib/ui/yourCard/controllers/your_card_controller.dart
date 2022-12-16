@@ -34,6 +34,7 @@ class YourCardsController extends GetxController {
   }
 
   handleGetAllMyKankotriResponse(NewKankotriData getAllKankotriData, BuildContext context) async {
+    allYourCardList.clear();
     if (getAllKankotriData.status == Constant.responseSuccessCode) {
       if (getAllKankotriData.message != null) {
         Debug.printLog(

@@ -134,8 +134,7 @@ class AddKankotriScreen extends StatelessWidget {
                   .request()
                   .isPermanentlyDenied) {
                 await openAppSettings();
-              }
-              if (await Permission.storage
+              } else if (await Permission.storage
                   .request()
                   .isDenied) {
                 Get.back();
@@ -2711,7 +2710,7 @@ class AddKankotriScreen extends StatelessWidget {
                 onTap: () {
                   logic.getAllValue();
                   // Get.back();
-                  logic.callCreateCardAPI(context);
+                  logic.callCreateUpdateCardAPI(context);
                 },
                 child: Container(
                   alignment: Alignment.center,

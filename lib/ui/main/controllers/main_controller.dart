@@ -40,7 +40,7 @@ class MainController extends GetxController {
   void onInit() {
     super.onInit();
     Debug.printLog("User Data==>> ${getUserData()}");
-    getUserData()!.getIdToken().then((value) => Debug.printLog("Token Main ==>> $value"));
+    getUserData()!.getIdToken().then((value) => Preference.shared.setString(Preference.accessToken, value));
 
   }
 

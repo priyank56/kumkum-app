@@ -18,6 +18,7 @@ class DioClient {
 
   DioClient(BuildContext? context, {bool isMultipart = false,bool isPassAuth = false}) {
     var header = Preference.shared.getString(Preference.accessToken) ?? "";
+    Debug.printLog("headerheader==>>> $header");
     // dio.interceptors.add(AppInterceptors(context));
     dio.interceptors.add(AppInterceptors());
     dio.options.headers = {

@@ -10,8 +10,9 @@ import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
 
 class YourCardsScreen extends StatelessWidget {
-  const YourCardsScreen({Key? key}) : super(key: key);
+  YourCardsScreen({Key? key}) : super(key: key);
 
+  YourCardsController yourCardsController = Get.find<YourCardsController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -138,7 +138,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.yourCard,
-      page: () => const YourCardsScreen(),
+      page: () => YourCardsScreen(),
       binding: YourCardBinding(),
       transition: Transition.fade,
     ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +14,8 @@ class YourCardsController extends GetxController {
   bool isShowProgress = false;
   NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
   List<ResultGet> allYourCardList = [];
+  var auth = FirebaseAuth.instance;
+
 
   @override
   void onInit() {
@@ -46,14 +49,14 @@ class YourCardsController extends GetxController {
         if (getAllKankotriData.message != null && getAllKankotriData.message!.isNotEmpty) {
           Utils.showToast(context,getAllKankotriData.message!);
         } else {
-          Utils.showToast(context,"msgLoginFail".tr);
+          Utils.showToast(context,"txtSomethingWentWrong".tr);
         }
       }
     } else {
       if (getAllKankotriData.message != null && getAllKankotriData.message!.isNotEmpty) {
         Utils.showToast(context,getAllKankotriData.message!);
       } else {
-        Utils.showToast(context,"msgLoginFail".tr);
+        Utils.showToast(context,"txtSomethingWentWrong".tr);
       }
     }
     isShowProgress = false;

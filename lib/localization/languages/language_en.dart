@@ -50,6 +50,7 @@ final Map<String, String> enUS = {
   'txtOptions': "Options",
   'txtCamera': "Capture Image From Camera",
   'txtGallery': "Take Image From Gallery",
+  'txtChooseImage': "Please choose image",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",

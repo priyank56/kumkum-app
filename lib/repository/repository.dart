@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify_flutter_code/datamodel/createData.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/getInfoData.dart';
+import 'package:spotify_flutter_code/ui/addKankotri/datamodel/uploadImageData.dart';
 import 'package:spotify_flutter_code/ui/login/datamodel/logindatamodel.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
@@ -124,9 +125,9 @@ class Repository {
 
   Future<GetInfoData> getInfo(NewKankotriDataModel newKankotriDataModel,String mrgType,
       [BuildContext? context]) async {
+    Debug.printLog("getInfo mrgType==>> : $mrgType");
     try {
       Response response = await dioClient!.dio.get<String>("/api/marriageInvitationCard/info",queryParameters:{Params.type:mrgType} );
-      Debug.printLog("getInfo RESPONSE ==>> $response ");
 
       if (response.statusCode == Constant.responseSuccessCode) {
         var res = response.data;
@@ -184,7 +185,45 @@ class Repository {
     }
   }
 
+  Future<UploadImageData> uploadImage(NewKankotriDataModel uploadImageDataModel,
+      [BuildContext? context]) async {
+    try {
 
+      FormData formData = FormData.fromMap({
+        Params.image: await MultipartFile.fromFile(uploadImageDataModel.file!.path, filename:uploadImageDataModel.file!.path.split('/').last),
+        // Params.image: uploadImageDataModel.file,
+        // Params.image: await MultipartFile.fromFile("./developerlibs.txt",filename: "developerlibs.txt"),
+      });
+
+      Response response =
+          await dioClient!.dio.post<String>("/api/marriageInvitationCard/upload/image", data: formData);
+      Debug.printLog("uploadImage RESPONSE ==>> $response ");
+
+      if (response.statusCode == Constant.responseSuccessCode) {
+        var res = response.data;
+        return UploadImageData.fromJson(jsonDecode(res));
+      } else if (response.statusCode == Constant.responseFailureCode) {
+        var res = response.data;
+        try {
+          return UploadImageData.fromJson(jsonDecode(res));
+        } catch (e) {
+          Debug.printLog(e.toString());
+          return UploadImageData();
+        }
+      } else {
+        throw Exception(
+            'Exception -->> Failed to createQrCode Please Try Again!');
+      }
+    } on DioError catch (ex) {
+      try {
+        var res = ex.response!.data;
+        return UploadImageData.fromJson(jsonDecode(res));
+      } catch (e) {
+        Debug.printLog(e.toString());
+        return UploadImageData();
+      }
+    }
+  }
 
 //Todo: For MultiPart Image API
   /* Future<CreateQrData> createQrCode(CreateQrDataModel createQrDataModel,

@@ -4,6 +4,7 @@ import 'package:spotify_flutter_code/main.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/controllers/add_kankotri_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:spotify_flutter_code/utils/debug.dart';
 import 'package:spotify_flutter_code/utils/utils.dart';
 import '../../../custom/dialog/progressdialog.dart';
 import '../../../utils/color.dart';
@@ -576,6 +577,7 @@ class AddKankotriScreen extends StatelessWidget {
 
   Widget _listViewNimantrakName(BuildContext context, int index,
       AddKankotriController logic) {
+    // Debug.printLog("logic.nimantrakNameController===>> ${logic.nimantrakNameController[index].text}  $index");
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
@@ -2755,7 +2757,7 @@ class AddKankotriScreen extends StatelessWidget {
                   GestureDetector(
                     child: Text("txtCamera".tr),
                     onTap: () {
-                      logic.selectImage(Constant.typeCamera);
+                      logic.selectImage(Constant.typeCamera,context);
                       Get.back();
                     },
                   ),
@@ -2763,7 +2765,7 @@ class AddKankotriScreen extends StatelessWidget {
                   GestureDetector(
                     child: Text("txtGallery".tr),
                     onTap: () {
-                      logic.selectImage(Constant.typeGallery);
+                      logic.selectImage(Constant.typeGallery,context);
                       Get.back();
                     },
                   ),

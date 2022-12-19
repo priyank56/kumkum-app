@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:spotify_flutter_code/connectivitymanager/connectivitymanager.dart';
@@ -45,11 +46,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var auth = FirebaseAuth.instance;
 
+
+  User? getUserData(){
+    return auth.currentUser;
+  }
 
   @override
   void initState() {
     super.initState();
+    if(auth.currentUser != null) {
+      getUserData()!.getIdToken().then((value) =>
+          Preference.shared.setString(Preference.accessToken, value));
+    }
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -10,6 +11,7 @@ import 'package:spotify_flutter_code/datamodel/createData.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/getInfoData.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/newkankotridatamodel.dart';
+import 'package:spotify_flutter_code/ui/addKankotri/datamodel/uploadImageData.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 
 import '../../../connectivitymanager/connectivitymanager.dart';
@@ -149,6 +151,11 @@ class AddKankotriController extends GetxController {
     }
   }
 
+  Future<String?> getUserTokeId()async{
+    var token = "";
+    await FirebaseAuth.instance.currentUser!.getIdToken().then((value) => (){ token = value;});
+    return token;
+  }
 
   Future<void> selectDate(BuildContext context,{int index = -1}) async {
     final DateTime? picked = await showDatePicker(
@@ -385,12 +392,26 @@ class AddKankotriController extends GetxController {
     if(type == Constant.typeNimantrakName){
       listNimantrakName[listNimantrakName.indexOf(listNimantrakName[index])] = value;
       nimantrakNameController.add(TextEditingController(text: value));
+      nimantrakNameController[index].text = value;
+      nimantrakNameController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
     }else if(type == Constant.typeNimantrakSarnamu){
       listNimantrakAddress[listNimantrakAddress.indexOf(listNimantrakAddress[index])] = value;
+      /*if(nimantrakAddressController.isEmpty){
+        nimantrakAddressController.add(TextEditingController(text: value));
+      }*/
       nimantrakAddressController.add(TextEditingController(text: value));
+      nimantrakAddressController[index].text = value;
+      nimantrakAddressController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+      // nimantrakAddressController.add(TextEditingController(text: value));
     }else if(type == Constant.typeNimantrakMobile){
       listNimantrakMno[listNimantrakMno.indexOf(listNimantrakMno[index])] = value;
+      /*if(nimantrakMnoController.isEmpty){
+        nimantrakMnoController.add(TextEditingController(text: value));
+      }*/
       nimantrakMnoController.add(TextEditingController(text: value));
+      nimantrakMnoController[index].text = value;
+      nimantrakMnoController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+      // nimantrakMnoController.add(TextEditingController(text: value));
     }
     update([Constant.idAddNimantrakPart]);
   }
@@ -1066,7 +1087,7 @@ class AddKankotriController extends GetxController {
 
   File? imgFile;
   final imgPicker = ImagePicker();
-  void selectImage(String type) async {
+  void selectImage(String type,BuildContext context) async {
     PickedFile? img = PickedFile("");
     if(type == Constant.typeCamera){
       img = await imgPicker.getImage(source: ImageSource.camera);
@@ -1076,6 +1097,9 @@ class AddKankotriController extends GetxController {
     imgFile = File(img!.path);
     Debug.printLog("Image FIle==>>> $imgFile  ${img.path}");
     update([Constant.idSetMainImage]);
+    if(imgFile != null){
+      callUploadCardAPI(context);
+    }
   }
 
 
@@ -1083,7 +1107,7 @@ class AddKankotriController extends GetxController {
       if (await InternetConnectivity.isInternetConnect()) {
         isShowProgress = true;
         update([Constant.isShowProgressUpload]);
-        var mrgType = (isGroomCard)?Constant.typeGroom:Constant.typeBride;
+        var mrgType = (isGroomCard)?Constant.typeGroomAPI:Constant.typeBrideAPI;
         await newKankotriDataModel.getInfo(context,mrgType).then((value) {
           handleKankotriInfoResponse(value,context);
         });
@@ -1200,14 +1224,58 @@ class AddKankotriController extends GetxController {
         if (newKankotriData.message != null && newKankotriData.message!.isNotEmpty) {
           Utils.showToast(context,newKankotriData.message!);
         } else {
-          Utils.showToast(context,"msgLoginFail".tr);
+          Utils.showToast(context,"txtSomethingWentWrong".tr);
         }
       }
     } else {
       if (newKankotriData.message != null && newKankotriData.message!.isNotEmpty) {
         Utils.showToast(context,newKankotriData.message!);
       } else {
-        Utils.showToast(context,"msgLoginFail".tr);
+        Utils.showToast(context,"txtSomethingWentWrong".tr);
+      }
+    }
+    isShowProgress = false;
+    update([Constant.isShowProgressUpload]);
+  }
+
+  callUploadCardAPI(BuildContext context) async {
+      if (await InternetConnectivity.isInternetConnect()) {
+        if(imgFile != null) {
+          newKankotriDataModel.file = imgFile;
+          isShowProgress = true;
+          update([Constant.isShowProgressUpload]);
+          await newKankotriDataModel.uploadCardImage(context).then((value) {
+            handleUploadCardResponse(value, context);
+          });
+        }else{
+          Utils.showToast(context, "txtChooseImage".tr);
+        }
+      } else {
+        Utils.showToast(context, "txtNoInternet".tr);
+      }
+  }
+
+  handleUploadCardResponse(UploadImageData newKankotriData, BuildContext context) async {
+    if (newKankotriData.status == Constant.responseSuccessCode) {
+      if (newKankotriData.message != null) {
+        Debug.printLog(
+            "handleUploadCardResponse Res Success ===>> ${newKankotriData.toJson().toString()}");
+        Utils.showToast(context,newKankotriData.message.toString());
+      } else {
+        Debug.printLog(
+            "handleUploadCardResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
+
+        if (newKankotriData.message != null && newKankotriData.message!.isNotEmpty) {
+          Utils.showToast(context,newKankotriData.message!);
+        } else {
+          Utils.showToast(context,"txtSomethingWentWrong".tr);
+        }
+      }
+    } else {
+      if (newKankotriData.message != null && newKankotriData.message!.isNotEmpty) {
+        Utils.showToast(context,newKankotriData.message!);
+      } else {
+        Utils.showToast(context,"txtSomethingWentWrong".tr);
       }
     }
     isShowProgress = false;

@@ -19,6 +19,7 @@ class Params {
   static const expiresIn = "expires_in";
   static const isGiftSelected = "is_gift_selected";
   static const type = "type";
+  static const image = "image";
 
   static const id = "id";
   static const name = "name";
@@ -42,7 +43,6 @@ class Params {
   static const selected = "selected";
   static const bgColor = "bg_color";
   static const fgColor = "fg_color";
-  static const qrImage = "qr_image";
   static const qrData = "qr_data";
   static const qrLogo = "qr_logo";
 

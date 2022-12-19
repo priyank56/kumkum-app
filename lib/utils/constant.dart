@@ -17,10 +17,10 @@ class Constant {
   static const showAdsWallPaperAfterEvery10 = 2;
 
   // DEVELOPING URL
-  static const developingURL = "https://acv-wb-api.azurewebsites.net";
+  static const developingURL = "http://ec2-54-173-19-21.compute-1.amazonaws.com:3000";
 
   // LIVE URL
-  static const mainURL = "https://acv-wb-api.azurewebsites.net";
+  static const mainURL = "http://ec2-54-173-19-21.compute-1.amazonaws.com:3000";
 
   static const languageEn = "en";
   static const countryCodeEn = "US";

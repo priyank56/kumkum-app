@@ -1,8 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 import 'package:contacts_service/contacts_service.dart';
+
+import '../../../connectivitymanager/connectivitymanager.dart';
+import '../../../utils/utils.dart';
+import '../../addKankotri/datamodel/newKankotriData.dart';
+import '../../addKankotri/datamodel/newkankotridatamodel.dart';
 
 class ContactController extends GetxController {
 
@@ -13,6 +20,60 @@ class ContactController extends GetxController {
   List<AllContact> contactListSarvo = [];
   List<AllContact> contactListSajode = [];
   List<AllContact> contactList1Person = [];
+
+  bool isShowProgress = false;
+  NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
+  List<ResultGet> allYourCardList = [];
+  var auth = FirebaseAuth.instance;
+
+
+  @override
+  void onInit() {
+    super.onInit();
+    getAllYourCardsAPI(Get.context!);
+  }
+
+  getAllYourCardsAPI(BuildContext context) async {
+    if (await InternetConnectivity.isInternetConnect()) {
+      isShowProgress = true;
+      update([Constant.isShowProgressUpload,Constant.idMainPage,Constant.idBottomText,Constant.idNextPrevious,Constant.idBottomViewPos]);
+      await newKankotriDataModel.getAllInvitationCards(
+          context).then((value) {
+        handleGetAllMyKankotriResponse(value, context);
+      });
+    } else {
+      Utils.showToast(context, "txtNoInternet".tr);
+    }
+  }
+
+  handleGetAllMyKankotriResponse(NewKankotriData getAllKankotriData, BuildContext context) async {
+    allYourCardList.clear();
+    if (getAllKankotriData.status == Constant.responseSuccessCode) {
+      if (getAllKankotriData.message != null) {
+        Debug.printLog(
+            "handleGetAllMyKankotriResponse Res Success ===>> ${getAllKankotriData.toJson().toString()}");
+        allYourCardList = getAllKankotriData.result!;
+      } else {
+        Debug.printLog(
+            "handleGetAllMyKankotriResponse Res Fail ===>> ${getAllKankotriData.toJson().toString()}");
+        if (getAllKankotriData.message != null && getAllKankotriData.message!.isNotEmpty) {
+          Utils.showToast(context,getAllKankotriData.message!);
+        } else {
+          Utils.showToast(context,"txtSomethingWentWrong".tr);
+        }
+      }
+    } else {
+      if (getAllKankotriData.message != null && getAllKankotriData.message!.isNotEmpty) {
+        Utils.showToast(context,getAllKankotriData.message!);
+      } else {
+        Utils.showToast(context,"txtSomethingWentWrong".tr);
+      }
+    }
+    isShowProgress = false;
+    update([Constant.isShowProgressUpload,Constant.idBottomViewPos,Constant.idMainPage]);
+  }
+
+
 
   changeBottomViewPos(int pos)async{
     currentPos = pos;
@@ -83,11 +144,6 @@ class ContactController extends GetxController {
       update([Constant.idBottomViewPos]);
     }
     Debug.printLog("contacts=>>> Sizes   ${contacts.length}");
-  }
-  @override
-  void onInit() {
-    super.onInit();
-
   }
 }
 

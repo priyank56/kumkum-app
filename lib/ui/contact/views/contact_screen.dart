@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/ui/contact/controllers/contact_controller.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import '../../../custom/dialog/progressdialog.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
@@ -15,62 +16,58 @@ class ContactScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: GetBuilder<ContactController>(
-            id: Constant.idMainPage,
-            builder: (logic) {
-              return Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/main_bg.png'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                child: Stack(
-                  children: [
-                    /*SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _widgetPreBuilt(logic, context),
-                          _widgetDesc(logic, context),
-                          _widgetNextPrevious(),
-                          _widgetText(context),
-                          (logic.currentPos == 1)
-                              ? _widgetFirstBottomView(context)
-                              : _widgetThirdBottomView(context),
-                        ],
+        child: Stack(
+          children: [
+            GetBuilder<ContactController>(
+                id: Constant.idMainPage,
+                builder: (logic) {
+                  return Container(
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/main_bg.png'),
+                        fit: BoxFit.fill,
                       ),
-                    ),*/
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                    child: Stack(
                       children: [
-                        _widgetPreBuilt(logic, context),
-                        _widgetDesc(logic, context),
-                        _widgetNextPrevious(),
-                        _widgetText(context),
-                        (logic.currentPos == 1)
-                            ? _widgetFirstBottomView(context)
-                            : (logic.currentPos == 3)
-                            ? _widgetThirdBottomView(context)
-                            : Expanded(child: Container()),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _widgetPreBuilt(logic, context),
+                            _widgetDesc(logic, context),
+                            _widgetNextPrevious(),
+                            _widgetText(context),
+                            (logic.currentPos == 1)
+                                ? _widgetFirstBottomView(context)
+                                : (logic.currentPos == 3)
+                                ? _widgetThirdBottomView(context)
+                                : Expanded(child: Container())
+                          ],
+                        ),
+                        (logic.currentPos == 2)
+                            ? _widgetSecondBottomView(context, logic)
+                            : Container()
                       ],
                     ),
-                    (logic.currentPos == 2)
-                        ? _widgetSecondBottomView(context, logic)
-                        : Container()
-                  ],
-                ),
-              );
-            }),
+                  );
+                }),
+            GetBuilder<ContactController>(
+                id: Constant.isShowProgressUpload,
+                builder: (logic) {
+                  return ProgressDialog(
+                      inAsyncCall: logic.isShowProgress,
+                      child: Container());
+                }),
+          ],
+        ),
       ),
     );
   }
@@ -264,7 +261,7 @@ class ContactScreen extends StatelessWidget {
                 return _itemCardView(index, context);
               },
               shrinkWrap: true,
-              itemCount: 5,
+              itemCount: logic.allYourCardList.length,
               scrollDirection: Axis.horizontal,
             ),
           );

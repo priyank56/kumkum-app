@@ -90,9 +90,28 @@ class AppPages {
       transition: Transition.fade,
     ),*/
 
-    GetPage(
+  /*  GetPage(
       name: AppRoutes.preview,
       page: () => const PreviewScreen(),
+      binding: PreviewBinding(),
+      transition: Transition.fade,
+    ),*/
+
+
+    GetPage(
+      name: AppRoutes.preview,
+      page: () => Sizer(
+        builder: (context, orientation, deviceType) {
+          return const AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle(
+              statusBarColor: CColor.transparent,
+              statusBarIconBrightness: Brightness.dark,
+              systemNavigationBarIconBrightness: Brightness.light,
+            ),
+            child: PreviewScreen(),
+          );
+        },
+      ),
       binding: PreviewBinding(),
       transition: Transition.fade,
     ),

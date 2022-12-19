@@ -143,7 +143,7 @@ class AddKankotriScreen extends StatelessWidget {
             },
             child: Container(
               margin: EdgeInsets.only(top: Sizes.height_3),
-              child: (logic.imgFile == null)
+              child: (logic.imgFile == null && logic.imgCoverURL == "")
                   ? Stack(
                 alignment: Alignment.center,
                 children: [
@@ -163,7 +163,8 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ],
               )
-                  : ClipRRect(
+                  : (logic.imgFile != null)?
+              ClipRRect(
                 borderRadius: BorderRadius.circular(Sizes.height_20),
                 child: SizedBox(
                   height: Sizes.height_15,
@@ -171,6 +172,26 @@ class AddKankotriScreen extends StatelessWidget {
                   child: Image.file(
                     logic.imgFile!,
                     fit: BoxFit.cover,
+                  ),
+                ),
+              ):ClipRRect(
+                borderRadius: BorderRadius.circular(Sizes.height_20),
+                child: SizedBox(
+                  height: Sizes.height_15,
+                  width: Sizes.height_15,
+                  child: CachedNetworkImage(
+                    fadeInDuration: const Duration(milliseconds: 10),
+                    fadeOutDuration: const Duration(milliseconds: 10),
+                    fit: BoxFit.cover,
+                    imageUrl: logic.imgCoverURL.toString(),
+                    placeholder: (context, url) =>
+                    const Center(
+                      child: SizedBox(
+                        width: 60.0,
+                        height: 60.0,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
                   ),
                 ),
               ),

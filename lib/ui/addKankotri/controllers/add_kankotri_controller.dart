@@ -27,9 +27,11 @@ class AddKankotriController extends GetxController {
   var arguments = Get.arguments;
   bool isGroomCard = true;
   String isFromAddUpdate = "";
-
+  User userData = FirebaseAuth.instance.currentUser!;
   bool isShowProgress = false;
   NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
+  File? imgFile;
+  String? imgCoverURL = "";
 
   List<ChirpingInfo> listOfAllChirping = [];
   List<String> listOfAllStringChirping = [];
@@ -288,8 +290,18 @@ class AddKankotriController extends GetxController {
   }
 
   changeValueInListForTahukoChildName(int index,String value) {
-    tahukoChildController.add(TextEditingController(text: value));
-    listOfTahukoChildName[index] = value;
+    // tahukoChildController.add(TextEditingController(text: value));
+    // listOfTahukoChildName[index] = value;
+
+
+
+    listOfTahukoChildName[listOfTahukoChildName.indexOf(listOfTahukoChildName[index])] = value;
+    if(listOfTahukoChildName.length > tahukoChildController.length) {
+      tahukoChildController.add(TextEditingController(text: value));
+    }
+    tahukoChildController[index].text = value;
+    tahukoChildController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+
     update([Constant.idTahukoPart]);
   }
 
@@ -332,11 +344,6 @@ class AddKankotriController extends GetxController {
     update([Constant.idGoodPlaceAll]);
   }
 
- /* addGodInfo(){
-    godInformationList.add(GodInformation(Constant.godDemoImageURl, "શ્રી ગણેશાય નમઃ",false));
-    godInformationList.add(GodInformation(Constant.godDemoImageURl, "શ્રી ગેલ અંબે માતાજી",false));
-    godInformationList.add(GodInformation(Constant.godDemoImageURl, "ૐ નમઃ શિવાય",false));
-  }*/
 
   addRemoveGodNamesName(bool isAdd, int index,String name){
     if(name == ""){
@@ -360,26 +367,6 @@ class AddKankotriController extends GetxController {
     update([Constant.idGodNames]);
   }
 
-  /*addInviterMessage() {
-    listOfMessagesFromGroom.add("Messages Groom 1");
-    listOfMessagesFromGroom.add("Messages Groom 2");
-    dropDownFromGroomMessage = listOfMessagesFromGroom[0];
-
-    listOfMessagesFromBride.add("Messages Bride 1");
-    listOfMessagesFromBride.add("Messages Bride 2");
-    dropDownFromBrideMessage = listOfMessagesFromBride[0];
-
-    update([Constant.idInviterPart]);
-   }*/
-
- /*  addChirpingList() {
-     listOfChirping.add("Tahuko 1");
-     listOfChirping.add("Tahuko 2");
-     dropDownTahukoMessage = listOfChirping[0];
-     update([Constant.idTahukoPart]);
-
-   }*/
-
    changeGodName(String name){
      newGodName = name;
      update([Constant.idGodNames]);
@@ -391,27 +378,25 @@ class AddKankotriController extends GetxController {
   changeValueInListForNimantrak(int index,String type,String value) {
     if(type == Constant.typeNimantrakName){
       listNimantrakName[listNimantrakName.indexOf(listNimantrakName[index])] = value;
-      nimantrakNameController.add(TextEditingController(text: value));
+      if(listNimantrakName.length > nimantrakNameController.length) {
+        nimantrakNameController.add(TextEditingController(text: value));
+      }
       nimantrakNameController[index].text = value;
       nimantrakNameController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
     }else if(type == Constant.typeNimantrakSarnamu){
       listNimantrakAddress[listNimantrakAddress.indexOf(listNimantrakAddress[index])] = value;
-      /*if(nimantrakAddressController.isEmpty){
+      if(listNimantrakAddress.length > nimantrakAddressController.length) {
         nimantrakAddressController.add(TextEditingController(text: value));
-      }*/
-      nimantrakAddressController.add(TextEditingController(text: value));
+      }
       nimantrakAddressController[index].text = value;
       nimantrakAddressController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
-      // nimantrakAddressController.add(TextEditingController(text: value));
     }else if(type == Constant.typeNimantrakMobile){
       listNimantrakMno[listNimantrakMno.indexOf(listNimantrakMno[index])] = value;
-      /*if(nimantrakMnoController.isEmpty){
+      if(listNimantrakMno.length > nimantrakMnoController.length) {
         nimantrakMnoController.add(TextEditingController(text: value));
-      }*/
-      nimantrakMnoController.add(TextEditingController(text: value));
+      }
       nimantrakMnoController[index].text = value;
       nimantrakMnoController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
-      // nimantrakMnoController.add(TextEditingController(text: value));
     }
     update([Constant.idAddNimantrakPart]);
   }
@@ -437,8 +422,18 @@ class AddKankotriController extends GetxController {
 
   changeValueInListForGuestAllNames(int index,int mainIndex,String value) {
     Debug.printLog("changeValueInListForGuestAllNames==>>  $value");
-    guestNamesList[mainIndex].listOfGuestNamesController!.add(TextEditingController(text: value));
-    guestNamesList[mainIndex].listOfGuestNames[guestNamesList[mainIndex].listOfGuestNames.indexOf(guestNamesList[mainIndex].listOfGuestNames[index])] = value;
+    /*guestNamesList[mainIndex].listOfGuestNames[guestNamesList[mainIndex]
+        .listOfGuestNames.indexOf(
+        guestNamesList[mainIndex].listOfGuestNames[index])] = value;
+*/
+
+    guestNamesList[mainIndex].listOfGuestNames[index] = value;
+    if(guestNamesList[mainIndex].listOfGuestNames.length > guestNamesList[mainIndex].listOfGuestNamesController!.length) {
+      guestNamesList[mainIndex].listOfGuestNamesController!.add(TextEditingController(text: value));
+    }
+    guestNamesList[mainIndex].listOfGuestNamesController![index].text = value;
+    guestNamesList[mainIndex].listOfGuestNamesController![index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+
     update([Constant.idGuestNameAll]);
   }
 
@@ -484,6 +479,13 @@ class AddKankotriController extends GetxController {
   }
 
   bool validation(BuildContext context){
+
+    /*Cover Image Detail*/
+    if(imgCoverURL == ""){
+      Utils.showToast(context, "txtUploadImage".tr);
+      return false;
+    }
+
     /*Groom Detail*/
     if(varRajaNuNameController.text.isEmpty || groomNameController.text.isEmpty){
       Utils.showToast(context, "txtEnterGroomName".tr);
@@ -858,16 +860,16 @@ class AddKankotriController extends GetxController {
     /*====================================================================================*/
 
     /*Fill Up Values In The Class Map*/
-    createData.email = (getAllInvitationCard.email != null)?getAllInvitationCard.email:"email.com";
-    createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != null)?getAllInvitationCard.layoutDesignId:"3409e5aac99c";
-    createData.marriageInvitationCardId = (getAllInvitationCard.marriageInvitationCardId != null)?getAllInvitationCard.marriageInvitationCardId:"2f61ff54";
-    createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != null)?getAllInvitationCard.marriageInvitationCardName:"from app";
+    createData.email = (getAllInvitationCard.email != null)?getAllInvitationCard.email : userData.email;
+    createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != null)?getAllInvitationCard.layoutDesignId: "3409e5aac99c";
+    createData.marriageInvitationCardId = (getAllInvitationCard.marriageInvitationCardId != null)?getAllInvitationCard.marriageInvitationCardId: "2f61ff54";
+    createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != null)?getAllInvitationCard.marriageInvitationCardName: "from app";
     createData.marriageInvitationCardType =(getAllInvitationCard.marriageInvitationCardType != null)?getAllInvitationCard.marriageInvitationCardType: "mict1";
     createData.isGroom = isGroomCard;
 
     var coverImage = CoverImage();
     coverImage.isShow = true;
-    coverImage.url = Constant.godDemoImageURl.toString();
+    coverImage.url = (imgCoverURL != "")?imgCoverURL:Constant.godDemoImageURl.toString();
     createData.marriageInvitationCard!.coverImage = coverImage;
 
     /*====================================================================================*/
@@ -1085,7 +1087,6 @@ class AddKankotriController extends GetxController {
   }
 
 
-  File? imgFile;
   final imgPicker = ImagePicker();
   void selectImage(String type,BuildContext context) async {
     PickedFile? img = PickedFile("");
@@ -1216,7 +1217,12 @@ class AddKankotriController extends GetxController {
         Debug.printLog(
             "handleNewKankotriResponse Res Success ===>> ${newKankotriData.toJson().toString()}");
         Utils.showToast(context,newKankotriData.message.toString());
-        Get.toNamed(AppRoutes.preview,arguments: [createData]);
+        var functionList = createData.marriageInvitationCard!.functions!.where((element) => element.functionDate != "" && element.functionTime != "").toList();
+        List<PreviewFunctions> functionStringTitleList = [];
+        for(int i =0;i<functionList.length;i++){
+          functionStringTitleList.add(PreviewFunctions(functionList[i].functionId, functionList[i].functionName ?? "",'txtSarvo'.tr));
+        }
+        Get.toNamed(AppRoutes.preview,arguments: [createData,functionStringTitleList]);
       } else {
         Debug.printLog(
             "handleNewKankotriResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
@@ -1260,7 +1266,9 @@ class AddKankotriController extends GetxController {
       if (newKankotriData.message != null) {
         Debug.printLog(
             "handleUploadCardResponse Res Success ===>> ${newKankotriData.toJson().toString()}");
-        Utils.showToast(context,newKankotriData.message.toString());
+        imgCoverURL =  newKankotriData.result!.url ?? "";
+        update([Constant.idSetMainImage]);
+        // Utils.showToast(context,newKankotriData.message.toString());
       } else {
         Debug.printLog(
             "handleUploadCardResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
@@ -1287,6 +1295,10 @@ class AddKankotriController extends GetxController {
 
     var mrgInvitationCard = getAllInvitationCard.marriageInvitationCard!;
     /*====================================================================================*/
+
+    /*Image Cover URL*/
+    imgCoverURL = mrgInvitationCard.coverImage!.url.toString() ?? "";
+    update([Constant.idSetMainImage]);
 
     /*Start For VarPaksh and KanyaPaksh Data*/
     kanyaNuNameController.text = mrgInvitationCard.pair![0].bride!.name.toString();
@@ -1613,6 +1625,13 @@ class GoodPlaceAllName{
   GoodPlaceAllName(this.titleName,this.listOfAddressName,this.listOfMobile,this.inviterName,this.listEditTextAddress,this.listEditTextMobile,this.inviterController);
 }
 
+class PreviewFunctions{
+  String? fId = "";
+  String? fName = "";
+  String? fPerson = "";
+
+  PreviewFunctions(this.fId,this.fName,this.fPerson);
+}
 /*
 class GodInformation{
   String godImageURL = "";

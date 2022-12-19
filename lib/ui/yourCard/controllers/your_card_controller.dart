@@ -26,7 +26,7 @@ class YourCardsController extends GetxController {
   getAllYourCardsAPI(BuildContext context) async {
       if (await InternetConnectivity.isInternetConnect()) {
         isShowProgress = true;
-        update([Constant.isShowProgressUpload]);
+        update([Constant.isShowProgressUpload,Constant.idGetAllYourCards]);
         await newKankotriDataModel.getAllInvitationCards(
             context).then((value) {
           handleGetAllMyKankotriResponse(value, context);

@@ -266,14 +266,15 @@ class PreviewScreen extends StatelessWidget {
                       },
                       shrinkWrap: true,
                       itemCount:
-                          (logic.isAdvanceEnabled) ? logic.listTitle.length : 3,
+                          (logic.isAdvanceEnabled) ? logic.functionStringTitleList.length : (logic.functionStringTitleList.length > 3)?3:logic.functionStringTitleList.length,
                       scrollDirection: Axis.vertical,
                     ),
                   ),
                   Stack(
                     alignment: Alignment.centerRight,
                     children: [
-                      Container(
+                      if (logic.functionStringTitleList.length > 3)
+                        Container(
                         alignment: Alignment.center,
                         child: Material(
                           color: CColor.transparent,
@@ -297,7 +298,8 @@ class PreviewScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
+                      )
+                      else Container(),
                       ConstrainedBox(
                         constraints: BoxConstraints(
                           maxHeight: Sizes.height_10,
@@ -310,6 +312,7 @@ class PreviewScreen extends StatelessWidget {
                           child: InkWell(
                             splashColor: CColor.black,
                             onTap: () {
+                              logic.generateUploadFunctionsData();
                               Get.back();
                             },
                             child: Container(
@@ -341,7 +344,7 @@ class PreviewScreen extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            logic.listTitle[index].toString(),
+            logic.functionStringTitleList[index].fName.toString(),
             style: TextStyle(
                 color: CColor.black,
                 fontSize: FontSize.size_14,
@@ -351,7 +354,7 @@ class PreviewScreen extends StatelessWidget {
           DropdownButtonHideUnderline(
             child: DropdownButton2(
               isExpanded: true,
-              hint: Row(
+              /*hint: Row(
                 children: [
                   Expanded(
                     child: Text(
@@ -365,8 +368,8 @@ class PreviewScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-              items: logic.listPersons
+              ),*/
+              items: logic.listPersons[index].strValue!
                   .map((item) => DropdownMenuItem<String>(
                         value: item,
                         child: Text(
@@ -380,9 +383,9 @@ class PreviewScreen extends StatelessWidget {
                         ),
                       ))
                   .toList(),
-              value: logic.selectedValue,
+              value: logic.listPersons[index].selectedValue,
               onChanged: (value) {
-                logic.changeDropDownValue(value.toString());
+                logic.changeDropDownValue(value.toString(),index);
               },
               buttonWidth: 160,
               buttonPadding: const EdgeInsets.only(left: 14, right: 14),

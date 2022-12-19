@@ -51,10 +51,12 @@ final Map<String, String> enUS = {
   'txtCamera': "Capture Image From Camera",
   'txtGallery': "Take Image From Gallery",
   'txtChooseImage': "Please choose image",
+  'txtNoDataFound': "You haven't created any card.",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",
   'txtSajode': "સજોડે",
+  'txtAppShri': "આપ શ્રી",
   'txtVadhare': "વધારે",
   'txtOchu': "ઓછું",
   'txtMahitiBharo': "માહિતી ભરો",
@@ -179,5 +181,6 @@ final Map<String, String> enUS = {
   'txtBhanej' :"Please enter nephew names",
   'txtAtak' :"Please enter surname",
   'txtGodSelect' :"Please select at least 3 god",
+  'txtUploadImage' :"Please upload cover image",
 
 };

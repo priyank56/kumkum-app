@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
       locale: Get.deviceLocale,
       getPages: AppPages.list,
       transitionDuration: const Duration(milliseconds: 50),
-      // initialRoute:AppRoutes.login ,
+      // initialRoute:AppRoutes.preview ,
       initialRoute: Utils.isLogin() ? AppRoutes.main : AppRoutes.login,
     );
   }

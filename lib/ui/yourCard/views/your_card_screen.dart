@@ -12,7 +12,7 @@ import '../../../utils/sizer_utils.dart';
 class YourCardsScreen extends StatelessWidget {
   YourCardsScreen({Key? key}) : super(key: key);
 
-  YourCardsController yourCardsController = Get.find<YourCardsController>();
+  // YourCardsController yourCardsController = Get.find<YourCardsController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,11 +86,11 @@ class YourCardsScreen extends StatelessWidget {
     return GetBuilder<YourCardsController>(
         id: Constant.idGetAllYourCards,
         builder: (logic) {
-      return Container(
+      return (logic.allYourCardList.isNotEmpty)?
+      Container(
         margin: EdgeInsets.only(
             left: Sizes.width_5, right: Sizes.width_5, bottom: Sizes.height_3),
-        child: (logic.allYourCardList.isNotEmpty)?
-        GridView.builder(
+        child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
@@ -104,8 +104,19 @@ class YourCardsScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return _itemCardView(index, context,logic);
           },
-        ):
-        Container(),
+        )
+      ):Container(
+        height: 500,
+        alignment: Alignment.center,
+        child: Text(
+          "txtNoDataFound".tr,
+          style: TextStyle(
+              color: (logic.isShowProgress)?CColor.transparent:CColor.black,
+              fontSize: FontSize.size_14,
+              fontWeight: FontWeight.w500,
+              fontFamily: Constant.appFont
+          ),
+        ),
       );
     });
   }

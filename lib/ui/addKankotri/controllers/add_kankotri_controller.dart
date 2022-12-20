@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:spotify_flutter_code/datamodel/createData.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
@@ -32,6 +34,7 @@ class AddKankotriController extends GetxController {
   NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
   File? imgFile;
   String? imgCoverURL = "";
+  String? imgCoverId = "";
 
   List<ChirpingInfo> listOfAllChirping = [];
   List<String> listOfAllStringChirping = [];
@@ -169,14 +172,16 @@ class AddKankotriController extends GetxController {
       String convertedDateTime =
           "${picked.year.toString()}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
       if(index != -1){
-        var date = DateFormat("yyyy-MM-dd","gu").format(picked);
+        // var date = DateFormat("yyyy-MM-dd","gu").format(picked);
+        var date = Utils.translateMobileNumber(DateFormat("dd-MM-yyyy").format(picked));
         functionsList[functionsList.indexOf(functionsList[index])].functionDate = date.toString();
       }else{
         mrgDate = convertedDateTime.toString();
-        mrgDateGujarati = DateFormat("yyyy-MM-dd EEEE","gu_IN").format(picked);
-        mrgDateDay = DateFormat("EEEE","gu_IN").format(picked);
+        mrgDateGujarati = Utils.translateMobileNumber(DateFormat("dd-MM-yyyy").format(picked));
+        mrgDateDay = DateFormat("EEEE","gu").format(picked);
       }
-      Debug.printLog("convertedDateTime==>> $mrgDateDay $mrgDateGujarati ");
+      Debug.printLog("convertedDateTime==>> $mrgDateDay =>  $mrgDateGujarati  " );
+
 
       update([Constant.idMrgDate,Constant.idFunctionsPart,Constant.idInviterPart]);
 
@@ -188,6 +193,7 @@ class AddKankotriController extends GetxController {
     final TimeOfDay? picked = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
+        initialEntryMode: TimePickerEntryMode.dial,
         builder: (BuildContext context, Widget? child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
@@ -196,9 +202,17 @@ class AddKankotriController extends GetxController {
         });
 
     if (picked != null){
-      var time = "${picked.hour}:${picked.minute}";
+      TimeOfDay morningTime = TimeOfDay(hour: picked.hour, minute:picked.minute);
+      var timeAmPm = "";
+      if (morningTime.period == DayPeriod.am) {
+        timeAmPm = "વાગે સવારે";
+      } else {
+        timeAmPm = "વાગે સાંજે";
+      }
+      morningTime = morningTime.replacing(hour: morningTime.hourOfPeriod);
+
+      var time = "${Utils.translateMobileNumber("${morningTime.hour}:${morningTime.minute}")} $timeAmPm";
       functionsList[functionsList.indexOf(functionsList[index])].functionTime = time.toString();
-      var date = DateFormat('hh:mm', 'gu').format(DateTime.now());
     }
     update([Constant.idFunctionsPart]);
   }
@@ -862,14 +876,15 @@ class AddKankotriController extends GetxController {
     /*Fill Up Values In The Class Map*/
     createData.email = (getAllInvitationCard.email != null)?getAllInvitationCard.email : userData.email;
     createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != null)?getAllInvitationCard.layoutDesignId: "3409e5aac99c";
-    createData.marriageInvitationCardId = (getAllInvitationCard.marriageInvitationCardId != null)?getAllInvitationCard.marriageInvitationCardId: "2f61ff54";
+    createData.marriageInvitationCardId = (getAllInvitationCard.marriageInvitationCardId != null)?getAllInvitationCard.marriageInvitationCardId: "";
     createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != null)?getAllInvitationCard.marriageInvitationCardName: "from app";
     createData.marriageInvitationCardType =(getAllInvitationCard.marriageInvitationCardType != null)?getAllInvitationCard.marriageInvitationCardType: "mict1";
     createData.isGroom = isGroomCard;
 
     var coverImage = CoverImage();
     coverImage.isShow = true;
-    coverImage.url = (imgCoverURL != "")?imgCoverURL:Constant.godDemoImageURl.toString();
+    coverImage.url = (imgCoverURL != "")?imgCoverURL : Constant.godDemoImageURl.toString();
+    coverImage.id = imgCoverId ?? "";
     createData.marriageInvitationCard!.coverImage = coverImage;
 
     /*====================================================================================*/
@@ -1099,7 +1114,7 @@ class AddKankotriController extends GetxController {
     Debug.printLog("Image FIle==>>> $imgFile  ${img.path}");
     update([Constant.idSetMainImage]);
     if(imgFile != null){
-      callUploadCardAPI(context);
+      callUploadCoverImageAPI(context);
     }
   }
 
@@ -1244,10 +1259,13 @@ class AddKankotriController extends GetxController {
     update([Constant.isShowProgressUpload]);
   }
 
-  callUploadCardAPI(BuildContext context) async {
+  callUploadCoverImageAPI(BuildContext context) async {
       if (await InternetConnectivity.isInternetConnect()) {
         if(imgFile != null) {
           newKankotriDataModel.file = imgFile;
+          if(isFromAddUpdate == Constant.isFromUpdate){
+            newKankotriDataModel.id = getAllInvitationCard.marriageInvitationCard!.coverImage!.id;
+          }
           isShowProgress = true;
           update([Constant.isShowProgressUpload]);
           await newKankotriDataModel.uploadCardImage(context).then((value) {
@@ -1267,6 +1285,7 @@ class AddKankotriController extends GetxController {
         Debug.printLog(
             "handleUploadCardResponse Res Success ===>> ${newKankotriData.toJson().toString()}");
         imgCoverURL =  newKankotriData.result!.url ?? "";
+        imgCoverId =  newKankotriData.result!.id ?? "";
         update([Constant.idSetMainImage]);
         // Utils.showToast(context,newKankotriData.message.toString());
       } else {
@@ -1298,6 +1317,7 @@ class AddKankotriController extends GetxController {
 
     /*Image Cover URL*/
     imgCoverURL = mrgInvitationCard.coverImage!.url.toString() ?? "";
+    imgCoverId = mrgInvitationCard.coverImage!.id.toString() ?? "";
     update([Constant.idSetMainImage]);
 
     /*Start For VarPaksh and KanyaPaksh Data*/

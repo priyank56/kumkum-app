@@ -77,7 +77,7 @@ class SignupController extends GetxController {
                       password: passWordEditController.text);
        if(user.user != null){
          await firebaseAuth.currentUser!.sendEmailVerification();
-         showCustomizeDialogForAddName(context);
+         showCustomizeDialogForAddName(context,emailIdEditController.text);
          // Get.offAllNamed(AppRoutes.login);
        }
        Debug.printLog("user==>> Signup $user");
@@ -95,7 +95,7 @@ class SignupController extends GetxController {
     }
   }
 
-  showCustomizeDialogForAddName(BuildContext context) {
+  showCustomizeDialogForAddName(BuildContext context, String text) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -105,14 +105,14 @@ class SignupController extends GetxController {
               Dialog(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)),
-                child: contentBox(context),
+                child: contentBox(context,text),
               ),
             ],
           );
         });
   }
 
-  contentBox(BuildContext context) {
+  contentBox(BuildContext context, String text) {
     return GetBuilder<SignupController>(
         id: Constant.idGodNames,
         builder: (logic) {
@@ -136,13 +136,13 @@ class SignupController extends GetxController {
                 Container(
                   margin: EdgeInsets.only(left:  Sizes.width_3,right:  Sizes.width_3,top: Sizes.height_2),
                   child: Text(
-                    // firebaseAuth.currentUser!.email.toString(),
-                    "jd.codespace@gmail.com",
+                    text,
                     style: TextStyle(
                         color: CColor.grayDark,
                         fontSize: FontSize.size_12,
                         fontFamily: Constant.appFont,
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w600,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),

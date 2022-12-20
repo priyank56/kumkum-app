@@ -14,6 +14,7 @@ import '../../../repository/repository.dart';
 class NewKankotriDataModel {
 
   File? file;
+  String? id = "";
 
   Future<CreateKankotriData> createKankotri(BuildContext context, String createData,CreateData createDataObject) {
     DioClient dioClient = DioClient(context,isPassAuth: true);
@@ -36,7 +37,7 @@ class NewKankotriDataModel {
   }
 
   Future<UploadImageData> uploadCardImage(BuildContext context) {
-    DioClient dioClient = DioClient(context,isPassAuth: true);
+    DioClient dioClient = DioClient(context,isPassAuth: true,isMultipart: true);
     return Repository(dioClient).uploadImage(this,context);
   }
 }

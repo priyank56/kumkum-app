@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/preference.dart';
 import 'package:spotify_flutter_code/utils/sizer_utils.dart';
@@ -33,6 +34,62 @@ class Utils{
     return Sizes.height_6;
   }
 
+  static String translateMobileNumber(String mobileNumber) {
+    var mobileNumberTrim = mobileNumber.toString();
+    var translatedNumber = '';
+    var currentLan = 'gu';
+    for (int i = 0; i < mobileNumberTrim.length; i++) {
+      switch (mobileNumberTrim[i]) {
+        case '0':
+          translatedNumber =
+          currentLan == 'gu' ? '$translatedNumber૦' : '$translatedNumber૦';
+          break;
+        case '1':
+          translatedNumber =
+          currentLan == 'gu' ? '$translatedNumber૧' : '$translatedNumber१';
+          break;
+        case '2':
+          translatedNumber =
+          currentLan == 'gu' ? '$translatedNumber૨' : '$translatedNumber२';
+          break;
+        case '3':
+          translatedNumber =
+          currentLan == 'gu' ? '$translatedNumber૩' : '$translatedNumber३';
+          break;
+        case '4':
+          translatedNumber =
+          currentLan == 'gu' ? '$translatedNumber૪' : '$translatedNumber४';
+          break;
+        case '5':
+          translatedNumber =
+          currentLan == 'gu' ? '$translatedNumber૫' : '$translatedNumber५';
+          break;
+        case '6':
+          translatedNumber =
+          currentLan == 'gu' ? '$translatedNumber૬' : '$translatedNumber६';
+          break;
+        case '7':
+          translatedNumber =
+          currentLan == 'gu' ? '$translatedNumber૭' : '$translatedNumber७';
+          break;
+        case '8':
+          translatedNumber =
+          currentLan == 'gu' ? '$translatedNumber૮' : '$translatedNumber८';
+          break;
+        case '9':
+          translatedNumber =
+          currentLan == 'gu' ? '$translatedNumber૯' : '$translatedNumber९';
+          break;
+        case '-':
+          translatedNumber = '$translatedNumber-';
+          break;
+        case ':':
+          translatedNumber = '$translatedNumber:';
+          break;
+      }
+    }
+    return translatedNumber;
+  }
 
 
 }

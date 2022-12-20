@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 
 import '../../../routes/app_routes.dart';
@@ -14,10 +15,20 @@ class MainController extends GetxController {
   var auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  changePageViewPos(int val) {
-    currentPageViewPos = val;
-    pageController!.jumpToPage(val);
-    // Preference.shared.setBool(Preference.isOpenPageFirstTime,true);
+  changePageViewPos(int val) async{
+    if(val == 3){
+      if (await Permission.contacts.request().isGranted) {
+        currentPageViewPos = val;
+        pageController!.jumpToPage(val);
+      } else if (await Permission.contacts.request().isPermanentlyDenied) {
+        showAlertDialogPermission(Get.context!,this);
+      } else if (await Permission.contacts.request().isDenied) {
+        Get.back();
+      }
+    }else {
+      currentPageViewPos = val;
+      pageController!.jumpToPage(val);
+    }
     update();
   }
 
@@ -32,9 +43,57 @@ class MainController extends GetxController {
     Get.offAllNamed(AppRoutes.login);
   }
 
+  void deleteAccount()async{
+
+    ///For Login With Email
+    var a =EmailAuthProvider.credential(email: auth.currentUser!.email!, password: "111111");
+    var result = await  auth.currentUser!.reauthenticateWithCredential(a);
+    await result.user!.delete().then((value) => (){
+      Get.offAllNamed(AppRoutes.login);
+    });
+    ///For Login With Google
+    GoogleAuthProvider.credential(idToken: '', accessToken: '');
+
+  }
   User? getUserData(){
    return auth.currentUser;
   }
+
+  showAlertDialogPermission(BuildContext context,MainController logic) {
+    // Create button
+    Widget okButton = TextButton(
+      child: Text("txtOk".tr),
+      onPressed: () async {
+        await openAppSettings();
+      },
+    );
+
+    Widget cancelButton = TextButton(
+      child: Text("txtCancel".tr),
+      onPressed: () {
+        Get.back();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("txtPermission".tr),
+      content: Text("txtPermissionDesc".tr),
+      actions: [
+        okButton,
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 
   @override
   void onInit() {
@@ -42,6 +101,9 @@ class MainController extends GetxController {
     Debug.printLog("User Data==>> ${getUserData()}");
     getUserData()!.getIdToken().then((value) => Preference.shared.setString(Preference.accessToken, value));
 
+    /*auth.currentUser!.delete().then((value) => (){
+      Get.offAllNamed(AppRoutes.login);
+    });*/
   }
 
 }

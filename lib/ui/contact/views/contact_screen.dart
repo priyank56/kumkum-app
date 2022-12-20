@@ -42,17 +42,30 @@ class ContactScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _widgetPreBuilt(logic, context),
-                            _widgetDesc(logic, context),
-                            _widgetNextPrevious(),
-                            _widgetText(context),
-                            (logic.currentPos == 1)
+                            (logic.allYourCardList.isNotEmpty)?_widgetDesc(logic, context):Container(),
+                            (logic.allYourCardList.isNotEmpty)?_widgetNextPrevious():Container(),
+                            (logic.allYourCardList.isNotEmpty)?_widgetText(context):Container(),
+                            (logic.currentPos == 1 && logic.allYourCardList.isNotEmpty && !logic.isShowProgress)
                                 ? _widgetFirstBottomView(context)
-                                : (logic.currentPos == 3)
+                                : (logic.currentPos == 3 && logic.allYourCardList.isNotEmpty)
                                 ? _widgetThirdBottomView(context)
-                                : Expanded(child: Container())
+                                : Expanded(child: Container(
+                              height: 500,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "txtNoDataFound".tr,
+                                style: TextStyle(
+                                    color: (logic.isShowProgress)?CColor.transparent:CColor.black,
+                                    fontSize: FontSize.size_14,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: Constant.appFont
+                                ),
+                              ),
+                            ),
+                            )
                           ],
                         ),
-                        (logic.currentPos == 2)
+                        (logic.currentPos == 2 && logic.allYourCardList.isNotEmpty)
                             ? _widgetSecondBottomView(context, logic)
                             : Container()
                       ],

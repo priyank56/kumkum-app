@@ -20,6 +20,8 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:firebase_core/firebase_core.dart';
 
+// import 'package:flutter_localizations/flutter_localizations.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -85,6 +87,13 @@ class _MyAppState extends State<MyApp> {
     precacheImage(const AssetImage("assets/login_flow/ic_sign_up.webp"),context);
     initializeDateFormatting();
     return GetMaterialApp(
+      /*localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('gu')
+      ],*/
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       color: CColor.white,

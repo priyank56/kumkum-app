@@ -21,6 +21,7 @@ class Params {
   static const type = "type";
   static const image = "image";
 
+  static const imageName = "imageName";
   static const id = "id";
   static const name = "name";
   static const isPersonal = "is_personal";

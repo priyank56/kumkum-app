@@ -471,8 +471,8 @@ class AddKankotriScreen extends StatelessWidget {
                             ),
                             // labelText: (logic.mrgDate != "")?logic.mrgDate:'txtTarikh'.tr,
                             border: const OutlineInputBorder(),
-                            hintText: (logic.mrgDate != "")
-                                ? logic.mrgDate
+                            hintText: (logic.mrgDateGujarati != "")
+                                ? logic.mrgDateGujarati
                                 : 'txtTarikh'.tr),
                       ),
                     ),
@@ -991,7 +991,8 @@ class AddKankotriScreen extends StatelessWidget {
                         ),
                       ),*/
                       suffixIcon: Container(
-                        padding: EdgeInsets.all(Sizes.height_1),
+                        // padding: EdgeInsets.all(Sizes.height_1),
+                        padding: EdgeInsets.only(top: Sizes.height_1,bottom: Sizes.height_1,right: Sizes.height_1),
                         child: SvgPicture.asset(
                           "assets/svg/ic_time.svg",
                         ),

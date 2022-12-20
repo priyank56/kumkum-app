@@ -188,12 +188,19 @@ class Repository {
   Future<UploadImageData> uploadImage(NewKankotriDataModel uploadImageDataModel,
       [BuildContext? context]) async {
     try {
+      FormData formData;
 
-      FormData formData = FormData.fromMap({
-        Params.image: await MultipartFile.fromFile(uploadImageDataModel.file!.path, filename:uploadImageDataModel.file!.path.split('/').last),
-        // Params.image: uploadImageDataModel.file,
-        // Params.image: await MultipartFile.fromFile("./developerlibs.txt",filename: "developerlibs.txt"),
-      });
+      if(uploadImageDataModel.id == ""){
+        formData = FormData.fromMap({
+          Params.image: await MultipartFile.fromFile(uploadImageDataModel.file!.path, filename:uploadImageDataModel.file!.path.split('/').last),
+        });
+      }else {
+        formData = FormData.fromMap({
+          Params.image: await MultipartFile.fromFile(uploadImageDataModel.file!.path, filename: uploadImageDataModel.file!.path.split('/').last),
+          Params.imageName: uploadImageDataModel.id,
+        });
+      }
+      // Debug.printLog("uploadImageDataModel===>>>> ${formData.boundary.toString()}");
 
       Response response =
           await dioClient!.dio.post<String>("/api/marriageInvitationCard/upload/image", data: formData);

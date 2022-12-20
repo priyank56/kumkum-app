@@ -246,21 +246,25 @@ class ChirpingRes {
 
 class CoverImageRes {
     CoverImageRes({
-        // this.isShow,
+        this.isShow,
         this.url,
+        this.id,
     });
 
-    // bool? isShow = false;
+    bool? isShow = false;
     String? url;
+    String? id;
 
     factory CoverImageRes.fromJson(Map<String, dynamic> json) => CoverImageRes(
-        // isShow: json["isShow"],
+        isShow: json["isShow"],
         url: json["url"],
+        id: json["id"],
     );
 
     Map<String, dynamic> toJson() => {
-        // "isShow": isShow,
+        "isShow": isShow,
         "url": url,
+        "id": id,
     };
 }
 

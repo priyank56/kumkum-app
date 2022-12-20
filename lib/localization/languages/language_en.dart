@@ -52,6 +52,8 @@ final Map<String, String> enUS = {
   'txtGallery': "Take Image From Gallery",
   'txtChooseImage': "Please choose image",
   'txtNoDataFound': "You haven't created any card.",
+  'txtPermission': "Permission",
+  'txtPermissionDesc': "You have to turn on contact permission for this function from the setting.",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",

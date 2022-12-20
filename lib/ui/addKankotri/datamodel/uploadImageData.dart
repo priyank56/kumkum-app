@@ -32,15 +32,19 @@ class UploadImageData {
 class Result {
     Result({
         this.url,
+        this.id,
     });
 
     String? url;
+    String? id;
 
     factory Result.fromJson(Map<String, dynamic> json) => Result(
         url: json["url"],
+        id: json["id"],
     );
 
     Map<String, dynamic> toJson() => {
         "url": url,
+        "id": id,
     };
 }

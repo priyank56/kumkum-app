@@ -729,19 +729,23 @@ class CoverImage {
     CoverImage({
         this.isShow,
         this.url,
+        this.id,
     });
 
     bool? isShow;
     String? url;
+    String? id;
 
     factory CoverImage.fromJson(Map<String, dynamic> json) => CoverImage(
         isShow: json["isShow"],
         url: json["url"],
+        id: json["id"],
     );
 
     Map<String, dynamic> toJson() => {
         "isShow": isShow,
         "url": url,
+        "id": id,
     };
 }
 

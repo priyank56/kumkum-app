@@ -22,10 +22,10 @@ class DioClient {
     // dio.interceptors.add(AppInterceptors(context));
     dio.interceptors.add(AppInterceptors());
     dio.options.headers = {
-      /*'Content-Type': !isMultipart
-          ? 'application/x-www-form-urlencoded'
-          : 'multipart/form-data',*/
-      'Content-Type': 'application/json',
+      'Content-Type': !isMultipart
+          ? 'application/json'
+          : 'multipart/form-data',
+      // 'Content-Type': 'application/json',
       'Accept': 'application/json',
       'requiresToken': '',
       if(isPassAuth && header != "")

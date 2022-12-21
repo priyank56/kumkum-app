@@ -5,7 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 import 'package:contacts_service/contacts_service.dart';
-
+import 'package:flutter_contacts/flutter_contacts.dart' as update_contact;
 import '../../../connectivitymanager/connectivitymanager.dart';
 import '../../../utils/utils.dart';
 import '../../addKankotri/datamodel/newKankotriData.dart';
@@ -20,6 +20,8 @@ class ContactController extends GetxController {
   List<AllContact> contactListSarvo = [];
   List<AllContact> contactListSajode = [];
   List<AllContact> contactList1Person = [];
+  
+  List<AllContact> getAllContactBackend = [];
 
   bool isShowProgress = false;
   NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
@@ -31,6 +33,7 @@ class ContactController extends GetxController {
   void onInit() {
     super.onInit();
     getAllYourCardsAPI(Get.context!);
+
   }
 
   getAllYourCardsAPI(BuildContext context) async {
@@ -132,6 +135,7 @@ class ContactController extends GetxController {
     if(contactList.isNotEmpty){
       return;
     }
+
     List<Contact> contacts = await ContactsService.getContacts();
     for(int i=0;i<contacts.length;i++){
       var contactNumber = contacts[i].phones![0].value;
@@ -139,11 +143,72 @@ class ContactController extends GetxController {
       var sendType = "";
       var isSelected = false;
       Debug.printLog("Contacts===>> ${contacts[i].phones![0].value}  ${contacts[i].displayName}");
-      contactList.add(AllContact(contactNumber!,contactName!,sendType,isSelected));
+
+      contactList.add(AllContact(contactNumber!,contactName!,sendType,isSelected,TextEditingController(text:contactName )));
+      getAllDummyContactListBackend();
       changeSendOption(Constant.selectedSendWpSarvo);
       update([Constant.idBottomViewPos]);
     }
     Debug.printLog("contacts=>>> Sizes   ${contacts.length}");
+  }
+
+  TextEditingController nameContactController = TextEditingController();
+  TextEditingController numberContactController = TextEditingController();
+
+  addContact(String name,String number) async {
+    Debug.printLog("addContact==>> $name  $number");
+    contactList.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
+    contactListSarvo.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
+    contactList1Person.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
+    contactList1Person.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
+    /*For Add Contact contacts_service */
+    Contact contacts = Contact();
+    contacts.givenName = name;
+    contacts.phones = [
+      Item(label: "mobile", value: number)
+    ];
+    await ContactsService.addContact(contacts);
+    Get.back();
+    update([Constant.idBottomViewPos,Constant.idContactList]);
+  }
+
+  updateContactName(int index,String type,BuildContext context) async {
+    List<update_contact.Contact> updateContact = await update_contact.FlutterContacts.getContacts(withProperties: true, withPhoto: true,withAccounts: true);
+
+    (type == Constant.selectedSendWpSarvo)
+        ? contactListSarvo[index].contactName = contactListSarvo[index].controller.text
+        : (type == Constant.selectedSendWpSajode)
+        ? contactListSajode[index].contactName = contactListSajode[index].controller.text
+        : contactList1Person[index].contactName = contactList1Person[index].controller.text;
+    var updatedName = (type == Constant.selectedSendWpSarvo)
+        ? contactListSarvo[index].contactName
+        : (type == Constant.selectedSendWpSajode)
+        ? contactListSajode[index].contactName
+        : contactList1Person[index].contactName;
+
+    /*For Update Contact flutter_contacts */
+    update_contact.Contact? contact = await update_contact.FlutterContacts.getContact(updateContact.first.id,withAccounts: true);
+    contact!.name.first = updatedName;
+    await contact.update();
+    Get.back();
+    update([Constant.idBottomViewPos,Constant.idContactList]);
+  }
+
+  getAllDummyContactListBackend(){
+    getAllContactBackend.add(AllContact("366", "hhhhhhj", Constant.selectedSendWpSarvo, true, TextEditingController(text: "hhhhhhj")));
+    getAllContactBackend.add(AllContact("50550", "pppp", Constant.selectedSendWpSarvo, true, TextEditingController(text: "pppp")));
+    getAllContactBackend.add(AllContact("8523697669", "Jaydip", Constant.selectedSendWp1Person, true, TextEditingController(text: "Jaydip")));
+    getAllContactBackend.add(AllContact("8460085374", "Jd", Constant.selectedSendWpSajode, true, TextEditingController(text: "Jd")));
+
+    for (int i = 0; i < getAllContactBackend.length; i++) {
+      var number = getAllContactBackend[i].contactNumber;
+      var pos = contactList.indexWhere((element) => element.contactNumber == number);
+      if(pos != -1) {
+        contactList[contactList.indexOf(contactList[pos])].isSelected = true;
+        contactList[contactList.indexOf(contactList[pos])].sendType = getAllContactBackend[i].sendType;
+      }
+    }
+    update([Constant.idBottomViewPos,Constant.idMainPage]);
   }
 }
 
@@ -152,7 +217,8 @@ class AllContact{
   String contactName = "";
   String sendType = Constant.selectedSendWpSarvo;
   bool isSelected = false;
+  TextEditingController controller;
 
-  AllContact(this.contactNumber,this.contactName,this.sendType,this.isSelected);
+  AllContact(this.contactNumber,this.contactName,this.sendType,this.isSelected,this.controller);
 }
 

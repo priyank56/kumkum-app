@@ -54,6 +54,10 @@ final Map<String, String> enUS = {
   'txtNoDataFound': "You haven't created any card.",
   'txtPermission': "Permission",
   'txtPermissionDesc': "You have to turn on contact permission for this function from the setting.",
+  'txtPersonName': "Person name",
+  'txtPersonContact': "Person Contact",
+  'txtUpdate': "Update",
+  'txtUpdatedName': "Contact Name Updated",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",

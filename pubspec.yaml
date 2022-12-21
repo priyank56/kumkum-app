@@ -45,7 +45,8 @@ dependencies:
   timezone: ^0.8.0
   sliding_up_panel: ^2.0.0+1
   auto_size_text: ^3.0.0
-  contacts_service: ^0.6.3
+  contacts_service: ^0.6.3      #For Add And Get Contact contacts_service
+  flutter_contacts: ^1.1.5+1    #For Update Contact flutter_contacts
   flutter_svg: ^1.1.6
   pin_code_fields: ^7.4.0
   permission_handler: ^10.2.0

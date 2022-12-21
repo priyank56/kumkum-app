@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/ui/contact/controllers/contact_controller.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:spotify_flutter_code/utils/debug.dart';
 import '../../../custom/dialog/progressdialog.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../utils/utils.dart';
 
 class ContactScreen extends StatelessWidget {
   const ContactScreen({Key? key}) : super(key: key);
@@ -305,49 +308,77 @@ class ContactScreen extends StatelessWidget {
     return GetBuilder<ContactController>(
         id: Constant.idBottomViewPos,
         builder: (logic) {
-          return Container(
-            alignment: Alignment.bottomCenter,
-            child: SlidingUpPanel(
-              renderPanelSheet: false,
-              maxHeight: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 1,
-              minHeight: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.401,
+          return Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: SlidingUpPanel(
+                  renderPanelSheet: false,
+                  maxHeight: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 1,
+                  minHeight: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.401,
 
-              /*When Slide Panel Open*/
-              panel: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24.0),
-                      topRight: Radius.circular(24.0)),
+                  /*When Slide Panel Open*/
+                  panel: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24.0),
+                          topRight: Radius.circular(24.0)),
+                    ),
+                    child: _listViewContact(context, logic, needFullScreen: true),
+                    // child: Container(),
+                  ),
+                  onPanelOpened: () {
+                    Debug.printLog("onPanelOpened==>> ${logic.contactList.length}  ${logic.contactListSarvo.length}");
+                  },
+                  onPanelClosed: () {
+                    Debug.printLog("onPanelClosed==>> ${logic.contactList.length}  ${logic.contactListSarvo.length}");
+                  },
+                  /*When Slide Panel Not Open*/
+                  collapsed: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24.0),
+                          topRight: Radius.circular(24.0)),
+                    ),
+                    child: _listViewContact(context, logic),
+                    // child: Container(),
+                  ),
                 ),
-                child: _listViewContact(context, logic, needFullScreen: true),
-                // child: Container(),
               ),
-
-              /*When Slide Panel Not Open*/
-              collapsed: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24.0),
-                      topRight: Radius.circular(24.0)),
+              Material(
+                color: CColor.transparent,
+                child: InkWell(
+                  splashColor: CColor.grayDark,
+                  onTap: () {
+                    showCustomizeDialogForAddContact(context, logic);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(right: Sizes.width_5),
+                    width: 50,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: CColor.grayDark,
+                    ),
+                    child: const Icon(Icons.add,color: CColor.white,),
+                  ),
                 ),
-                child: _listViewContact(context, logic),
-                // child: Container(),
-              ),
-            ),
+              )
+            ],
           );
         });
   }
 
-  _listViewContact(BuildContext context, ContactController logic,
-      {bool needFullScreen = false}) {
+  _listViewContact(BuildContext context, ContactController logic, {bool needFullScreen = false}) {
     return Column(
       children: [
         Container(
@@ -546,37 +577,51 @@ class ContactScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: Sizes.width_2_5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AutoSizeText(
-                          list[index].contactName.toString(),
-                          style: TextStyle(
-                              color: CColor.black,
-                              fontSize: FontSize.size_12,
-                              fontFamily: Constant.appFont,
-                              fontWeight: FontWeight.w500),
-                          textAlign: TextAlign.start,
-                          maxLines: 3,
-                          // maxLines: 5,
-                        ),
-                        AutoSizeText(
-                          list[index].contactNumber.toString(),
-                          style: TextStyle(
-                              color: CColor.black,
-                              fontSize: FontSize.size_10,
-                              fontFamily: Constant.appFont,
-                              fontWeight: FontWeight.w400),
-                          textAlign: TextAlign.start,
-                          maxLines: 3,
-                          // maxLines: 5,
-                        )
-                      ],
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(left: Sizes.width_2_5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AutoSizeText(
+                            list[index].contactName.toString(),
+                            style: TextStyle(
+                                color: CColor.black,
+                                fontSize: FontSize.size_12,
+                                fontFamily: Constant.appFont,
+                                fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.start,
+                            maxLines: 3,
+                            // maxLines: 5,
+                          ),
+                          AutoSizeText(
+                            list[index].contactNumber.toString(),
+                            style: TextStyle(
+                                color: CColor.black,
+                                fontSize: FontSize.size_10,
+                                fontFamily: Constant.appFont,
+                                fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.start,
+                            maxLines: 3,
+                            // maxLines: 5,
+                          )
+                        ],
+                      ),
                     ),
-                  )
+                  ),
+                  InkWell(
+                    onTap: () {
+                      showCustomizeDialogForEditName(context,logic,index);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(Sizes.width_1),
+                      child: const Icon(
+                        Icons.edit,
+                        color: CColor.black,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -585,6 +630,313 @@ class ContactScreen extends StatelessWidget {
       ),
     );
   }
+  showCustomizeDialogForEditName(BuildContext context,
+      ContactController logic, int index) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Wrap(
+            runAlignment: WrapAlignment.center,
+            children: [
+              Dialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: contentBox(context,index),
+              ),
+            ],
+          );
+        });
+  }
+
+  contentBox(BuildContext context, int index) {
+    return GetBuilder<ContactController>(
+        id: Constant.idGodNames,
+        builder: (logic) {
+          return Container(
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: Sizes.height_3),
+                  child: Container(
+                    height: Utils.getAddKankotriHeight(),
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.7,
+                    color: CColor.white,
+                    child: TextField(
+                      controller: (logic.selectedSendWp == Constant.selectedSendWpSarvo)
+                        ? logic.contactListSarvo[index].controller
+                        : (logic.selectedSendWp ==
+                        Constant.selectedSendWpSajode)
+                        ? logic.contactListSajode[index].controller
+                        : logic.contactList1Person[index].controller,
+                      decoration: InputDecoration(
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                          BorderSide(width: 2, color: CColor.grayDark),
+                        ),
+                        border: const OutlineInputBorder(),
+                        labelText: "txtPersonName".tr,
+                        labelStyle: const TextStyle(color: CColor.grayDark),
+                        hintText: "txtPersonName".tr,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                      bottom: Sizes.height_3,
+                      top: Sizes.height_3,
+                      right: Sizes.width_3,
+                      left: Sizes.width_5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Material(
+                          color: CColor.transparent,
+                          child: InkWell(
+                            splashColor: CColor.grayDark,
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                right: Sizes.width_2,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Sizes.width_4,
+                                  vertical: Sizes.height_1),
+                              decoration: BoxDecoration(
+                                // color: CColor.grayDark,
+                                border: Border.all(
+                                    color: CColor.grayDark, width: 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                "txtCancel".tr,
+                                style: TextStyle(
+                                  color: CColor.grayDark,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: Constant.appFont,
+                                  fontSize: FontSize.size_12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Material(
+                          color: CColor.transparent,
+                          child: InkWell(
+                            splashColor: CColor.grayDark,
+                            onTap: () {
+                              logic.updateContactName(index,logic.selectedSendWp,context);
+                              Utils.showToast(context, "txtUpdatedName".tr);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                right: Sizes.width_2,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Sizes.width_4,
+                                  vertical: Sizes.height_1),
+                              decoration: BoxDecoration(
+                                color: CColor.grayDark,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                "txtUpdate".tr,
+                                style: TextStyle(
+                                  color: CColor.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: Constant.appFont,
+                                  fontSize: FontSize.size_12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+
+  showCustomizeDialogForAddContact(BuildContext context, ContactController logic) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Wrap(
+            runAlignment: WrapAlignment.center,
+            children: [
+              Dialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: contentBoxAddContact(context),
+              ),
+            ],
+          );
+        });
+  }
+
+  contentBoxAddContact(BuildContext context) {
+    return GetBuilder<ContactController>(
+        id: Constant.idGodNames,
+        builder: (logic) {
+          return Container(
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: Sizes.height_3),
+                  child: Container(
+                    height: Utils.getAddKankotriHeight(),
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.7,
+                    color: CColor.white,
+                    child: TextField(
+                      keyboardType:TextInputType.text,
+                      controller: logic.nameContactController,
+                      decoration: InputDecoration(
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                          BorderSide(width: 2, color: CColor.grayDark),
+                        ),
+                        border: const OutlineInputBorder(),
+                        labelText: "txtPersonName".tr,
+                        labelStyle: const TextStyle(color: CColor.grayDark),
+                        hintText: "txtPersonName".tr,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: Sizes.height_3),
+                  child: Container(
+                    height: Utils.getAddKankotriHeight(),
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.7,
+                    color: CColor.white,
+                    child: TextField(
+                      controller: logic.numberContactController,
+                      keyboardType:TextInputType.number ,
+                      decoration: InputDecoration(
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                          BorderSide(width: 2, color: CColor.grayDark),
+                        ),
+                        border: const OutlineInputBorder(),
+                        labelText: "txtPersonContact".tr,
+                        labelStyle: const TextStyle(color: CColor.grayDark),
+                        hintText: "txtPersonContact".tr,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                      bottom: Sizes.height_3,
+                      top: Sizes.height_3,
+                      right: Sizes.width_3,
+                      left: Sizes.width_5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Material(
+                          color: CColor.transparent,
+                          child: InkWell(
+                            splashColor: CColor.grayDark,
+                            onTap: () {
+                              logic.nameContactController.clear();
+                              logic.numberContactController.clear();
+                              Get.back();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                right: Sizes.width_2,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Sizes.width_4,
+                                  vertical: Sizes.height_1),
+                              decoration: BoxDecoration(
+                                // color: CColor.grayDark,
+                                border: Border.all(
+                                    color: CColor.grayDark, width: 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                "txtCancel".tr,
+                                style: TextStyle(
+                                  color: CColor.grayDark,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: Constant.appFont,
+                                  fontSize: FontSize.size_12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Material(
+                          color: CColor.transparent,
+                          child: InkWell(
+                            splashColor: CColor.grayDark,
+                            onTap: () {
+                              logic.addContact(logic.nameContactController.text,logic.numberContactController.text);
+                              logic.nameContactController.clear();
+                              logic.numberContactController.clear();
+                              Get.back();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(
+                                right: Sizes.width_2,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Sizes.width_4,
+                                  vertical: Sizes.height_1),
+                              decoration: BoxDecoration(
+                                color: CColor.grayDark,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                "txtAdd".tr,
+                                style: TextStyle(
+                                  color: CColor.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: Constant.appFont,
+                                  fontSize: FontSize.size_12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
 
   _widgetThirdBottomView(BuildContext context) {
     return GetBuilder<ContactController>(

@@ -148,13 +148,23 @@ class HomeScreen extends StatelessWidget {
                         child: InkWell(
                           splashColor: CColor.grayDark,
                           onTap: () {
-                            var getAllInvitationCard = logic.allYourCardList[index!];
-                            Get.toNamed(AppRoutes.addKankotri, arguments: [
-                              true,
-                              getAllInvitationCard,
-                              Constant.isFromCreate,
-                              (isFromAddCard)? Constant.isFromHomeScreen:Constant.isFromCategoryScreen
-                            ])!.then((value) => Get.back());
+                            if(index != -1){
+                              ResultGet? getAllInvitationCard = logic.allYourCardList[index!];
+                              Get.toNamed(AppRoutes.addKankotri, arguments: [
+                                true,
+                                getAllInvitationCard,
+                                Constant.isFromCreate,
+                                Constant.isFromHomeScreen
+                              ])!.then((value) => Get.back());
+                            }else{
+                              Get.toNamed(AppRoutes.addKankotri, arguments: [
+                                true,
+                                null,
+                                Constant.isFromCreate,
+                                Constant.isFromHomeScreen
+                              ])!.then((value) => Get.back());
+                            }
+
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -185,12 +195,22 @@ class HomeScreen extends StatelessWidget {
                         child: InkWell(
                           splashColor: CColor.grayDark50,
                           onTap: () {
-                            Get.toNamed(AppRoutes.addKankotri, arguments: [
-                              false,
-                              null,
-                              Constant.isFromCreate,
-                              (isFromAddCard)? Constant.isFromHomeScreen:Constant.isFromCategoryScreen
-                            ])!.then((value) => Get.back());
+                            if(index != -1){
+                              ResultGet? getAllInvitationCard = logic.allYourCardList[index!];
+                              Get.toNamed(AppRoutes.addKankotri, arguments: [
+                                false,
+                                getAllInvitationCard,
+                                Constant.isFromCreate,
+                                Constant.isFromHomeScreen
+                              ])!.then((value) => Get.back());
+                            }else{
+                              Get.toNamed(AppRoutes.addKankotri, arguments: [
+                                false,
+                                null,
+                                Constant.isFromCreate,
+                                Constant.isFromHomeScreen
+                              ])!.then((value) => Get.back());
+                            }
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -359,7 +379,7 @@ class HomeScreen extends StatelessWidget {
       child: InkWell(
         splashColor: CColor.black,
         onTap: () {
-          showCustomizeDialogForChooseOptions(context, logic,false,index);
+          showCustomizeDialogForChooseOptions(context, logic,false,index: index);
           // Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
         },
         child: Container(

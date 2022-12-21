@@ -139,15 +139,11 @@ class AddKankotriController extends GetxController {
 
     if(arguments[1] != null){
       getAllInvitationCard = arguments[1];
-      // setAllData();
+      if(arguments[3] == Constant.isFromHomeScreen){
+        addData();
+      }
     }else {
-      addNimantrakNameListData(true);
-      addNimantrakAddressListData(true);
-      addNimantrakMnoListData(true);
-      addAllFunctionsList();
-      addAllGuestNames();
-      addRemoveTahukoChildName(true);
-      addGoodPlaceNames();
+      addData();
     }
 
     if(arguments[2] != null){
@@ -158,6 +154,16 @@ class AddKankotriController extends GetxController {
       isFromScreen = arguments[3];
       Debug.printLog("Card arguments 3==>> $isFromAddUpdate");
     }
+  }
+
+  addData(){
+    addNimantrakNameListData(true);
+    addNimantrakAddressListData(true);
+    addNimantrakMnoListData(true);
+    addAllFunctionsList();
+    addAllGuestNames();
+    addRemoveTahukoChildName(true);
+    addGoodPlaceNames();
   }
 
   Future<String?> getUserTokeId()async{
@@ -185,7 +191,7 @@ class AddKankotriController extends GetxController {
         mrgDateDay = DateFormat("EEEE","gu").format(picked);
       }
       Debug.printLog("convertedDateTime==>> $mrgDateDay =>  $mrgDateGujarati  " );
-
+      marriageDateController.text = mrgDateGujarati;
 
       update([Constant.idMrgDate,Constant.idFunctionsPart,Constant.idInviterPart]);
 
@@ -876,7 +882,7 @@ class AddKankotriController extends GetxController {
     /*End init Classes*/
 
     /*====================================================================================*/
-
+    createData.marriageInvitationCard!.guestName = "";
     /*Fill Up Values In The Class Map*/
     if(isFromScreen == Constant.isFromCategoryScreen){
       createData.email = userData.email;
@@ -887,10 +893,10 @@ class AddKankotriController extends GetxController {
       createData.isGroom = isGroomCard;
     } else {
       createData.email = (getAllInvitationCard.email != null) ? getAllInvitationCard.email : userData.email;
-      createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != null) ? getAllInvitationCard.layoutDesignId : "3409e5aac99c";
+      createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != null) ? getAllInvitationCard.layoutDesignId : "3409e5aac99c 111";
       createData.marriageInvitationCardId = (getAllInvitationCard.marriageInvitationCardId != null) ? getAllInvitationCard.marriageInvitationCardId : "";
-      createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != null) ? getAllInvitationCard.marriageInvitationCardName : "from app";
-      createData.marriageInvitationCardType = (getAllInvitationCard.marriageInvitationCardType != null) ? getAllInvitationCard.marriageInvitationCardType : "mict1";
+      createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != null) ? getAllInvitationCard.marriageInvitationCardName : "from app 111";
+      createData.marriageInvitationCardType = (getAllInvitationCard.marriageInvitationCardType != null) ? getAllInvitationCard.marriageInvitationCardType : "mict1 111";
       createData.isGroom = isGroomCard;
     }
     var coverImage = CoverImage();

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:spotify_flutter_code/ui/contact/datamodel/numbersData.dart';
+import 'package:spotify_flutter_code/ui/contact/datamodel/sendNumbersData.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 import 'package:contacts_service/contacts_service.dart';
@@ -237,7 +238,18 @@ class ContactController extends GetxController {
       list.add(NumberList(banquetPerson: selectedNumbers[i].sendType, name: selectedNumbers[i].contactName,number: selectedNumbers[i].contactNumber));
     }
     numberData.numberList = list;
-    Debug.printLog("getAllSelectedGuestNames==>> ${numberData.toJson()}  ${jsonEncode(numberData)}");
+    Debug.printLog("getAllSelectedGuestNames==>>${jsonEncode(numberData)}");
+
+    var sendNumberData = SendNumbersData();
+    List<SendNumberList> sendList = [];
+    var sendSelectedNumbers = contactList.where((element) => element.isSelected == true).toList();
+    for(int i=0;i<sendSelectedNumbers.length;i++) {
+      sendList.add(SendNumberList(number:  sendSelectedNumbers[i].contactNumber,name:sendSelectedNumbers[i].contactName ,banquetPerson:sendSelectedNumbers[i].sendType ));
+    }
+    sendNumberData.layoutDesignId = "aasd21";
+    sendNumberData.invitationCardId = "sd545d4";
+    sendNumberData.numberList = sendList;
+
   }
 }
 

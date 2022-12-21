@@ -448,7 +448,7 @@ class AddKankotriScreen extends StatelessWidget {
                           .width * 0.9,
                       color: CColor.white70,
                       child: TextField(
-                        // controller: logic.marriageDateController,
+                        controller: logic.marriageDateController,
                         onTap: () {
                           logic.selectDate(context, index: -1);
                         },
@@ -469,7 +469,9 @@ class AddKankotriScreen extends StatelessWidget {
                               borderSide:
                               BorderSide(width: 2, color: CColor.grayDark),
                             ),
-                            // labelText: (logic.mrgDate != "")?logic.mrgDate:'txtTarikh'.tr,
+                           /* labelText: (logic.mrgDateGujarati != "")
+                                ? logic.mrgDateGujarati
+                                : 'txtTarikh'.tr,*/
                             border: const OutlineInputBorder(),
                             hintText: (logic.mrgDateGujarati != "")
                                 ? logic.mrgDateGujarati
@@ -1260,14 +1262,15 @@ class AddKankotriScreen extends StatelessWidget {
                         .map((item) =>
                         DropdownMenuItem<String>(
                           value: item,
-                          child: Text(
+                          child: AutoSizeText(
+                            maxLines: 4,
                             item,
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: CColor.black,
                             ),
-                            overflow: TextOverflow.ellipsis,
+                            // overflow: TextOverflow.ellipsis,
                           ),
                         ))
                         .toList(),
@@ -1286,8 +1289,8 @@ class AddKankotriScreen extends StatelessWidget {
                       color: CColor.transparent,
                     ),
                     // buttonElevation: 2,
-                    itemHeight: 50,
-                    // itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                    itemHeight: 100,
+                    // itemPadding: const EdgeInsets.only(left: 5, top:5,right: 5),
                     // dropdownMaxHeight: 200,
                     // dropdownWidth: 160,
                     dropdownPadding: null,
@@ -1452,7 +1455,8 @@ class AddKankotriScreen extends StatelessWidget {
                         .map((item) =>
                         DropdownMenuItem<String>(
                           value: item,
-                          child: Text(
+                          child: AutoSizeText(
+                            maxLines: 4,
                             item,
                             style: const TextStyle(
                               fontSize: 14,
@@ -1478,7 +1482,7 @@ class AddKankotriScreen extends StatelessWidget {
                       color: CColor.transparent,
                     ),
                     // buttonElevation: 2,
-                    itemHeight: 50,
+                    itemHeight: 100,
                     // itemPadding: const EdgeInsets.only(left: 14, right: 14),
                     // dropdownMaxHeight: 200,
                     // dropdownWidth: 160,
@@ -1838,7 +1842,8 @@ class AddKankotriScreen extends StatelessWidget {
                         .map((item) =>
                         DropdownMenuItem<String>(
                           value: item,
-                          child: Text(
+                          child:AutoSizeText(
+                            maxLines: 4,
                             item,
                             style: const TextStyle(
                               fontSize: 14,
@@ -1863,7 +1868,7 @@ class AddKankotriScreen extends StatelessWidget {
                       color: CColor.transparent,
                     ),
                     // buttonElevation: 2,
-                    itemHeight: 50,
+                    itemHeight: 100,
                     // itemPadding: const EdgeInsets.only(left: 14, right: 14),
                     // dropdownMaxHeight: 200,
                     // dropdownWidth: 160,

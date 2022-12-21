@@ -27,64 +27,8 @@ class Constant {
   static const languageCh = "zh";
   static const countryCodeCh = "CN";
 
-  static const initialCountryCodeHongKong = "+852";
 
-  static const datNotFound = "Data not found";
-  static const verifyYouEmail = "Please, verify your email";
 
-  static const exceptionPhotoAccessDenied = "photo_access_denied";
-
-  static const wallPaperNormal = "wallPaperNormal";
-  static const wallPaperGiftWithAd = "wallPaperGiftWithAd";
-  static const wallPaperWithAd = "wallPaperWithAd";
-
-  static const loginTypeGoogle = "google";
-  static const loginTypeApple = "apple";
-  static const loginTypeNormal = "normal";
-
-  static const strRobotoFamily = "Roboto";
-  static const strGothamProFamily = "GothamPro";
-  static const strMarydaleProFamily = "Marydale";
-
-  static const screenCreateQrCode = "screenCreateQrCode";
-  static const screenExclusive = "screenExclusive";
-  static const screenMyAccount = "screenMyAccount";
-  static const screenPhotoLibrary = "screenPhotoLibrary";
-  static const screenPattenGallery = "screenPattenGallery";
-  static const screenFavourite = "screenFavourite";
-  static const screeScanCamera = "screeScanCamera";
-
-  static const catPatternGallery = "PATTERN GALLERY FROM COLLECTION STOCK";
-  static const catBrandedLockScreen = "BRANDED LOCKSCREEN";
-  static const catBrandedLockScreenWithGift = "BRANDED LOCKSCREEN WITH GIFT";
-  static const catExclusiveLockscreen = "EXCLUSIVE LOCKSCREEN";
-
-  static const healthFirstName = "healthFirstName";
-  static const healthLastName = "healthLastName";
-  static const healthIdCardNo = "healthIdCardNo";
-  static const healthDateOfBirth = "healthDateOfBirth";
-  static const healthImpMedicalNotes = "healthImpMedicalNotes";
-  static const healthAllergies = "healthAllergies";
-  static const healthEmergencyName = "healthEmergencyName";
-  static const healthEmergencyContact = "healthEmergencyContact";
-  static const healthInsuranceCompany = "healthInsuranceCompany";
-  static const healthInsuranceNumber = "healthInsuranceNumber";
-  static const healthStrDropDownBlood = "healthStrDropDownBlood";
-  static const healthStrDropDownOrgan = "healthStrDropDownOrgan";
-  static const healthStrDropDownWeight = "healthStrDropDownWeight";
-  static const healthStrDropDownHeight = "healthStrDropDownHeight";
-
-  static const refreshQrCodeLogo = "refreshQrCodeLogo";
-  static const refreshHideDropDownBtn = "refreshHideDropDownBtn";
-
-  static const strAboutSlugs = "about";
-  static const strAdvertisingSlugs = "advertising";
-  static const strBoardingSlugs = "boarding";
-  static const mediaUrl = "https://devapi.patchipatchi.com/media/";
-
-  static const campaignFileTypeImage = "image";
-  static const campaignFileTypeGiftQrLogo = "gift_qr_logo";
-  static const campaignFileTypeLogo = "logo";
   static const appFont = "Popins";
   static const selectedSendWp1Person = "1person";
   static const selectedSendWpSarvo = "sarvo";
@@ -99,6 +43,10 @@ class Constant {
     }
   }
 
+  /*Screens Names*/
+  static const isFromHomeScreen = "isFromHomeScreen";
+  static const isFromCategoryScreen = "isFromCategoryScreen";
+  static const isFromMyCardsScreen = "isFromMyCardsScreen";
 
   /*Types Of EditText*/
 
@@ -163,6 +111,7 @@ class Constant {
   static const idMrgDate = "idMrgDate";
   static const idSetMainImage = "idSetMainImage";
   static const idGetAllYourCards = "idGetAllYourCards";
+  static const idGetAllPreBuiltCards = "idGetAllPreBuiltCards";
   static const idGroomPaksh = "idGroomPaksh";
   static const idBridePaksh = "idBridePaksh";
   static const idContactList = "idContactList";

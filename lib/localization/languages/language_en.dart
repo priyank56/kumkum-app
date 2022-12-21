@@ -58,6 +58,7 @@ final Map<String, String> enUS = {
   'txtPersonContact': "Person Contact",
   'txtUpdate': "Update",
   'txtUpdatedName': "Contact Name Updated",
+  'txtNoDataFoundDesign': "Not Found Any Elegent Designs",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",

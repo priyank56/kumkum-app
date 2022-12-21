@@ -36,6 +36,11 @@ class NewKankotriDataModel {
     return Repository(dioClient).getYourInvitationCard(this,context);
   }
 
+  Future<NewKankotriData> getAllPreBuiltCards(BuildContext context) {
+    DioClient dioClient = DioClient(context,isPassAuth: true);
+    return Repository(dioClient).getAllPreBuiltCards(this,context);
+  }
+
   Future<UploadImageData> uploadCardImage(BuildContext context) {
     DioClient dioClient = DioClient(context,isPassAuth: true,isMultipart: true);
     return Repository(dioClient).uploadImage(this,context);

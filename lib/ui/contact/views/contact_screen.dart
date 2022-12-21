@@ -952,81 +952,6 @@ class ContactScreen extends StatelessWidget {
                     color: CColor.white),
                 child: Column(
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(top: Sizes.height_4),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Material(
-                              color: CColor.transparent,
-                              child: InkWell(
-                                splashColor: CColor.black,
-                                onTap: () {
-                                  // logic.changeSendOption(Constant.selectedSendWpSarvo);
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.only(
-                                      left: Sizes.width_5,
-                                      right: Sizes.width_1),
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: (logic.selectedSendWp ==
-                                          Constant.selectedSendWpSarvo)
-                                          ? CColor.themeDark
-                                          : CColor.gray,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Text(
-                                    "txtSarvo".tr,
-                                    style: TextStyle(
-                                        color: (logic.selectedSendWp ==
-                                            Constant.selectedSendWpSarvo)
-                                            ? CColor.white
-                                            : CColor.black,
-                                        fontSize: FontSize.size_12,
-                                        fontFamily: Constant.appFont),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Material(
-                              color: CColor.transparent,
-                              child: InkWell(
-                                splashColor: CColor.black,
-                                onTap: () {
-                                  // logic.changeSendOption(Constant.selectedSendWpSajode);
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.only(
-                                      right: Sizes.width_5,
-                                      left: Sizes.width_1),
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: (logic.selectedSendWp ==
-                                          Constant.selectedSendWpSajode)
-                                          ? CColor.themeDark
-                                          : CColor.gray,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Text(
-                                    "txtSajode".tr,
-                                    style: TextStyle(
-                                        color: (logic.selectedSendWp ==
-                                            Constant.selectedSendWpSajode)
-                                            ? CColor.white
-                                            : CColor.black,
-                                        fontSize: FontSize.size_12,
-                                        fontFamily: Constant.appFont),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     Expanded(
                       child: Container(
                         alignment: Alignment.center,
@@ -1037,15 +962,25 @@ class ContactScreen extends StatelessWidget {
                         ),
                         padding: EdgeInsets.only(
                             left: Sizes.width_5, right: Sizes.width_5),
-                        child: Text(
-                          "You have choosen 68 guests to come up with their family.",
-                          style: TextStyle(
-                              color: CColor.black,
-                              fontSize: FontSize.size_14,
-                              fontFamily: Constant.appFont,
-                              fontWeight: FontWeight.w500),
-                          textAlign: TextAlign.start,
-                          // maxLines: 5,
+                        child: Container(
+                          alignment: Alignment.center,
+                          // color: CColor.grayDark,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              (logic.getCountForSarvo() > 0)?
+                              Text(
+                                "તમે ${logic.getCountForSarvo()} મહેમાનને સર્વો, ${logic.getCountForSajode()} મહેમાનને સજોડે અને ${logic.getCountForPerson()} આપ શ્રી સાથે આવવા માટે પસંદ કર્યા છે.",
+                                style: TextStyle(
+                                    color: CColor.black,
+                                    fontSize: FontSize.size_12,
+                                    fontFamily: Constant.appFont,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.start,
+                                // maxLines: 5,
+                              ):Container(),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -1061,7 +996,7 @@ class ContactScreen extends StatelessWidget {
                           margin: EdgeInsets.only(
                               right: Sizes.width_5,
                               left: Sizes.width_5,
-                              top: Sizes.height_5,
+                              // top: Sizes.height_5,
                               bottom: Sizes.height_5),
                           padding: EdgeInsets.symmetric(
                               vertical: Sizes.height_1_5),

@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:spotify_flutter_code/ui/contact/datamodel/numbersData.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 import 'package:contacts_service/contacts_service.dart';
@@ -88,6 +91,8 @@ class ContactController extends GetxController {
       }else if (await Permission.contacts.request().isDenied) {
         Get.back();
       }
+    }else if(pos == 3){
+      getAllSelectedGuestNames();
     }
     update([Constant.idNextPrevious,Constant.idBottomText,Constant.idBottomViewPos,Constant.idMainPage,]);
   }
@@ -138,13 +143,13 @@ class ContactController extends GetxController {
 
     List<Contact> contacts = await ContactsService.getContacts();
     for(int i=0;i<contacts.length;i++){
-      var contactNumber = contacts[i].phones![0].value;
+      var contactNumber = int.parse(contacts[i].phones![0].value!.replaceAll("+", ""));
       var contactName = contacts[i].displayName;
       var sendType = "";
       var isSelected = false;
       Debug.printLog("Contacts===>> ${contacts[i].phones![0].value}  ${contacts[i].displayName}");
 
-      contactList.add(AllContact(contactNumber!,contactName!,sendType,isSelected,TextEditingController(text:contactName )));
+      contactList.add(AllContact(contactNumber,contactName!,sendType,isSelected,TextEditingController(text:contactName )));
       getAllDummyContactListBackend();
       changeSendOption(Constant.selectedSendWpSarvo);
       update([Constant.idBottomViewPos]);
@@ -156,11 +161,12 @@ class ContactController extends GetxController {
   TextEditingController numberContactController = TextEditingController();
 
   addContact(String name,String number) async {
-    Debug.printLog("addContact==>> $name  $number");
-    contactList.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
-    contactListSarvo.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
-    contactList1Person.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
-    contactList1Person.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
+    var numberInt = int.parse(number.replaceAll("+", ""));
+    Debug.printLog("addContact==>> $name  $numberInt");
+    contactList.insert(0, AllContact(numberInt, name, "", false, TextEditingController(text: name)));
+    contactListSarvo.insert(0, AllContact(numberInt, name, "", false, TextEditingController(text: name)));
+    contactList1Person.insert(0, AllContact(numberInt, name, "", false, TextEditingController(text: name)));
+    contactList1Person.insert(0, AllContact(numberInt, name, "", false, TextEditingController(text: name)));
     /*For Add Contact contacts_service */
     Contact contacts = Contact();
     contacts.givenName = name;
@@ -195,10 +201,10 @@ class ContactController extends GetxController {
   }
 
   getAllDummyContactListBackend(){
-    getAllContactBackend.add(AllContact("366", "hhhhhhj", Constant.selectedSendWpSarvo, true, TextEditingController(text: "hhhhhhj")));
-    getAllContactBackend.add(AllContact("50550", "pppp", Constant.selectedSendWpSarvo, true, TextEditingController(text: "pppp")));
-    getAllContactBackend.add(AllContact("8523697669", "Jaydip", Constant.selectedSendWp1Person, true, TextEditingController(text: "Jaydip")));
-    getAllContactBackend.add(AllContact("8460085374", "Jd", Constant.selectedSendWpSajode, true, TextEditingController(text: "Jd")));
+    getAllContactBackend.add(AllContact(366, "hhhhhhj", Constant.selectedSendWpSarvo, true, TextEditingController(text: "hhhhhhj")));
+    getAllContactBackend.add(AllContact(50550, "pppp", Constant.selectedSendWpSarvo, true, TextEditingController(text: "pppp")));
+    getAllContactBackend.add(AllContact(8523697669, "Jaydip", Constant.selectedSendWp1Person, true, TextEditingController(text: "Jaydip")));
+    getAllContactBackend.add(AllContact(8460085374, "Jd", Constant.selectedSendWpSajode, true, TextEditingController(text: "Jd")));
 
     for (int i = 0; i < getAllContactBackend.length; i++) {
       var number = getAllContactBackend[i].contactNumber;
@@ -210,10 +216,34 @@ class ContactController extends GetxController {
     }
     update([Constant.idBottomViewPos,Constant.idMainPage]);
   }
+
+  getCountForSarvo(){
+    return contactList.where((element) => element.sendType == Constant.selectedSendWpSarvo && element.isSelected == true).toList().length;
+  }
+
+  getCountForSajode(){
+    return contactList.where((element) =>element.sendType == Constant.selectedSendWpSajode && element.isSelected == true).toList().length;
+  }
+
+  getCountForPerson(){
+    return contactList.where((element) => element.sendType == Constant.selectedSendWp1Person && element.isSelected == true).toList().length;
+  }
+
+  getAllSelectedGuestNames(){
+    var numberData = NumbersData();
+    List<NumberList> list = [];
+    var selectedNumbers = contactList.where((element) => element.isSelected == true).toList();
+    for(int i=0;i<selectedNumbers.length;i++) {
+      list.add(NumberList(banquetPerson: selectedNumbers[i].sendType, name: selectedNumbers[i].contactName,number: selectedNumbers[i].contactNumber));
+    }
+    numberData.numberList = list;
+    Debug.printLog("getAllSelectedGuestNames==>> ${numberData.toJson()}  ${jsonEncode(numberData)}");
+  }
 }
 
 class AllContact{
-  String contactNumber = "";
+  // String contactNumber = "";
+  int contactNumber = 0;
   String contactName = "";
   String sendType = Constant.selectedSendWpSarvo;
   bool isSelected = false;

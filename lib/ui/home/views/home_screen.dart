@@ -7,46 +7,65 @@ import 'package:spotify_flutter_code/utils/color.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/sizer_utils.dart';
 
+import '../../../custom/dialog/progressdialog.dart';
 import '../../../utils/utils.dart';
+import '../../addKankotri/datamodel/newKankotriData.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   MainController mainController = Get.find<MainController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: GetBuilder<HomeController>(builder: (logic) {
-          return Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/main_bg.png'),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _widgetNewKankotri(logic, context),
-                  _widgetSelectPreBuilt(logic, context),
-                  _widgetDivider(),
-                  _widgetCardListView(logic, context),
-                ],
-              ),
-            ),
-          );
-        }),
+        child: Stack(
+          children: [
+            GetBuilder<HomeController>(builder: (logic) {
+              return Container(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/main_bg.png'),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _widgetNewKankotri(logic, context),
+                      _widgetSelectPreBuilt(logic, context),
+                      _widgetDivider(),
+                      _widgetCardListView(logic, context),
+                    ],
+                  ),
+                ),
+              );
+            }),
+            GetBuilder<HomeController>(
+                id: Constant.isShowProgressUpload,
+                builder: (logic) {
+                  return ProgressDialog(
+                      inAsyncCall: logic.isShowProgress,
+                      child: Container());
+                }),
+          ],
+        ),
       ),
     );
   }
 
-  showCustomizeDialogForChooseOptions(
-      BuildContext context, HomeController logic) {
+  showCustomizeDialogForChooseOptions(BuildContext context, HomeController logic, bool isFromAddCard,{int? index = -1}) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -56,14 +75,14 @@ class HomeScreen extends StatelessWidget {
               Dialog(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)),
-                child: contentBox(context),
+                child: contentBox(context,isFromAddCard,index:index),
               ),
             ],
           );
         });
   }
 
-  contentBox(BuildContext context) {
+  contentBox(BuildContext context, bool isFromAddCard,{int? index = -1}) {
     return GetBuilder<HomeController>(
         id: Constant.idGodNames,
         builder: (logic) {
@@ -72,7 +91,8 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: Sizes.height_3,right: Sizes.width_5,
+                  margin: EdgeInsets.only(
+                      top: Sizes.height_3, right: Sizes.width_5,
                       left: Sizes.width_5),
                   child: Row(
                     children: [
@@ -128,7 +148,13 @@ class HomeScreen extends StatelessWidget {
                         child: InkWell(
                           splashColor: CColor.grayDark,
                           onTap: () {
-                            Get.toNamed(AppRoutes.addKankotri,arguments: [true,null,Constant.isFromCreate])!.then((value) => Get.back());
+                            var getAllInvitationCard = logic.allYourCardList[index!];
+                            Get.toNamed(AppRoutes.addKankotri, arguments: [
+                              true,
+                              getAllInvitationCard,
+                              Constant.isFromCreate,
+                              (isFromAddCard)? Constant.isFromHomeScreen:Constant.isFromCategoryScreen
+                            ])!.then((value) => Get.back());
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -159,12 +185,17 @@ class HomeScreen extends StatelessWidget {
                         child: InkWell(
                           splashColor: CColor.grayDark50,
                           onTap: () {
-                            Get.toNamed(AppRoutes.addKankotri,arguments: [false,null,Constant.isFromCreate])!.then((value) => Get.back());
+                            Get.toNamed(AppRoutes.addKankotri, arguments: [
+                              false,
+                              null,
+                              Constant.isFromCreate,
+                              (isFromAddCard)? Constant.isFromHomeScreen:Constant.isFromCategoryScreen
+                            ])!.then((value) => Get.back());
                           },
                           child: Container(
                             alignment: Alignment.center,
                             margin: EdgeInsets.only(
-                              top: Sizes.height_2
+                                top: Sizes.height_2
                             ),
                             padding: EdgeInsets.symmetric(
                                 horizontal: Sizes.width_4,
@@ -195,19 +226,22 @@ class HomeScreen extends StatelessWidget {
   }
 
 
-  _widgetNewKankotri(HomeController logic, BuildContext context) {
+  _widgetNewKankotri(HomeController logic, BuildContext context ) {
     return Material(
       color: CColor.transparent,
       child: InkWell(
         splashColor: CColor.grayDark,
         onTap: () {
-          showCustomizeDialogForChooseOptions(context,logic);
+          showCustomizeDialogForChooseOptions(context, logic,true);
           // Get.toNamed(AppRoutes.addKankotri);
         },
         child: Container(
           margin: EdgeInsets.only(
               top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
           decoration: BoxDecoration(
             color: CColor.grayDark,
             borderRadius: BorderRadius.circular(10),
@@ -236,7 +270,10 @@ class HomeScreen extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.only(
               top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
           decoration: BoxDecoration(
             color: CColor.theme,
             borderRadius: BorderRadius.circular(10),
@@ -266,45 +303,64 @@ class HomeScreen extends StatelessWidget {
   }
 
   _widgetCardListView(HomeController logic, BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          margin: EdgeInsets.only(left: Sizes.width_6,top: Sizes.height_4),
-          child: Text(
-            "txtElegentDesigns".tr,
-            style: TextStyle(
-              color: CColor.black,
-              fontSize: FontSize.size_18,
-              fontFamily: Constant.appFont,
-              fontWeight: FontWeight.w700
+    return GetBuilder<HomeController>(
+        id: Constant.idMainPage,
+        builder: (logic) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: Sizes.width_6, top: Sizes.height_4),
+            child: Text(
+              "txtElegentDesigns".tr,
+              style: TextStyle(
+                  color: CColor.black,
+                  fontSize: FontSize.size_18,
+                  fontFamily: Constant.appFont,
+                  fontWeight: FontWeight.w700
+              ),
+              textAlign: TextAlign.start,
             ),
-            textAlign: TextAlign.start,
           ),
-        ),
-        Container(
-          padding: EdgeInsets.only(top: Sizes.height_4,left:  Sizes.width_5),
-          height: Sizes.height_37,
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return _itemCardView(index, context);
-            },
-            shrinkWrap: true,
-            itemCount: 5,
-            scrollDirection: Axis.horizontal,
-          ),
-        )
-      ],
-    );
+          (logic.allYourCardList.isNotEmpty) ?
+          Container(
+            padding: EdgeInsets.only(top: Sizes.height_4, left: Sizes.width_5),
+            height: Sizes.height_37,
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return _itemCardView(index, context, logic);
+              },
+              shrinkWrap: true,
+              itemCount: logic.allYourCardList.length,
+              scrollDirection: Axis.horizontal,
+            ),
+          ) : Container(
+            height: 400,
+            alignment: Alignment.center,
+            child: Text(
+              "txtNoDataFoundDesign".tr,
+              style: TextStyle(
+                  color: (logic.isShowProgress) ? CColor.transparent : CColor
+                      .black,
+                  fontSize: FontSize.size_14,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: Constant.appFont
+              ),
+            ),
+          )
+        ],
+      );
+    });
   }
 
-  _itemCardView(int index, BuildContext context) {
+  _itemCardView(int index, BuildContext context, HomeController logic) {
     return Material(
       color: CColor.transparent,
       child: InkWell(
         splashColor: CColor.black,
         onTap: () {
-
+          showCustomizeDialogForChooseOptions(context, logic,false,index);
+          // Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
         },
         child: Container(
           padding: EdgeInsets.only(right:Sizes.width_4),
@@ -317,4 +373,5 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
 }

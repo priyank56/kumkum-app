@@ -29,6 +29,7 @@ class AddKankotriController extends GetxController {
   var arguments = Get.arguments;
   bool isGroomCard = true;
   String isFromAddUpdate = "";
+  String isFromScreen = "";
   User userData = FirebaseAuth.instance.currentUser!;
   bool isShowProgress = false;
   NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
@@ -152,7 +153,10 @@ class AddKankotriController extends GetxController {
     if(arguments[2] != null){
       isFromAddUpdate = arguments[2];
       Debug.printLog("Card arguments 2==>> $isFromAddUpdate");
-
+    }
+    if(arguments[3] != null){
+      isFromScreen = arguments[3];
+      Debug.printLog("Card arguments 3==>> $isFromAddUpdate");
     }
   }
 
@@ -663,11 +667,11 @@ class AddKankotriController extends GetxController {
 
     /*Inviter Detail For Both*/
     /*1.Groom*/
-    if(groomGodNameController.text.isEmpty && listOfInvitersGroomMessage.isNotEmpty &&
+    /*if(groomGodNameController.text.isEmpty && listOfInvitersGroomMessage.isNotEmpty &&
         chirpingInfoBride.values!.godName != null){
       Utils.showToast(context, "txtGroomGod".tr);
       return false;
-    }
+    }*/
     if(groomMotherNameController.text.isEmpty){
       Utils.showToast(context, "txtGroomMother".tr);
       return false;
@@ -694,12 +698,12 @@ class AddKankotriController extends GetxController {
       Utils.showToast(context, "txtBrideVillage".tr);
       return false;
     }
-    if (brideGodController.text.isEmpty &&
+    /*if (brideGodController.text.isEmpty &&
         listOfInvitersBrideMessage.isNotEmpty &&
         chirpingInfoBride.values!.godName != null) {
       Utils.showToast(context, "txtBrideGod".tr);
       return false;
-    }
+    }*/
     if(mrgDate == ""){
       Utils.showToast(context, "txtMrgDate".tr);
       return false;
@@ -874,13 +878,21 @@ class AddKankotriController extends GetxController {
     /*====================================================================================*/
 
     /*Fill Up Values In The Class Map*/
-    createData.email = (getAllInvitationCard.email != null)?getAllInvitationCard.email : userData.email;
-    createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != null)?getAllInvitationCard.layoutDesignId: "3409e5aac99c";
-    createData.marriageInvitationCardId = (getAllInvitationCard.marriageInvitationCardId != null)?getAllInvitationCard.marriageInvitationCardId: "";
-    createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != null)?getAllInvitationCard.marriageInvitationCardName: "from app";
-    createData.marriageInvitationCardType =(getAllInvitationCard.marriageInvitationCardType != null)?getAllInvitationCard.marriageInvitationCardType: "mict1";
-    createData.isGroom = isGroomCard;
-
+    if(isFromScreen == Constant.isFromCategoryScreen){
+      createData.email = userData.email;
+      createData.layoutDesignId =  getAllInvitationCard.layoutDesignId ?? "";
+      createData.marriageInvitationCardId = "";
+      createData.marriageInvitationCardName =  getAllInvitationCard.marriageInvitationCardName ?? "";
+      createData.marriageInvitationCardType = getAllInvitationCard.marriageInvitationCardType ?? "";
+      createData.isGroom = isGroomCard;
+    } else {
+      createData.email = (getAllInvitationCard.email != null) ? getAllInvitationCard.email : userData.email;
+      createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != null) ? getAllInvitationCard.layoutDesignId : "3409e5aac99c";
+      createData.marriageInvitationCardId = (getAllInvitationCard.marriageInvitationCardId != null) ? getAllInvitationCard.marriageInvitationCardId : "";
+      createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != null) ? getAllInvitationCard.marriageInvitationCardName : "from app";
+      createData.marriageInvitationCardType = (getAllInvitationCard.marriageInvitationCardType != null) ? getAllInvitationCard.marriageInvitationCardType : "mict1";
+      createData.isGroom = isGroomCard;
+    }
     var coverImage = CoverImage();
     coverImage.isShow = true;
     coverImage.url = (imgCoverURL != "")?imgCoverURL : Constant.godDemoImageURl.toString();
@@ -1311,7 +1323,9 @@ class AddKankotriController extends GetxController {
 
 
   void setAllData() {
-
+    if(isFromScreen == Constant.isFromHomeScreen){
+      return;
+    }
     var mrgInvitationCard = getAllInvitationCard.marriageInvitationCard!;
     /*====================================================================================*/
 

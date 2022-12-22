@@ -4,8 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:spotify_flutter_code/ui/contact/datamodel/numbersData.dart';
+import 'package:spotify_flutter_code/ui/contact/datamodel/contactdatamodel.dart';
+import 'package:spotify_flutter_code/ui/contact/datamodel/getNumbersData.dart';
+import 'package:spotify_flutter_code/ui/contact/datamodel/numbersJsonData.dart';
 import 'package:spotify_flutter_code/ui/contact/datamodel/sendNumbersData.dart';
+import 'package:spotify_flutter_code/ui/contact/datamodel/sendNumbersJsonData.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 import 'package:contacts_service/contacts_service.dart';
@@ -29,6 +32,7 @@ class ContactController extends GetxController {
 
   bool isShowProgress = false;
   NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
+  ContactDataModel contactDataModel = ContactDataModel();
   List<ResultGet> allYourCardList = [];
   var auth = FirebaseAuth.instance;
 
@@ -151,10 +155,11 @@ class ContactController extends GetxController {
       Debug.printLog("Contacts===>> ${contacts[i].phones![0].value}  ${contacts[i].displayName}");
 
       contactList.add(AllContact(contactNumber,contactName!,sendType,isSelected,TextEditingController(text:contactName )));
-      getAllDummyContactListBackend();
       changeSendOption(Constant.selectedSendWpSarvo);
       update([Constant.idBottomViewPos]);
     }
+    getAllSelectedNumbers(Get.context!);
+
     Debug.printLog("contacts=>>> Sizes   ${contacts.length}");
   }
 
@@ -193,29 +198,20 @@ class ContactController extends GetxController {
         ? contactListSajode[index].contactName
         : contactList1Person[index].contactName;
 
+    var currentNumber = (type == Constant.selectedSendWpSarvo)
+        ? contactListSarvo[index].contactNumber
+        : (type == Constant.selectedSendWpSajode)
+        ? contactListSajode[index].contactNumber
+        : contactList1Person[index].contactNumber;
+
+    var positionOfContactList = contactList.indexWhere((element) => element.contactNumber == currentNumber);
+    contactList[positionOfContactList].contactName = updatedName;
     /*For Update Contact flutter_contacts */
     update_contact.Contact? contact = await update_contact.FlutterContacts.getContact(updateContact.first.id,withAccounts: true);
     contact!.name.first = updatedName;
     await contact.update();
     Get.back();
     update([Constant.idBottomViewPos,Constant.idContactList]);
-  }
-
-  getAllDummyContactListBackend(){
-    getAllContactBackend.add(AllContact(366, "hhhhhhj", Constant.selectedSendWpSarvo, true, TextEditingController(text: "hhhhhhj")));
-    getAllContactBackend.add(AllContact(50550, "pppp", Constant.selectedSendWpSarvo, true, TextEditingController(text: "pppp")));
-    getAllContactBackend.add(AllContact(8523697669, "Jaydip", Constant.selectedSendWp1Person, true, TextEditingController(text: "Jaydip")));
-    getAllContactBackend.add(AllContact(8460085374, "Jd", Constant.selectedSendWpSajode, true, TextEditingController(text: "Jd")));
-
-    for (int i = 0; i < getAllContactBackend.length; i++) {
-      var number = getAllContactBackend[i].contactNumber;
-      var pos = contactList.indexWhere((element) => element.contactNumber == number);
-      if(pos != -1) {
-        contactList[contactList.indexOf(contactList[pos])].isSelected = true;
-        contactList[contactList.indexOf(contactList[pos])].sendType = getAllContactBackend[i].sendType;
-      }
-    }
-    update([Constant.idBottomViewPos,Constant.idMainPage]);
   }
 
   getCountForSarvo(){
@@ -231,26 +227,126 @@ class ContactController extends GetxController {
   }
 
   getAllSelectedGuestNames(){
-    var numberData = NumbersData();
+    /*var numberData = NumbersJsonData();
     List<NumberList> list = [];
     var selectedNumbers = contactList.where((element) => element.isSelected == true).toList();
     for(int i=0;i<selectedNumbers.length;i++) {
       list.add(NumberList(banquetPerson: selectedNumbers[i].sendType, name: selectedNumbers[i].contactName,number: selectedNumbers[i].contactNumber));
     }
-    numberData.numberList = list;
-    Debug.printLog("getAllSelectedGuestNames==>>${jsonEncode(numberData)}");
-
-    var sendNumberData = SendNumbersData();
+    numberData.numberList = list;*/
+    var mainAllContact = contactList;
+    var sendNumberData = SendNumbersJsonData();
     List<SendNumberList> sendList = [];
-    var sendSelectedNumbers = contactList.where((element) => element.isSelected == true).toList();
+    var sendSelectedNumbers = mainAllContact.where((element) => element.isSelected == true).toList();
     for(int i=0;i<sendSelectedNumbers.length;i++) {
       sendList.add(SendNumberList(number:  sendSelectedNumbers[i].contactNumber,name:sendSelectedNumbers[i].contactName ,banquetPerson:sendSelectedNumbers[i].sendType ));
     }
-    sendNumberData.layoutDesignId = "aasd21";
-    sendNumberData.invitationCardId = "sd545d4";
     sendNumberData.numberList = sendList;
 
+    Debug.printLog("getAllSelectedGuestNames==>>${jsonEncode(sendNumberData)}");
+    sendAllSelectedNumbers(Get.context!,sendNumberData);
+
   }
+
+  getAllSelectedNumbers(BuildContext context) async {
+    if (await InternetConnectivity.isInternetConnect()) {
+      isShowProgress = true;
+      update([Constant.isShowProgressUpload]);
+      await contactDataModel.getAllSelectedNumbers(context).then((value) {
+        handleAllSelectedNumbersResponse(value,context);
+      });
+    } else {
+      Utils.showToast(context, "txtNoInternet".tr);
+    }
+  }
+
+  handleAllSelectedNumbersResponse(GetNumbersData newKankotriData, BuildContext context) async {
+    if (newKankotriData.status == Constant.responseSuccessCode) {
+      if (newKankotriData.message != null) {
+        Debug.printLog(
+            "handleAllSelectedNumbersResponse Res Success ===>> ${newKankotriData.toJson()} ");
+        if(newKankotriData.result!.numberList!.isNotEmpty) {
+          for(int i = 0;i<newKankotriData.result!.numberList!.length;i++){
+            var data = newKankotriData.result!.numberList![i];
+            getAllContactBackend.add(AllContact(data.number!, data.name!, data.banquetPerson!, true, TextEditingController(text: data.name!)));
+          }
+          if(getAllContactBackend.isEmpty){
+            return;
+          }
+          for (int i = 0; i < getAllContactBackend.length; i++) {
+            var number = getAllContactBackend[i].contactNumber;
+            var pos = contactList.indexWhere((element) => element.contactNumber == number);
+            if (pos != -1) {
+              contactList[contactList.indexOf(contactList[pos])].isSelected = true;
+              contactList[contactList.indexOf(contactList[pos])].sendType = getAllContactBackend[i].sendType;
+            }
+          }
+          changeSendOption(Constant.selectedSendWpSarvo);
+          update([Constant.idBottomViewPos, Constant.idMainPage]);
+        }
+
+      } else {
+        Debug.printLog(
+            "handleAllSelectedNumbersResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
+
+        if (newKankotriData.message != null && newKankotriData.message!.isNotEmpty) {
+          Utils.showToast(context,newKankotriData.message!);
+        } else {
+          Utils.showToast(context,"txtSomethingWentWrong".tr);
+        }
+      }
+    } else {
+      if (newKankotriData.message != null && newKankotriData.message!.isNotEmpty) {
+        Utils.showToast(context,newKankotriData.message!);
+      } else {
+        Utils.showToast(context,"txtSomethingWentWrong".tr);
+      }
+    }
+    isShowProgress = false;
+    update([Constant.isShowProgressUpload,Constant.idBottomViewPos]);
+  }
+
+
+
+  sendAllSelectedNumbers(BuildContext context, SendNumbersJsonData numberData) async {
+    if (await InternetConnectivity.isInternetConnect()) {
+      isShowProgress = true;
+      update([Constant.isShowProgressUpload]);
+      await contactDataModel.sendAllSelectedNumbers(context,numberData).then((value) {
+        handleSendSelectedNumbersResponse(value,context);
+      });
+    } else {
+      Utils.showToast(context, "txtNoInternet".tr);
+    }
+  }
+
+  handleSendSelectedNumbersResponse(SendNumbersData newKankotriData, BuildContext context) async {
+    if (newKankotriData.status == Constant.responseSuccessCode) {
+      if (newKankotriData.message != null) {
+        Debug.printLog(
+            "handleSendSelectedNumbersResponse Res Success ===>> ${newKankotriData.toJson()} ");
+
+      } else {
+        Debug.printLog(
+            "handleSendSelectedNumbersResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
+
+        if (newKankotriData.message != null && newKankotriData.message!.isNotEmpty) {
+          Utils.showToast(context,newKankotriData.message!);
+        } else {
+          Utils.showToast(context,"txtSomethingWentWrong".tr);
+        }
+      }
+    } else {
+      if (newKankotriData.message != null && newKankotriData.message!.isNotEmpty) {
+        Utils.showToast(context,newKankotriData.message!);
+      } else {
+        Utils.showToast(context,"txtSomethingWentWrong".tr);
+      }
+    }
+    isShowProgress = false;
+    update([Constant.isShowProgressUpload,Constant.idBottomViewPos]);
+  }
+
 }
 
 class AllContact{

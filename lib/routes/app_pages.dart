@@ -14,6 +14,8 @@ import 'package:spotify_flutter_code/ui/otp/bindings/otp_binding.dart';
 import 'package:spotify_flutter_code/ui/otp/views/otp_screen.dart';
 import 'package:spotify_flutter_code/ui/preview/bindings/preview_binding.dart';
 import 'package:spotify_flutter_code/ui/preview/views/preview_screen.dart';
+import 'package:spotify_flutter_code/ui/selectTemplate/bindings/select_template_binding.dart';
+import 'package:spotify_flutter_code/ui/selectTemplate/views/select_template_screen.dart';
 import 'package:spotify_flutter_code/ui/signup/bindings/signup_binding.dart';
 import 'package:spotify_flutter_code/ui/signup/views/signup_screen.dart';
 import 'package:spotify_flutter_code/ui/yourCard/views/your_card_screen.dart';
@@ -123,6 +125,15 @@ class AppPages {
       binding: SignupBinding(),
       transition: Transition.fade,
     ),
+
+
+    GetPage(
+      name: AppRoutes.selectTemplate,
+      page: () => const SelectTemplateScreen(),
+      binding: SelectTemplateBinding(),
+      transition: Transition.fade,
+    ),
+
 
 
     GetPage(

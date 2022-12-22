@@ -87,7 +87,8 @@ class PreviewScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: WebView(
-                    initialUrl: 'https://resume-builder-nu-indol.vercel.app/resume/M2a4x0rbAL',
+                    initialUrl: 'https://kumkum-blond.vercel.app/invitation-card/banquet-person/pdf/U2FsdGVkX180ZVAma1sz33oYktoj99rslj7xMl3JkxMl3JkqEAUCbjwyhOs33ccPEyX5EnYZ3wxMl3JkxMl3Jk2UCuo2DQcZHZO9JlnTiTOPZdS0JxMl3JkxMl3JkaZLh99VvMnvcnxMl3JkxMl3JkmCsoBOYBuBxwlhS2HnQJgGGP1rFzsBVeg3R8feVxPor21LdPor21LdiMPor21LdPor21LdJtETXIxMl3JkxMl3JkBqEryKH3tbBYs9HSM1SbMtPx8qFZi4v96xEzGZEbZN6i8PVELpQ8fWhp7Por21LdPor21Ldmb76cnZlvddfjt8IW6Ma9950N91GEBxl5Por21LdPor21LdxQSgGMKm7unW2HtvPor21LdPor21Ld4Por21LdPor21Ldge3QKa7IeSmBOJ2xMl3JkxMl3JkWyX2ALUj5vA2BrhVObnayZ8YbJOdQ0bdN0hcPor21LdPor21LdbNYdGKFuYLET4kxMl3JkxMl3JkEBO9QUIE4ywHBZQVqde8HHmz3P3dZIttMEwbmL33B6eiRbsRcZwqcL8SZXas57nkJofCmwWkYHvS7TLDL7gMtx3st18m3yweCVP1NOzzKCgPJqIeSTShBdHpIBIlhHBNFPor21LdPor21LdSKuQMl32Ml32Ml32Ml32',
+                    javascriptMode: JavascriptMode.unrestricted,
                     onPageFinished: (url) {
                       logic.changeProgressValue(false);
                     },

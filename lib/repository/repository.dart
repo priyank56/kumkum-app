@@ -12,6 +12,11 @@ import '../dio/dioclient.dart';
 import '../ui/addKankotri/datamodel/createKankotriData.dart';
 import '../ui/addKankotri/datamodel/newKankotriData.dart';
 import '../ui/addKankotri/datamodel/newkankotridatamodel.dart';
+import '../ui/contact/datamodel/contactdatamodel.dart';
+import '../ui/contact/datamodel/getNumbersData.dart';
+import '../ui/contact/datamodel/numbersJsonData.dart';
+import '../ui/contact/datamodel/sendNumbersData.dart';
+import '../ui/contact/datamodel/sendNumbersJsonData.dart';
 import '../ui/login/datamodel/logindata.dart';
 
 class Repository {
@@ -264,6 +269,66 @@ class Repository {
       }
     }
   }
+
+  Future<GetNumbersData> getAllSelectedNumbers(ContactDataModel contactDataModel, [BuildContext? context]) async {
+    try {
+      Response response = await dioClient!.dio.get<String>("/api/contact-list");
+
+      if (response.statusCode == Constant.responseSuccessCode) {
+        var res = response.data;
+        return GetNumbersData.fromJson(jsonDecode(res));
+      } else if (response.statusCode == Constant.responseFailureCode) {
+        var res = response.data;
+        try {
+          return GetNumbersData.fromJson(jsonDecode(res));
+        } catch (e) {
+          Debug.printLog(e.toString());
+          return GetNumbersData();
+        }
+      } else {
+        throw Exception('Exception -->> Failed to getInfo Please Try Again!');
+      }
+    } on DioError catch (ex) {
+      try {
+        var res = ex.response!.data;
+        return GetNumbersData.fromJson(jsonDecode(res));
+      } catch (e) {
+        Debug.printLog(e.toString());
+        return GetNumbersData();
+      }
+    }
+  }
+
+  Future<SendNumbersData> sendAllSelectedNumbers(ContactDataModel contactDataModel, SendNumbersJsonData numberData ,[BuildContext? context]) async {
+    try {
+      Response response = await dioClient!.dio.post<String>("/api/contact-list",data: numberData.toJson());
+
+      if (response.statusCode == Constant.responseSuccessCode) {
+        var res = response.data;
+        return SendNumbersData.fromJson(jsonDecode(res));
+      } else if (response.statusCode == Constant.responseFailureCode) {
+        var res = response.data;
+        try {
+          return SendNumbersData.fromJson(jsonDecode(res));
+        } catch (e) {
+          Debug.printLog(e.toString());
+          return SendNumbersData();
+        }
+      } else {
+        throw Exception('Exception -->> Failed to getInfo Please Try Again!');
+      }
+    } on DioError catch (ex) {
+      try {
+        var res = ex.response!.data;
+        return SendNumbersData.fromJson(jsonDecode(res));
+      } catch (e) {
+        Debug.printLog(e.toString());
+        return SendNumbersData();
+      }
+    }
+  }
+
+
 
 //Todo: For MultiPart Image API
   /* Future<CreateQrData> createQrCode(CreateQrDataModel createQrDataModel,

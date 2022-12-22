@@ -59,6 +59,7 @@ final Map<String, String> enUS = {
   'txtUpdate': "Update",
   'txtUpdatedName': "Contact Name Updated",
   'txtNoDataFoundDesign': "Not Found Any Elegent Designs",
+  'txtSelectTemplate': "Select Template",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",

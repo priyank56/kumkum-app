@@ -117,4 +117,5 @@ class Constant {
   static const idContactList = "idContactList";
 
 
+  static const bufferData = "";
 }

@@ -94,7 +94,7 @@ class PreviewController extends GetxController {
     selectedSendWp = Constant.selectedSendWpSarvo;
     displayDefaultVal = "txtSarvo".tr;
     addDropDownMenuData();
-
+    // downloadPDFFile();
     update();
   }
 
@@ -121,6 +121,21 @@ class PreviewController extends GetxController {
     Debug.printLog("functionsUploadList===>> $functionsUploadList  ${previewData.toJson()}  ${jsonEncode(previewData)}");
 
   }
+
+  /*Future<void> downloadPDFFile() async {
+    try {
+      final taskId = await FlutterDownloader.enqueue(
+            url: 'https://www.africau.edu/images/default/sample.pdf',
+            headers: {}, // optional: header send with url (auth token etc)
+            savedDir: '/storage/emulated/0/Download',
+            showNotification: true, // show download progress in status bar (for Android)
+            openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+          );
+      FlutterDownloader.open(taskId: taskId!);
+    } catch (e) {
+      Debug.printLog("downloadPDFFile==>> $e");
+    }
+  }*/
 }
 
 

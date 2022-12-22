@@ -1,17 +1,17 @@
 import 'dart:convert';
 
-NumbersData numbersDataFromJson(String str) => NumbersData.fromJson(json.decode(str));
+NumbersJsonData numbersDataFromJson(String str) => NumbersJsonData.fromJson(json.decode(str));
 
-String numbersDataToJson(NumbersData data) => json.encode(data.toJson());
+String numbersDataToJson(NumbersJsonData data) => json.encode(data.toJson());
 
-class NumbersData {
-    NumbersData({
+class NumbersJsonData {
+    NumbersJsonData({
         this.numberList,
     });
 
     List<NumberList>? numberList;
 
-    factory NumbersData.fromJson(Map<String, dynamic> json) => NumbersData(
+    factory NumbersJsonData.fromJson(Map<String, dynamic> json) => NumbersJsonData(
         numberList: List<NumberList>.from(json["numberList"].map((x) => NumberList.fromJson(x))),
     );
 

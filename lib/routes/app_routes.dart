@@ -13,4 +13,5 @@ class AppRoutes {
   static const String yourCard = '/yourCard';
   static const String contact = '/contact';
   static const String preview = '/preview';
+  static const String selectTemplate = '/selectTemplate';
 }

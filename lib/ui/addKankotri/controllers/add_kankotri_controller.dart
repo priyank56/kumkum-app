@@ -135,7 +135,7 @@ class AddKankotriController extends GetxController {
       isGroomCard = arguments[0];
       Debug.printLog("Card arguments 0==>> $isGroomCard");
     }
-    getAllInfo(Get.context!);
+
 
     if(arguments[1] != null){
       getAllInvitationCard = arguments[1];
@@ -145,6 +145,9 @@ class AddKankotriController extends GetxController {
     }else {
       addData();
     }
+
+    getAllInfo(Get.context!);
+
 
     if(arguments[2] != null){
       isFromAddUpdate = arguments[2];
@@ -885,18 +888,18 @@ class AddKankotriController extends GetxController {
     createData.marriageInvitationCard!.guestName = "";
     /*Fill Up Values In The Class Map*/
     if(isFromScreen == Constant.isFromCategoryScreen){
-      createData.email = userData.email;
+      // createData.email = userData.email;
       createData.layoutDesignId =  getAllInvitationCard.layoutDesignId ?? "";
       createData.marriageInvitationCardId = "";
       createData.marriageInvitationCardName =  getAllInvitationCard.marriageInvitationCardName ?? "";
       createData.marriageInvitationCardType = getAllInvitationCard.marriageInvitationCardType ?? "";
       createData.isGroom = isGroomCard;
     } else {
-      createData.email = (getAllInvitationCard.email != null) ? getAllInvitationCard.email : userData.email;
-      createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != null) ? getAllInvitationCard.layoutDesignId : "3409e5aac99c 111";
+      // createData.email = (getAllInvitationCard.email != null) ? getAllInvitationCard.email : userData.email;
+      createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != null) ? getAllInvitationCard.layoutDesignId : "3409e5aac99c";
       createData.marriageInvitationCardId = (getAllInvitationCard.marriageInvitationCardId != null) ? getAllInvitationCard.marriageInvitationCardId : "";
-      createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != null) ? getAllInvitationCard.marriageInvitationCardName : "from app 111";
-      createData.marriageInvitationCardType = (getAllInvitationCard.marriageInvitationCardType != null) ? getAllInvitationCard.marriageInvitationCardType : "mict1 111";
+      createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != null) ? getAllInvitationCard.marriageInvitationCardName : "from app";
+      createData.marriageInvitationCardType = (getAllInvitationCard.marriageInvitationCardType != null) ? getAllInvitationCard.marriageInvitationCardType : "mict1";
       createData.isGroom = isGroomCard;
     }
     var coverImage = CoverImage();
@@ -1141,7 +1144,13 @@ class AddKankotriController extends GetxController {
       if (await InternetConnectivity.isInternetConnect()) {
         isShowProgress = true;
         update([Constant.isShowProgressUpload]);
-        var mrgType = (isGroomCard)?Constant.typeGroomAPI:Constant.typeBrideAPI;
+        var mrgType = "";
+        if(getAllInvitationCard.marriageInvitationCard != null){
+          mrgType = (getAllInvitationCard.isGroom!)?Constant.typeGroomAPI:Constant.typeBrideAPI;
+        }else{
+          mrgType = (isGroomCard)?Constant.typeGroomAPI:Constant.typeBrideAPI;
+        }
+
         await newKankotriDataModel.getInfo(context,mrgType).then((value) {
           handleKankotriInfoResponse(value,context);
         });

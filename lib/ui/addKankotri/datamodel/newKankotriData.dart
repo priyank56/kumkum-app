@@ -36,50 +36,54 @@ class ResultGet {
     ResultGet({
         this.marriageInvitationCardId,
         this.marriageInvitationCardName,
-        this.email,
+        // this.email,
         this.marriageInvitationCard,
         this.marriageInvitationCardType,
         this.layoutDesignId,
         this.id,
         this.createdAt,
         this.updatedAt,
+        this.isGroom,
         this.v,
     });
 
     String? marriageInvitationCardId;
     String? marriageInvitationCardName;
-    String? email;
+    // String? email;
     MarriageInvitationCardRes? marriageInvitationCard;
     String? marriageInvitationCardType;
     String? layoutDesignId;
     String? id;
     String? createdAt;
     String? updatedAt;
+    bool? isGroom;
     int? v;
 
     factory ResultGet.fromJson(Map<String, dynamic> json) => ResultGet(
         marriageInvitationCardId: json["marriageInvitationCardId"],
         marriageInvitationCardName: json["marriageInvitationCardName"],
-        email: json["email"],
+        // email: json["email"],
         marriageInvitationCard: MarriageInvitationCardRes.fromJson(json["marriageInvitationCard"]),
         marriageInvitationCardType: json["marriageInvitationCardType"],
         layoutDesignId: json["layoutDesignId"],
         id: json["_id"],
         createdAt: json["createdAt"],
         updatedAt: json["updatedAt"],
+        isGroom: json["isGroom"],
         v: json["__v"],
     );
 
     Map<String, dynamic> toJson() => {
         "marriageInvitationCardId": marriageInvitationCardId,
         "marriageInvitationCardName": marriageInvitationCardName,
-        "email": email,
+        // "email": email,
         "marriageInvitationCard": marriageInvitationCard!.toJson(),
         "marriageInvitationCardType": marriageInvitationCardType,
         "layoutDesignId": layoutDesignId,
         "_id": id,
         "createdAt": createdAt,
         "updatedAt": updatedAt,
+        "isGroom": isGroom,
         "__v": v,
     };
 }

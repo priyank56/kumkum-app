@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:spotify_flutter_code/connectivitymanager/connectivitymanager.dart';
 import 'package:spotify_flutter_code/localization/locale_constant.dart';
@@ -24,6 +25,11 @@ import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  /*await FlutterDownloader.initialize(
+      debug: false, // optional: set to false to disable printing logs to console (default: true)
+      ignoreSsl: true // option: set to false to disable working with http links (default: false)
+  );
+*/
   await Firebase.initializeApp();
   initializeDateFormatting('gu_IN', null);
   await Preference().instance();

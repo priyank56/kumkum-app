@@ -123,18 +123,6 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                /*Container(
-                  margin: EdgeInsets.only(top: Sizes.height_2),
-                  child: Text(
-                    "txtPasandKaro".tr,
-                    style: TextStyle(
-                      color: CColor.black,
-                      fontSize: FontSize.size_14,
-                      fontFamily: Constant.appFont,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),*/
                 Container(
                   margin: EdgeInsets.only(
                       bottom: Sizes.height_3,
@@ -252,7 +240,8 @@ class HomeScreen extends StatelessWidget {
       child: InkWell(
         splashColor: CColor.grayDark,
         onTap: () {
-          showCustomizeDialogForChooseOptions(context, logic,true);
+          Get.toNamed(AppRoutes.selectTemplate);
+          // showCustomizeDialogForChooseOptions(context, logic,true);
           // Get.toNamed(AppRoutes.addKankotri);
         },
         child: Container(

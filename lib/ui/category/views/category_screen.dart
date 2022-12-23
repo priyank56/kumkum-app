@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify_flutter_code/ui/category/controllers/category_controller.dart';
 import 'package:get/get.dart';
+import 'package:spotify_flutter_code/utils/debug.dart';
 
 import '../../../custom/dialog/progressdialog.dart';
+import '../../../datamodel/createData.dart';
 import '../../../routes/app_routes.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
+import '../../addKankotri/controllers/add_kankotri_controller.dart';
+import '../../addKankotri/datamodel/newKankotriData.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);
@@ -114,16 +119,11 @@ class CategoryScreen extends StatelessWidget {
   }
 
   _itemCardView(int index, BuildContext context,CategoryController logic) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.black,
-        onTap: () {
-          Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: SizedBox(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Stack(
+        children: [
+          SizedBox(
             width: MediaQuery
                 .of(context)
                 .size
@@ -133,8 +133,95 @@ class CategoryScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-        ),
+          Container(
+            color: CColor.black50,
+          ),
+          Center(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Material(
+                    color: CColor.transparent,
+                    child: InkWell(
+                      splashColor: CColor.black,
+                      onTap: () {
+                        Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: Sizes.height_2),
+                        child: SvgPicture.asset(
+                          "assets/svg/ic_edit.svg",
+                          color: CColor.white,
+                          height: Sizes.height_3,
+                          width: Sizes.height_3,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Material(
+                    color: CColor.transparent,
+                    child: InkWell(
+                      splashColor: CColor.black,
+                      onTap: () {
+                        List<PreviewFunctions> functionStringTitleList = [];
+                        List<FunctionsRes> list = logic.allYourCardList[index].marriageInvitationCard!.functions!;
+                        for(int i =0;i<list.length;i++){
+                          functionStringTitleList.add(PreviewFunctions(list[i].functionId, list[i].functionName ?? "",'txtSarvo'.tr));
+                        }
+                        Debug.printLog("Prebuilt URL==>>> ${logic.allYourCardList[index].previewUrl}");
+                        var data = logic.allYourCardList[index];
+                        CreateData createData = CreateData();
+                        createData.marriageInvitationCard = MarriageInvitationCard();
+                        createData.marriageInvitationCardId=data.marriageInvitationCardId;
+                        createData.marriageInvitationCardName=data.marriageInvitationCardName;
+                        // createData.marriageInvitationCard = data.marriageInvitationCard;
+                        createData.marriageInvitationCardType=data.marriageInvitationCardType;
+                        createData.layoutDesignId=data.layoutDesignId;
+
+                        var mrgData = data.marriageInvitationCard;
+
+                        createData.marriageInvitationCard!.functions = [];
+                        List<Functions> functionsList = [];
+
+                        var funcSendData = Functions();
+                        var functionsListGet =  mrgData!.functions!;
+                        for(var i = 0 ; i < functionsListGet.length ; i ++){
+                          var functions = functionsListGet[i];
+                          funcSendData.functionId = functions.functionId;
+                          funcSendData.functionName = functions.functionName;
+                          funcSendData.functionDate = functions.functionDate;
+                          funcSendData.functionTime = functions.functionTime;
+                          funcSendData.message = functions.message;
+                          funcSendData.inviter = functions.inviter;
+                          funcSendData.banquetPerson = functions.banquetPerson;
+                          funcSendData.functionPlace = functions.functionPlace;
+                          functionsList.add(funcSendData);
+                        }
+                        createData.marriageInvitationCard!.functions = functionsList;
+
+                        Get.toNamed(AppRoutes.preview,arguments: [createData,functionStringTitleList,logic.allYourCardList[index].previewUrl ?? Constant.dummyPreviewURL]);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: Sizes.height_2),
+                        child: SvgPicture.asset(
+                          "assets/svg/ic_show.svg",
+                          color: CColor.white,
+                          height: Sizes.height_3,
+                          width: Sizes.height_3,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
+
+
 }

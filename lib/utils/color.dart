@@ -8,6 +8,11 @@ class CColor {
   static const white70 = Color(0x70FFFFFF);
   static const white80 = Color(0x80FFFFFF);
   static const white90 = Color(0x90FFFFFF);
+  static const black50 = Color(0x50000000);
+  static const black60 = Color(0x60000000);
+  static const black70 = Color(0x70000000);
+  static const black80 = Color(0x80000000);
+  static const black90 = Color(0x90000000);
   static const black = Color(0xff000000);
 
   /*Custom Color*/

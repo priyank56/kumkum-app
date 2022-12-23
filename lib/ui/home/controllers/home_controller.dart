@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -70,6 +71,8 @@ class HomeController extends GetxController {
     final File file = File('${directory.path}/card.pdf');
     await file.writeAsBytes([]);
   }
+
+
 
 }
 

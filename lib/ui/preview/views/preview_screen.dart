@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../custom/dialog/progressdialog.dart';
@@ -33,73 +34,83 @@ class PreviewScreen extends StatelessWidget {
       },
       child: Scaffold(
         body: SafeArea(
-          child: GetBuilder<PreviewController>(builder: (logic) {
-            return Column(
-              children: [
-                Row(
+          child: Stack(
+            children: [
+              GetBuilder<PreviewController>(builder: (logic) {
+                return Column(
                   children: [
-                    Material(
-                      color: CColor.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          // Get.offAllNamed(AppRoutes.main);
-                          Get.back();
-                          Get.back();
-                        },
-                        splashColor: CColor.black,
-                        child: Container(
-                          margin: EdgeInsets.all(Sizes.height_2),
-                          child: SvgPicture.asset(
-                            "assets/svg/login_flow/ic_back.svg",
-                            height: Sizes.height_4,
-                            width: Sizes.height_4,
+                    Row(
+                      children: [
+                        Material(
+                          color: CColor.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              // Get.offAllNamed(AppRoutes.main);
+                              Get.back();
+                              Get.back();
+                            },
+                            splashColor: CColor.black,
+                            child: Container(
+                              margin: EdgeInsets.all(Sizes.height_2),
+                              child: SvgPicture.asset(
+                                "assets/svg/login_flow/ic_back.svg",
+                                height: Sizes.height_4,
+                                width: Sizes.height_4,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        Expanded(
+                          child: Container(
+                            child: Text(
+                              "txtPreview".tr,
+                              style: TextStyle(
+                                  color: CColor.black,
+                                  fontSize: FontSize.size_14,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: Constant.appFont),
+                            ),
+                          ),
+                        ),
+                        Material(
+                          color: CColor.transparent,
+                          child: InkWell(
+                            splashColor: CColor.black,
+                            onTap: () {
+                              showCustomizeDialog(context, logic);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: Sizes.width_5),
+                              child: SvgPicture.asset("assets/svg/ic_download.svg",
+                                  height: Sizes.height_3, width: Sizes.height_3),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Expanded(
-                      child: Container(
-                        child: Text(
-                          "txtPreview".tr,
-                          style: TextStyle(
-                              color: CColor.black,
-                              fontSize: FontSize.size_14,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: Constant.appFont),
-                        ),
-                      ),
-                    ),
-                    Material(
-                      color: CColor.transparent,
-                      child: InkWell(
-                        splashColor: CColor.black,
-                        onTap: () {
-                          showCustomizeDialog(context, logic);
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: Sizes.width_5),
-                          child: SvgPicture.asset("assets/svg/ic_download.svg",
-                              height: Sizes.height_3, width: Sizes.height_3),
-                        ),
-                      ),
+                      child: (logic.previewURL != "")
+                          ? WebView(
+                              initialUrl: logic.previewURL,
+                              javascriptMode: JavascriptMode.unrestricted,
+                              onPageFinished: (url) {
+                                logic.changeProgressValue(false);
+                              },
+                            )
+                          : Container(),
                     ),
                   ],
-                ),
-                Expanded(
-                  child: WebView(
-                    initialUrl: 'https://kumkum-blond.vercel.app/invitation-card/banquet-person/pdf/U2FsdGVkX180ZVAma1sz33oYktoj99rslj7xMl3JkxMl3JkqEAUCbjwyhOs33ccPEyX5EnYZ3wxMl3JkxMl3Jk2UCuo2DQcZHZO9JlnTiTOPZdS0JxMl3JkxMl3JkaZLh99VvMnvcnxMl3JkxMl3JkmCsoBOYBuBxwlhS2HnQJgGGP1rFzsBVeg3R8feVxPor21LdPor21LdiMPor21LdPor21LdJtETXIxMl3JkxMl3JkBqEryKH3tbBYs9HSM1SbMtPx8qFZi4v96xEzGZEbZN6i8PVELpQ8fWhp7Por21LdPor21Ldmb76cnZlvddfjt8IW6Ma9950N91GEBxl5Por21LdPor21LdxQSgGMKm7unW2HtvPor21LdPor21Ld4Por21LdPor21Ldge3QKa7IeSmBOJ2xMl3JkxMl3JkWyX2ALUj5vA2BrhVObnayZ8YbJOdQ0bdN0hcPor21LdPor21LdbNYdGKFuYLET4kxMl3JkxMl3JkEBO9QUIE4ywHBZQVqde8HHmz3P3dZIttMEwbmL33B6eiRbsRcZwqcL8SZXas57nkJofCmwWkYHvS7TLDL7gMtx3st18m3yweCVP1NOzzKCgPJqIeSTShBdHpIBIlhHBNFPor21LdPor21LdSKuQMl32Ml32Ml32Ml32',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onPageFinished: (url) {
-                      logic.changeProgressValue(false);
-                    },
-                  ),
-                  /*SfPdfViewer.memory(
-                    logic.decodedbytes,
-                  ),*/
-                ),
-              ],
-            );
-          }),
+                );
+              }),
+              GetBuilder<PreviewController>(
+                  id: Constant.isShowProgressUpload,
+                  builder: (logic) {
+                    return ProgressDialog(
+                        inAsyncCall: logic.isShowProgress,
+                        child: Container());
+                  }),
+            ],
+          ),
         ),
       ),
     );
@@ -312,9 +323,21 @@ class PreviewScreen extends StatelessWidget {
                           color: CColor.transparent,
                           child: InkWell(
                             splashColor: CColor.black,
-                            onTap: () {
-                              logic.generateUploadFunctionsData();
-                              Get.back();
+                            onTap: () async {
+                              if (await Permission.storage
+                                  .request()
+                                  .isGranted) {
+                                logic.generateUploadFunctionsData();
+                                Get.back();
+                              } else if (await Permission.storage
+                                  .request()
+                                  .isPermanentlyDenied) {
+                                showAlertDialogPermission(context,logic);
+                              } else if (await Permission.storage
+                                  .request()
+                                  .isDenied) {
+                                Get.back();
+                              }
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: Sizes.width_3,bottom: Sizes.height_3),
@@ -335,6 +358,41 @@ class PreviewScreen extends StatelessWidget {
             ),
           );
         });
+  }
+
+  showAlertDialogPermission(BuildContext context,PreviewController logic) {
+    // Create button
+    Widget okButton = TextButton(
+      child: Text("txtOk".tr),
+      onPressed: () async {
+        await openAppSettings();
+      },
+    );
+
+    Widget cancelButton = TextButton(
+      child: Text("txtCancel".tr),
+      onPressed: () {
+        Get.back();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("txtPermission".tr),
+      content: Text("txtPermissionDesc".tr),
+      actions: [
+        okButton,
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   _itemWidgetJan(int index, BuildContext context, PreviewController logic) {

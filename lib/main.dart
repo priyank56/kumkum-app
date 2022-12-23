@@ -25,11 +25,6 @@ import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  /*await FlutterDownloader.initialize(
-      debug: false, // optional: set to false to disable printing logs to console (default: true)
-      ignoreSsl: true // option: set to false to disable working with http links (default: false)
-  );
-*/
   await Firebase.initializeApp();
   initializeDateFormatting('gu_IN', null);
   await Preference().instance();
@@ -93,13 +88,6 @@ class _MyAppState extends State<MyApp> {
     precacheImage(const AssetImage("assets/login_flow/ic_sign_up.webp"),context);
     initializeDateFormatting();
     return GetMaterialApp(
-      /*localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate
-      ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('gu')
-      ],*/
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       color: CColor.white,

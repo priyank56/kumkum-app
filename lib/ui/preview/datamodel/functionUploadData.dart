@@ -22,20 +22,20 @@ class FunctionUploadData {
 
 class FunctionPreview {
     FunctionPreview({
-        this.functionsId,
+        this.functionId,
         this.banquetPerson,
     });
 
-    String? functionsId;
+    String? functionId;
     String? banquetPerson;
 
     factory FunctionPreview.fromJson(Map<String, dynamic> json) => FunctionPreview(
-        functionsId: json["functionsId"],
+        functionId: json["functionId"],
         banquetPerson: json["banquetPerson"],
     );
 
     Map<String, dynamic> toJson() => {
-        "functionsId": functionsId,
+        "functionId": functionId,
         "banquetPerson": banquetPerson,
     };
 }

@@ -60,6 +60,7 @@ final Map<String, String> enUS = {
   'txtUpdatedName': "Contact Name Updated",
   'txtNoDataFoundDesign': "Not Found Any Elegent Designs",
   'txtSelectTemplate': "Select Template",
+  'txtDownload': "Pdf Download Successfully",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",

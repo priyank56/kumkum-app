@@ -5,6 +5,8 @@ import 'package:spotify_flutter_code/datamodel/createData.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/getInfoData.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/uploadImageData.dart';
 import 'package:spotify_flutter_code/ui/login/datamodel/logindatamodel.dart';
+import 'package:spotify_flutter_code/ui/preview/datamodel/downloadPdfData.dart';
+import 'package:spotify_flutter_code/ui/preview/datamodel/functionUploadData.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 import 'package:spotify_flutter_code/utils/params.dart';
@@ -18,6 +20,7 @@ import '../ui/contact/datamodel/numbersJsonData.dart';
 import '../ui/contact/datamodel/sendNumbersData.dart';
 import '../ui/contact/datamodel/sendNumbersJsonData.dart';
 import '../ui/login/datamodel/logindata.dart';
+import '../ui/preview/datamodel/downloadPdfDatamodel.dart';
 
 class Repository {
   DioClient? dioClient;
@@ -235,7 +238,7 @@ class Repository {
       }else {
         formData = FormData.fromMap({
           Params.image: await MultipartFile.fromFile(uploadImageDataModel.file!.path, filename: uploadImageDataModel.file!.path.split('/').last),
-          Params.imageName: uploadImageDataModel.id,
+          Params.id: uploadImageDataModel.id,
         });
       }
       // Debug.printLog("uploadImageDataModel===>>>> ${formData.boundary.toString()}");
@@ -324,6 +327,35 @@ class Repository {
       } catch (e) {
         Debug.printLog(e.toString());
         return SendNumbersData();
+      }
+    }
+  }
+
+  Future<DownloadPdfData> getDownloadPdf(DownloadPdfDataModel downLoadData, FunctionUploadData functionData ,String cardId,[BuildContext? context]) async {
+    try {
+      Response response = await dioClient!.dio.post<String>("/api/marriageInvitationCard/banquet-person/buffer/$cardId",data: functionData.toJson());
+
+      if (response.statusCode == Constant.responseSuccessCode) {
+        var res = response.data;
+        return DownloadPdfData.fromJson(jsonDecode(res));
+      } else if (response.statusCode == Constant.responseFailureCode) {
+        var res = response.data;
+        try {
+          return DownloadPdfData.fromJson(jsonDecode(res));
+        } catch (e) {
+          Debug.printLog(e.toString());
+          return DownloadPdfData();
+        }
+      } else {
+        throw Exception('Exception -->> Failed to getInfo Please Try Again!');
+      }
+    } on DioError catch (ex) {
+      try {
+        var res = ex.response!.data;
+        return DownloadPdfData.fromJson(jsonDecode(res));
+      } catch (e) {
+        Debug.printLog(e.toString());
+        return DownloadPdfData();
       }
     }
   }

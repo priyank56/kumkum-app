@@ -34,6 +34,7 @@ class Constant {
   static const selectedSendWpSarvo = "sarvo";
   static const selectedSendWpSajode = "sajode";
   static const godDemoImageURl = "https://images.unsplash.com/photo-1567878673942-be055fed5d30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80";
+  static const dummyPreviewURL = "https://kumkum-blond.vercel.app/invitation-card/654216a3";
 
   static getMainURL() {
     if (Debug.sandboxApiUrl) {

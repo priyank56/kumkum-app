@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -943,7 +944,15 @@ class AddKankotriController extends GetxController {
     nimantrakData.name = listNimantrakName;
     nimantrakData.contactNo = listNimantrakMno;
     nimantrakData.address = listNimantrakAddress;
-    nimantrakData.mapLink = "https://goo.gl/maps/K2Sg5DtFbSMJ8YgQ6";
+    var address = "";
+    for(int i=0;i<listNimantrakAddress.length;i++){
+      address = address+listNimantrakAddress[i];
+    }
+    getLocationFromAddress(address).then((value) => (){
+      nimantrakData.mapLink = value;
+      Debug.printLog("address map link==>> $address  $value  ${nimantrakData.mapLink}");
+    });
+    // nimantrakData.mapLink = "https://goo.gl/maps/K2Sg5DtFbSMJ8YgQ6";
     createData.marriageInvitationCard!.inviter = nimantrakData;
     /*End For Nimantrak Data*/
 
@@ -958,6 +967,7 @@ class AddKankotriController extends GetxController {
       functionsClass.functionDate = functionsList[i].functionDate;
       functionsClass.functionPlace = functionsList[i].functionPlace;
       functionsClass.message = functionsList[i].functionMessage;
+      functionsClass.banquetPerson = "";
       if(functionsClass.functionTime != "" && functionsClass.functionDate != "") {
         createData.marriageInvitationCard!.functions!.add(functionsClass);
       }
@@ -1264,7 +1274,7 @@ class AddKankotriController extends GetxController {
         for(int i =0;i<functionList.length;i++){
           functionStringTitleList.add(PreviewFunctions(functionList[i].functionId, functionList[i].functionName ?? "",'txtSarvo'.tr));
         }
-        Get.toNamed(AppRoutes.preview,arguments: [createData,functionStringTitleList]);
+        Get.toNamed(AppRoutes.preview,arguments: [createData,functionStringTitleList,newKankotriData.result![0].previewUrl.toString() ?? ""]);
       } else {
         Debug.printLog(
             "handleNewKankotriResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
@@ -1638,9 +1648,15 @@ class AddKankotriController extends GetxController {
         createData.marriageInvitationCard!.godDetails!.add(godDetail);
       }*/
     }
-    /*End For God's Data*/
-  }
 
+  Future<String> getLocationFromAddress(String address) async {
+    List<Location> locations = await locationFromAddress(address);
+    var mapLink =
+        "https://www.google.com/maps/search/${locations[0].latitude},${locations[0].longitude}?shorturl=1";
+    Debug.printLog("getLocationFromAddress==>> $locations  $mapLink");
+    return mapLink;
+  }
+}
 
 class FunctionsNimantrakName{
   String functionId = "";

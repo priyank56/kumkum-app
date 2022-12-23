@@ -62,15 +62,15 @@ class MainScreen extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Image.asset(
+                   /* Image.asset(
                       "assets/ic_ring.png",
                       height: Sizes.height_6,
                       width: Sizes.height_6,
-                    ),
+                    ),*/
                     SvgPicture.asset(
-                      "assets/svg/ic_profile.svg",
-                      height: Sizes.height_3,
-                      width: Sizes.height_3
+                      "assets/svg/ic_logout.svg",
+                      height: Sizes.height_4,
+                      width: Sizes.height_4
                     ),
                   ],
                 ),

@@ -145,7 +145,8 @@ class CategoryScreen extends StatelessWidget {
                     child: InkWell(
                       splashColor: CColor.black,
                       onTap: () {
-                        Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
+                        // Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
+                        Get.toNamed(AppRoutes.addKankotri,arguments: [logic.allYourCardList[index].isGroom,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: Sizes.height_2),

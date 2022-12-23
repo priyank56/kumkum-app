@@ -34,7 +34,7 @@ class PreviewController extends GetxController {
 
   CreateData createData = CreateData();
   dynamic argument = Get.arguments;
-
+  var isFromScreen = "";
 
   changeAdvanced(){
     isAdvanceEnabled = !isAdvanceEnabled;
@@ -102,6 +102,9 @@ class PreviewController extends GetxController {
       if(argument[2] != null){
         previewURL = argument[2];
       }
+      if(argument[3] != null){
+        isFromScreen = argument[3];
+      }
     }
     selectedSendWp = Constant.selectedSendWpSarvo;
     displayDefaultVal = "txtSarvo".tr;
@@ -142,7 +145,7 @@ class PreviewController extends GetxController {
       Debug.printLog("uploadData==>> ${jsonEncode(uploadData)}  ==>>>  $cardId");
       isShowProgress = true;
       update([Constant.isShowProgressUpload]);
-      await downloadData.getDownloadPdf(context,uploadData,cardId).then((value) {
+      await downloadData.getDownloadPdf(context,uploadData,cardId,isFromScreen).then((value) {
         handleGetPdfDataResponse(value,context);
       });
     } else {

@@ -8,16 +8,4 @@ import '../../../repository/repository.dart';
 
 class LoginDataModel {
 
-  String? email;
-  String? password;
-
-  Map<String, dynamic> toJson() => {
-    Params.email: email,
-    Params.password: password,
-  };
-
-  Future<LoginData> getAllAboutsUsData(BuildContext context) {
-    DioClient dioClient = DioClient(context);
-    return Repository(dioClient).login(this, context);
-  }
 }

@@ -127,7 +127,7 @@ class YourCardsScreen extends StatelessWidget {
       child: InkWell(
         splashColor: CColor.black,
         onTap: () {
-          Get.toNamed(AppRoutes.addKankotri,arguments: [null,logic.allYourCardList[index],Constant.isFromUpdate,Constant.isFromMyCardsScreen])!.then((value) => logic.getAllYourCardsAPI(context));
+          Get.toNamed(AppRoutes.addKankotri,arguments: [logic.allYourCardList[index].isGroom,logic.allYourCardList[index],Constant.isFromUpdate,Constant.isFromMyCardsScreen])!.then((value) => logic.getAllYourCardsAPI(context));
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),

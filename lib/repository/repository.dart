@@ -27,43 +27,10 @@ class Repository {
 
   Repository([this.dioClient]);
 
-  Future<LoginData> login(LoginDataModel logInDataModel,
-      [BuildContext? context]) async {
-    try {
-
-      Response response = await dioClient!.dio.post<String>("auth/login",
-          data: FormData.fromMap(logInDataModel.toJson()));
-
-      if (response.statusCode == Constant.responseSuccessCode) {
-        var res = response.data;
-        return LoginData.fromJson(jsonDecode(res));
-      } else if (response.statusCode == Constant.responseFailureCode) {
-        var res = response.data;
-        try {
-          return LoginData.fromJson(jsonDecode(res));
-        } catch (e) {
-          Debug.printLog(e.toString());
-          return LoginData(success: Constant.failureCode);
-        }
-      } else {
-        throw Exception('Exception -->> Failed to Login Please Try Again!');
-      }
-    } on DioError catch (ex) {
-      try {
-        var res = ex.response!.data;
-        return LoginData.fromJson(jsonDecode(res));
-      } catch (e) {
-        Debug.printLog(e.toString());
-        return LoginData(success: Constant.failureCode);
-      }
-    }
-  }
-
-
   Future<CreateKankotriData> createKankotri(NewKankotriDataModel newKankotriDataModel,String createData,CreateData createDataObject,
       [BuildContext? context]) async {
     try {
-      Response response = await dioClient!.dio.post<String>("/api/marriageInvitationCard",
+      Response response = await dioClient!.dio.post<String>("/api/marriage-invitation-card",
           data: createDataObject.toJson());
       Debug.printLog("createKankotri RESPONSE ==>> $response ");
 
@@ -98,7 +65,7 @@ class Repository {
       [BuildContext? context]) async {
     try {
 
-      Response response = await dioClient!.dio.put<String>("/api/marriageInvitationCard/$cardId",
+      Response response = await dioClient!.dio.put<String>("/api/marriage-invitation-card/$cardId",
           data: createDataObject.toJson());
       Debug.printLog("updateKankotri RESPONSE ==>> $response ==>>> $cardId");
 
@@ -135,7 +102,7 @@ class Repository {
       [BuildContext? context]) async {
     Debug.printLog("getInfo mrgType==>> : $mrgType");
     try {
-      Response response = await dioClient!.dio.get<String>("/api/marriageInvitationCard/info",queryParameters:{Params.type:mrgType} );
+      Response response = await dioClient!.dio.get<String>("/api/marriage-invitation-card/info",queryParameters:{Params.type:mrgType} );
 
       if (response.statusCode == Constant.responseSuccessCode) {
         var res = response.data;
@@ -165,7 +132,7 @@ class Repository {
   Future<NewKankotriData> getYourInvitationCard(NewKankotriDataModel newKankotriDataModel,
       [BuildContext? context]) async {
     try {
-      Response response = await dioClient!.dio.get<String>("/api/marriageInvitationCard" );
+      Response response = await dioClient!.dio.get<String>("/api/marriage-invitation-card" );
       Debug.printLog("getYourInvitationCard RESPONSE ==>> $response ");
 
       if (response.statusCode == Constant.responseSuccessCode) {
@@ -197,7 +164,7 @@ class Repository {
   Future<NewKankotriData> getAllPreBuiltCards(NewKankotriDataModel newKankotriDataModel,
       [BuildContext? context]) async {
     try {
-      Response response = await dioClient!.dio.get<String>("/api/prebuilt-cards" );
+      Response response = await dioClient!.dio.get<String>("/api/prebuilt-invitation-card" );
       Debug.printLog("getAllPreBuiltCards RESPONSE ==>> $response ");
 
       if (response.statusCode == Constant.responseSuccessCode) {
@@ -244,7 +211,7 @@ class Repository {
       // Debug.printLog("uploadImageDataModel===>>>> ${formData.boundary.toString()}");
 
       Response response =
-          await dioClient!.dio.post<String>("/api/marriageInvitationCard/upload/image", data: formData);
+          await dioClient!.dio.post<String>("/api/marriage-invitation-card/upload/image", data: formData);
       Debug.printLog("uploadImage RESPONSE ==>> $response ");
 
       if (response.statusCode == Constant.responseSuccessCode) {
@@ -331,9 +298,18 @@ class Repository {
     }
   }
 
-  Future<DownloadPdfData> getDownloadPdf(DownloadPdfDataModel downLoadData, FunctionUploadData functionData ,String cardId,[BuildContext? context]) async {
+  Future<DownloadPdfData> getDownloadPdf(DownloadPdfDataModel downLoadData, FunctionUploadData functionData ,String cardId,String isFromScreen,[BuildContext? context]) async {
     try {
-      Response response = await dioClient!.dio.post<String>("/api/marriageInvitationCard/banquet-person/buffer/$cardId",data: functionData.toJson());
+      Response response;
+      if(isFromScreen == Constant.isFromCategoryScreen){
+        response = await dioClient!.dio.post<String>(
+            "/api/prebuilt-invitation-card/banquet-person/buffer/$cardId",
+            data: functionData.toJson());
+      }else {
+        response = await dioClient!.dio.post<String>(
+            "/api/marriage-invitation-card/banquet-person/buffer/$cardId",
+            data: functionData.toJson());
+      }
 
       if (response.statusCode == Constant.responseSuccessCode) {
         var res = response.data;

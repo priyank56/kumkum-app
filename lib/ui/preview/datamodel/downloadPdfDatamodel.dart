@@ -7,9 +7,9 @@ import 'functionUploadData.dart';
 
 class DownloadPdfDataModel {
 
-  Future<DownloadPdfData> getDownloadPdf(BuildContext context,FunctionUploadData uploadData,String cardId) {
+  Future<DownloadPdfData> getDownloadPdf(BuildContext context,FunctionUploadData uploadData,String cardId,String isFromScreen) {
     DioClient dioClient = DioClient(context,isPassAuth: true);
-    return Repository(dioClient).getDownloadPdf(this,uploadData,cardId,context);
+    return Repository(dioClient).getDownloadPdf(this,uploadData,cardId,isFromScreen,context);
   }
 
 }

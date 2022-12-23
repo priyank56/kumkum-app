@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/ui/contact/controllers/contact_controller.dart';
@@ -46,7 +47,7 @@ class ContactScreen extends StatelessWidget {
                           children: [
                             _widgetPreBuilt(logic, context),
                             (logic.allYourCardList.isNotEmpty)?_widgetDesc(logic, context):Container(),
-                            (logic.allYourCardList.isNotEmpty)?_widgetNextPrevious():Container(),
+                            (logic.allYourCardList.isNotEmpty)?_widgetNextPrevious(context):Container(),
                             (logic.allYourCardList.isNotEmpty)?_widgetText(context):Container(),
                             (logic.currentPos == 1 && logic.allYourCardList.isNotEmpty && !logic.isShowProgress)
                                 ? _widgetFirstBottomView(context)
@@ -142,7 +143,7 @@ class ContactScreen extends StatelessWidget {
         });
   }
 
-  _widgetNextPrevious() {
+  _widgetNextPrevious(BuildContext context) {
     return GetBuilder<ContactController>(
         id: Constant.idNextPrevious,
         builder: (logic) {
@@ -211,7 +212,11 @@ class ContactScreen extends StatelessWidget {
                       child: InkWell(
                         splashColor: CColor.black,
                         onTap: () {
-                          logic.changeBottomViewPos(logic.currentPos + 1);
+                          if(logic.selectedCardId != "") {
+                            logic.changeBottomViewPos(logic.currentPos + 1);
+                          }else{
+                            Utils.showToast(context, "txtSelectCard".tr);
+                          }
                         },
                         child: Stack(
                           alignment: Alignment.center,
@@ -274,7 +279,7 @@ class ContactScreen extends StatelessWidget {
             height: Sizes.height_37,
             child: ListView.builder(
               itemBuilder: (context, index) {
-                return _itemCardView(index, context);
+                return _itemCardView(index, context,logic);
               },
               shrinkWrap: true,
               itemCount: logic.allYourCardList.length,
@@ -284,20 +289,65 @@ class ContactScreen extends StatelessWidget {
         });
   }
 
-  _itemCardView(int index, BuildContext context) {
+  _itemCardView(int index, BuildContext context, ContactController logic) {
     return Material(
       color: CColor.transparent,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          logic.changeSelectedId(logic.allYourCardList[index].marriageInvitationCardId.toString(),index);
+          logic.changeBottomViewPos(logic.currentPos + 1);
+        },
         splashColor: CColor.black,
         child: Container(
           padding: EdgeInsets.only(right: Sizes.width_5),
-          height: Sizes.height_15,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Image.asset(
-            "assets/ic_card_demo.png",
+          height: double.infinity,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(Sizes.height_2),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                CachedNetworkImage(
+                  fadeInDuration: const Duration(milliseconds: 10),
+                  fadeOutDuration: const Duration(milliseconds: 10),
+                  fit: BoxFit.cover,
+                  imageUrl: Constant.godDemoImageURl,
+                  placeholder: (context, url) =>
+                  const Center(
+                    child: SizedBox(
+                      width: 60.0,
+                      height: 60.0,
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+                if (logic.allYourCardList[index].isSelect!)
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: Sizes.height_2,
+                      right: Sizes.width_2,
+                    ),
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          padding: EdgeInsets.only(right: Sizes.width_5),
+                          height: double.infinity,
+                          color: CColor.black50,
+                        ),
+                        SvgPicture.asset(
+                          "assets/svg/ic_tick.svg",
+                          color: CColor.white,
+                          width: Sizes.width_10,
+                          height: Sizes.width_10,
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  Container()
+              ],
+            ),
           ),
         ),
       ),

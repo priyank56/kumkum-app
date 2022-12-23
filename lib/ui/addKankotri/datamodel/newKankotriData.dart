@@ -59,6 +59,7 @@ class ResultGet {
     String? updatedAt;
     String? previewUrl;
     bool? isGroom;
+    bool? isSelect = false;
     int? v;
 
     factory ResultGet.fromJson(Map<String, dynamic> json) => ResultGet(

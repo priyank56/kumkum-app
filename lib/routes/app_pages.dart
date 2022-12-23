@@ -14,6 +14,7 @@ import 'package:spotify_flutter_code/ui/otp/bindings/otp_binding.dart';
 import 'package:spotify_flutter_code/ui/otp/views/otp_screen.dart';
 import 'package:spotify_flutter_code/ui/preview/bindings/preview_binding.dart';
 import 'package:spotify_flutter_code/ui/preview/views/preview_screen.dart';
+import 'package:spotify_flutter_code/ui/selectLayout/views/select_layout_screen.dart';
 import 'package:spotify_flutter_code/ui/selectTemplate/bindings/select_template_binding.dart';
 import 'package:spotify_flutter_code/ui/selectTemplate/views/select_template_screen.dart';
 import 'package:spotify_flutter_code/ui/signup/bindings/signup_binding.dart';
@@ -25,6 +26,7 @@ import '../ui/forgotpass/views/forgot_screen.dart';
 import '../ui/home/bindings/home_binding.dart';
 import '../ui/home/views/home_screen.dart';
 import '../ui/login/views/login_screen.dart';
+import '../ui/selectLayout/bindings/select_layout_binding.dart';
 import '../ui/yourCard/bindings/your_card_binding.dart';
 import '../utils/color.dart';
 import 'app_routes.dart';
@@ -179,7 +181,11 @@ class AppPages {
       transition: Transition.fade,
     ),
 
-
-
+    GetPage(
+      name: AppRoutes.selectLayout,
+      page: () => const SelectLayoutScreen(),
+      binding: SelectLayoutBinding(),
+      transition: Transition.fade,
+    ),
   ];
 }

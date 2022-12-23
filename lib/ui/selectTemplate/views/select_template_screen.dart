@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:spotify_flutter_code/ui/category/controllers/category_controller.dart';
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/ui/selectTemplate/controllers/select_template_controller.dart';
@@ -13,6 +14,7 @@ import '../../../routes/app_routes.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
+import '../../addKankotri/datamodel/newKankotriData.dart';
 
 class SelectTemplateScreen extends StatelessWidget {
   const SelectTemplateScreen({Key? key}) : super(key: key);
@@ -38,7 +40,7 @@ class SelectTemplateScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _widgetPreBuilt(logic, context),
+                      _widgetTopBar(logic, context),
                       _widgetCardView(logic, context),
                     ],
                   ),
@@ -58,21 +60,41 @@ class SelectTemplateScreen extends StatelessWidget {
     );
   }
 
-  _widgetPreBuilt(SelectTemplateController logic, BuildContext context) {
+  _widgetTopBar(SelectTemplateController logic, BuildContext context) {
     return Container(
       color: CColor.white,
       padding: EdgeInsets.all(Sizes.height_2_5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            "txtSelectTemplate".tr,
-            style: TextStyle(
-                color: CColor.black,
-                fontSize: FontSize.size_18,
-                fontFamily: Constant.appFont,
-                fontWeight: FontWeight.w800),
-            textAlign: TextAlign.center,
+          Material(
+            color: CColor.transparent,
+            child: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              splashColor: CColor.black,
+              child: Container(
+                // margin: EdgeInsets.all(Sizes.height_2),
+                child: SvgPicture.asset(
+                  "assets/svg/login_flow/ic_back.svg",
+                  height: Sizes.height_4,
+                  width: Sizes.height_4,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: Sizes.width_3),
+            child: Text(
+              "txtSelectTemplate".tr,
+              style: TextStyle(
+                  color: CColor.black,
+                  fontSize: FontSize.size_18,
+                  fontFamily: Constant.appFont,
+                  fontWeight: FontWeight.w800),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),
@@ -119,7 +141,7 @@ class SelectTemplateScreen extends StatelessWidget {
   }
 
 
-  showCustomizeDialogForChooseOptions(BuildContext context) {
+  showCustomizeDialogForChooseOptions(BuildContext context, int index) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -129,14 +151,14 @@ class SelectTemplateScreen extends StatelessWidget {
               Dialog(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)),
-                child: contentBox(context),
+                child: contentBox(context,index),
               ),
             ],
           );
         });
   }
 
-  contentBox(BuildContext context) {
+  contentBox(BuildContext context, int index) {
     return GetBuilder<SelectTemplateController>(
         id: Constant.idGodNames,
         builder: (logic) {
@@ -190,9 +212,10 @@ class SelectTemplateScreen extends StatelessWidget {
                         child: InkWell(
                           splashColor: CColor.grayDark,
                           onTap: () {
+                            ResultGet? getAllInvitationCard = logic.allYourCardList[index!];
                             Get.toNamed(AppRoutes.addKankotri, arguments: [
                               true,
-                              null,
+                              getAllInvitationCard,
                               Constant.isFromCreate,
                               Constant.isFromHomeScreen
                             ])!.then((value) => Get.back());
@@ -226,9 +249,10 @@ class SelectTemplateScreen extends StatelessWidget {
                         child: InkWell(
                           splashColor: CColor.grayDark50,
                           onTap: () {
+                            ResultGet? getAllInvitationCard = logic.allYourCardList[index!];
                             Get.toNamed(AppRoutes.addKankotri, arguments: [
                               false,
-                              null,
+                              getAllInvitationCard,
                               Constant.isFromCreate,
                               Constant.isFromHomeScreen
                             ])!.then((value) => Get.back());
@@ -274,7 +298,7 @@ class SelectTemplateScreen extends StatelessWidget {
       child: InkWell(
         splashColor: CColor.black,
         onTap: () {
-          showCustomizeDialogForChooseOptions(context);
+          showCustomizeDialogForChooseOptions(context,index);
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),

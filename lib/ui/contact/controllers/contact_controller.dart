@@ -35,13 +35,23 @@ class ContactController extends GetxController {
   ContactDataModel contactDataModel = ContactDataModel();
   List<ResultGet> allYourCardList = [];
   var auth = FirebaseAuth.instance;
-
+  var selectedCardId = "";
 
   @override
   void onInit() {
     super.onInit();
     getAllYourCardsAPI(Get.context!);
 
+  }
+
+  changeSelectedId(String id,int pos){
+    selectedCardId = id;
+    var truePos = allYourCardList.indexWhere((element) => element.isSelect == true);
+    if(truePos != -1){
+      allYourCardList[truePos].isSelect = !allYourCardList[truePos].isSelect!;
+    }
+    allYourCardList[pos].isSelect = !allYourCardList[pos].isSelect!;
+    update([Constant.idNextPrevious,Constant.idBottomText,Constant.idBottomViewPos,Constant.idMainPage,]);
   }
 
   getAllYourCardsAPI(BuildContext context) async {
@@ -88,6 +98,7 @@ class ContactController extends GetxController {
 
   changeBottomViewPos(int pos)async{
     currentPos = pos;
+    Debug.printLog("changeBottomViewPos selectedCardId===>>> $pos  $selectedCardId");
     if(pos == 2){
       if (await Permission.contacts.request().isGranted) {
         getAllContact();

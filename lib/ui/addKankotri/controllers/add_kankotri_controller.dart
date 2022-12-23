@@ -129,6 +129,10 @@ class AddKankotriController extends GetxController {
   TextEditingController godNameController = TextEditingController();
 
 
+  /*Layout Id and Type*/
+  var newLayoutId = "";
+  var newLayoutType = "";
+
   @override
   void onInit() {
     super.onInit();
@@ -888,21 +892,26 @@ class AddKankotriController extends GetxController {
     /*====================================================================================*/
     createData.marriageInvitationCard!.guestName = "";
     /*Fill Up Values In The Class Map*/
-    if(isFromScreen == Constant.isFromCategoryScreen){
-      // createData.email = userData.email;
+    /*if(isFromScreen == Constant.isFromCategoryScreen || isFromScreen == Constant.isFromHomeScreen){
       createData.layoutDesignId =  getAllInvitationCard.layoutDesignId ?? "";
       createData.marriageInvitationCardId = "";
       createData.marriageInvitationCardName =  getAllInvitationCard.marriageInvitationCardName ?? "";
       createData.marriageInvitationCardType = getAllInvitationCard.marriageInvitationCardType ?? "";
       createData.isGroom = isGroomCard;
     } else {
-      // createData.email = (getAllInvitationCard.email != null) ? getAllInvitationCard.email : userData.email;
       createData.layoutDesignId = (getAllInvitationCard.layoutDesignId != null) ? getAllInvitationCard.layoutDesignId : "3409e5aac99c";
       createData.marriageInvitationCardId = (getAllInvitationCard.marriageInvitationCardId != null) ? getAllInvitationCard.marriageInvitationCardId : "";
       createData.marriageInvitationCardName = (getAllInvitationCard.marriageInvitationCardName != null) ? getAllInvitationCard.marriageInvitationCardName : "from app";
       createData.marriageInvitationCardType = (getAllInvitationCard.marriageInvitationCardType != null) ? getAllInvitationCard.marriageInvitationCardType : "mict1";
       createData.isGroom = isGroomCard;
-    }
+    }*/
+
+    createData.layoutDesignId = (newLayoutId == "") ? getAllInvitationCard.layoutDesignId : newLayoutId;
+    createData.marriageInvitationCardId = getAllInvitationCard.marriageInvitationCardId ?? "";
+    createData.marriageInvitationCardName = getAllInvitationCard.marriageInvitationCardName ?? "";
+    createData.marriageInvitationCardType = (newLayoutType == "") ? getAllInvitationCard.marriageInvitationCardType : newLayoutType;
+    createData.isGroom = isGroomCard;
+
     var coverImage = CoverImage();
     coverImage.isShow = true;
     coverImage.url = (imgCoverURL != "")?imgCoverURL : Constant.godDemoImageURl.toString();
@@ -1274,7 +1283,7 @@ class AddKankotriController extends GetxController {
         for(int i =0;i<functionList.length;i++){
           functionStringTitleList.add(PreviewFunctions(functionList[i].functionId, functionList[i].functionName ?? "",'txtSarvo'.tr));
         }
-        Get.toNamed(AppRoutes.preview,arguments: [createData,functionStringTitleList,newKankotriData.result![0].previewUrl.toString() ?? ""]);
+        Get.toNamed(AppRoutes.preview,arguments: [createData,functionStringTitleList,newKankotriData.result![0].previewUrl.toString() ?? "",isFromScreen]);
       } else {
         Debug.printLog(
             "handleNewKankotriResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
@@ -1655,6 +1664,15 @@ class AddKankotriController extends GetxController {
         "https://www.google.com/maps/search/${locations[0].latitude},${locations[0].longitude}?shorturl=1";
     Debug.printLog("getLocationFromAddress==>> $locations  $mapLink");
     return mapLink;
+  }
+
+  void changeLayoutIdAndType(data) {
+    if(data == ""){
+      return;
+    }
+
+    var map = data as Map;
+    Debug.printLog("Data Map==>> ${map[Constant.layoutId]}  ${map[Constant.layoutType]}");
   }
 }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:spotify_flutter_code/main.dart';
+import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/controllers/add_kankotri_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
@@ -76,6 +77,25 @@ class AddKankotriScreen extends StatelessWidget {
                 fontSize: FontSize.size_14,
                 fontWeight: FontWeight.w500,
                 fontFamily: Constant.appFont,
+              ),
+            ),
+          ),
+          Material(
+            color: CColor.transparent,
+            child: InkWell(
+              onTap: () async {
+                var data = await Get.toNamed(AppRoutes.selectLayout);
+                Debug.printLog("Data Selecte Layout==>>> $data");
+                logic.changeLayoutIdAndType(data ?? "");
+              },
+              splashColor: CColor.black,
+              child: Container(
+                margin: EdgeInsets.all(Sizes.height_2),
+                child: SvgPicture.asset(
+                  "assets/svg/ic_swipe.svg",
+                  height: Sizes.height_3,
+                  width: Sizes.height_3,
+                ),
               ),
             ),
           ),

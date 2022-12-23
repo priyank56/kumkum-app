@@ -14,4 +14,5 @@ class AppRoutes {
   static const String contact = '/contact';
   static const String preview = '/preview';
   static const String selectTemplate = '/selectTemplate';
+  static const String selectLayout = '/selectLayout';
 }

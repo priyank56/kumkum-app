@@ -61,6 +61,7 @@ final Map<String, String> enUS = {
   'txtNoDataFoundDesign': "Not Found Any Elegent Designs",
   'txtSelectTemplate': "Select Template",
   'txtDownload': "Pdf Download Successfully",
+  'txtSelectLayout': "Select Layout",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",
@@ -191,5 +192,6 @@ final Map<String, String> enUS = {
   'txtAtak' :"Please enter surname",
   'txtGodSelect' :"Please select at least 3 god",
   'txtUploadImage' :"Please upload cover image",
+  'txtSelectCard' :"Please select any card",
 
 };

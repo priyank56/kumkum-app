@@ -301,15 +301,15 @@ class Repository {
   Future<DownloadPdfData> getDownloadPdf(DownloadPdfDataModel downLoadData, FunctionUploadData functionData ,String cardId,String isFromScreen,[BuildContext? context]) async {
     try {
       Response response;
-      if(isFromScreen == Constant.isFromCategoryScreen){
+     /* if(isFromScreen == Constant.isFromCategoryScreen){
         response = await dioClient!.dio.post<String>(
             "/api/prebuilt-invitation-card/banquet-person/buffer/$cardId",
             data: functionData.toJson());
-      }else {
+      }else {*/
         response = await dioClient!.dio.post<String>(
             "/api/marriage-invitation-card/banquet-person/buffer/$cardId",
             data: functionData.toJson());
-      }
+      // }
 
       if (response.statusCode == Constant.responseSuccessCode) {
         var res = response.data;

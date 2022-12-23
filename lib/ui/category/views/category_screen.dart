@@ -202,7 +202,7 @@ class CategoryScreen extends StatelessWidget {
                         }
                         createData.marriageInvitationCard!.functions = functionsList;
 
-                        Get.toNamed(AppRoutes.preview,arguments: [createData,functionStringTitleList,logic.allYourCardList[index].previewUrl ?? Constant.dummyPreviewURL]);
+                        Get.toNamed(AppRoutes.preview,arguments: [createData,functionStringTitleList,logic.allYourCardList[index].previewUrl ?? Constant.dummyPreviewURL,Constant.isFromCategoryScreen]);
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: Sizes.height_2),

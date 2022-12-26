@@ -44,6 +44,7 @@ class ResultGet {
         this.createdAt,
         this.updatedAt,
         this.previewUrl,
+        this.thumbnail,
         this.isGroom,
         this.v,
     });
@@ -58,6 +59,7 @@ class ResultGet {
     String? createdAt;
     String? updatedAt;
     String? previewUrl;
+    String? thumbnail;
     bool? isGroom;
     bool? isSelect = false;
     int? v;
@@ -74,6 +76,7 @@ class ResultGet {
         updatedAt: json["updatedAt"],
         isGroom: json["isGroom"],
         previewUrl: json["previewUrl"],
+        thumbnail: json["thumbnail"],
         v: json["__v"],
     );
 
@@ -88,6 +91,7 @@ class ResultGet {
         "createdAt": createdAt,
         "updatedAt": updatedAt,
         "previewUrl": previewUrl,
+        "thumbnail": thumbnail,
         "isGroom": isGroom,
         "__v": v,
     };

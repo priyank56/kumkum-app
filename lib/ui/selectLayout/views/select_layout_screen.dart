@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -99,7 +100,7 @@ class SelectLayoutScreen extends StatelessWidget {
     return GetBuilder<SelectLayoutController>(
         id: Constant.idGetAllYourCards,
         builder: (logic) {
-          return (logic.allYourCardList.isNotEmpty)
+          return (logic.layoutDesignList.isNotEmpty)
               ? Container(
                   margin: EdgeInsets.only(
                       left: Sizes.width_5,
@@ -116,7 +117,7 @@ class SelectLayoutScreen extends StatelessWidget {
                             crossAxisSpacing: 10.0,
                             mainAxisSpacing: 10.0,
                             childAspectRatio: 0.8),
-                    itemCount: logic.allYourCardList.length,
+                    itemCount: logic.layoutDesignList.length,
                     itemBuilder: (context, index) {
                       return _itemCardView(index, context, logic);
                     },
@@ -145,17 +146,26 @@ class SelectLayoutScreen extends StatelessWidget {
         splashColor: CColor.black,
         onTap: () {
           var map = <String,String>{};
-          map.putIfAbsent(Constant.layoutId, () => "idVal");
-          map.putIfAbsent(Constant.layoutType, () => "typeVal");
+          map.putIfAbsent(Constant.layoutId, () => logic.layoutDesignList[index].layoutDesignId.toString());
+          map.putIfAbsent(Constant.layoutType, () => logic.layoutDesignList[index].marriageInvitationCardType.toString());
           Get.back(result: map,canPop: true);
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: Image.asset(
-              "assets/ic_card_demo.png",
+            child: CachedNetworkImage(
+              fadeInDuration: const Duration(milliseconds: 10),
+              fadeOutDuration: const Duration(milliseconds: 10),
               fit: BoxFit.cover,
+              imageUrl: logic.layoutDesignList[index].thumbnail.toString(),
+              placeholder: (context, url) => const Center(
+                child: SizedBox(
+                  width: 60.0,
+                  height: 60.0,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
             ),
           ),
         ),

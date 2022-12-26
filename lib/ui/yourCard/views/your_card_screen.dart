@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
@@ -127,18 +128,30 @@ class YourCardsScreen extends StatelessWidget {
       child: InkWell(
         splashColor: CColor.black,
         onTap: () {
-          Get.toNamed(AppRoutes.addKankotri,arguments: [logic.allYourCardList[index].isGroom,logic.allYourCardList[index],Constant.isFromUpdate,Constant.isFromMyCardsScreen])!.then((value) => logic.getAllYourCardsAPI(context));
+          Get.toNamed(AppRoutes.addKankotri, arguments: [
+            logic.allYourCardList[index].isGroom,
+            logic.allYourCardList[index],
+            Constant.isFromUpdate,
+            Constant.isFromMyCardsScreen
+          ])!
+              .then((value) => logic.getAllYourCardsAPI(context));
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: SizedBox(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            child: Image.asset(
-              "assets/ic_card_demo.png",
+            width: MediaQuery.of(context).size.width,
+            child: CachedNetworkImage(
+              fadeInDuration: const Duration(milliseconds: 10),
+              fadeOutDuration: const Duration(milliseconds: 10),
               fit: BoxFit.cover,
+              imageUrl: "${logic.allYourCardList[index].thumbnail}",
+              placeholder: (context, url) => const Center(
+                child: SizedBox(
+                  width: 60.0,
+                  height: 60.0,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
             ),
           ),
         ),

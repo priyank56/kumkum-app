@@ -299,18 +299,20 @@ class ContactScreen extends StatelessWidget {
         },
         splashColor: CColor.black,
         child: Container(
+          width: MediaQuery.of(context).size.width * 0.55,
           padding: EdgeInsets.only(right: Sizes.width_5),
-          height: double.infinity,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(Sizes.height_2),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                CachedNetworkImage(
+          // height: double.infinity,
+
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(Sizes.height_2),
+                child: CachedNetworkImage(
                   fadeInDuration: const Duration(milliseconds: 10),
                   fadeOutDuration: const Duration(milliseconds: 10),
-                  fit: BoxFit.cover,
-                  imageUrl: Constant.godDemoImageURl,
+                  fit: BoxFit.contain,
+                  imageUrl: logic.allYourCardList[index].thumbnail.toString(),
                   placeholder: (context, url) =>
                   const Center(
                     child: SizedBox(
@@ -320,34 +322,37 @@ class ContactScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (logic.allYourCardList[index].isSelect!)
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: Sizes.height_2,
-                      right: Sizes.width_2,
+              ),
+              if (logic.allYourCardList[index].isSelect!)
+                Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(Sizes.height_2),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.55,
+                        // height: double.infinity,
+                        height: Sizes.height_31,
+                        color: CColor.black50,
+                      ),
                     ),
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          padding: EdgeInsets.only(right: Sizes.width_5),
-                          height: double.infinity,
-                          color: CColor.black50,
-                        ),
-                        SvgPicture.asset(
-                          "assets/svg/ic_tick.svg",
-                          color: CColor.white,
-                          width: Sizes.width_10,
-                          height: Sizes.width_10,
-                        ),
-                      ],
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: Sizes.height_2,
+                        right: Sizes.width_2,
+                      ),
+                      child: SvgPicture.asset(
+                        "assets/svg/ic_tick.svg",
+                        color: CColor.white,
+                        width: Sizes.width_10,
+                        height: Sizes.width_10,
+                      ),
                     ),
-                  )
-                else
-                  Container()
-              ],
-            ),
+                  ],
+                )
+              else
+                Container()
+            ],
           ),
         ),
       ),

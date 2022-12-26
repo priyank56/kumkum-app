@@ -7,6 +7,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../../custom/dialog/progressdialog.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
+import '../../../utils/params.dart';
 import '../../../utils/sizer_utils.dart';
 import '../controllers/preview_controller.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -18,18 +19,25 @@ class PreviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<PreviewController>(builder: (logic) {
       return ProgressDialog(
-        child: _webView(context),
+        child: _webView(context,logic),
         inAsyncCall: logic.isShowProgress,
       );
     });
   }
 
-  _webView(BuildContext context) {
+  _webView(BuildContext context, PreviewController logic) {
     return WillPopScope(
-      onWillPop:  ()async {
-        // Get.offAllNamed(AppRoutes.main);
-        Get.back();
-        Get.back();
+      onWillPop:  () async {
+        if(logic.isFromPreviewScreen == Constant.isFromSubmit) {
+          Get.back();
+          Get.back();
+        } else if(logic.isFromPreviewScreen == Constant.isFromPreview) {
+          var map = <String,String>{};
+          map.putIfAbsent(Params.createdCardId, () => logic.createData.marriageInvitationCardId.toString());
+          Get.back(result: map);
+        } else if(logic.isFromPreviewScreen == Constant.isFromCategoryPreview) {
+          Get.back();
+        }
         return true;
       },
       child: Scaffold(
@@ -46,7 +54,7 @@ class PreviewScreen extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               // Get.offAllNamed(AppRoutes.main);
-                              Get.back();
+                              // Get.back();
                               Get.back();
                             },
                             splashColor: CColor.black,

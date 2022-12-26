@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:spotify_flutter_code/connectivitymanager/connectivitymanager.dart';
 import 'package:spotify_flutter_code/localization/locale_constant.dart';
 import 'package:spotify_flutter_code/routes/app_pages.dart';
@@ -21,7 +23,33 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:firebase_core/firebase_core.dart';
 
-// import 'package:flutter_localizations/flutter_localizations.dart';
+
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
+
+final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
+BehaviorSubject<ReceivedNotification>();
+
+final BehaviorSubject<String?> selectNotificationSubject =
+BehaviorSubject<String?>();
+
+class ReceivedNotification {
+  ReceivedNotification({
+    required this.id,
+    required this.title,
+    required this.body,
+    required this.payload,
+  });
+
+  final int id;
+  final String? title;
+  final String? body;
+  final String? payload;
+}
+
+String? selectedNotificationPayload;
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,8 +59,27 @@ Future<void> main() async {
   await InternetConnectivity().instance();
 
   _configureLocalTimeZone();
+
   await Future.delayed(const Duration(seconds: 2));
+
+// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+  const AndroidInitializationSettings initializationSettingsAndroid =
+  AndroidInitializationSettings('app_icon');
+  const InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid);
+  flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
+
   runApp(const MyApp());
+}
+
+void onDidReceiveNotificationResponse(NotificationResponse details){
+
+}
+void onDidReceiveLocalNotification(
+    int? id, String? title, String? body, String? payload) async {
+  // display a dialog with the notification details, tap ok to go to another page
+  Debug.printLog("onDidReceiveLocalNotification==>>>  $id  $title $body $payload");
 }
 
 Future<void> _configureLocalTimeZone() async {
@@ -104,4 +151,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

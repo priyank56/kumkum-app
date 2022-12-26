@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 
+import '../../../main.dart';
 import '../../../routes/app_routes.dart';
 import '../../../utils/preference.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -100,10 +102,30 @@ class MainController extends GetxController {
     super.onInit();
     Debug.printLog("User Data==>> ${getUserData()}");
     getUserData()!.getIdToken().then((value) => Preference.shared.setString(Preference.accessToken, value));
-
+    showNotification();
     /*auth.currentUser!.delete().then((value) => (){
       Get.offAllNamed(AppRoutes.login);
     });*/
+  }
+
+
+  showNotification()async{
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+    const AndroidNotificationDetails(
+        "12345",
+        "kumkum_app",
+        importance: Importance.defaultImportance,
+        priority: Priority.max);
+
+    NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+        12345,
+        "A Notification From My Application",
+        "This notification was sent using Flutter Local Notifcations Package",
+        platformChannelSpecifics,
+        payload: 'data');
+
   }
 
 }

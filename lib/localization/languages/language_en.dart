@@ -62,6 +62,11 @@ final Map<String, String> enUS = {
   'txtSelectTemplate': "Select Template",
   'txtDownload': "Pdf Download Successfully",
   'txtSelectLayout': "Select Layout",
+  'txtYes': "Yes",
+  'txtNo': "No",
+  'txtSave': "Save",
+  'txtBack': "Back",
+  'txtBackMessage': "Are you sure you want to back from this screen?",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",

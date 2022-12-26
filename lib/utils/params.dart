@@ -23,6 +23,7 @@ class Params {
 
   static const imageName = "imageName";
   static const id = "id";
+  static const createdCardId = "createdCardId";
   static const name = "name";
   static const isPersonal = "is_personal";
   static const firstNameQR = "first_name";

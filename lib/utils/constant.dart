@@ -95,6 +95,12 @@ class Constant {
   static const layoutId = "layoutId";
   static const layoutType = "layoutType";
 
+
+  static const isFromCategoryPreview = "isFromCategoryPreview";
+  static const isFromPreview = "isFromPreview";
+  static const isFromSubmit = "isFromSubmit";
+  static const isFromSave = "isFromSave";
+
   /*Ids*/
   static const isShowProgressUpload = "isShowProgressUpload";
   static const idMainPage = "idMainPage";

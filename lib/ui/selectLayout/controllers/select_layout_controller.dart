@@ -1,56 +1,58 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spotify_flutter_code/ui/selectLayout/datamodel/layoutdesigndatamodel.dart';
 import '../../../connectivitymanager/connectivitymanager.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/debug.dart';
 import '../../../utils/utils.dart';
 import '../../addKankotri/datamodel/newKankotriData.dart';
 import '../../addKankotri/datamodel/newkankotridatamodel.dart';
+import '../datamodel/layoutDesignData.dart';
 
 class SelectLayoutController extends GetxController {
   bool isShowProgress = false;
-  NewKankotriDataModel newKankotriDataModel = NewKankotriDataModel();
-  List<ResultGet> allYourCardList = [];
+  LayoutDesignDataModel layoutDesignDataModel = LayoutDesignDataModel();
+  List<ResultLayout> layoutDesignList = [];
 
   @override
   void onInit() {
     super.onInit();
-    getAllPreBuiltCardsAPI(Get.context!);
+    getAllLayoutDesignAPI(Get.context!);
   }
 
-  getAllPreBuiltCardsAPI(BuildContext context) async {
+  getAllLayoutDesignAPI(BuildContext context) async {
     if (await InternetConnectivity.isInternetConnect()) {
       isShowProgress = true;
       update([Constant.isShowProgressUpload,Constant.idGetAllYourCards]);
-      await newKankotriDataModel.getAllPreBuiltCards(
+      await layoutDesignDataModel.getLayoutDesign(
           context).then((value) {
-        handleGetAllMyKankotriResponse(value, context);
+        handleGetLayoutDesignResponse(value, context);
       });
     } else {
       Utils.showToast(context, "txtNoInternet".tr);
     }
   }
 
-  handleGetAllMyKankotriResponse(NewKankotriData getAllKankotriData, BuildContext context) async {
-    allYourCardList.clear();
-    if (getAllKankotriData.status == Constant.responseSuccessCode) {
-      if (getAllKankotriData.message != null) {
+  handleGetLayoutDesignResponse(LayoutDesignData layoutDesignData, BuildContext context) async {
+    layoutDesignList.clear();
+    if (layoutDesignData.status == Constant.responseSuccessCode) {
+      if (layoutDesignData.message != null) {
         Debug.printLog(
-            "handleGetAllMyKankotriResponse Res Success ===>> ${getAllKankotriData.toJson().toString()}");
-        allYourCardList = getAllKankotriData.result!;
+            "handleGetLayoutDesignResponse Res Success ===>> ${layoutDesignData.toJson().toString()}");
+        layoutDesignList = layoutDesignData.result!;
       } else {
         Debug.printLog(
-            "handleGetAllMyKankotriResponse Res Fail ===>> ${getAllKankotriData.toJson().toString()}");
-        if (getAllKankotriData.message != null && getAllKankotriData.message!.isNotEmpty) {
-          Utils.showToast(context,getAllKankotriData.message!);
+            "handleGetLayoutDesignResponse Res Fail ===>> ${layoutDesignData.toJson().toString()}");
+        if (layoutDesignData.message != null && layoutDesignData.message!.isNotEmpty) {
+          Utils.showToast(context,layoutDesignData.message!);
         } else {
           Utils.showToast(context,"txtSomethingWentWrong".tr);
         }
       }
     } else {
-      if (getAllKankotriData.message != null && getAllKankotriData.message!.isNotEmpty) {
-        Utils.showToast(context,getAllKankotriData.message!);
+      if (layoutDesignData.message != null && layoutDesignData.message!.isNotEmpty) {
+        Utils.showToast(context,layoutDesignData.message!);
       } else {
         Utils.showToast(context,"txtSomethingWentWrong".tr);
       }

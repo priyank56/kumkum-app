@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/home/controllers/home_controller.dart';
@@ -138,6 +139,7 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             if(index != -1){
                               ResultGet? getAllInvitationCard = logic.allYourCardList[index!];
+                              getAllInvitationCard.isGroom = true;
                               Get.toNamed(AppRoutes.addKankotri, arguments: [
                                 true,
                                 getAllInvitationCard,
@@ -372,11 +374,28 @@ class HomeScreen extends StatelessWidget {
           // Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
         },
         child: Container(
-          padding: EdgeInsets.only(right:Sizes.width_4),
-          height: Sizes.height_15,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-          child: Image.asset(
-            "assets/ic_card_demo.png",
+          padding: EdgeInsets.only(right: Sizes.width_5),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(Sizes.height_2),
+            child: Container(
+              // margin: EdgeInsets.only(right:Sizes.width_4),
+              height: Sizes.height_15,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+              child: CachedNetworkImage(
+                fadeInDuration: const Duration(milliseconds: 10),
+                fadeOutDuration: const Duration(milliseconds: 10),
+                fit: BoxFit.cover,
+                imageUrl: logic.allYourCardList[index].thumbnail.toString(),
+                placeholder: (context, url) =>
+                const Center(
+                  child: SizedBox(
+                    width: 60.0,
+                    height: 60.0,
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ),

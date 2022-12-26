@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:spotify_flutter_code/main.dart';
+import 'package:spotify_flutter_code/main.dart';
 import 'package:spotify_flutter_code/ui/category/views/category_screen.dart';
 import 'package:spotify_flutter_code/ui/contact/views/contact_screen.dart';
 import 'package:spotify_flutter_code/ui/home/views/home_screen.dart';
@@ -97,9 +100,9 @@ class MainScreen extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           children: [
             HomeScreen(),
-            CategoryScreen(),
+            const CategoryScreen(),
             YourCardsScreen(),
-            ContactScreen()
+            const ContactScreen()
           ],
           onPageChanged: (pos) {
             Debug.printLog("Position=>>> $pos");
@@ -227,4 +230,5 @@ class MainScreen extends StatelessWidget {
       },
     );
   }
+
 }

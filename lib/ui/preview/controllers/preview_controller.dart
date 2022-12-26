@@ -35,6 +35,7 @@ class PreviewController extends GetxController {
   CreateData createData = CreateData();
   dynamic argument = Get.arguments;
   var isFromScreen = "";
+  var isFromPreviewScreen = "";
 
   changeAdvanced(){
     isAdvanceEnabled = !isAdvanceEnabled;
@@ -104,6 +105,9 @@ class PreviewController extends GetxController {
       }
       if(argument[3] != null){
         isFromScreen = argument[3];
+      }
+      if(argument[4] != null){
+        isFromPreviewScreen = argument[4];
       }
     }
     selectedSendWp = Constant.selectedSendWpSarvo;

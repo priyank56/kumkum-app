@@ -16,6 +16,7 @@ import 'package:spotify_flutter_code/ui/addKankotri/datamodel/getInfoData.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/newkankotridatamodel.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/uploadImageData.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
+import 'package:spotify_flutter_code/utils/params.dart';
 
 import '../../../connectivitymanager/connectivitymanager.dart';
 import '../../../utils/constant.dart';
@@ -128,10 +129,13 @@ class AddKankotriController extends GetxController {
   /*Edittext Controller*/
   TextEditingController godNameController = TextEditingController();
 
+  List<String> listOfAllOtherTitles = [];
+  String dropDownOtherTitle = "";
 
   /*Layout Id and Type*/
   var newLayoutId = "";
   var newLayoutType = "";
+  var newCreatedCardId = "";
 
   @override
   void onInit() {
@@ -162,6 +166,14 @@ class AddKankotriController extends GetxController {
       isFromScreen = arguments[3];
       Debug.printLog("Card arguments 3==>> $isFromAddUpdate");
     }
+
+    listOfAllOtherTitles.add("શ્રી");
+    listOfAllOtherTitles.add("અ.સૌ.");
+    listOfAllOtherTitles.add("ગં.સ્વ.");
+    listOfAllOtherTitles.add("સ્વ.");
+    listOfAllOtherTitles.add("કુ.");
+    listOfAllOtherTitles.add("ચિ.");
+    dropDownOtherTitle = "શ્રી";
   }
 
   addData(){
@@ -508,6 +520,11 @@ class AddKankotriController extends GetxController {
           goodPlaceNamesList[mainIndex].listOfMobile[index])] = value;
     }
     update([Constant.idGoodPlaceAll]);
+  }
+
+  void changeDropDownValueForOtherTitle(String string) {
+    dropDownOtherTitle = string;
+    update([Constant.idAddNimantrakPart]);
   }
 
   bool validation(BuildContext context){
@@ -907,14 +924,14 @@ class AddKankotriController extends GetxController {
     }*/
 
     createData.layoutDesignId = (newLayoutId == "") ? getAllInvitationCard.layoutDesignId : newLayoutId;
-    createData.marriageInvitationCardId = getAllInvitationCard.marriageInvitationCardId ?? "";
+    createData.marriageInvitationCardId = (newCreatedCardId == "")?getAllInvitationCard.marriageInvitationCardId : newCreatedCardId;
     createData.marriageInvitationCardName = getAllInvitationCard.marriageInvitationCardName ?? "";
     createData.marriageInvitationCardType = (newLayoutType == "") ? getAllInvitationCard.marriageInvitationCardType : newLayoutType;
     createData.isGroom = isGroomCard;
 
     var coverImage = CoverImage();
     coverImage.isShow = true;
-    coverImage.url = (imgCoverURL != "")?imgCoverURL : Constant.godDemoImageURl.toString();
+    coverImage.url = (imgCoverURL != "")?imgCoverURL : "";
     coverImage.id = imgCoverId ?? "";
     createData.marriageInvitationCard!.coverImage = coverImage;
 
@@ -1057,11 +1074,11 @@ class AddKankotriController extends GetxController {
     /*Start For Guest All Names Data*/
     var allNamesData = Affectionate();
     var firstList = guestNamesList.where((element) => element.titleName == "txtAapneAavkarvaAatur".tr).toList();
-    if(firstList[0].listOfGuestNames.where((element) => element != "").isNotEmpty) {
+    // if(firstList[0].listOfGuestNames.where((element) => element != "").isNotEmpty) {
       allNamesData.list = firstList[0].listOfGuestNames;
       allNamesData.title = firstList[0].titleName;
       createData.marriageInvitationCard!.affectionate = allNamesData;
-    }
+    // }
 
     allNamesData = Affectionate();
     var secondList = guestNamesList.where((element) => element.titleName == "txtSanehaDhin".tr).toList();
@@ -1169,6 +1186,7 @@ class AddKankotriController extends GetxController {
         }else{
           mrgType = (isGroomCard)?Constant.typeGroomAPI:Constant.typeBrideAPI;
         }
+        Debug.printLog("getInfo mrgType==>> : $mrgType  $isGroomCard  ${getAllInvitationCard.isGroom}");
 
         await newKankotriDataModel.getInfo(context,mrgType).then((value) {
           handleKankotriInfoResponse(value,context);
@@ -1249,30 +1267,32 @@ class AddKankotriController extends GetxController {
     update([Constant.isShowProgressUpload,Constant.idInviterPart,Constant.idTahukoPart,Constant.idGodNames]);
   }
 
-  callCreateUpdateCardAPI(BuildContext context) async {
-    if (validation(context)) {
+  callCreateUpdateCardAPI(BuildContext context, String isFromPreview) async {
+    // if (validation(context)) {
       if (await InternetConnectivity.isInternetConnect()) {
-        Debug.printLog("Data ===>>> ${jsonEncode(createData)}");
+        // Debug.printLog("Data ===>>> ${jsonEncode(createData)}");
         isShowProgress = true;
         update([Constant.isShowProgressUpload]);
-        if(isFromAddUpdate == Constant.isFromUpdate){
+        if(isFromAddUpdate == Constant.isFromUpdate || newCreatedCardId != ""){
           await newKankotriDataModel.updateKankotri(
               context, jsonEncode(createData), createData,createData.marriageInvitationCardId.toString()).then((value) {
-            handleNewKankotriResponse(value, context);
+            handleNewKankotriResponse(value, context,isFromPreview);
           });
+          Debug.printLog("callCreateUpdateCardAPI===>>> From Update  $newCreatedCardId ");
         }else {
           await newKankotriDataModel.createKankotri(
               context, jsonEncode(createData), createData).then((value) {
-            handleNewKankotriResponse(value, context);
+            handleNewKankotriResponse(value, context,isFromPreview);
           });
+          Debug.printLog("callCreateUpdateCardAPI===>>> From Create  $newCreatedCardId ");
         }
       } else {
         Utils.showToast(context, "txtNoInternet".tr);
       }
-    }
+    // }
   }
 
-  handleNewKankotriResponse(CreateKankotriData newKankotriData, BuildContext context) async {
+  handleNewKankotriResponse(CreateKankotriData newKankotriData, BuildContext context, String isFromPreview) async {
     if (newKankotriData.status == Constant.responseSuccessCode) {
       if (newKankotriData.message != null) {
         Debug.printLog(
@@ -1283,7 +1303,25 @@ class AddKankotriController extends GetxController {
         for(int i =0;i<functionList.length;i++){
           functionStringTitleList.add(PreviewFunctions(functionList[i].functionId, functionList[i].functionName ?? "",'txtSarvo'.tr));
         }
-        Get.toNamed(AppRoutes.preview,arguments: [createData,functionStringTitleList,newKankotriData.result![0].previewUrl.toString() ?? "",isFromScreen]);
+        if(isFromPreview == Constant.isFromSave) {
+          Get.back();
+        }else{
+          createData.marriageInvitationCardId = newKankotriData.result![0].marriageInvitationCardId.toString();
+          var data = await Get.toNamed(AppRoutes.preview, arguments: [
+            createData,
+            functionStringTitleList,
+            newKankotriData.result![0].previewUrl.toString() ?? "",
+            isFromScreen,
+            isFromPreview
+          ]);
+
+          if(data != null){
+            var map = data as Map;
+            newCreatedCardId = map[Params.createdCardId];
+            Debug.printLog("Data Map createdCardId==>> ${map[Params.createdCardId]}  $newCreatedCardId");
+          }
+        }
+
       } else {
         Debug.printLog(
             "handleNewKankotriResponse Res Fail ===>> ${newKankotriData.toJson().toString()}");
@@ -1672,8 +1710,12 @@ class AddKankotriController extends GetxController {
     }
 
     var map = data as Map;
-    Debug.printLog("Data Map==>> ${map[Constant.layoutId]}  ${map[Constant.layoutType]}");
+    newLayoutType = map[Constant.layoutType];
+    newLayoutId = map[Constant.layoutId];
+    Debug.printLog("Data Map==>> ${map[Constant.layoutId]}  ${map[Constant.layoutType]}  $newLayoutType   $newLayoutId");
   }
+
+
 }
 
 class FunctionsNimantrakName{

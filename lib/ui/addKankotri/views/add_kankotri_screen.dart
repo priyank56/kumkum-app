@@ -18,36 +18,43 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../datamodel/getInfoData.dart';
 
 class AddKankotriScreen extends StatelessWidget {
-  const AddKankotriScreen({Key? key}) : super(key: key);
+  AddKankotriScreen({Key? key}) : super(key: key);
 
+  final AddKankotriController _addKankotriController = Get.find<AddKankotriController>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            GetBuilder<AddKankotriController>(builder: (logic) {
-              return Column(
-                children: [
-                  _topBar(logic),
-                  _centerView(logic, context),
-                ],
-              );
-            }),
-            GetBuilder<AddKankotriController>(
-                id: Constant.isShowProgressUpload,
-                builder: (logic) {
-                  return ProgressDialog(
-                      inAsyncCall: logic.isShowProgress,
-                      child: Container());
-                }),
-          ],
+    return WillPopScope(
+      onWillPop: () async{
+        showAlertBackDialog(context,_addKankotriController);
+        return false;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Stack(
+            children: [
+              GetBuilder<AddKankotriController>(builder: (logic) {
+                return Column(
+                  children: [
+                    _topBar(logic,context),
+                    _centerView(logic, context),
+                  ],
+                );
+              }),
+              GetBuilder<AddKankotriController>(
+                  id: Constant.isShowProgressUpload,
+                  builder: (logic) {
+                    return ProgressDialog(
+                        inAsyncCall: logic.isShowProgress,
+                        child: Container());
+                  }),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _topBar(AddKankotriController logic) {
+  Widget _topBar(AddKankotriController logic,BuildContext context) {
     return Container(
       color: CColor.white,
       child: Row(
@@ -56,7 +63,8 @@ class AddKankotriScreen extends StatelessWidget {
             color: CColor.transparent,
             child: InkWell(
               onTap: () {
-                Get.back();
+                // Get.back();
+                showAlertBackDialog(context,logic);
               },
               splashColor: CColor.black,
               child: Container(
@@ -77,6 +85,24 @@ class AddKankotriScreen extends StatelessWidget {
                 fontSize: FontSize.size_14,
                 fontWeight: FontWeight.w500,
                 fontFamily: Constant.appFont,
+              ),
+            ),
+          ),
+          Material(
+            color: CColor.transparent,
+            child: InkWell(
+              onTap: () async {
+                logic.getAllValue();
+                logic.callCreateUpdateCardAPI(context,Constant.isFromPreview);
+              },
+              splashColor: CColor.black,
+              child: Container(
+                margin: EdgeInsets.all(Sizes.height_2),
+                child: SvgPicture.asset(
+                  "assets/svg/ic_show.svg",
+                  height: Sizes.height_3,
+                  width: Sizes.height_3,
+                ),
               ),
             ),
           ),
@@ -623,43 +649,104 @@ class AddKankotriScreen extends StatelessWidget {
     // Debug.printLog("logic.nimantrakNameController===>> ${logic.nimantrakNameController[index].text}  $index");
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
-      child: Container(
-        height: Utils.getAddKankotriHeight(),
-        width: MediaQuery
-            .of(context)
-            .size
-            .width * 0.9,
-        color: CColor.white70,
-        child: TextField(
-          onChanged: (value) {
-            logic.changeValueInListForNimantrak(
-                index, Constant.typeNimantrakName, value);
-          },
-          controller: logic.nimantrakNameController[index],
-          decoration: InputDecoration(
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(width: 2, color: CColor.grayDark),
-            ),
-            suffixIcon: (logic.listNimantrakName.length == 1)
-                ? null
-                : InkWell(
-              onTap: () {
-                logic.addNimantrakNameListData(false, index: index);
-              },
-              child: Container(
-                padding: EdgeInsets.all(Sizes.height_1),
-                child: SvgPicture.asset(
-                  "assets/svg/ic_close.svg",
+      height: Utils.getAddKankotriHeight(),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(
+          color: CColor.black,
+          width: 1
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Row(
+          children: [
+            Container(
+              width:100,
+              color: CColor.white70,
+              child: SizedBox(
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2(
+                    icon: const Visibility (visible:true, child: Icon(Icons.arrow_drop_down)),
+                    isExpanded: true,
+                    items: logic.listOfAllOtherTitles
+                        .map((item) =>
+                        DropdownMenuItem<String>(
+                          value: item,
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: AutoSizeText(
+                              maxLines: 1,
+                              item,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: CColor.black
+                              ),
+                              // overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ))
+                        .toList(),
+                    value: logic.dropDownOtherTitle,
+                    onChanged: (value) {
+                      logic.changeDropDownValueForOtherTitle(value.toString());
+                    },
+                    itemHeight: Utils.getAddKankotriHeight(),
+                    dropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: CColor.white,
+                    ),
+                    scrollbarRadius: const Radius.circular(40),
+                    scrollbarThickness: 6,
+                    scrollbarAlwaysShow: true,
+                    offset: const Offset(0, 0),
+                  ),
                 ),
               ),
             ),
-            suffixIconConstraints: BoxConstraints(
-                minHeight: Sizes.height_3, minWidth: Sizes.height_3),
-            border: const OutlineInputBorder(),
-            labelText: 'txtNimantrakName'.tr,
-            labelStyle: const TextStyle(color: CColor.grayDark),
-            hintText: 'txtName'.tr,
-          ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                height: Utils.getAddKankotriHeight(),
+                color: CColor.white70,
+                child: TextField(
+                  maxLines: 1,
+                  onChanged: (value) {
+                    logic.changeValueInListForNimantrak(
+                        index, Constant.typeNimantrakName, value);
+                  },
+                  controller: logic.nimantrakNameController[index],
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.fromLTRB(0.0, 10.0, 20.0, 10.0),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 0,
+                        color: CColor.transparent,
+                      ),
+                    ),
+                    suffixIcon: (logic.listNimantrakName.length == 1)
+                        ? null
+                        : InkWell(
+                      onTap: () {
+                        logic.addNimantrakNameListData(false, index: index);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(Sizes.height_1),
+                        child: SvgPicture.asset(
+                          "assets/svg/ic_close.svg",
+                        ),
+                      ),
+                    ),
+                    suffixIconConstraints: BoxConstraints(
+                        minHeight: Sizes.height_3, minWidth: Sizes.height_3),
+                    border: InputBorder.none,
+                    hintText: 'txtName'.tr,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -2759,7 +2846,7 @@ class AddKankotriScreen extends StatelessWidget {
                 onTap: () {
                   logic.getAllValue();
                   // Get.back();
-                  logic.callCreateUpdateCardAPI(context);
+                  logic.callCreateUpdateCardAPI(context,Constant.isFromSubmit);
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -2822,4 +2909,52 @@ class AddKankotriScreen extends StatelessWidget {
           );
         });
   }
+
+  /*Show Back Dialog*/
+  showAlertBackDialog(BuildContext context,AddKankotriController logic) {
+    // Create button
+    Widget okButton = TextButton(
+      child: Text("txtYes".tr),
+      onPressed: () {
+        Get.back();
+        Get.back();
+      },
+    );
+
+    Widget cancelButton = TextButton(
+      child: Text("txtNo".tr),
+      onPressed: () {
+        Get.back();
+      },
+    );
+
+    Widget saveButton = TextButton(
+      child: Text("txtSave".tr),
+      onPressed: () {
+        Get.back();
+        logic.getAllValue();
+        logic.callCreateUpdateCardAPI(context, Constant.isFromSave);
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("txtBack".tr),
+      content: Text("txtBackMessage".tr),
+      actions: [
+        okButton,
+        cancelButton,
+        saveButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 }

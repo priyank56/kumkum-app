@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify_flutter_code/ui/category/controllers/category_controller.dart';
@@ -128,9 +129,18 @@ class CategoryScreen extends StatelessWidget {
                 .of(context)
                 .size
                 .width,
-            child: Image.asset(
-              "assets/ic_card_demo.png",
+            child: CachedNetworkImage(
+              fadeInDuration: const Duration(milliseconds: 10),
+              fadeOutDuration: const Duration(milliseconds: 10),
               fit: BoxFit.cover,
+              imageUrl: logic.allYourCardList[index].thumbnail.toString(),
+              placeholder: (context, url) => Center(
+                child: SizedBox(
+                  width: 60.0,
+                  height: 60.0,
+                  child: const CircularProgressIndicator(),
+                ),
+              ),
             ),
           ),
           Container(
@@ -202,7 +212,14 @@ class CategoryScreen extends StatelessWidget {
                         }
                         createData.marriageInvitationCard!.functions = functionsList;
 
-                        Get.toNamed(AppRoutes.preview,arguments: [createData,functionStringTitleList,logic.allYourCardList[index].previewUrl ?? Constant.dummyPreviewURL,Constant.isFromCategoryScreen]);
+                        Get.toNamed(AppRoutes.preview, arguments: [
+                          createData,
+                          functionStringTitleList,
+                          logic.allYourCardList[index].previewUrl ??
+                              Constant.dummyPreviewURL,
+                          Constant.isFromCategoryScreen,
+                          Constant.isFromCategoryPreview
+                        ]);
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: Sizes.height_2),

@@ -37,8 +37,8 @@ class AppPages {
       name: AppRoutes.addKankotri,
       page: () => Sizer(
         builder: (context, orientation, deviceType) {
-          return const AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle(
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: const SystemUiOverlayStyle(
               statusBarColor: CColor.transparent,
               statusBarIconBrightness: Brightness.dark,
               systemNavigationBarIconBrightness: Brightness.light,

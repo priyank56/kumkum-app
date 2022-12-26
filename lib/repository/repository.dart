@@ -7,6 +7,7 @@ import 'package:spotify_flutter_code/ui/addKankotri/datamodel/uploadImageData.da
 import 'package:spotify_flutter_code/ui/login/datamodel/logindatamodel.dart';
 import 'package:spotify_flutter_code/ui/preview/datamodel/downloadPdfData.dart';
 import 'package:spotify_flutter_code/ui/preview/datamodel/functionUploadData.dart';
+import 'package:spotify_flutter_code/ui/selectLayout/datamodel/layoutDesignData.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 import 'package:spotify_flutter_code/utils/params.dart';
@@ -21,6 +22,7 @@ import '../ui/contact/datamodel/sendNumbersData.dart';
 import '../ui/contact/datamodel/sendNumbersJsonData.dart';
 import '../ui/login/datamodel/logindata.dart';
 import '../ui/preview/datamodel/downloadPdfDatamodel.dart';
+import '../ui/selectLayout/datamodel/layoutdesigndatamodel.dart';
 
 class Repository {
   DioClient? dioClient;
@@ -336,6 +338,34 @@ class Repository {
     }
   }
 
+  Future<LayoutDesignData> getAllLayoutDesign(LayoutDesignDataModel newKankotriDataModel, [BuildContext? context]) async {
+    try {
+      Response response = await dioClient!.dio.get<String>("/api/designs");
+
+      if (response.statusCode == Constant.responseSuccessCode) {
+        var res = response.data;
+        return LayoutDesignData.fromJson(jsonDecode(res));
+      } else if (response.statusCode == Constant.responseFailureCode) {
+        var res = response.data;
+        try {
+          return LayoutDesignData.fromJson(jsonDecode(res));
+        } catch (e) {
+          Debug.printLog(e.toString());
+          return LayoutDesignData();
+        }
+      } else {
+        throw Exception('Exception -->> Failed to getInfo Please Try Again!');
+      }
+    } on DioError catch (ex) {
+      try {
+        var res = ex.response!.data;
+        return LayoutDesignData.fromJson(jsonDecode(res));
+      } catch (e) {
+        Debug.printLog(e.toString());
+        return LayoutDesignData();
+      }
+    }
+  }
 
 
 //Todo: For MultiPart Image API

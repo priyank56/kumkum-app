@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spotify_flutter_code/ui/category/controllers/category_controller.dart';
@@ -212,7 +213,8 @@ class SelectTemplateScreen extends StatelessWidget {
                         child: InkWell(
                           splashColor: CColor.grayDark,
                           onTap: () {
-                            ResultGet? getAllInvitationCard = logic.allYourCardList[index!];
+                            ResultGet? getAllInvitationCard = logic.allYourCardList[index];
+                            getAllInvitationCard.isGroom = true;
                             Get.toNamed(AppRoutes.addKankotri, arguments: [
                               true,
                               getAllInvitationCard,
@@ -249,7 +251,8 @@ class SelectTemplateScreen extends StatelessWidget {
                         child: InkWell(
                           splashColor: CColor.grayDark50,
                           onTap: () {
-                            ResultGet? getAllInvitationCard = logic.allYourCardList[index!];
+                            ResultGet? getAllInvitationCard = logic.allYourCardList[index];
+                            getAllInvitationCard.isGroom = false;
                             Get.toNamed(AppRoutes.addKankotri, arguments: [
                               false,
                               getAllInvitationCard,
@@ -303,13 +306,20 @@ class SelectTemplateScreen extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: SizedBox(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            child: Image.asset(
-              "assets/ic_card_demo.png",
+            width: MediaQuery.of(context).size.width,
+            child : CachedNetworkImage(
+              fadeInDuration: const Duration(milliseconds: 10),
+              fadeOutDuration: const Duration(milliseconds: 10),
               fit: BoxFit.cover,
+              imageUrl: logic.allYourCardList[index].thumbnail.toString(),
+              placeholder: (context, url) =>
+              Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 60.0,
+                  child: const CircularProgressIndicator(),
+                ),
+              ),
             ),
           ),
         ),

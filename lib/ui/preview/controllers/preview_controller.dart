@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spotify_flutter_code/datamodel/createData.dart';
@@ -13,6 +14,7 @@ import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 
 import '../../../connectivitymanager/connectivitymanager.dart';
+import '../../../main.dart';
 import '../../../utils/utils.dart';
 import '../../addKankotri/controllers/add_kankotri_controller.dart';
 
@@ -128,6 +130,8 @@ class PreviewController extends GetxController {
   void generateUploadFunctionsData() {
     if(functionsUploadList!.isNotEmpty){
       functionsUploadList!.clear();
+    }else{
+
     }
     for(int i = 0 ;i< functionStringTitleList.length;i++){
       functionsUploadList!.add(FunctionPreview(
@@ -166,6 +170,13 @@ class PreviewController extends GetxController {
           // final Directory? directory = await getDownloadsDirectory();
           final File file = File('${'/storage/emulated/0/Download/'}${createData.marriageInvitationCardName ?? "invitationCard"}_${createData.marriageInvitationCardId ?? ""}.pdf');
           await file.writeAsBytes(newKankotriData.result!.data ?? []);
+          var filePath = file.absolute.path.toString();
+          Debug.printLog("filePath==>>>  $filePath");
+          try {
+            showNotification(filePath);
+          } catch (e) {
+            print(e);
+          }
           Utils.showToast(context, "txtDownload".tr);
         } else {
           Debug.printLog(
@@ -194,6 +205,25 @@ class PreviewController extends GetxController {
     isShowProgress = false;
     update([Constant.isShowProgressUpload]);
   }
+
+  showNotification(String filePath)async{
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+    const AndroidNotificationDetails(
+        "12345",
+        "kumkum_app",
+        importance: Importance.defaultImportance,
+        priority: Priority.max);
+
+    NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+        12345,
+        "KumKum App",
+        "PDF Download successfully",
+        platformChannelSpecifics,
+        payload:filePath );
+  }
+
 
 
 }

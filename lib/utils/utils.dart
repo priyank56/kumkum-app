@@ -91,5 +91,18 @@ class Utils{
     return translatedNumber;
   }
 
+  static List<String> getOtherTitlesList(){
+    List<String> listOfAllOtherTitles = [];
+    listOfAllOtherTitles.add("શ્રી");
+    listOfAllOtherTitles.add("અ.સૌ.");
+    listOfAllOtherTitles.add("ગં.સ્વ.");
+    listOfAllOtherTitles.add("સ્વ.");
+    listOfAllOtherTitles.add("કુ.");
+    listOfAllOtherTitles.add("ચિ.");
+    return listOfAllOtherTitles;
+  }
 
+  static String getDefaultSelectedTitle(){
+    return "શ્રી";
+  }
 }

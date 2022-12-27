@@ -101,6 +101,11 @@ class Constant {
   static const isFromSubmit = "isFromSubmit";
   static const isFromSave = "isFromSave";
 
+  static const typeGroomMotherName = "typeGroomMotherName";
+  static const typeGroomFatherName = "typeGroomFatherName";
+  static const typeBrideMotherName = "typeBrideMotherName";
+  static const typeBrideFatherName = "typeBrideFatherName";
+
   /*Ids*/
   static const isShowProgressUpload = "isShowProgressUpload";
   static const idMainPage = "idMainPage";

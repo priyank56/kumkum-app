@@ -669,7 +669,7 @@ class AddKankotriScreen extends StatelessWidget {
                   child: DropdownButton2(
                     icon: const Visibility (visible:true, child: Icon(Icons.arrow_drop_down)),
                     isExpanded: true,
-                    items: logic.listOfAllOtherTitles
+                    items: logic.listNimantrakName[index].otherTitleList
                         .map((item) =>
                         DropdownMenuItem<String>(
                           value: item,
@@ -688,9 +688,9 @@ class AddKankotriScreen extends StatelessWidget {
                           ),
                         ))
                         .toList(),
-                    value: logic.dropDownOtherTitle,
+                    value: logic.listNimantrakName[index].selectedTitle,
                     onChanged: (value) {
-                      logic.changeDropDownValueForOtherTitle(value.toString());
+                      logic.changeDropDownValueForOtherTitle(value.toString(),index,Constant.typeNimantrakName);
                     },
                     itemHeight: Utils.getAddKankotriHeight(),
                     dropdownDecoration: BoxDecoration(
@@ -1239,7 +1239,7 @@ class AddKankotriScreen extends StatelessWidget {
 
   Widget _listViewFunctionsNimantrakName(BuildContext context, int index,
       AddKankotriController logic, int mainIndex) {
-    return Container(
+    /*return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         height: Utils.getAddKankotriHeight(),
@@ -1279,6 +1279,111 @@ class AddKankotriScreen extends StatelessWidget {
             labelStyle: const TextStyle(color: CColor.grayDark),
             hintText: 'txtName'.tr,
           ),
+        ),
+      ),
+    );*/
+    return Container(
+      margin: EdgeInsets.only(top: Sizes.height_1),
+      height: Utils.getAddKankotriHeight(),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(
+            color: CColor.black,
+            width: 1
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Row(
+          children: [
+            Container(
+              width:100,
+              color: CColor.white70,
+              child: SizedBox(
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2(
+                    icon: const Visibility (visible:true, child: Icon(Icons.arrow_drop_down)),
+                    isExpanded: true,
+                    // items: logic.listNimantrakName[index].otherTitleList
+                    items: logic.functionsList[mainIndex].listNames[index].otherTitleList
+                        .map((item) =>
+                        DropdownMenuItem<String>(
+                          value: item,
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: AutoSizeText(
+                              maxLines: 1,
+                              item,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: CColor.black
+                              ),
+                              // overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ))
+                        .toList(),
+                    value: logic.functionsList[mainIndex].listNames[index].selectedTitle,
+                    onChanged: (value) {
+                      logic.changeDropDownValueForOtherTitleFunctions(value.toString(),index,mainIndex);
+                    },
+                    itemHeight: Utils.getAddKankotriHeight(),
+                    dropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: CColor.white,
+                    ),
+                    scrollbarRadius: const Radius.circular(40),
+                    scrollbarThickness: 6,
+                    scrollbarAlwaysShow: true,
+                    offset: const Offset(0, 0),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                height: Utils.getAddKankotriHeight(),
+                color: CColor.white70,
+                child: TextField(
+                  maxLines: 1,
+                  onChanged: (value) {
+                    logic.changeValueInListForFunctionsNimantrakName(
+                        index, mainIndex, value);
+                  },
+                  controller: logic.functionsList[mainIndex].listEditTextNames[index],
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.fromLTRB(0.0, 10.0, 20.0, 10.0),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 0,
+                        color: CColor.transparent,
+                      ),
+                    ),
+                    suffixIcon: (logic.functionsList[mainIndex].listNames.length == 1)
+                        ? null
+                        : InkWell(
+                      onTap: () {
+                        logic.addRemoveFunctionsNimantrakName(false, mainIndex,
+                            index: index);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(Sizes.height_1),
+                        child: SvgPicture.asset(
+                          "assets/svg/ic_close.svg",
+                        ),
+                      ),
+                    ),
+                    suffixIconConstraints: BoxConstraints(
+                        minHeight: Sizes.height_3, minWidth: Sizes.height_3),
+                    border: InputBorder.none,
+                    hintText: 'txtName'.tr,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -1448,7 +1553,7 @@ class AddKankotriScreen extends StatelessWidget {
                 ),
               ) : Container(),
 
-              (logic.listOfInvitersGroomMessage.isNotEmpty &&
+              /*(logic.listOfInvitersGroomMessage.isNotEmpty &&
                   logic.chirpingInfoGroom.values!.motherName != null) ?
               Container(
                 color: CColor.white70,
@@ -1468,11 +1573,94 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtMataNuName'.tr,
                   ),
                 ),
-              ) : Container(),
+              ) : Container(),*/
 
               (logic.listOfInvitersGroomMessage.isNotEmpty &&
-                  logic.chirpingInfoGroom.values!.fatherName != null) ?
+                  logic.chirpingInfoGroom.values!.motherName != null) ?
               Container(
+                margin: EdgeInsets.only(top: Sizes.height_2),
+                height: Utils.getAddKankotriHeight(),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: CColor.black, width: 1),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100,
+                        color: CColor.white70,
+                        child: SizedBox(
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              icon: const Visibility(
+                                  visible: true,
+                                  child: Icon(Icons.arrow_drop_down)),
+                              isExpanded: true,
+                              items: Utils.getOtherTitlesList()
+                                      .map((item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              child: AutoSizeText(
+                                                maxLines: 1,
+                                                item,
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: CColor.black),
+                                                // overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ))
+                                      .toList(),
+                              value: logic.dropDownGroomMotherName,
+                              onChanged: (value) {
+                                logic.onChangeDropDownAmantrak(value.toString(),Constant.typeGroomMotherName);
+                              },
+                              itemHeight: Utils.getAddKankotriHeight(),
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: CColor.white,
+                              ),
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                              offset: const Offset(0, 0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: Utils.getAddKankotriHeight(),
+                          color: CColor.white70,
+                          child: TextField(
+                            maxLines: 1,
+                            controller: logic.groomMotherNameController,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                  0.0, 10.0, 20.0, 10.0),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: CColor.transparent,
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              hintText: 'txtMataNuName'.tr,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ):Container(),
+
+              /*Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
                   top: Sizes.height_2,
@@ -1490,7 +1678,92 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtPitajiNuName'.tr,
                   ),
                 ),
-              ) : Container(),
+              ) : Container(),*/
+
+              (logic.listOfInvitersGroomMessage.isNotEmpty &&
+                  logic.chirpingInfoGroom.values!.fatherName != null) ?
+              Container(
+                margin: EdgeInsets.only(top: Sizes.height_2),
+                height: Utils.getAddKankotriHeight(),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: CColor.black, width: 1),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100,
+                        color: CColor.white70,
+                        child: SizedBox(
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              icon: const Visibility(
+                                  visible: true,
+                                  child: Icon(Icons.arrow_drop_down)),
+                              isExpanded: true,
+                              items: Utils.getOtherTitlesList()
+                                  .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: AutoSizeText(
+                                    maxLines: 1,
+                                    item,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: CColor.black),
+                                    // overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ))
+                                  .toList(),
+                              value: logic.dropDownGroomFatherName,
+                              onChanged: (value) {
+                                logic.onChangeDropDownAmantrak(value.toString(),Constant.typeGroomFatherName);
+                              },
+                              itemHeight: Utils.getAddKankotriHeight(),
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: CColor.white,
+                              ),
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                              offset: const Offset(0, 0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: Utils.getAddKankotriHeight(),
+                          color: CColor.white70,
+                          child: TextField(
+                            maxLines: 1,
+                            controller: logic.groomFatherNameController,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                  0.0, 10.0, 20.0, 10.0),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: CColor.transparent,
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              hintText: 'txtPitajiNuName'.tr,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ):Container(),
 
               (logic.listOfInvitersGroomMessage.isNotEmpty &&
                   logic.chirpingInfoGroom.values!.hometownName != null) ?
@@ -1623,7 +1896,7 @@ class AddKankotriScreen extends StatelessWidget {
                 ),
               ),
 
-              (logic.listOfInvitersBrideMessage.isNotEmpty &&
+              /*(logic.listOfInvitersBrideMessage.isNotEmpty &&
                   logic.chirpingInfoBride.values!.motherName != null) ?
               Container(
                 color: CColor.white70,
@@ -1640,9 +1913,96 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtMataNuName'.tr,
                   ),
                 ),
-              ) : Container(),
+              ) : Container(),*/
 
               (logic.listOfInvitersBrideMessage.isNotEmpty &&
+                  logic.chirpingInfoBride.values!.motherName != null) ?
+              Container(
+                height: Utils.getAddKankotriHeight(),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: CColor.black, width: 1),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100,
+                        color: CColor.white70,
+                        child: SizedBox(
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              icon: const Visibility(
+                                  visible: true,
+                                  child: Icon(Icons.arrow_drop_down)),
+                              isExpanded: true,
+                              items: Utils.getOtherTitlesList()
+                                  .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: AutoSizeText(
+                                    maxLines: 1,
+                                    item,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: CColor.black),
+                                    // overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ))
+                                  .toList(),
+                              value: logic.dropDownBrideMotherName,
+                              onChanged: (value) {
+                                logic.onChangeDropDownAmantrak(value.toString(),Constant.typeBrideMotherName);
+                              },
+                              itemHeight: Utils.getAddKankotriHeight(),
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: CColor.white,
+                              ),
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                              offset: const Offset(0, 0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: Utils.getAddKankotriHeight(),
+                          color: CColor.white70,
+                          child: TextField(
+                            maxLines: 1,
+                            onChanged: (value) {
+
+                            },
+                            controller: logic.brideMotherNameController,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                  0.0, 10.0, 20.0, 10.0),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: CColor.transparent,
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              hintText: 'txtMataNuName'.tr,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ):Container(),
+
+              /*(logic.listOfInvitersBrideMessage.isNotEmpty &&
                   logic.chirpingInfoBride.values!.fatherName != null) ?
               Container(
                 color: CColor.white70,
@@ -1662,7 +2022,92 @@ class AddKankotriScreen extends StatelessWidget {
                     hintText: 'txtPitajiNuName'.tr,
                   ),
                 ),
-              ) : Container(),
+              ) : Container(),*/
+
+              (logic.listOfInvitersBrideMessage.isNotEmpty &&
+                  logic.chirpingInfoBride.values!.fatherName != null) ?
+              Container(
+                margin: EdgeInsets.only(top: Sizes.height_2),
+                height: Utils.getAddKankotriHeight(),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: CColor.black, width: 1),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100,
+                        color: CColor.white70,
+                        child: SizedBox(
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              icon: const Visibility(
+                                  visible: true,
+                                  child: Icon(Icons.arrow_drop_down)),
+                              isExpanded: true,
+                              items: Utils.getOtherTitlesList()
+                                  .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: AutoSizeText(
+                                    maxLines: 1,
+                                    item,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: CColor.black),
+                                    // overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ))
+                                  .toList(),
+                              value: logic.dropDownBrideFatherName,
+                              onChanged: (value) {
+                                logic.onChangeDropDownAmantrak(value.toString(),Constant.typeBrideMotherName);
+                              },
+                              itemHeight: Utils.getAddKankotriHeight(),
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: CColor.white,
+                              ),
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                              offset: const Offset(0, 0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: Utils.getAddKankotriHeight(),
+                          color: CColor.white70,
+                          child: TextField(
+                            maxLines: 1,
+                            controller: logic.brideFatherNameController,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                  0.0, 10.0, 20.0, 10.0),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: CColor.transparent,
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              hintText: 'txtPitajiNuName'.tr,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ):Container(),
 
               (logic.listOfInvitersBrideMessage.isNotEmpty &&
                   logic.chirpingInfoBride.values!.hometownName != null) ?
@@ -1855,7 +2300,7 @@ class AddKankotriScreen extends StatelessWidget {
 
   Widget _listViewGuestEdittextName(BuildContext context, int index,
       AddKankotriController logic, int mainIndex) {
-    return Container(
+    /*return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Container(
         height: Utils.getAddKankotriHeight(),
@@ -1895,6 +2340,108 @@ class AddKankotriScreen extends StatelessWidget {
             labelStyle: const TextStyle(color: CColor.grayDark),
             hintText: 'txtName'.tr,
           ),
+        ),
+      ),
+    );*/
+    return Container(
+      height: Utils.getAddKankotriHeight(),
+      margin: EdgeInsets.only(top: Sizes.height_2),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: CColor.black, width: 1),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Row(
+          children: [
+            Container(
+              width: 100,
+              color: CColor.white70,
+              child: SizedBox(
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2(
+                    icon: const Visibility(
+                        visible: true,
+                        child: Icon(Icons.arrow_drop_down)),
+                    isExpanded: true,
+                    items: logic.guestNamesList[mainIndex].listOfGuestNames[index].otherTitleList
+                        .map((item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: AutoSizeText(
+                          maxLines: 1,
+                          item,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: CColor.black),
+                          // overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ))
+                        .toList(),
+                    value: logic.guestNamesList[mainIndex].listOfGuestNames[index].selectedTitle,
+                    onChanged: (value) {
+                      logic.changeDropDownValueForGuestNames(value.toString(),index,mainIndex);
+                    },
+                    itemHeight: Utils.getAddKankotriHeight(),
+                    dropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: CColor.white,
+                    ),
+                    scrollbarRadius: const Radius.circular(40),
+                    scrollbarThickness: 6,
+                    scrollbarAlwaysShow: true,
+                    offset: const Offset(0, 0),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                height: Utils.getAddKankotriHeight(),
+                color: CColor.white70,
+                child: TextField(
+                  maxLines: 1,
+                  controller: logic.guestNamesList[mainIndex].listOfGuestNamesController![index],
+                  onChanged: (value) {
+                    logic.changeValueInListForGuestAllNames(index, mainIndex, value);
+                  },
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.fromLTRB(
+                        0.0, 10.0, 20.0, 10.0),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 0,
+                        color: CColor.transparent,
+                      ),
+                    ),
+                    suffixIcon:
+                    (logic.guestNamesList[mainIndex].listOfGuestNames.length == 1)
+                        ? null
+                        : InkWell(
+                      onTap: () {
+                        logic.addRemoveGuestNamesName(false, mainIndex,
+                            index: index);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(Sizes.height_1),
+                        child: SvgPicture.asset(
+                          "assets/svg/ic_close.svg",
+                        ),
+                      ),
+                    ),
+                    suffixIconConstraints: BoxConstraints(
+                        minHeight: Sizes.height_3, minWidth: Sizes.height_3),
+                    border: InputBorder.none,
+                    hintText: 'txtName'.tr,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -2171,25 +2718,87 @@ class AddKankotriScreen extends StatelessWidget {
           ),
         ),
         Container(
+          margin: EdgeInsets.only(top: Sizes.height_2),
           height: Utils.getAddKankotriHeight(),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.9,
-          color: CColor.white70,
-          child: TextField(
-            controller: logic.goodPlaceNamesList[mainIndex].inviterController,
-            onChanged: (value) {
-              logic.changeValueInListForGoodPlaceAmantrakName(mainIndex, value);
-            },
-            decoration: InputDecoration(
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: CColor.grayDark),
-              ),
-              border: const OutlineInputBorder(),
-              labelText: "txtName".tr,
-              labelStyle: const TextStyle(color: CColor.grayDark),
-              hintText: 'txtName'.tr,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: CColor.black, width: 1),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Row(
+              children: [
+                Container(
+                  width: 100,
+                  color: CColor.white70,
+                  child: SizedBox(
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2(
+                        icon: const Visibility(
+                            visible: true,
+                            child: Icon(Icons.arrow_drop_down)),
+                        isExpanded: true,
+                        items: Utils.getOtherTitlesList()
+                            .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: AutoSizeText(
+                              maxLines: 1,
+                              item,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: CColor.black),
+                              // overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ))
+                            .toList(),
+                        value: logic.goodPlaceNamesList[mainIndex].selectedValue,
+                        onChanged: (value) {
+                          logic.changeDropDownValueForGoodPlace(value.toString(),mainIndex);
+                        },
+                        itemHeight: Utils.getAddKankotriHeight(),
+                        dropdownDecoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: CColor.white,
+                        ),
+                        scrollbarRadius: const Radius.circular(40),
+                        scrollbarThickness: 6,
+                        scrollbarAlwaysShow: true,
+                        offset: const Offset(0, 0),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: Utils.getAddKankotriHeight(),
+                    color: CColor.white70,
+                    child: TextField(
+                      maxLines: 1,
+                      controller: logic.goodPlaceNamesList[mainIndex].inviterController,
+                      onChanged: (value) {
+                        logic.changeValueInListForGoodPlaceAmantrakName(mainIndex, value);
+                      },
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.fromLTRB(
+                            0.0, 10.0, 20.0, 10.0),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: CColor.transparent,
+                          ),
+                        ),
+                        border: InputBorder.none,
+                        hintText: 'txtName'.tr,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

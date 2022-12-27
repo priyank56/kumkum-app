@@ -9,8 +9,8 @@ class DioClient {
   var cancelToken = CancelToken();
   var dio = Dio(
     BaseOptions(
-      connectTimeout: 15000,
-      receiveTimeout: 15000,
+      connectTimeout: 20000,
+      receiveTimeout: 20000,
       baseUrl: getBaseURL(),
     ),
 

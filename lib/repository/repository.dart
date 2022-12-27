@@ -102,7 +102,7 @@ class Repository {
 
   Future<GetInfoData> getInfo(NewKankotriDataModel newKankotriDataModel,String mrgType,
       [BuildContext? context]) async {
-    Debug.printLog("getInfo mrgType==>> : $mrgType");
+    Debug.printLog("getInfo mrgType API==>> : $mrgType");
     try {
       Response response = await dioClient!.dio.get<String>("/api/marriage-invitation-card/info",queryParameters:{Params.type:mrgType} );
 

@@ -61,7 +61,7 @@ class SelectedNumberList {
     });
 
     String? name;
-    int? number;
+    String? number;
     String? banquetPerson;
     String? id;
 

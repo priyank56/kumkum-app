@@ -159,7 +159,9 @@ class ContactScreen extends StatelessWidget {
                       child: InkWell(
                         splashColor: CColor.black,
                         onTap: () {
-                          logic.changeBottomViewPos(logic.currentPos - 1);
+                          if(logic.contactList.isNotEmpty) {
+                            logic.changeBottomViewPos(logic.currentPos - 1);
+                          }
                         },
                         child: Stack(
                           alignment: Alignment.center,
@@ -212,10 +214,12 @@ class ContactScreen extends StatelessWidget {
                       child: InkWell(
                         splashColor: CColor.black,
                         onTap: () {
-                          if(logic.selectedCardId != "") {
+                          if(logic.selectedCardId != "" && logic.contactList.isNotEmpty) {
                             logic.changeBottomViewPos(logic.currentPos + 1);
                           }else{
-                            Utils.showToast(context, "txtSelectCard".tr);
+                            if(logic.selectedCardId == "") {
+                              Utils.showToast(context, "txtSelectCard".tr);
+                            }
                           }
                         },
                         child: Stack(
@@ -587,7 +591,13 @@ class ContactScreen extends StatelessWidget {
                     : logic.contactList1Person.length,
                 scrollDirection: Axis.vertical,
               ),
-            ) : Container(),
+            ) : const Center(
+              child: SizedBox(
+                width: 60.0,
+                height: 60.0,
+                child: CircularProgressIndicator(),
+              ),
+            ),
           );
         }),
       ],

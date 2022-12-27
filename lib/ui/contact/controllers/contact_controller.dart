@@ -159,11 +159,21 @@ class ContactController extends GetxController {
 
     List<Contact> contacts = await ContactsService.getContacts();
     for(int i=0;i<contacts.length;i++){
-      var contactNumber = int.parse(contacts[i].phones![0].value!.replaceAll("+", ""));
+      // var contactNumber = int.parse(contacts[i].phones![0].value!.replaceAll("+", ""));
+      var contactNumber = "";
+      if(contacts[i].phones!.isNotEmpty) {
+        try {
+          contactNumber = contacts[i].phones![0].value!;
+        } catch (e) {
+          contactNumber = "";
+        }
+      }else{
+        contactNumber = contacts[i].givenName.toString() ?? "";
+      }
       var contactName = contacts[i].displayName;
       var sendType = "";
       var isSelected = false;
-      Debug.printLog("Contacts===>> ${contacts[i].phones![0].value}  ${contacts[i].displayName}");
+      Debug.printLog("Contacts===>>   ${contacts[i].displayName} ${contacts[i].givenName}");
 
       contactList.add(AllContact(contactNumber,contactName!,sendType,isSelected,TextEditingController(text:contactName )));
       changeSendOption(Constant.selectedSendWpSarvo);
@@ -178,12 +188,10 @@ class ContactController extends GetxController {
   TextEditingController numberContactController = TextEditingController();
 
   addContact(String name,String number) async {
-    var numberInt = int.parse(number.replaceAll("+", ""));
-    Debug.printLog("addContact==>> $name  $numberInt");
-    contactList.insert(0, AllContact(numberInt, name, "", false, TextEditingController(text: name)));
-    contactListSarvo.insert(0, AllContact(numberInt, name, "", false, TextEditingController(text: name)));
-    contactList1Person.insert(0, AllContact(numberInt, name, "", false, TextEditingController(text: name)));
-    contactList1Person.insert(0, AllContact(numberInt, name, "", false, TextEditingController(text: name)));
+    contactList.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
+    contactListSarvo.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
+    contactList1Person.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
+    contactList1Person.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
     /*For Add Contact contacts_service */
     Contact contacts = Contact();
     contacts.givenName = name;
@@ -361,8 +369,8 @@ class ContactController extends GetxController {
 }
 
 class AllContact{
-  // String contactNumber = "";
-  int contactNumber = 0;
+  String contactNumber = "";
+  // int contactNumber = 0;
   String contactName = "";
   String sendType = Constant.selectedSendWpSarvo;
   bool isSelected = false;

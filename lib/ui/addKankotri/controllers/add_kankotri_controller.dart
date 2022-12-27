@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:spotify_flutter_code/datamodel/createData.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
@@ -23,8 +20,6 @@ import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
 import '../datamodel/createKankotriData.dart';
 import '../datamodel/newKankotriData.dart';
-import '../../addKankotri/datamodel/newKankotriData.dart';
-import '../../addKankotri/datamodel/newkankotridatamodel.dart';
 
 class AddKankotriController extends GetxController {
 
@@ -57,9 +52,10 @@ class AddKankotriController extends GetxController {
   CreateData createData = CreateData();
   ResultGet getAllInvitationCard = ResultGet();
 
-  List<String> listNimantrakName = [];
+  // List<String> listNimantrakName = [];
   List<String> listNimantrakAddress = [];
   List<String> listNimantrakMno = [];
+  List<NimantrakModel> listNimantrakName = [];
   List<TextEditingController> nimantrakNameController = [];
   List<TextEditingController> nimantrakMnoController = [];
   List<TextEditingController> nimantrakAddressController = [];
@@ -132,6 +128,15 @@ class AddKankotriController extends GetxController {
   List<String> listOfAllOtherTitles = [];
   String dropDownOtherTitle = "";
 
+  String dropDownGroomMotherName = Utils.getDefaultSelectedTitle();
+  String dropDownGroomFatherName = Utils.getDefaultSelectedTitle();
+  String dropDownBrideMotherName = Utils.getDefaultSelectedTitle();
+  String dropDownBrideFatherName = Utils.getDefaultSelectedTitle();
+
+  String dropDownGoodPlace = Utils.getDefaultSelectedTitle();
+  String dropDownGoodMrgPlace = Utils.getDefaultSelectedTitle();
+
+
   /*Layout Id and Type*/
   var newLayoutId = "";
   var newLayoutType = "";
@@ -166,14 +171,6 @@ class AddKankotriController extends GetxController {
       isFromScreen = arguments[3];
       Debug.printLog("Card arguments 3==>> $isFromAddUpdate");
     }
-
-    listOfAllOtherTitles.add("શ્રી");
-    listOfAllOtherTitles.add("અ.સૌ.");
-    listOfAllOtherTitles.add("ગં.સ્વ.");
-    listOfAllOtherTitles.add("સ્વ.");
-    listOfAllOtherTitles.add("કુ.");
-    listOfAllOtherTitles.add("ચિ.");
-    dropDownOtherTitle = "શ્રી";
   }
 
   addData(){
@@ -249,7 +246,12 @@ class AddKankotriController extends GetxController {
 
   addNimantrakNameListData(bool isAdd, {int? index = 0}) {
     if (isAdd) {
-      listNimantrakName.add("");
+      var data = NimantrakModel();
+      data.nimantrakName = "";
+      data.otherTitleList = Utils.getOtherTitlesList();
+      data.selectedTitle = Utils.getDefaultSelectedTitle();
+      listNimantrakName.add(data);
+      // listNimantrakName.add("");
       nimantrakNameController.add(TextEditingController());
     } else {
       nimantrakNameController.removeAt(index!);
@@ -282,8 +284,12 @@ class AddKankotriController extends GetxController {
 
   addRemoveFunctionsNimantrakName(bool isAdd,int mainIndex,{int? index = 0}){
     if (isAdd) {
+      var data = NimantrakModel();
+      data.selectedTitle = Utils.getDefaultSelectedTitle();
+      data.otherTitleList = Utils.getOtherTitlesList();
+      data.nimantrakName = "";
       functionsList[mainIndex].listEditTextNames.add(TextEditingController());
-      functionsList[mainIndex].listNames.add("");
+      functionsList[mainIndex].listNames.add(data);
     } else {
       functionsList[mainIndex].listEditTextNames.removeAt(index!);
       functionsList[mainIndex].listNames.removeAt(index);
@@ -292,22 +298,27 @@ class AddKankotriController extends GetxController {
   }
 
   addAllFunctionsList() {
-    functionsList.add(FunctionsNimantrakName("f1","txtMadapMuhrat".tr,[""],"","","","",[TextEditingController()]));
+    var data = NimantrakModel();
+    data.selectedTitle = Utils.getDefaultSelectedTitle();
+    data.otherTitleList = Utils.getOtherTitlesList();
+    data.nimantrakName = "";
+
+    functionsList.add(FunctionsNimantrakName("f1","txtMadapMuhrat".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
-    functionsList.add(FunctionsNimantrakName("f2","txtGitSandhya".tr,[""],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f2","txtGitSandhya".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
-    functionsList.add(FunctionsNimantrakName("f3","txtRasGarba".tr,[""],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f3","txtRasGarba".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
-    functionsList.add(FunctionsNimantrakName("f4",(isGroomCard)?"txtJan".tr:"txtJanAagman".tr,[""],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f4",(isGroomCard)?"txtJan".tr:"txtJanAagman".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
-    functionsList.add(FunctionsNimantrakName("f5","txtBhojan".tr,[""],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f5","txtBhojan".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
-    functionsList.add(FunctionsNimantrakName("f6","txtHastMelap".tr,[""],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f6","txtHastMelap".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
     update([Constant.idFunctionsPart]);
@@ -315,10 +326,14 @@ class AddKankotriController extends GetxController {
 
 
   addAllGuestNames() {
-    guestNamesList.add(GuestAllName("txtAapneAavkarvaAatur".tr,[""],[TextEditingController()]));
-    guestNamesList.add(GuestAllName("txtSanehaDhin".tr,[""],[TextEditingController()]));
-    guestNamesList.add(GuestAllName("txtMosalPaksh".tr,[""],[TextEditingController()]));
-    guestNamesList.add(GuestAllName("txtBhanejPaksh".tr,[""],[TextEditingController()]));
+    var data = NimantrakModel();
+    data.selectedTitle = Utils.getDefaultSelectedTitle();
+    data.otherTitleList = Utils.getOtherTitlesList();
+    data.nimantrakName = "";
+    guestNamesList.add(GuestAllName("txtAapneAavkarvaAatur".tr,[data],[TextEditingController()]));
+    guestNamesList.add(GuestAllName("txtSanehaDhin".tr,[data],[TextEditingController()]));
+    guestNamesList.add(GuestAllName("txtMosalPaksh".tr,[data],[TextEditingController()]));
+    guestNamesList.add(GuestAllName("txtBhanejPaksh".tr,[data],[TextEditingController()]));
     update([Constant.idGuestNameAll]);
   }
 
@@ -351,8 +366,12 @@ class AddKankotriController extends GetxController {
 
   addRemoveGuestNamesName(bool isAdd,int mainIndex,{int? index = 0}){
     if (isAdd) {
+      var data = NimantrakModel();
+      data.selectedTitle = Utils.getDefaultSelectedTitle();
+      data.otherTitleList = Utils.getOtherTitlesList();
+      data.nimantrakName = "";
       guestNamesList[mainIndex].listOfGuestNamesController!.add(TextEditingController());
-      guestNamesList[mainIndex].listOfGuestNames.add("");
+      guestNamesList[mainIndex].listOfGuestNames.add(data);
     } else {
       guestNamesList[mainIndex].listOfGuestNamesController!.removeAt(index!);
       guestNamesList[mainIndex].listOfGuestNames.removeAt(index);
@@ -362,8 +381,8 @@ class AddKankotriController extends GetxController {
 
 
   addGoodPlaceNames() {
-    goodPlaceNamesList.add(GoodPlaceAllName("txtSubhSathal".tr,[""],[""],"",[TextEditingController()],[TextEditingController()],TextEditingController()));
-    goodPlaceNamesList.add(GoodPlaceAllName("txtSubhLaganSathal".tr,[""],[""],"",[TextEditingController()],[TextEditingController()],TextEditingController()));
+    goodPlaceNamesList.add(GoodPlaceAllName("txtSubhSathal".tr,[""],[""],"",[TextEditingController()],[TextEditingController()],TextEditingController(),Utils.getDefaultSelectedTitle()));
+    goodPlaceNamesList.add(GoodPlaceAllName("txtSubhLaganSathal".tr,[""],[""],"",[TextEditingController()],[TextEditingController()],TextEditingController(),Utils.getDefaultSelectedTitle()));
     update([Constant.idGoodPlaceAll]);
   }
 
@@ -419,7 +438,7 @@ class AddKankotriController extends GetxController {
    /* Replace Value In List */
 
 
-  changeValueInListForNimantrak(int index,String type,String value) {
+  /*changeValueInListForNimantrak(int index,String type,String value) {
     if(type == Constant.typeNimantrakName){
       listNimantrakName[listNimantrakName.indexOf(listNimantrakName[index])] = value;
       if(listNimantrakName.length > nimantrakNameController.length) {
@@ -443,6 +462,67 @@ class AddKankotriController extends GetxController {
       nimantrakMnoController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
     }
     update([Constant.idAddNimantrakPart]);
+  }*/
+
+  changeValueInListForNimantrak(int index,String type,String value) {
+    if(type == Constant.typeNimantrakName){
+      listNimantrakName[listNimantrakName.indexOf(listNimantrakName[index])].nimantrakName = value;
+      if(listNimantrakName.length > nimantrakNameController.length) {
+        nimantrakNameController.add(TextEditingController(text: value));
+      }
+      nimantrakNameController[index].text = value;
+      nimantrakNameController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+    }else if(type == Constant.typeNimantrakSarnamu){
+      listNimantrakAddress[listNimantrakAddress.indexOf(listNimantrakAddress[index])] = value;
+      if(listNimantrakAddress.length > nimantrakAddressController.length) {
+        nimantrakAddressController.add(TextEditingController(text: value));
+      }
+      nimantrakAddressController[index].text = value;
+      nimantrakAddressController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+    }else if(type == Constant.typeNimantrakMobile){
+      listNimantrakMno[listNimantrakMno.indexOf(listNimantrakMno[index])] = value;
+      if(listNimantrakMno.length > nimantrakMnoController.length) {
+        nimantrakMnoController.add(TextEditingController(text: value));
+      }
+      nimantrakMnoController[index].text = value;
+      nimantrakMnoController[index].selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+    }
+    update([Constant.idAddNimantrakPart]);
+  }
+
+  void onChangeDropDownAmantrak(String value, String type) {
+    if (type == Constant.typeGroomMotherName) {
+      dropDownGroomMotherName = value;
+    } else if (type == Constant.typeGroomFatherName) {
+      dropDownGroomFatherName = value;
+    } else if (type == Constant.typeBrideMotherName) {
+      dropDownBrideMotherName = value;
+    } else if (type == Constant.typeBrideMotherName) {
+      dropDownBrideMotherName = value;
+    }
+    update([Constant.idInviterPart]);
+  }
+
+  void changeDropDownValueForOtherTitle(String string, int index,String type) {
+    if(type == Constant.typeNimantrakName) {
+      listNimantrakName[index].selectedTitle = string;
+    }
+    update([Constant.idAddNimantrakPart]);
+  }
+
+  void changeDropDownValueForOtherTitleFunctions(String value, int index, int mainIndex) {
+    functionsList[mainIndex].listNames[index].selectedTitle = value;
+    update([Constant.idFunctionsPart]);
+  }
+
+  void changeDropDownValueForGuestNames(String value, int index, int mainIndex) {
+    guestNamesList[mainIndex].listOfGuestNames[index].selectedTitle = value;
+    update([Constant.idGuestNameAll]);
+  }
+
+  void changeDropDownValueForGoodPlace(String value,int mainIndex) {
+    goodPlaceNamesList[mainIndex].selectedValue = value;
+    update([Constant.idGoodPlaceAll]);
   }
 
   changeValueInListForFunctions(int index,String type,String value) {
@@ -460,7 +540,7 @@ class AddKankotriController extends GetxController {
 
   changeValueInListForFunctionsNimantrakName(int index,int mainIndex,String value) {
     functionsList[mainIndex].listEditTextNames.add(TextEditingController());
-    functionsList[mainIndex].listNames[functionsList[mainIndex].listNames.indexOf(functionsList[mainIndex].listNames[index])] = value;
+    functionsList[mainIndex].listNames[functionsList[mainIndex].listNames.indexOf(functionsList[mainIndex].listNames[index])].nimantrakName = value;
     update([Constant.idFunctionsPart]);
   }
 
@@ -471,7 +551,7 @@ class AddKankotriController extends GetxController {
         guestNamesList[mainIndex].listOfGuestNames[index])] = value;
 */
 
-    guestNamesList[mainIndex].listOfGuestNames[index] = value;
+    guestNamesList[mainIndex].listOfGuestNames[index].nimantrakName = value;
     if(guestNamesList[mainIndex].listOfGuestNames.length > guestNamesList[mainIndex].listOfGuestNamesController!.length) {
       guestNamesList[mainIndex].listOfGuestNamesController!.add(TextEditingController(text: value));
     }
@@ -490,14 +570,85 @@ class AddKankotriController extends GetxController {
 
     if(type == Constant.typeGroom){
       var selectedGroomList = listOfInvitersGroomMessage.where((element) => element.previewText == value).toList();
-      chirpingInfoGroom = selectedGroomList[0];
-
-      dropDownFromGroomMessage = value;
+      if(selectedGroomList.isNotEmpty) {
+        chirpingInfoGroom = selectedGroomList[0];
+        dropDownFromGroomMessage = value;
+      }else{
+        if (isGroomCard) {
+          chirpingInfoGroom.previewText =
+              "સહર્ષ ખુશાલી સાથ જણાવવાનું કે અમારા કુળદેવી આઈ શ્રી ખોડિયાર માતાજીની અસીમ કૃપાથી નાની ભગેડી ( હાલ સુરત ) નિવાસી અ. સૌ. ચંપાબેન તથા શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી ના સુપુત્ર";
+          chirpingInfoGroom.html =
+              "'<p style='text-align:center'>સહર્ષ ખુશાલી સાથ જણાવવાનું કે અમારા કુળદેવી \${godName}ની અસીમ કૃપાથી</p><p style='text-align:center'>\${hometownName} નિવાસી </p><p style='text-align:center'>\${motherName} તથા \${fatherName}ના સુપુત્ર</p>'";
+          chirpingInfoGroom.type = Constant.typeGroom;
+          chirpingInfoGroom.values = ValuesInfo();
+          var data = ValuesInfo();
+          data.fatherName = "શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી";
+          data.motherName = "શઅ. સૌ. ચંપાબેન";
+          data.godName = "આઈ શ્રી ખોડિયાર માતાજી";
+          data.hometownName = "નાની ભગેડી ( હાલ સુરત )";
+          data.date = "";
+          data.day = "";
+          chirpingInfoGroom.values = data;
+          dropDownFromGroomMessage =
+              "સહર્ષ ખુશાલી સાથ જણાવવાનું કે અમારા કુળદેવી આઈ શ્રી ખોડિયાર માતાજીની અસીમ કૃપાથી નાની ભગેડી ( હાલ સુરત ) નિવાસી અ. સૌ. ચંપાબેન તથા શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી ના સુપુત્ર";
+        }
+        else{
+          chirpingInfoGroom.previewText = "નાની ભગેડી ( હાલ સુરત ) નિવાસી અ. સૌ. ચંપાબેન તથા શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી ની સુપુત્ર સાથે સવંત ૨૦૭૮ ના માગસર સુદ ૧૧ ને રવિવાર તા.4/12/2022 ના રોજ શુભદિને નિરધાર્યાં છે. તો આનંદભરી વેળાએ વડીલોના આશિષ,સ્વજનોની લાગણીથી કુમ-કુમ તિલક,શ્રીફળ,અક્ષત અને અગ્નિની સાક્ષીએ રેશમની ગાંઠે બંધાશે,તો નવ યુગલને અંત:કરણના આશિષ અને શુભેચ્છાઓના નિરથી સીંચવા આપશ્રી અવશ્ય પધારશોજી.";
+          chirpingInfoGroom.html = "'<p style='text-align:center'>\${hometownName} નિવાસી</p><p style='text-align:center'>\${motherName} તથા \${fatherName}ની સુપુત્ર સાથે સવંત ૨૦૭૮ ના માગસર સુદ ૧૧ ને \${day} તા.\${date} ના રોજ શુભદિને નિરધાર્યાં છે. તો આનંદભરી વેળાએ વડીલોના આશિષ,સ્વજનોની લાગણીથી કુમ-કુમ તિલક,શ્રીફળ,અક્ષત અને અગ્નિની સાક્ષીએ રેશમની ગાંઠે બંધાશે,તો નવ યુગલને અંત:કરણના આશિષ અને શુભેચ્છાઓના નિરથી સીંચવા આપશ્રી અવશ્ય પધારશોજી.</p>'";
+          chirpingInfoGroom.type = Constant.typeGroom;
+          chirpingInfoGroom.values = ValuesInfo();
+          var data = ValuesInfo();
+          data.fatherName = "શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી";
+          data.motherName = "અ. સૌ. ચંપાબેન";
+          data.godName = "";
+          data.hometownName = "નાની ભગેડી ( હાલ સુરત )";
+          data.date = "4/12/2022";
+          data.day = "રવિવાર";
+          chirpingInfoGroom.values = data;
+          dropDownFromGroomMessage =
+          "નાની ભગેડી ( હાલ સુરત ) નિવાસી અ. સૌ. ચંપાબેન તથા શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી ની સુપુત્ર સાથે સવંત ૨૦૭૮ ના માગસર સુદ ૧૧ ને રવિવાર તા.4/12/2022 ના રોજ શુભદિને નિરધાર્યાં છે. તો આનંદભરી વેળાએ વડીલોના આશિષ,સ્વજનોની લાગણીથી કુમ-કુમ તિલક,શ્રીફળ,અક્ષત અને અગ્નિની સાક્ષીએ રેશમની ગાંઠે બંધાશે,તો નવ યુગલને અંત:કરણના આશિષ અને શુભેચ્છાઓના નિરથી સીંચવા આપશ્રી અવશ્ય પધારશોજી.";
+        }
+      }
     }else{
       var selectedBrideList = listOfInvitersBrideMessage.where((element) => element.previewText == value).toList();
-      chirpingInfoBride = selectedBrideList[0];
+      if(selectedBrideList.isNotEmpty) {
+        chirpingInfoBride = selectedBrideList[0];
+        dropDownFromBrideMessage = value;
+      }else{
+        if (isGroomCard) {
+          chirpingInfoBride.previewText = "મોટી વાવડી ( હાલ સુરત ) નિવાસી અ. સૌ. સંગીતાબેન તથા શ્રી પ્રવીણભાઈ મોહનભાઇ સુતરીયાની વ્હાલી આત્મજા સાથે સંવત ૨૦૭૮ ના કારતક વદ ૧૧ ને રવિવાર તા.4/12/2022 ના શુભ દિવસે વેદ, વિપ્ર, વડિલો અને અગ્નિની સાક્ષીએ આપની ઉષ્મા સભર ઉપસ્થિતિમાં સંસારયાત્રામાં પ્રવેશ કરશે, તો આ શુભ પ્રસંગે નવદંપતિને આશીર્વાદ આપવા સહકુટુંબને પધારવા અમારૂં ભાવભર્યું આમંત્રણ છે.";
+          chirpingInfoBride.html = "'<p style='text-align:center'>\${hometownName} નિવાસી</p><p style='text-align:center'>\${motherName} તથા \${fatherName}ની વ્હાલી આત્મજા સાથે સંવત ૨૦૭૮ ના કારતક વદ ૧૧ ને \${day} તા.\${date} ના શુભ દિવસે વેદ, વિપ્ર, વડિલો અને અગ્નિની સાક્ષીએ આપની ઉષ્મા સભર ઉપસ્થિતિમાં સંસારયાત્રામાં પ્રવેશ કરશે, તો આ શુભ પ્રસંગે નવદંપતિને આશીર્વાદ આપવા સહકુટુંબને પધારવા અમારૂં ભાવભર્યું આમંત્રણ છે.</p>'";
+          chirpingInfoBride.type = Constant.typeBride;
+          chirpingInfoBride.values = ValuesInfo();
+          var data = ValuesInfo();
+          data.fatherName = "શ્રી પ્રવીણભાઈ મોહનભાઇ સુતરીયા";
+          data.motherName = "અ. સૌ. સંગીતાબેન";
+          data.godName = "";
+          data.hometownName = "મોટી વાવડી ( હાલ સુરત )";
+          data.date = "4/12/2022";
+          data.day = "રવિવાર";
+          chirpingInfoBride.values = data;
+          dropDownFromBrideMessage =
+          "મોટી વાવડી ( હાલ સુરત ) નિવાસી અ. સૌ. સંગીતાબેન તથા શ્રી પ્રવીણભાઈ મોહનભાઇ સુતરીયાની વ્હાલી આત્મજા સાથે સંવત ૨૦૭૮ ના કારતક વદ ૧૧ ને રવિવાર તા.4/12/2022 ના શુભ દિવસે વેદ, વિપ્ર, વડિલો અને અગ્નિની સાક્ષીએ આપની ઉષ્મા સભર ઉપસ્થિતિમાં સંસારયાત્રામાં પ્રવેશ કરશે, તો આ શુભ પ્રસંગે નવદંપતિને આશીર્વાદ આપવા સહકુટુંબને પધારવા અમારૂં ભાવભર્યું આમંત્રણ છે.";
+        }
+        else {
+          chirpingInfoBride.previewText = "સહર્ષ ખુશાલી સાથ જણાવવાનું કે અમારા કુળદેવી આઈ શ્રી ખોડિયાર માતાજીની અસીમ કૃપાથી નાની ભગેડી ( હાલ સુરત ) નિવાસી અ. સૌ. ચંપાબેન તથા શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી ના સુપુત્ર";
+          chirpingInfoBride.html = "'<p style='text-align:center'>સહર્ષ ખુશાલી સાથ જણાવવાનું કે અમારા કુળદેવી \${godName}ની અસીમ કૃપાથી</p><p style='text-align:center'>\${hometownName} નિવાસી </p><p style='text-align:center'>\${motherName} તથા \${fatherName}ના સુપુત્ર</p>'";
+          chirpingInfoBride.type = Constant.typeBride;
+          chirpingInfoBride.values = ValuesInfo();
+          var data = ValuesInfo();
+          data.fatherName = "શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી";
+          data.motherName = "શઅ. સૌ. ચંપાબેન";
+          data.godName = "આઈ શ્રી ખોડિયાર માતાજી";
+          data.hometownName = "નાની ભગેડી ( હાલ સુરત )";
+          data.date = "";
+          data.day = "";
+          chirpingInfoBride.values = data;
+          dropDownFromBrideMessage =
+          "સહર્ષ ખુશાલી સાથ જણાવવાનું કે અમારા કુળદેવી આઈ શ્રી ખોડિયાર માતાજીની અસીમ કૃપાથી નાની ભગેડી ( હાલ સુરત ) નિવાસી અ. સૌ. ચંપાબેન તથા શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી ના સુપુત્ર";
 
-      dropDownFromBrideMessage = value;
+        }
+      }
     }
     Debug.printLog("changeDropDownValueForGroomBride==>> $value  $type");
     update([Constant.idInviterPart]);
@@ -522,10 +673,6 @@ class AddKankotriController extends GetxController {
     update([Constant.idGoodPlaceAll]);
   }
 
-  void changeDropDownValueForOtherTitle(String string) {
-    dropDownOtherTitle = string;
-    update([Constant.idAddNimantrakPart]);
-  }
 
   bool validation(BuildContext context){
 
@@ -554,7 +701,7 @@ class AddKankotriController extends GetxController {
     }
 
     /*Inviter Detail*/
-    var n1 = listNimantrakName.where((element) => element != "").toList();
+    var n1 = listNimantrakName.where((element) => element.nimantrakName != "").toList();
     // if(n1.isEmpty){
     if(n1.length != listNimantrakName.length){
       Utils.showToast(context, "txtInviterName".tr);
@@ -966,8 +1113,13 @@ class AddKankotriController extends GetxController {
 
     /*Start For Nimantrak Data*/
     var nimantrakData = InviterClass();
-
-    nimantrakData.name = listNimantrakName;
+    List<String> nameList = [];
+    for(int i =0;i < listNimantrakName.length ; i++){
+      var title = listNimantrakName[i].selectedTitle;
+      var name = listNimantrakName[i].nimantrakName;
+      nameList.add("$title $name");
+    }
+    nimantrakData.name = nameList;
     nimantrakData.contactNo = listNimantrakMno;
     nimantrakData.address = listNimantrakAddress;
     var address = "";
@@ -988,15 +1140,23 @@ class AddKankotriController extends GetxController {
       var functionsClass = Functions();
       functionsClass.functionId = functionsList[i].functionId;
       functionsClass.functionName = functionsList[i].functionName;
-      functionsClass.inviter = (functionsList[i].listNames.toString() != "")?functionsList[i].listNames:[];
+      List<String> nameList = [];
+      for(int j =0;j < functionsList[i].listNames.length ; j++){
+        var title = functionsList[i].listNames[j].selectedTitle;
+        var name = functionsList[i].listNames[j].nimantrakName;
+        nameList.add("$title $name");
+      }
+      functionsClass.inviter = nameList;
+      // functionsClass.inviter = (functionsList[i].listNames.toString() != "")?functionsList[i].listNames:[];
       functionsClass.functionTime = functionsList[i].functionTime;
       functionsClass.functionDate = functionsList[i].functionDate;
       functionsClass.functionPlace = functionsList[i].functionPlace;
       functionsClass.message = functionsList[i].functionMessage;
       functionsClass.banquetPerson = "";
-      if(functionsClass.functionTime != "" && functionsClass.functionDate != "") {
+      /*if(functionsClass.functionTime != "" && functionsClass.functionDate != "") {
         createData.marriageInvitationCard!.functions!.add(functionsClass);
-      }
+      }*/
+      createData.marriageInvitationCard!.functions!.add(functionsClass);
     }
     /*End For Function Data*/
 
@@ -1023,10 +1183,10 @@ class AddKankotriController extends GetxController {
       groomInviterValues.godName = groomGodNameController.text;
     }
     if(chirpingInfoGroom.values!.motherName != null) {
-      groomInviterValues.motherName = groomMotherNameController.text;
+      groomInviterValues.motherName = "$dropDownGroomMotherName ${groomMotherNameController.text}";
     }
     if(chirpingInfoGroom.values!.fatherName != null) {
-      groomInviterValues.fatherName = groomFatherNameController.text;
+      groomInviterValues.fatherName = "$dropDownGroomFatherName ${groomFatherNameController.text}";
     }
     if(chirpingInfoGroom.values!.hometownName != null) {
       groomInviterValues.hometownName = groomVillageNameController.text;
@@ -1051,10 +1211,10 @@ class AddKankotriController extends GetxController {
       brideInviterValues.date = mrgDateGujarati;
     }
     if(chirpingInfoBride.values!.motherName != null) {
-      brideInviterValues.motherName = brideMotherNameController.text;
+      brideInviterValues.motherName = "$dropDownBrideMotherName ${brideMotherNameController.text}";
     }
     if(chirpingInfoBride.values!.fatherName != null) {
-      brideInviterValues.fatherName = brideFatherNameController.text;
+      brideInviterValues.fatherName = "$dropDownBrideFatherName ${brideFatherNameController.text}";
     }
     if(chirpingInfoBride.values!.hometownName != null) {
       brideInviterValues.hometownName = brideVillageNameController.text;
@@ -1065,7 +1225,7 @@ class AddKankotriController extends GetxController {
 
     invitation.brideInviter = brideData;
     invitation.brideInviter!.values = brideInviterValues;
-
+    invitation.guestName = "";
     createData.marriageInvitationCard!.invitation = invitation;
     /*End For Amantrak*/
 
@@ -1073,28 +1233,52 @@ class AddKankotriController extends GetxController {
 
     /*Start For Guest All Names Data*/
     var allNamesData = Affectionate();
-    var firstList = guestNamesList.where((element) => element.titleName == "txtAapneAavkarvaAatur".tr).toList();
-    // if(firstList[0].listOfGuestNames.where((element) => element != "").isNotEmpty) {
-      allNamesData.list = firstList[0].listOfGuestNames;
-      allNamesData.title = firstList[0].titleName;
-      createData.marriageInvitationCard!.affectionate = allNamesData;
-    // }
+    var firstList = guestNamesList
+        .where((element) => element.titleName == "txtAapneAavkarvaAatur".tr)
+        .toList();
+    List<String> firstNameList = [];
+    for (int j = 0; j < firstList[0].listOfGuestNames.length; j++) {
+      var title = firstList[0].listOfGuestNames[j].selectedTitle;
+      var name = firstList[0].listOfGuestNames[j].nimantrakName;
+      firstNameList.add("$title $name");
+    }
+    allNamesData.list = firstNameList;
+    allNamesData.title = firstList[0].titleName;
+    createData.marriageInvitationCard!.affectionate = allNamesData;
 
     allNamesData = Affectionate();
     var secondList = guestNamesList.where((element) => element.titleName == "txtSanehaDhin".tr).toList();
-    allNamesData.list = secondList[0].listOfGuestNames;
+    List<String> secondNameList = [];
+    for (int j = 0; j < secondList[0].listOfGuestNames.length; j++) {
+      var title = secondList[0].listOfGuestNames[j].selectedTitle;
+      var name = secondList[0].listOfGuestNames[j].nimantrakName;
+      secondNameList.add("$title $name");
+    }
+    allNamesData.list = secondNameList;
     allNamesData.title = secondList[0].titleName;
     createData.marriageInvitationCard!.ambitious = allNamesData;
 
     allNamesData = Affectionate();
     var thirdList = guestNamesList.where((element) => element.titleName == "txtMosalPaksh".tr).toList();
-    allNamesData.list = thirdList[0].listOfGuestNames;
+    List<String> thirdNameList = [];
+    for (int j = 0; j < thirdList[0].listOfGuestNames.length; j++) {
+      var title = thirdList[0].listOfGuestNames[j].selectedTitle;
+      var name = thirdList[0].listOfGuestNames[j].nimantrakName;
+      thirdNameList.add("$title $name");
+    }
+    allNamesData.list = thirdNameList;
     allNamesData.title = thirdList[0].titleName;
     createData.marriageInvitationCard!.nephewGroup = allNamesData;
 
     allNamesData = Affectionate();
     var fourthList = guestNamesList.where((element) => element.titleName == "txtBhanejPaksh".tr).toList();
-    allNamesData.list = fourthList[0].listOfGuestNames;
+    List<String> fourthNameList = [];
+    for (int j = 0; j < fourthList[0].listOfGuestNames.length; j++) {
+      var title = fourthList[0].listOfGuestNames[j].selectedTitle;
+      var name = fourthList[0].listOfGuestNames[j].nimantrakName;
+      fourthNameList.add("$title $name");
+    }
+    allNamesData.list = fourthNameList;
     allNamesData.title = fourthList[0].titleName;
     createData.marriageInvitationCard!.uncleGroup = allNamesData;
     /*End For Guest All Names Data*/
@@ -1425,25 +1609,38 @@ class AddKankotriController extends GetxController {
     /*Start For Nimantrak Data*/
     var listNimantrakNameGet = mrgInvitationCard.inviter!.name;
     for(int i =0; i<listNimantrakNameGet!.length; i++){
-      listNimantrakName.add(listNimantrakNameGet[i]);
-      // listNimantrakName[listNimantrakName.indexOf(listNimantrakName[i])] = listNimantrakNameGet[i];
-      changeValueInListForNimantrak(i, Constant.typeNimantrakName, listNimantrakNameGet[i]);
+      if(listNimantrakNameGet[i] != "") {
+        var selectedTitle = listNimantrakNameGet[i].split(" ")[0];
+        var name = listNimantrakNameGet[i].split(" ").sublist(1)
+            .join(' ')
+            .trim();
+        var data = NimantrakModel();
+        data.nimantrakName = name;
+        data.selectedTitle = selectedTitle;
+        data.otherTitleList = Utils.getOtherTitlesList();
+        listNimantrakName.add(data);
+        changeValueInListForNimantrak(i, Constant.typeNimantrakName, name);
+      }else{
+        var data = NimantrakModel();
+        data.nimantrakName = "";
+        data.selectedTitle = Utils.getDefaultSelectedTitle();
+        data.otherTitleList = Utils.getOtherTitlesList();
+        listNimantrakName.add(data);
+        changeValueInListForNimantrak(i, Constant.typeNimantrakName, "");
+      }
     }
 
     var listNimantrakMnoGet = mrgInvitationCard.inviter!.contactNo;
     for(int i =0; i<listNimantrakMnoGet!.length; i++){
       listNimantrakMno.add(listNimantrakMnoGet[i]);
-      // listNimantrakMno[listNimantrakMno.indexOf(listNimantrakMno[i])] = listNimantrakMnoGet[i];
       changeValueInListForNimantrak(i, Constant.typeNimantrakMobile, listNimantrakMnoGet[i]);
     }
 
     var listNimantrakAddressGet = mrgInvitationCard.inviter!.address;
     for(int i =0; i<listNimantrakAddressGet!.length; i++){
       listNimantrakAddress.add(listNimantrakAddressGet[i]);
-      // listNimantrakAddress[listNimantrakAddress.indexOf(listNimantrakAddress[i])] = listNimantrakAddressGet[i];
       changeValueInListForNimantrak(i, Constant.typeNimantrakSarnamu, listNimantrakAddressGet[i]);
     }
-    Debug.printLog("Nimantrak Data===>> $listNimantrakName  $listNimantrakMno $listNimantrakAddress");
     update([Constant.idAddNimantrakPart]);
     /*End For Nimantrak Data*/
 
@@ -1452,12 +1649,38 @@ class AddKankotriController extends GetxController {
     var functionsListGet =  mrgInvitationCard.functions!;
     for(var i = 0 ; i < functionsListGet.length ; i ++){
       var functions = functionsListGet[i];
-      functionsList.add(FunctionsNimantrakName(functions.functionId! ?? "", functions.functionName ?? "", functions.inviter ?? [], functions.functionDate ?? "", functions.functionTime ?? "",
+      List<NimantrakModel> listNameModel = [];
+
+      for(var j = 0; j < functions.inviter!.length; j ++){
+        if(functions.inviter![j] != ""){
+          var selectedTitle = functionsListGet[i].inviter![j].split(" ")[0];
+          var name = functionsListGet[i].inviter![j].split(" ").sublist(1)
+              .join(' ')
+              .trim();
+          var data = NimantrakModel();
+          data.nimantrakName = name;
+          data.selectedTitle = selectedTitle;
+          data.otherTitleList = Utils.getOtherTitlesList();
+          listNameModel.add(data);
+        }else{
+          var data = NimantrakModel();
+          data.nimantrakName = "";
+          data.selectedTitle = Utils.getDefaultSelectedTitle();
+          data.otherTitleList = Utils.getOtherTitlesList();
+          listNameModel.add(data);
+        }
+
+      }
+      functionsList.add(FunctionsNimantrakName(functions.functionId!, functions.functionName ?? "", listNameModel, functions.functionDate ?? "", functions.functionTime ?? "",
           functions.functionPlace ?? "", functions.message ?? "",[]));
+
       functionsPlaceListController.add(TextEditingController(text:functions.functionPlace ?? "" ));
       functionsMessageListController.add(TextEditingController(text:functions.message ?? ""));
       for(var j = 0; j < functions.inviter!.length; j ++){
-        functionsList[i].listEditTextNames.add(TextEditingController(text: functions.inviter![j]));
+        var name = functions.inviter![j].split(" ").sublist(1)
+            .join(' ')
+            .trim();
+        functionsList[i].listEditTextNames.add(TextEditingController(text: name));
       }
     }
     update([Constant.idFunctionsPart]);
@@ -1481,11 +1704,17 @@ class AddKankotriController extends GetxController {
       }
 
       if(groomAmantrak.values!.motherName != null) {
-        groomMotherNameController.text = groomAmantrak.values!.motherName!;
+        dropDownGroomMotherName = groomAmantrak.values!.motherName!.split(" ")[0];
+        groomMotherNameController.text = groomAmantrak.values!.motherName!.split(" ").sublist(1)
+            .join(' ')
+            .trim();
       }
 
       if(groomAmantrak.values!.fatherName != null) {
-        groomFatherNameController.text = groomAmantrak.values!.fatherName!;
+        dropDownGroomFatherName = groomAmantrak.values!.fatherName!.split(" ")[0];
+        groomFatherNameController.text = groomAmantrak.values!.fatherName!.split(" ").sublist(1)
+            .join(' ')
+            .trim();
       }
 
       if(groomAmantrak.values!.hometownName != null) {
@@ -1508,11 +1737,17 @@ class AddKankotriController extends GetxController {
       }
 
       if(brideAmantrak.values!.motherName != null) {
-        brideMotherNameController.text = brideAmantrak.values!.motherName!;
+        dropDownBrideMotherName = brideAmantrak.values!.motherName!.split(" ")[0];
+        brideMotherNameController.text = brideAmantrak.values!.motherName!.split(" ").sublist(1)
+            .join(' ')
+            .trim();
       }
 
       if(brideAmantrak.values!.fatherName != null) {
-        brideFatherNameController.text = brideAmantrak.values!.fatherName!;
+        dropDownBrideFatherName = brideAmantrak.values!.fatherName!.split(" ")[0];
+        brideFatherNameController.text = brideAmantrak.values!.fatherName!.split(" ").sublist(1)
+            .join(' ')
+            .trim();
       }
 
       if(brideAmantrak.values!.hometownName != null) {
@@ -1537,45 +1772,122 @@ class AddKankotriController extends GetxController {
     /*Start For Guest All Names Data*/
     var allNamesDataGetFirst = mrgInvitationCard.affectionate;
     List<TextEditingController> firstEditList = [];
+    List<NimantrakModel> firstListModel = [];
     if(allNamesDataGetFirst!.list!.isNotEmpty) {
       for (var i = 0; i < allNamesDataGetFirst.list!.length; i++) {
-        firstEditList.add(
-            TextEditingController(text: allNamesDataGetFirst.list![i]));
+        if(allNamesDataGetFirst.list![i] != "") {
+          var data = NimantrakModel();
+          var selectedTitle = allNamesDataGetFirst.list![i].split(" ")[0];
+          var name = allNamesDataGetFirst.list![i].split(" ").sublist(1)
+              .join(' ')
+              .trim();
+          data.nimantrakName = name;
+          data.otherTitleList = Utils.getOtherTitlesList();
+          data.selectedTitle = selectedTitle;
+          firstListModel.add(data);
+          firstEditList.add(TextEditingController(text: name));
+        }else{
+          var data = NimantrakModel();
+          data.nimantrakName = "";
+          data.otherTitleList = Utils.getOtherTitlesList();
+          data.selectedTitle = Utils.getDefaultSelectedTitle();
+          firstListModel.add(data);
+          firstEditList.add(TextEditingController(text: ""));
+        }
+
       }
     }
-    guestNamesList.add(GuestAllName(allNamesDataGetFirst.title!, allNamesDataGetFirst.list!,firstEditList));
+    guestNamesList.add(GuestAllName(allNamesDataGetFirst.title!, firstListModel,firstEditList));
 
 
     var allNamesDataGetSecond = mrgInvitationCard.ambitious;
     List<TextEditingController> secondEditList = [];
+    List<NimantrakModel> secondListModel = [];
     if(allNamesDataGetSecond!.list!.isNotEmpty) {
       for (var i = 0; i < allNamesDataGetSecond.list!.length; i++) {
-        secondEditList.add(TextEditingController(text: allNamesDataGetSecond.list![i]));
+        if(allNamesDataGetSecond.list![i] != "") {
+          var data = NimantrakModel();
+          var selectedTitle = allNamesDataGetSecond.list![i].split(" ")[0];
+          var name = allNamesDataGetSecond.list![i].split(" ").sublist(1)
+              .join(' ')
+              .trim();
+          data.nimantrakName = name;
+          data.otherTitleList = Utils.getOtherTitlesList();
+          data.selectedTitle = selectedTitle;
+          secondListModel.add(data);
+          secondEditList.add(TextEditingController(text: name));
+        }else{
+          var data = NimantrakModel();
+          data.nimantrakName = "";
+          data.otherTitleList = Utils.getOtherTitlesList();
+          data.selectedTitle = Utils.getDefaultSelectedTitle();
+          secondListModel.add(data);
+          secondEditList.add(TextEditingController(text: ""));
+        }
+
       }
     }
-    guestNamesList.add(GuestAllName(allNamesDataGetSecond.title!, allNamesDataGetSecond.list!,secondEditList));
+    guestNamesList.add(GuestAllName(allNamesDataGetSecond.title!, secondListModel,secondEditList));
 
 
     var allNamesDataGetThird = mrgInvitationCard.nephewGroup;
     List<TextEditingController> thirdEditList = [];
+    List<NimantrakModel> thirdListModel = [];
     if(allNamesDataGetThird!.list!.isNotEmpty) {
       for (var i = 0; i < allNamesDataGetThird.list!.length; i++) {
-        thirdEditList.add(
-            TextEditingController(text: allNamesDataGetThird.list![i]));
+        if(allNamesDataGetThird.list![i] != "") {
+          var data = NimantrakModel();
+          var selectedTitle = allNamesDataGetThird.list![i].split(" ")[0];
+          var name = allNamesDataGetThird.list![i].split(" ").sublist(1)
+              .join(' ')
+              .trim();
+          data.nimantrakName = name;
+          data.otherTitleList = Utils.getOtherTitlesList();
+          data.selectedTitle = selectedTitle;
+          thirdListModel.add(data);
+          thirdEditList.add(TextEditingController(text: name));
+        }else{
+          var data = NimantrakModel();
+          data.nimantrakName = "";
+          data.otherTitleList = Utils.getOtherTitlesList();
+          data.selectedTitle = Utils.getDefaultSelectedTitle();
+          thirdListModel.add(data);
+          thirdEditList.add(TextEditingController(text: ""));
+        }
+
       }
     }
-    guestNamesList.add(GuestAllName(allNamesDataGetThird.title!, allNamesDataGetThird.list!,thirdEditList));
+    guestNamesList.add(GuestAllName(allNamesDataGetThird.title!, thirdListModel,thirdEditList));
 
 
     var allNamesDataGetFourth = mrgInvitationCard.uncleGroup;
     List<TextEditingController> fourthEditList = [];
+    List<NimantrakModel> fourthListModel = [];
     if(allNamesDataGetFourth!.list!.isNotEmpty) {
       for (var i = 0; i < allNamesDataGetFourth.list!.length; i++) {
-        fourthEditList.add(
-            TextEditingController(text: allNamesDataGetFourth.list![i]));
+        if(allNamesDataGetFourth.list![i] != "") {
+          var data = NimantrakModel();
+          var selectedTitle = allNamesDataGetFourth.list![i].split(" ")[0];
+          var name = allNamesDataGetFourth.list![i].split(" ").sublist(1)
+              .join(' ')
+              .trim();
+          data.nimantrakName = name;
+          data.otherTitleList = Utils.getOtherTitlesList();
+          data.selectedTitle = selectedTitle;
+          fourthListModel.add(data);
+          fourthEditList.add(TextEditingController(text: name));
+        }else{
+          var data = NimantrakModel();
+          data.nimantrakName = "";
+          data.otherTitleList = Utils.getOtherTitlesList();
+          data.selectedTitle = Utils.getDefaultSelectedTitle();
+          fourthListModel.add(data);
+          fourthEditList.add(TextEditingController(text: ""));
+        }
+
       }
     }
-    guestNamesList.add(GuestAllName(allNamesDataGetFourth.title!, allNamesDataGetFourth.list!,fourthEditList));
+    guestNamesList.add(GuestAllName(allNamesDataGetFourth.title!, fourthListModel,fourthEditList));
 
 
     update([Constant.idGuestNameAll]);
@@ -1614,9 +1926,31 @@ class AddKankotriController extends GetxController {
             TextEditingController(text: goodPlace.contactNo![i]));
       }
     }
-    goodPlaceNamesList.add(GoodPlaceAllName(goodPlace.title!, goodPlace.address!, goodPlace.contactNo!, goodPlace.inviterName!,
-        firstAddressEditList,firstContactEditList,TextEditingController(text: goodPlace.inviterName)));
-
+    if(goodPlace.inviterName != "") {
+      var inviterTitleGoodPlace = goodPlace.inviterName!.split(" ")[0];
+      var inviterNameGoodPlace = goodPlace.inviterName!.split(" ").sublist(1)
+          .join(' ')
+          .trim();
+      goodPlaceNamesList.add(GoodPlaceAllName(
+          goodPlace.title!,
+          goodPlace.address!,
+          goodPlace.contactNo!,
+          inviterNameGoodPlace,
+          firstAddressEditList,
+          firstContactEditList,
+          TextEditingController(text: inviterNameGoodPlace),
+          inviterTitleGoodPlace));
+    }else{
+      goodPlaceNamesList.add(GoodPlaceAllName(
+          goodPlace.title!,
+          goodPlace.address!,
+          goodPlace.contactNo!,
+          "",
+          firstAddressEditList,
+          firstContactEditList,
+          TextEditingController(text: ""),
+          Utils.getDefaultSelectedTitle()));
+    }
 
 
     var goodMrgPlace = mrgInvitationCard.auspiciousMarriagePlace;
@@ -1634,8 +1968,32 @@ class AddKankotriController extends GetxController {
             TextEditingController(text: goodMrgPlace.contactNo![i]));
       }
     }
-    goodPlaceNamesList.add(GoodPlaceAllName(goodMrgPlace.title!, goodMrgPlace.address!,
-        goodMrgPlace.contactNo!, goodMrgPlace.inviterName!,secondAddressEditList,secondContactEditList,TextEditingController(text: goodMrgPlace.inviterName)));
+    if(goodMrgPlace.inviterName != "") {
+      var inviterTitleGoodMrgPlace = goodMrgPlace.inviterName!.split(" ")[0];
+      var inviterNameGoodMrgPlace = goodMrgPlace.inviterName!.split(" ")
+          .sublist(1)
+          .join(' ')
+          .trim();
+      goodPlaceNamesList.add(GoodPlaceAllName(
+          goodMrgPlace.title!,
+          goodMrgPlace.address!,
+          goodMrgPlace.contactNo!,
+          inviterNameGoodMrgPlace,
+          secondAddressEditList,
+          secondContactEditList,
+          TextEditingController(text: inviterNameGoodMrgPlace),
+          inviterTitleGoodMrgPlace));
+    }else{
+      goodPlaceNamesList.add(GoodPlaceAllName(
+          goodMrgPlace.title!,
+          goodMrgPlace.address!,
+          goodMrgPlace.contactNo!,
+          "",
+          secondAddressEditList,
+          secondContactEditList,
+          TextEditingController(text: ""),
+          Utils.getDefaultSelectedTitle()));
+    }
     update([Constant.idGoodPlaceAll]);
     /*End For Good Place Data*/
 
@@ -1716,6 +2074,8 @@ class AddKankotriController extends GetxController {
   }
 
 
+
+
 }
 
 class FunctionsNimantrakName{
@@ -1725,7 +2085,8 @@ class FunctionsNimantrakName{
   String functionTime = "";
   String functionPlace = "";
   String functionMessage = "";
-  List<String> listNames = [];
+  // List<String> listNames = [];
+  List<NimantrakModel> listNames = [];
   List<TextEditingController> listEditTextNames = [];
 
   FunctionsNimantrakName(this.functionId,this.functionName,this.listNames,this.functionDate,this.functionTime,this.functionPlace,this.functionMessage,this.listEditTextNames);
@@ -1733,7 +2094,8 @@ class FunctionsNimantrakName{
 
 class GuestAllName{
   String titleName = "";
-  List<String> listOfGuestNames = [];
+  // List<String> listOfGuestNames = [];
+  List<NimantrakModel> listOfGuestNames = [];
   List<TextEditingController>? listOfGuestNamesController = [];
 
   GuestAllName(this.titleName,this.listOfGuestNames, this.listOfGuestNamesController);
@@ -1744,10 +2106,11 @@ class GoodPlaceAllName{
   List<String> listOfAddressName = [];
   List<String> listOfMobile = [];
   String? inviterName;
+  String? selectedValue;
   TextEditingController? inviterController;
   List<TextEditingController> listEditTextAddress = [];
   List<TextEditingController> listEditTextMobile = [];
-  GoodPlaceAllName(this.titleName,this.listOfAddressName,this.listOfMobile,this.inviterName,this.listEditTextAddress,this.listEditTextMobile,this.inviterController);
+  GoodPlaceAllName(this.titleName,this.listOfAddressName,this.listOfMobile,this.inviterName,this.listEditTextAddress,this.listEditTextMobile,this.inviterController,this.selectedValue);
 }
 
 class PreviewFunctions{
@@ -1756,6 +2119,12 @@ class PreviewFunctions{
   String? fPerson = "";
 
   PreviewFunctions(this.fId,this.fName,this.fPerson);
+}
+
+class NimantrakModel{
+  String selectedTitle = "";
+  List<String> otherTitleList = [];
+  String nimantrakName = "";
 }
 /*
 class GodInformation{

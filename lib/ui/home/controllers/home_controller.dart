@@ -23,7 +23,6 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     getAllPreBuiltCardsAPI(Get.context!);
-    saveFileFromBufferData();
   }
 
   getAllPreBuiltCardsAPI(BuildContext context) async {
@@ -65,14 +64,6 @@ class HomeController extends GetxController {
     isShowProgress = false;
     update([Constant.isShowProgressUpload,Constant.idMainPage]);
   }
-
-  saveFileFromBufferData() async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/card.pdf');
-    await file.writeAsBytes([]);
-  }
-
-
 
 }
 

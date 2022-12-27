@@ -102,7 +102,7 @@ class MainController extends GetxController {
     super.onInit();
     Debug.printLog("User Data==>> ${getUserData()}");
     getUserData()!.getIdToken().then((value) => Preference.shared.setString(Preference.accessToken, value));
-    showNotification();
+    // showNotification();
     /*auth.currentUser!.delete().then((value) => (){
       Get.offAllNamed(AppRoutes.login);
     });*/
@@ -121,11 +121,10 @@ class MainController extends GetxController {
 
     await flutterLocalNotificationsPlugin.show(
         12345,
-        "A Notification From My Application",
-        "This notification was sent using Flutter Local Notifcations Package",
+        "KumKum App",
+        "PDF Download successfully",
         platformChannelSpecifics,
-        payload: 'data');
-
+        payload: '/storage/emulated/0/Download/prebuilt card 1_8cdc71f0.pdf');
   }
 
 }

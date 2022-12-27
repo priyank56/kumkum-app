@@ -55,7 +55,16 @@ class PreviewScreen extends StatelessWidget {
                             onTap: () {
                               // Get.offAllNamed(AppRoutes.main);
                               // Get.back();
-                              Get.back();
+                              if(logic.isFromPreviewScreen == Constant.isFromSubmit) {
+                                Get.back();
+                                Get.back();
+                              } else if(logic.isFromPreviewScreen == Constant.isFromPreview) {
+                                var map = <String,String>{};
+                                map.putIfAbsent(Params.createdCardId, () => logic.createData.marriageInvitationCardId.toString());
+                                Get.back(result: map);
+                              } else if(logic.isFromPreviewScreen == Constant.isFromCategoryPreview) {
+                                Get.back();
+                              }
                             },
                             splashColor: CColor.black,
                             child: Container(

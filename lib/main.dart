@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +20,7 @@ import 'package:get/get.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:open_filex/open_filex.dart';
 
 
 
@@ -67,20 +66,17 @@ Future<void> main() async {
   AndroidInitializationSettings('app_icon');
   const InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid);
-  flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
+  flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {
+      Debug.printLog("onDidReceiveNotificationResponse==>>>   ${notificationResponse.payload}");
+      OpenFilex.open(notificationResponse.payload);
+    },
+  );
 
   runApp(const MyApp());
 }
 
-void onDidReceiveNotificationResponse(NotificationResponse details){
-
-}
-void onDidReceiveLocalNotification(
-    int? id, String? title, String? body, String? payload) async {
-  // display a dialog with the notification details, tap ok to go to another page
-  Debug.printLog("onDidReceiveLocalNotification==>>>  $id  $title $body $payload");
-}
 
 Future<void> _configureLocalTimeZone() async {
   tz.initializeTimeZones();

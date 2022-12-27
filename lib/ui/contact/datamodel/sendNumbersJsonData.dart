@@ -28,7 +28,7 @@ class SendNumberList {
     });
 
     String? name;
-    int? number;
+    String? number;
     String? banquetPerson;
 
     factory SendNumberList.fromJson(Map<String, dynamic> json) => SendNumberList(

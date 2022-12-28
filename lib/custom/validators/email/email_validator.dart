@@ -5,6 +5,7 @@ enum type { None, Alphabetic, Numeric, AlphaNumeric }
 class EmailValidator {
   static int _index = 0;
   static const String _atomCharacters = "!#\$%&'*+-/=?^_`{|}~";
+  // static const String _atomCharacters = "^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$";
   static type _domainType = type.None;
 
   static bool _isDigit(String c) {

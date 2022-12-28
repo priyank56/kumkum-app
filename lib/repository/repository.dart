@@ -300,18 +300,19 @@ class Repository {
     }
   }
 
-  Future<DownloadPdfData> getDownloadPdf(DownloadPdfDataModel downLoadData, FunctionUploadData functionData ,String cardId,String isFromScreen,[BuildContext? context]) async {
+  Future<DownloadPdfData> getDownloadPdf(DownloadPdfDataModel downLoadData, FunctionUploadData functionData ,String cardId,String isFromScreen,bool changeEndPointForDownload,[BuildContext? context]) async {
     try {
       Response response;
-     /* if(isFromScreen == Constant.isFromCategoryScreen){
+      Debug.printLog("cardId==>> cardId==>> $cardId");
+      if(changeEndPointForDownload){
         response = await dioClient!.dio.post<String>(
-            "/api/prebuilt-invitation-card/banquet-person/buffer/$cardId",
+            "/api/prebuilt-invitation-card/buffer/$cardId",
             data: functionData.toJson());
-      }else {*/
+      }else {
         response = await dioClient!.dio.post<String>(
             "/api/marriage-invitation-card/banquet-person/buffer/$cardId",
             data: functionData.toJson());
-      // }
+      }
 
       if (response.statusCode == Constant.responseSuccessCode) {
         var res = response.data;

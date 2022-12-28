@@ -117,6 +117,7 @@ class SignupScreen extends StatelessWidget {
                       cursorColor: CColor.theme,
                       controller: logic.emailIdEditController,
                       decoration: InputDecoration(
+                          errorText: logic.validateEmail(logic.emailIdEditController.text),
                           focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: CColor.theme),
                           ),
@@ -156,6 +157,7 @@ class SignupScreen extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       cursorColor: CColor.theme,
                       decoration: InputDecoration(
+                          errorText: logic.validateFullName(logic.fullNameEditController.text),
                           focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: CColor.theme),
                           ),
@@ -196,6 +198,7 @@ class SignupScreen extends StatelessWidget {
                       cursorColor: CColor.theme,
                       obscureText: logic.isHidden,
                       decoration: InputDecoration(
+                        errorText: logic.validatePassword(logic.passWordEditController.text),
                         focusedBorder: const UnderlineInputBorder(
                           borderSide:
                               BorderSide(color: CColor.theme), //<-- SEE HERE
@@ -246,6 +249,7 @@ class SignupScreen extends StatelessWidget {
                       cursorColor: CColor.theme,
                       obscureText: logic.isHiddenConfirm,
                       decoration: InputDecoration(
+                        errorText: logic.validateConfirmPassword(logic.confirmPassEditController.text),
                         focusedBorder: const UnderlineInputBorder(
                           borderSide:
                               BorderSide(color: CColor.theme), //<-- SEE HERE

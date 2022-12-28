@@ -66,6 +66,37 @@ class SignupController extends GetxController {
     return true;
   }
 
+
+  String? validateConfirmPassword(String value) {
+    if (confirmPassEditController.text.length < 6 && value.isNotEmpty) {
+      return "txtEnterInvalidPass".tr;
+    }else if(passWordEditController.text != confirmPassEditController.text){
+      return "txtEnterMatchPass".tr;
+    }
+    return null;
+  }
+
+  String? validatePassword(String value) {
+    if (passWordEditController.text.length < 6 && value.isNotEmpty) {
+      return "txtEnterInvalidPass".tr;
+    }
+    return null;
+  }
+
+  String? validateEmail(String value) {
+    if (!EmailValidator.validate(emailIdEditController.text.trim(), true) && value.isNotEmpty) {
+      return "txtEnterValidEmail".tr;
+    }
+    return null;
+  }
+
+  String? validateFullName(String value) {
+    if (value.isNotEmpty) {
+      return "txtEnterFullName".tr;
+    }
+    return null;
+  }
+
   void callSignUp(BuildContext context)async{
     if(await InternetConnectivity.isInternetConnect()){
       isShowProgress= true;

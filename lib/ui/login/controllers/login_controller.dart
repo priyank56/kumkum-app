@@ -45,6 +45,20 @@ class LoginController extends GetxController {
     return true;
   }
 
+  String? validatePassword(String value) {
+    if (passWordEditController.text.length < 6 && value.isNotEmpty) {
+      return "txtEnterInvalidPass".tr;
+    }
+    return null;
+  }
+
+  String? validateEmail(String value) {
+    if (!EmailValidator.validate(emailIdEditController.text.trim(), true) && value.isNotEmpty) {
+      return "txtEnterValidEmail".tr;
+    }
+    return null;
+  }
+
   void callLogin(BuildContext context) async {
     if (await InternetConnectivity.isInternetConnect()) {
       isShowProgress = true;

@@ -1077,7 +1077,7 @@ class AddKankotriController extends GetxController {
     createData.isGroom = isGroomCard;
 
     var coverImage = CoverImage();
-    coverImage.isShow = true;
+    coverImage.isShow = getAllInvitationCard.marriageInvitationCard!.coverImage!.isShow ??  true;
     coverImage.url = (imgCoverURL != "")?imgCoverURL : "";
     coverImage.id = imgCoverId ?? "";
     createData.marriageInvitationCard!.coverImage = coverImage;
@@ -1305,7 +1305,7 @@ class AddKankotriController extends GetxController {
     for(int i = 0; i < goodPlaceNamesList.length ; i++){
       var goodPlace = AuspiciousPlace();
       goodPlace.title = goodPlaceNamesList[i].titleName ?? "";
-      goodPlace.inviterName = goodPlaceNamesList[i].inviterName;
+      goodPlace.inviterName = "${goodPlaceNamesList[i].selectedValue!} ${goodPlaceNamesList[i].inviterName}";
       goodPlace.address = goodPlaceNamesList[i].listOfAddressName;
       goodPlace.contactNo = goodPlaceNamesList[i].listOfMobile;
       if(goodPlaceNamesList[i].titleName == "txtSubhSathal".tr){
@@ -1481,7 +1481,7 @@ class AddKankotriController extends GetxController {
       if (newKankotriData.message != null) {
         Debug.printLog(
             "handleNewKankotriResponse Res Success ===>> ${newKankotriData.toJson().toString()}");
-        Utils.showToast(context,newKankotriData.message.toString());
+        // Utils.showToast(context,newKankotriData.message.toString());
         var functionList = createData.marriageInvitationCard!.functions!.where((element) => element.functionDate != "" && element.functionTime != "").toList();
         List<PreviewFunctions> functionStringTitleList = [];
         for(int i =0;i<functionList.length;i++){
@@ -1494,9 +1494,10 @@ class AddKankotriController extends GetxController {
           var data = await Get.toNamed(AppRoutes.preview, arguments: [
             createData,
             functionStringTitleList,
-            newKankotriData.result![0].previewUrl.toString() ?? "",
+            newKankotriData.result![0].previewUrl.toString(),
             isFromScreen,
-            isFromPreview
+            isFromPreview,
+            false
           ]);
 
           if(data != null){

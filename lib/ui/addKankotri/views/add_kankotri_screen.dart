@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:spotify_flutter_code/main.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/controllers/add_kankotri_controller.dart';
 import 'package:get/get.dart';
@@ -15,6 +14,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:flutter/material.dart' as drop;
 import '../datamodel/getInfoData.dart';
 
 class AddKankotriScreen extends StatelessWidget {
@@ -146,7 +146,9 @@ class AddKankotriScreen extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: Sizes.width_5),
             child: Column(
               children: [
-                _widgetImageView(logic, context),
+                (logic.getAllInvitationCard.marriageInvitationCard!.coverImage!.isShow!)
+                    ? _widgetImageView(logic, context)
+                    : Container(),
                 _varPaksh(logic, context),
                 _kanyaPaksh(logic, context),
                 _mrgTarikh(logic, context),
@@ -661,30 +663,37 @@ class AddKankotriScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: Row(
           children: [
-            Container(
+            /*Container(
               width:100,
               color: CColor.white70,
               child: SizedBox(
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2(
-                    icon: const Visibility (visible:true, child: Icon(Icons.arrow_drop_down)),
+                    icon: const Visibility (visible:false, child: Icon(Icons.arrow_drop_down)),
                     isExpanded: true,
                     items: logic.listNimantrakName[index].otherTitleList
                         .map((item) =>
                         DropdownMenuItem<String>(
                           value: item,
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: AutoSizeText(
-                              maxLines: 1,
-                              item,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: CColor.black
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: AutoSizeText(
+                                    maxLines: 1,
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: CColor.black
+                                    ),
+                                    // overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                               ),
-                              // overflow: TextOverflow.ellipsis,
-                            ),
+                              const Icon(Icons.arrow_drop_down,)
+                            ],
                           ),
                         ))
                         .toList(),
@@ -704,6 +713,46 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
+            ),*/
+            PopupMenuButton<String>(
+              itemBuilder: (context) {
+                return logic.listNimantrakName[index].otherTitleList.map((str) {
+                  return PopupMenuItem(
+                    value: str,
+                    child: Text(str),
+                  );
+                }).toList();
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: Sizes.width_5),
+                    alignment: Alignment.center,
+                    child: AutoSizeText(
+                      maxLines: 1,
+                      logic.listNimantrakName[index].selectedTitle,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: CColor.black
+                      ),
+                      // overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: Sizes.width_1,right: Sizes.width_1),
+                    child: const Icon(
+                      Icons.arrow_drop_down,
+                    ),
+                  ),
+                ],
+              ),
+              onSelected: (value) async {
+                logic.changeDropDownValueForOtherTitle(value.toString(),index,Constant.typeNimantrakName);
+                await Future.delayed(const Duration(milliseconds:100 ));
+                FocusScope.of(context).unfocus();
+              },
             ),
             Expanded(
               child: Container(
@@ -1296,7 +1345,7 @@ class AddKankotriScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: Row(
           children: [
-            Container(
+           /* Container(
               width:100,
               color: CColor.white70,
               child: SizedBox(
@@ -1340,6 +1389,46 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
+            ),*/
+            PopupMenuButton<String>(
+              itemBuilder: (context) {
+                return logic.functionsList[mainIndex].listNames[index].otherTitleList.map((str) {
+                  return PopupMenuItem(
+                    value: str,
+                    child: Text(str),
+                  );
+                }).toList();
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: Sizes.width_5),
+                    alignment: Alignment.center,
+                    child: AutoSizeText(
+                      maxLines: 1,
+                        logic.functionsList[mainIndex].listNames[index].selectedTitle,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: CColor.black
+                      ),
+                      // overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: Sizes.width_1,right: Sizes.width_1),
+                    child: const Icon(
+                      Icons.arrow_drop_down,
+                    ),
+                  ),
+                ],
+              ),
+              onSelected: (value) async {
+                logic.changeDropDownValueForOtherTitleFunctions(value.toString(),index,mainIndex);
+                await Future.delayed(const Duration(milliseconds:100 ));
+                FocusScope.of(context).unfocus();
+              },
             ),
             Expanded(
               child: Container(
@@ -1465,7 +1554,7 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
+              /*Container(
                 color: CColor.white70,
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2(
@@ -1517,6 +1606,49 @@ class AddKankotriScreen extends StatelessWidget {
                     offset: const Offset(0, 0),
                   ),
                 ),
+              ),*/
+              PopupMenuButton<String>(
+                itemBuilder: (context) {
+                  return logic.listOfMessagesFromGroom.map((str) {
+                    return PopupMenuItem(
+                      value: str,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        child: Text(str),
+                      ),
+                    );
+                  }).toList();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: CColor.white,
+                    border: Border.all(color: CColor.black,width: 1)
+                  ),
+                  padding: const EdgeInsets.all(15),
+                  alignment: Alignment.center,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AutoSizeText(
+                          logic.dropDownFromGroomMessage,
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: CColor.black
+                          ),
+                        ),
+                      ),
+                      const Icon(Icons.arrow_drop_down)
+                    ],
+                  ),
+                ),
+                onSelected: (value) async {
+                  logic.changeDropDownValueForGroomBride(
+                      value.toString(), Constant.typeGroom);
+                  await Future.delayed(const Duration(milliseconds:100 ));
+                  FocusScope.of(context).unfocus();
+                },
               ),
               Container(
                 margin: EdgeInsets.only(
@@ -1588,7 +1720,7 @@ class AddKankotriScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   child: Row(
                     children: [
-                      Container(
+                      /*Container(
                         width: 100,
                         color: CColor.white70,
                         child: SizedBox(
@@ -1631,6 +1763,46 @@ class AddKankotriScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                      ),*/
+                      PopupMenuButton<String>(
+                        itemBuilder: (context) {
+                          return Utils.getOtherTitlesList().map((str) {
+                            return PopupMenuItem(
+                              value: str,
+                              child: Text(str),
+                            );
+                          }).toList();
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: Sizes.width_5),
+                              alignment: Alignment.center,
+                              child: AutoSizeText(
+                                maxLines: 1,
+                                logic.dropDownGroomMotherName,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: CColor.black
+                                ),
+                                // overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: Sizes.width_1,right: Sizes.width_1),
+                              child: const Icon(
+                                Icons.arrow_drop_down,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onSelected: (value) async {
+                          logic.onChangeDropDownAmantrak(value.toString(),Constant.typeGroomMotherName);
+                          await Future.delayed(const Duration(milliseconds:100 ));
+                          FocusScope.of(context).unfocus();
+                        },
                       ),
                       Expanded(
                         child: Container(
@@ -1693,7 +1865,7 @@ class AddKankotriScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   child: Row(
                     children: [
-                      Container(
+                      /*Container(
                         width: 100,
                         color: CColor.white70,
                         child: SizedBox(
@@ -1736,6 +1908,46 @@ class AddKankotriScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                      ),*/
+                      PopupMenuButton<String>(
+                        itemBuilder: (context) {
+                          return Utils.getOtherTitlesList().map((str) {
+                            return PopupMenuItem(
+                              value: str,
+                              child: Text(str),
+                            );
+                          }).toList();
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: Sizes.width_5),
+                              alignment: Alignment.center,
+                              child: AutoSizeText(
+                                maxLines: 1,
+                                logic.dropDownGroomFatherName,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: CColor.black
+                                ),
+                                // overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: Sizes.width_1,right: Sizes.width_1),
+                              child: const Icon(
+                                Icons.arrow_drop_down,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onSelected: (value) async {
+                          logic.onChangeDropDownAmantrak(value.toString(),Constant.typeGroomFatherName);
+                          await Future.delayed(const Duration(milliseconds:100 ));
+                          FocusScope.of(context).unfocus();
+                        },
                       ),
                       Expanded(
                         child: Container(
@@ -1826,7 +2038,7 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
+              /*Container(
                 color: CColor.white70,
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2(
@@ -1878,6 +2090,49 @@ class AddKankotriScreen extends StatelessWidget {
                     offset: const Offset(0, 0),
                   ),
                 ),
+              ),*/
+              PopupMenuButton<String>(
+                itemBuilder: (context) {
+                  return logic.listOfMessagesFromBride.map((str) {
+                    return PopupMenuItem(
+                      value: str,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        child: Text(str),
+                      ),
+                    );
+                  }).toList();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: CColor.white,
+                      border: Border.all(color: CColor.black,width: 1)
+                  ),
+                  padding: const EdgeInsets.all(15),
+                  alignment: Alignment.center,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AutoSizeText(
+                          logic.dropDownFromBrideMessage,
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: CColor.black
+                          ),
+                        ),
+                      ),
+                      const Icon(Icons.arrow_drop_down)
+                    ],
+                  ),
+                ),
+                onSelected: (value) async {
+                  logic.changeDropDownValueForGroomBride(
+                      value.toString(), Constant.typeBride);
+                  await Future.delayed(const Duration(milliseconds:100 ));
+                  FocusScope.of(context).unfocus();
+                },
               ),
               Container(
                 margin: EdgeInsets.only(
@@ -1927,7 +2182,7 @@ class AddKankotriScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   child: Row(
                     children: [
-                      Container(
+                      /*Container(
                         width: 100,
                         color: CColor.white70,
                         child: SizedBox(
@@ -1970,6 +2225,46 @@ class AddKankotriScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                      ),*/
+                      PopupMenuButton<String>(
+                        itemBuilder: (context) {
+                          return Utils.getOtherTitlesList().map((str) {
+                            return PopupMenuItem(
+                              value: str,
+                              child: Text(str),
+                            );
+                          }).toList();
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: Sizes.width_5),
+                              alignment: Alignment.center,
+                              child: AutoSizeText(
+                                maxLines: 1,
+                                logic.dropDownBrideMotherName,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: CColor.black
+                                ),
+                                // overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: Sizes.width_1,right: Sizes.width_1),
+                              child: const Icon(
+                                Icons.arrow_drop_down,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onSelected: (value) async {
+                          logic.onChangeDropDownAmantrak(value.toString(),Constant.typeBrideMotherName);
+                          await Future.delayed(const Duration(milliseconds:100 ));
+                          FocusScope.of(context).unfocus();
+                        },
                       ),
                       Expanded(
                         child: Container(
@@ -2037,7 +2332,7 @@ class AddKankotriScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   child: Row(
                     children: [
-                      Container(
+                      /*Container(
                         width: 100,
                         color: CColor.white70,
                         child: SizedBox(
@@ -2080,6 +2375,46 @@ class AddKankotriScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                      ),*/
+                      PopupMenuButton<String>(
+                        itemBuilder: (context) {
+                          return Utils.getOtherTitlesList().map((str) {
+                            return PopupMenuItem(
+                              value: str,
+                              child: Text(str),
+                            );
+                          }).toList();
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: Sizes.width_5),
+                              alignment: Alignment.center,
+                              child: AutoSizeText(
+                                maxLines: 1,
+                                logic.dropDownBrideFatherName,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: CColor.black
+                                ),
+                                // overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: Sizes.width_1,right: Sizes.width_1),
+                              child: const Icon(
+                                Icons.arrow_drop_down,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onSelected: (value) async {
+                          logic.onChangeDropDownAmantrak(value.toString(),Constant.typeBrideMotherName);
+                          await Future.delayed(const Duration(milliseconds:100 ));
+                          FocusScope.of(context).unfocus();
+                        },
                       ),
                       Expanded(
                         child: Container(
@@ -2354,7 +2689,7 @@ class AddKankotriScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: Row(
           children: [
-            Container(
+            /*Container(
               width: 100,
               color: CColor.white70,
               child: SizedBox(
@@ -2397,6 +2732,46 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ),
+            ),*/
+            PopupMenuButton<String>(
+              itemBuilder: (context) {
+                return logic.guestNamesList[mainIndex].listOfGuestNames[index].otherTitleList.map((str) {
+                  return PopupMenuItem(
+                    value: str,
+                    child: Text(str),
+                  );
+                }).toList();
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: Sizes.width_5),
+                    alignment: Alignment.center,
+                    child: AutoSizeText(
+                      maxLines: 1,
+                      logic.guestNamesList[mainIndex].listOfGuestNames[index].selectedTitle,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: CColor.black
+                      ),
+                      // overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: Sizes.width_1,right: Sizes.width_1),
+                    child: const Icon(
+                      Icons.arrow_drop_down,
+                    ),
+                  ),
+                ],
+              ),
+              onSelected: (value) async {
+                logic.changeDropDownValueForGuestNames(value.toString(),index,mainIndex);
+                await Future.delayed(const Duration(milliseconds:100 ));
+                FocusScope.of(context).unfocus();
+              },
             ),
             Expanded(
               child: Container(
@@ -2486,7 +2861,7 @@ class AddKankotriScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
+              /*Container(
                 margin: EdgeInsets.only(top: Sizes.height_2),
                 color: CColor.white70,
                 child: DropdownButtonHideUnderline(
@@ -2537,6 +2912,51 @@ class AddKankotriScreen extends StatelessWidget {
                     scrollbarAlwaysShow: true,
                     offset: const Offset(0, 0),
                   ),
+                ),
+              ),*/
+              Container(
+                margin: EdgeInsets.only(top: Sizes.height_2),
+                child: PopupMenuButton<String>(
+                  itemBuilder: (context) {
+                    return  logic.listOfAllStringChirping.map((str) {
+                      return PopupMenuItem(
+                        value: str,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          child: Text(str),
+                        ),
+                      );
+                    }).toList();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: CColor.white,
+                        border: Border.all(color: CColor.black,width: 1)
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    alignment: Alignment.center,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: AutoSizeText(
+                            logic.dropDownTahukoMessage,
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: CColor.black
+                            ),
+                          ),
+                        ),
+                        const Icon(Icons.arrow_drop_down)
+                      ],
+                    ),
+                  ),
+                  onSelected: (value) async {
+                    logic.changeDropDownValueForTahuko(value.toString());
+                    await Future.delayed(const Duration(milliseconds:100 ));
+                    FocusScope.of(context).unfocus();
+                  },
                 ),
               ),
               (logic.tahukoChildController.isNotEmpty)?
@@ -2728,7 +3148,7 @@ class AddKankotriScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             child: Row(
               children: [
-                Container(
+                /*Container(
                   width: 100,
                   color: CColor.white70,
                   child: SizedBox(
@@ -2771,6 +3191,46 @@ class AddKankotriScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                ),*/
+                PopupMenuButton<String>(
+                  itemBuilder: (context) {
+                    return Utils.getOtherTitlesList().map((str) {
+                      return PopupMenuItem(
+                        value: str,
+                        child: Text(str),
+                      );
+                    }).toList();
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(left: Sizes.width_5),
+                        alignment: Alignment.center,
+                        child: AutoSizeText(
+                          maxLines: 1,
+                          logic.goodPlaceNamesList[mainIndex].selectedValue!,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: CColor.black
+                          ),
+                          // overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: Sizes.width_1,right: Sizes.width_1),
+                        child: const Icon(
+                          Icons.arrow_drop_down,
+                        ),
+                      ),
+                    ],
+                  ),
+                  onSelected: (value) async {
+                    logic.changeDropDownValueForGoodPlace(value.toString(),mainIndex);
+                    await Future.delayed(const Duration(milliseconds:100 ));
+                    FocusScope.of(context).unfocus();
+                  },
                 ),
                 Expanded(
                   child: Container(

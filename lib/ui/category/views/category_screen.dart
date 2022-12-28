@@ -134,11 +134,11 @@ class CategoryScreen extends StatelessWidget {
               fadeOutDuration: const Duration(milliseconds: 10),
               fit: BoxFit.cover,
               imageUrl: logic.allYourCardList[index].thumbnail.toString(),
-              placeholder: (context, url) => Center(
+              placeholder: (context, url) => const Center(
                 child: SizedBox(
                   width: 60.0,
                   height: 60.0,
-                  child: const CircularProgressIndicator(),
+                  child: CircularProgressIndicator(),
                 ),
               ),
             ),
@@ -156,7 +156,14 @@ class CategoryScreen extends StatelessWidget {
                       splashColor: CColor.black,
                       onTap: () {
                         // Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
-                        Get.toNamed(AppRoutes.addKankotri,arguments: [logic.allYourCardList[index].isGroom,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
+                        Get.toNamed(AppRoutes.addKankotri, arguments: [
+                          logic.allYourCardList[index].isGroom,
+                          logic.allYourCardList[index],
+                          Constant.isFromCreate,
+                          Constant.isFromCategoryScreen
+                        ])!
+                            .then((value) =>
+                                logic.getAllPreBuiltCardsAPI(context));
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: Sizes.height_2),
@@ -218,7 +225,8 @@ class CategoryScreen extends StatelessWidget {
                           logic.allYourCardList[index].previewUrl ??
                               Constant.dummyPreviewURL,
                           Constant.isFromCategoryScreen,
-                          Constant.isFromCategoryPreview
+                          Constant.isFromCategoryPreview,
+                          true
                         ]);
                       },
                       child: Container(

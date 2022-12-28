@@ -91,6 +91,7 @@ class LoginScreen extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 cursorColor: CColor.theme,
                 decoration: InputDecoration(
+                    errorText: logic.validateEmail(logic.emailIdEditController.text),
                     focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: CColor.theme),
                     ),
@@ -130,6 +131,7 @@ class LoginScreen extends StatelessWidget {
                       cursorColor: CColor.theme,
                       obscureText: logic.isHidden,
                       decoration: InputDecoration(
+                        errorText: logic.validatePassword(logic.passWordEditController.text),
                         focusedBorder: const UnderlineInputBorder(
                           borderSide:
                               BorderSide(color: CColor.theme), //<-- SEE HERE

@@ -168,7 +168,7 @@ class ContactController extends GetxController {
           contactNumber = "";
         }
       }else{
-        contactNumber = contacts[i].givenName.toString() ?? "";
+        contactNumber = contacts[i].givenName.toString();
       }
       var contactName = contacts[i].displayName;
       var sendType = "";

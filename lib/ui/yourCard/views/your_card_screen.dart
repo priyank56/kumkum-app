@@ -9,6 +9,7 @@ import '../../../custom/dialog/progressdialog.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
+import '../../../utils/utils.dart';
 
 class YourCardsScreen extends StatelessWidget {
   YourCardsScreen({Key? key}) : super(key: key);
@@ -145,13 +146,15 @@ class YourCardsScreen extends StatelessWidget {
               fadeOutDuration: const Duration(milliseconds: 10),
               fit: BoxFit.cover,
               imageUrl: "${logic.allYourCardList[index].thumbnail}",
-              placeholder: (context, url) => const Center(
+              placeholder: (context, url) =>
+              /*const Center(
                 child: SizedBox(
                   width: 60.0,
                   height: 60.0,
                   child: CircularProgressIndicator(),
                 ),
-              ),
+              ),*/
+              Utils.bgShimmer(context),
             ),
           ),
         ),

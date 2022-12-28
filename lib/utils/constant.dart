@@ -133,4 +133,6 @@ class Constant {
 
 
   static const bufferData = "";
+
+  static const dateFormatForDisplayDateGu = "dd/MM/yyyy";
 }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
@@ -374,12 +375,14 @@ class HomeScreen extends StatelessWidget {
           // Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
         },
         child: Container(
+          height: Sizes.height_15,
+          width: MediaQuery.of(context).size.width * 0.55,
           padding: EdgeInsets.only(right: Sizes.width_5),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(Sizes.height_2),
             child: Container(
               // margin: EdgeInsets.only(right:Sizes.width_4),
-              height: Sizes.height_15,
+
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
               child: CachedNetworkImage(
                 fadeInDuration: const Duration(milliseconds: 10),
@@ -387,13 +390,14 @@ class HomeScreen extends StatelessWidget {
                 fit: BoxFit.cover,
                 imageUrl: logic.allYourCardList[index].thumbnail.toString(),
                 placeholder: (context, url) =>
-                const Center(
+               /* const Center(
                   child: SizedBox(
                     width: 60.0,
                     height: 60.0,
                     child: CircularProgressIndicator(),
                   ),
-                ),
+                ),*/
+                Utils.bgShimmer(context),
               ),
             ),
           ),

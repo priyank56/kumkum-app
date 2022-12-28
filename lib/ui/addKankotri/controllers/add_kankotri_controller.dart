@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:spotify_flutter_code/datamodel/createData.dart';
+import 'package:spotify_flutter_code/main.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/getInfoData.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/newkankotridatamodel.dart';
@@ -136,6 +137,9 @@ class AddKankotriController extends GetxController {
   String dropDownGoodPlace = Utils.getDefaultSelectedTitle();
   String dropDownGoodMrgPlace = Utils.getDefaultSelectedTitle();
 
+  String dropDownGroomNameTitle = Utils.getDefaultSelectedTitle();
+  String dropDownBrideNameTitle = Utils.getDefaultSelectedTitle();
+
 
   /*Layout Id and Type*/
   var newLayoutId = "";
@@ -200,11 +204,11 @@ class AddKankotriController extends GetxController {
           "${picked.year.toString()}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
       if(index != -1){
         // var date = DateFormat("yyyy-MM-dd","gu").format(picked);
-        var date = Utils.translateMobileNumber(DateFormat("dd-MM-yyyy").format(picked));
+        var date = Utils.translateMobileNumber(DateFormat(Constant.dateFormatForDisplayDateGu).format(picked));
         functionsList[functionsList.indexOf(functionsList[index])].functionDate = date.toString();
       }else{
         mrgDate = convertedDateTime.toString();
-        mrgDateGujarati = Utils.translateMobileNumber(DateFormat("dd-MM-yyyy").format(picked));
+        mrgDateGujarati = Utils.translateMobileNumber(DateFormat(Constant.dateFormatForDisplayDateGu).format(picked));
         mrgDateDay = DateFormat("EEEE","gu").format(picked);
       }
       Debug.printLog("convertedDateTime==>> $mrgDateDay =>  $mrgDateGujarati  " );
@@ -302,22 +306,46 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-
     functionsList.add(FunctionsNimantrakName("f1","txtMadapMuhrat".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
+
+    data = NimantrakModel();
+    data.selectedTitle = Utils.getDefaultSelectedTitle();
+    data.otherTitleList = Utils.getOtherTitlesList();
+    data.nimantrakName = "";
     functionsList.add(FunctionsNimantrakName("f2","txtGitSandhya".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
+
+    data = NimantrakModel();
+    data.selectedTitle = Utils.getDefaultSelectedTitle();
+    data.otherTitleList = Utils.getOtherTitlesList();
+    data.nimantrakName = "";
     functionsList.add(FunctionsNimantrakName("f3","txtRasGarba".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
+
+    data = NimantrakModel();
+    data.selectedTitle = Utils.getDefaultSelectedTitle();
+    data.otherTitleList = Utils.getOtherTitlesList();
+    data.nimantrakName = "";
     functionsList.add(FunctionsNimantrakName("f4",(isGroomCard)?"txtJan".tr:"txtJanAagman".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
+
+    data = NimantrakModel();
+    data.selectedTitle = Utils.getDefaultSelectedTitle();
+    data.otherTitleList = Utils.getOtherTitlesList();
+    data.nimantrakName = "";
     functionsList.add(FunctionsNimantrakName("f5","txtBhojan".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
+
+    data = NimantrakModel();
+    data.selectedTitle = Utils.getDefaultSelectedTitle();
+    data.otherTitleList = Utils.getOtherTitlesList();
+    data.nimantrakName = "";
     functionsList.add(FunctionsNimantrakName("f6","txtHastMelap".tr,[data],"","","","",[TextEditingController()]));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
@@ -331,8 +359,23 @@ class AddKankotriController extends GetxController {
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
     guestNamesList.add(GuestAllName("txtAapneAavkarvaAatur".tr,[data],[TextEditingController()]));
+
+    data = NimantrakModel();
+    data.selectedTitle = Utils.getDefaultSelectedTitle();
+    data.otherTitleList = Utils.getOtherTitlesList();
+    data.nimantrakName = "";
     guestNamesList.add(GuestAllName("txtSanehaDhin".tr,[data],[TextEditingController()]));
+
+    data = NimantrakModel();
+    data.selectedTitle = Utils.getDefaultSelectedTitle();
+    data.otherTitleList = Utils.getOtherTitlesList();
+    data.nimantrakName = "";
     guestNamesList.add(GuestAllName("txtMosalPaksh".tr,[data],[TextEditingController()]));
+
+    data = NimantrakModel();
+    data.selectedTitle = Utils.getDefaultSelectedTitle();
+    data.otherTitleList = Utils.getOtherTitlesList();
+    data.nimantrakName = "";
     guestNamesList.add(GuestAllName("txtBhanejPaksh".tr,[data],[TextEditingController()]));
     update([Constant.idGuestNameAll]);
   }
@@ -426,7 +469,7 @@ class AddKankotriController extends GetxController {
   }
 
   godSelectOnTap(int index){
-    listOfAllGods[index].isSelected = !listOfAllGods[index].isSelected!;
+    listOfAllGods[index].isSelected = !listOfAllGods[index].isSelected;
     update([Constant.idGodNames]);
   }
 
@@ -511,6 +554,7 @@ class AddKankotriController extends GetxController {
   }
 
   void changeDropDownValueForOtherTitleFunctions(String value, int index, int mainIndex) {
+    Debug.printLog("changeDropDownValueForOtherTitleFunctions==>>  $value  $index  $mainIndex");
     functionsList[mainIndex].listNames[index].selectedTitle = value;
     update([Constant.idFunctionsPart]);
   }
@@ -523,6 +567,17 @@ class AddKankotriController extends GetxController {
   void changeDropDownValueForGoodPlace(String value,int mainIndex) {
     goodPlaceNamesList[mainIndex].selectedValue = value;
     update([Constant.idGoodPlaceAll]);
+  }
+
+  void changeDropDownValueGroomBrideName(String value,String type) {
+    if(type == Constant.typeGroom){
+      dropDownGroomNameTitle = value;
+      update([Constant.idGroomPaksh]);
+    }else{
+      dropDownBrideNameTitle = value;
+      update([Constant.idBridePaksh]);
+    }
+
   }
 
   changeValueInListForFunctions(int index,String type,String value) {
@@ -1004,8 +1059,10 @@ class AddKankotriController extends GetxController {
     return true;
   }
 
-  getAllValue(){
+  getAllValue(String fromType)async{
     /*Start init Classes*/
+    isShowProgress = true;
+    update([Constant.isShowProgressUpload]);
     createData.marriageInvitationCard = MarriageInvitationCard();
 
     createData.marriageInvitationCard!.coverImage = CoverImage();
@@ -1091,17 +1148,17 @@ class AddKankotriController extends GetxController {
     var groomClass = Bride();
 
 
-    brideClass.name = kanyaNuNameController.text;
+    brideClass.name = "$dropDownBrideNameTitle ${kanyaNuNameController.text}";
     brideClass.enName = brideNameController.text;
     pairClass.bride = brideClass;
 
 
-    groomClass.name = varRajaNuNameController.text;
+    groomClass.name = "$dropDownGroomNameTitle ${varRajaNuNameController.text}";
     groomClass.enName = groomNameController.text;
     pairClass.groom = groomClass;
 
 
-    pairClass.marriageDate = mrgDateGujarati;
+    pairClass.marriageDate = marriageDateController.text ?? "";
     pairClass.enMarriageDate = mrgDate;
     pairClass.marriageDay = mrgDateDay;
 
@@ -1126,11 +1183,14 @@ class AddKankotriController extends GetxController {
     for(int i=0;i<listNimantrakAddress.length;i++){
       address = address+listNimantrakAddress[i];
     }
-    getLocationFromAddress(address).then((value) => (){
-      nimantrakData.mapLink = value;
-      Debug.printLog("address map link==>> $address  $value  ${nimantrakData.mapLink}");
-    });
-    // nimantrakData.mapLink = "https://goo.gl/maps/K2Sg5DtFbSMJ8YgQ6";
+    try {
+      List<Location> locations = await locationFromAddress(address);
+      var mapLink = "https://www.google.com/maps/search/${locations[0].latitude},${locations[0].longitude}?shorturl=1";
+      nimantrakData.mapLink = mapLink;
+    } catch (e) {
+      Debug.printLog("Map link 1==>>> ${e.toString()}");
+    }
+    Debug.printLog("address map link outer==>> $address   ${nimantrakData.mapLink}");
     createData.marriageInvitationCard!.inviter = nimantrakData;
     /*End For Nimantrak Data*/
 
@@ -1304,16 +1364,29 @@ class AddKankotriController extends GetxController {
     /*Start For Good Place Data*/
     for(int i = 0; i < goodPlaceNamesList.length ; i++){
       var goodPlace = AuspiciousPlace();
-      goodPlace.title = goodPlaceNamesList[i].titleName ?? "";
+      goodPlace.title = goodPlaceNamesList[i].titleName;
       goodPlace.inviterName = "${goodPlaceNamesList[i].selectedValue!} ${goodPlaceNamesList[i].inviterName}";
       goodPlace.address = goodPlaceNamesList[i].listOfAddressName;
       goodPlace.contactNo = goodPlaceNamesList[i].listOfMobile;
+
+      var address = "";
+      for(int i=0;i<goodPlace.address!.length;i++){
+        address = address+goodPlace.address![i];
+      }
+      try {
+        List<Location> locations = await locationFromAddress(address);
+        var mapLink = "https://www.google.com/maps/search/${locations[0].latitude},${locations[0].longitude}?shorturl=1";
+        goodPlace.mapLink = mapLink;
+      } catch (e) {
+        Debug.printLog("Map link 2 and 3==>>> ${e.toString()}");
+      }
+      Debug.printLog("Map link 2 and 3 outer==>> $address   ${goodPlace.mapLink}");
+
       if(goodPlaceNamesList[i].titleName == "txtSubhSathal".tr){
         createData.marriageInvitationCard!.auspiciousPlace = goodPlace;
       }else if(goodPlaceNamesList[i].titleName == "txtSubhLaganSathal".tr){
         createData.marriageInvitationCard!.auspiciousMarriagePlace = goodPlace;
       }
-      Debug.printLog("Get All Value goodPlaceNamesList toJson==>>> ${goodPlace.toJson()}");
 
     }
     /*End For Good Place Data*/
@@ -1321,7 +1394,7 @@ class AddKankotriController extends GetxController {
     /*====================================================================================*/
 
     /*Start For Surname Data*/
-    createData.marriageInvitationCard!.inviterSurname = atakController.text ?? "";
+    createData.marriageInvitationCard!.inviterSurname = atakController.text;
     /*End For Surname Data*/
 
     /*====================================================================================*/
@@ -1338,6 +1411,7 @@ class AddKankotriController extends GetxController {
     }
     /*End For God's Data*/
 
+    callCreateUpdateCardAPI(Get.context!,fromType);
     Debug.printLog("MarriageInvitationCard==>> ${jsonEncode(createData)}");
 
   }
@@ -1587,15 +1661,42 @@ class AddKankotriController extends GetxController {
     /*====================================================================================*/
 
     /*Image Cover URL*/
-    imgCoverURL = mrgInvitationCard.coverImage!.url.toString() ?? "";
-    imgCoverId = mrgInvitationCard.coverImage!.id.toString() ?? "";
+    imgCoverURL = mrgInvitationCard.coverImage!.url.toString();
+    imgCoverId = mrgInvitationCard.coverImage!.id.toString();
     update([Constant.idSetMainImage]);
 
     /*Start For VarPaksh and KanyaPaksh Data*/
-    kanyaNuNameController.text = mrgInvitationCard.pair![0].bride!.name.toString();
+    var brideSelectedTitle = mrgInvitationCard.pair![0].bride!.name!.split(" ")[0];
+    var brideName = "";
+    if(Utils.getOtherTitlesList().contains(brideSelectedTitle)){
+      dropDownBrideNameTitle = brideSelectedTitle;
+      brideName = mrgInvitationCard.pair![0].bride!.name!.split(" ").sublist(1)
+          .join(' ')
+          .trim();
+    }else{
+      dropDownBrideNameTitle = Utils.getDefaultSelectedTitle();
+      brideName = mrgInvitationCard.pair![0].bride!.name.toString();
+    }
+
+    // kanyaNuNameController.text = mrgInvitationCard.pair![0].bride!.name.toString();
+    kanyaNuNameController.text = brideName;
     brideNameController.text = mrgInvitationCard.pair![0].bride!.enName.toString();
 
-    varRajaNuNameController.text = mrgInvitationCard.pair![0].groom!.name.toString();
+
+    var groomSelectedTitle = mrgInvitationCard.pair![0].groom!.name!.split(" ")[0];
+    var groomName = "";
+    if(Utils.getOtherTitlesList().contains(groomSelectedTitle)){
+      dropDownGroomNameTitle = groomSelectedTitle;
+      groomName = mrgInvitationCard.pair![0].groom!.name!.split(" ").sublist(1)
+          .join(' ')
+          .trim();
+    }else{
+      dropDownGroomNameTitle = Utils.getDefaultSelectedTitle();
+      groomName = mrgInvitationCard.pair![0].groom!.name.toString();
+    }
+
+    // varRajaNuNameController.text = mrgInvitationCard.pair![0].groom!.name.toString();
+    varRajaNuNameController.text = groomName;
     groomNameController.text = mrgInvitationCard.pair![0].groom!.enName.toString();
 
     mrgDateGujarati = mrgInvitationCard.pair![0].marriageDate.toString();

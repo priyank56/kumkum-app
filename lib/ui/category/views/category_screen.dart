@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:spotify_flutter_code/ui/category/controllers/category_controller.dart';
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
@@ -11,6 +12,7 @@ import '../../../routes/app_routes.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
+import '../../../utils/utils.dart';
 import '../../addKankotri/controllers/add_kankotri_controller.dart';
 import '../../addKankotri/datamodel/newKankotriData.dart';
 
@@ -134,13 +136,8 @@ class CategoryScreen extends StatelessWidget {
               fadeOutDuration: const Duration(milliseconds: 10),
               fit: BoxFit.cover,
               imageUrl: logic.allYourCardList[index].thumbnail.toString(),
-              placeholder: (context, url) => const Center(
-                child: SizedBox(
-                  width: 60.0,
-                  height: 60.0,
-                  child: CircularProgressIndicator(),
-                ),
-              ),
+              placeholder: (context, url) =>
+                  Utils.bgShimmer(context),
             ),
           ),
           Container(

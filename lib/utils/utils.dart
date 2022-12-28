@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/preference.dart';
 import 'package:spotify_flutter_code/utils/sizer_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'color.dart';
 class Utils{
   static showToast(BuildContext context, String msg) {
     return Fluttertoast.showToast(
@@ -104,5 +107,17 @@ class Utils{
 
   static String getDefaultSelectedTitle(){
     return "શ્રી";
+  }
+
+  static Widget bgShimmer(BuildContext context){
+    return Shimmer.fromColors(
+      baseColor: CColor.white50,
+      highlightColor: CColor.black10,
+      child: Container(
+        height: Sizes.height_15,
+        width: MediaQuery.of(context).size.width * 0.55,
+        color: Colors.black,
+      ),
+    );
   }
 }

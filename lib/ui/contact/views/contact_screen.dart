@@ -306,41 +306,52 @@ class ContactScreen extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.55,
           padding: EdgeInsets.only(right: Sizes.width_5),
           // height: double.infinity,
-
+          // height: Sizes.height_15,
           child: Stack(
             alignment: Alignment.center,
+            fit: StackFit.expand,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(Sizes.height_2),
-                child: CachedNetworkImage(
-                  fadeInDuration: const Duration(milliseconds: 10),
-                  fadeOutDuration: const Duration(milliseconds: 10),
-                  fit: BoxFit.contain,
-                  imageUrl: logic.allYourCardList[index].thumbnail.toString(),
-                  placeholder: (context, url) =>
-                  const Center(
-                    child: SizedBox(
-                      width: 60.0,
-                      height: 60.0,
-                      child: CircularProgressIndicator(),
-                    ),
+              Container(
+                // height: Sizes.height_15,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(Sizes.height_3),
+                  child: CachedNetworkImage(
+                    fadeInDuration: const Duration(milliseconds: 10),
+                    fadeOutDuration: const Duration(milliseconds: 10),
+                    fit: BoxFit.fill,
+                    imageUrl: logic.allYourCardList[index].thumbnail.toString(),
+                    placeholder: (context, url) =>
+                    /*const Center(
+                      child: SizedBox(
+                        width: 60.0,
+                        height: 60.0,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),*/
+                    Utils.bgShimmer(context),
                   ),
                 ),
               ),
               if (logic.allYourCardList[index].isSelect!)
                 Stack(
+                   // fit: StackFit.expand,
                   alignment: Alignment.topRight,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(Sizes.height_2),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.55,
-                        // height: double.infinity,
-                        height: Sizes.height_31,
-                        color: CColor.black50,
+                    Container(
+                      height: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(Sizes.height_3),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.55,
+                          // height: double.infinity,
+                          height: Sizes.height_31,
+                          color: CColor.black50,
+                        ),
                       ),
                     ),
                     Container(
+                      width: 50,
+                      height: 50,
                       margin: EdgeInsets.only(
                         top: Sizes.height_2,
                         right: Sizes.width_2,

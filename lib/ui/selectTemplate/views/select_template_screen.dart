@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:spotify_flutter_code/ui/category/controllers/category_controller.dart';
 import 'package:get/get.dart';
 import 'package:spotify_flutter_code/ui/selectTemplate/controllers/select_template_controller.dart';
@@ -15,6 +16,7 @@ import '../../../routes/app_routes.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/sizer_utils.dart';
+import '../../../utils/utils.dart';
 import '../../addKankotri/datamodel/newKankotriData.dart';
 
 class SelectTemplateScreen extends StatelessWidget {
@@ -313,13 +315,7 @@ class SelectTemplateScreen extends StatelessWidget {
               fit: BoxFit.cover,
               imageUrl: logic.allYourCardList[index].thumbnail.toString(),
               placeholder: (context, url) =>
-              Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 60.0,
-                  child: const CircularProgressIndicator(),
-                ),
-              ),
+                  Utils.bgShimmer(context),
             ),
           ),
         ),

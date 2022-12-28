@@ -144,7 +144,7 @@ class PreviewController extends GetxController {
     }
     var previewData = FunctionUploadData();
     previewData.functions = functionsUploadList;
-    sendAllFunctions(Get.context!,previewData,createData.marriageInvitationCardId! ?? "");
+    sendAllFunctions(Get.context!,previewData,createData.marriageInvitationCardId!);
 
     Debug.printLog("functionsUploadList===>> $functionsUploadList  ${previewData.toJson()}  ${jsonEncode(previewData)}");
 
@@ -172,7 +172,8 @@ class PreviewController extends GetxController {
         if (newKankotriData.result!.data!.isNotEmpty) {
           Debug.printLog("DownloadPdfData Buffer==>> ${newKankotriData.toJson()}");
           // final Directory? directory = await getDownloadsDirectory();
-          final File file = File('${'/storage/emulated/0/Download/'}${createData.marriageInvitationCardName ?? "invitationCard"}_${createData.marriageInvitationCardId ?? ""}.pdf');
+          var timeStamp  = DateTime.now().millisecondsSinceEpoch;
+          final File file = File('${'/storage/emulated/0/Download/'}${createData.marriageInvitationCardName ?? "invitationCard"}_${timeStamp.toString()}.pdf');
           await file.writeAsBytes(newKankotriData.result!.data ?? []);
           var filePath = file.absolute.path.toString();
           Debug.printLog("filePath==>>>  $filePath");

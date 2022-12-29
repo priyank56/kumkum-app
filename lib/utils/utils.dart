@@ -120,4 +120,8 @@ class Utils{
       ),
     );
   }
+
+  static btnStyle(){
+    return ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+  }
 }

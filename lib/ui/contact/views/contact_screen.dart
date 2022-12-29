@@ -637,20 +637,17 @@ class ContactScreen extends StatelessWidget {
               EdgeInsets.only(top: Sizes.height_1_4, bottom: Sizes.height_1_4),
               child: Row(
                 children: [
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              color:
-                              (list[index].isSelected) ? CColor.black : CColor
-                                  .grayEF,
-                              width: 2)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(),
-                      ),
+                  Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color:
+                            (list[index].isSelected) ? CColor.black : CColor
+                                .grayEF,
+                            width: 2)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(),
                     ),
                   ),
                   Expanded(

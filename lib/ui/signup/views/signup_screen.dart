@@ -281,74 +281,107 @@ class SignupScreen extends StatelessWidget {
         });
   }
 
+  // _widgetRegisterBtn(SignupController logic, BuildContext context) {
+  //   return Material(
+  //     color: CColor.transparent,
+  //     child: InkWell(
+  //       splashColor: CColor.theme,
+  //       onTap: () {
+  //         if(logic.validation(context)!){
+  //           logic.callSignUp(context);
+  //         }
+  //         // Get.toNamed(AppRoutes.otp);
+  //       },
+  //       child: Container(
+  //         margin: EdgeInsets.only(
+  //             top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
+  //         width: MediaQuery.of(context).size.width,
+  //         decoration: BoxDecoration(
+  //           color: CColor.theme,
+  //           borderRadius: BorderRadius.circular(10),
+  //         ),
+  //         padding: EdgeInsets.all(Sizes.height_1_5),
+  //         child: Text(
+  //           "txtRegister".tr,
+  //           style: TextStyle(
+  //               color: CColor.white,
+  //               fontSize: FontSize.size_12,
+  //               fontFamily: Constant.appFont,
+  //               fontWeight: FontWeight.w500),
+  //           textAlign: TextAlign.center,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
   _widgetRegisterBtn(SignupController logic, BuildContext context) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.theme,
-        onTap: () {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(
+          top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: CColor.theme,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // <-- Radius
+          ),
+          textStyle: TextStyle(
+              color: CColor.white,
+              fontSize: FontSize.size_12,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w500),
+        ),
+        onPressed: () {
           if(logic.validation(context)!){
             logic.callSignUp(context);
           }
-          // Get.toNamed(AppRoutes.otp);
         },
         child: Container(
-          margin: EdgeInsets.only(
-              top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: CColor.theme,
-            borderRadius: BorderRadius.circular(10),
-          ),
           padding: EdgeInsets.all(Sizes.height_1_5),
-          child: Text(
-            "txtRegister".tr,
-            style: TextStyle(
-                color: CColor.white,
-                fontSize: FontSize.size_12,
-                fontFamily: Constant.appFont,
-                fontWeight: FontWeight.w500),
-            textAlign: TextAlign.center,
-          ),
+          child: Text("txtRegister".tr,),
         ),
       ),
     );
   }
 
+
   _widgetLoginText(SignupController logic, BuildContext context) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.black,
-        onTap: () {
+    return Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(top: Sizes.height_3_5,bottom: Sizes.height_5),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          textStyle: TextStyle(
+              color: CColor.theme,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w500,
+              fontSize: FontSize.size_12),
+        ),
+        onPressed: () {
           Get.back();
         },
-        child: Container(
-          margin:
-              EdgeInsets.only(top: Sizes.height_3_5, bottom: Sizes.height_5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "txtJoinBefore".tr,
-                style: TextStyle(
-                    color: CColor.grayDark,
-                    fontSize: FontSize.size_12,
-                    fontFamily: Constant.appFont,
-                    fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                " ${"txtLogin".tr}",
-                style: TextStyle(
-                    color: CColor.theme,
-                    fontSize: FontSize.size_12,
-                    fontFamily: Constant.appFont,
-                    fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+        child: Wrap(
+          children: [
+            Text(
+              "txtJoinBefore".tr,
+              style: TextStyle(
+                  color: CColor.grayDark,
+                  fontSize: FontSize.size_12,
+                  fontFamily: Constant.appFont,
+                  fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              " ${"txtLogin".tr}",
+              style: TextStyle(
+                  color: CColor.theme,
+                  fontSize: FontSize.size_12,
+                  fontFamily: Constant.appFont,
+                  fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:spotify_flutter_code/routes/app_routes.dart';
 import 'package:spotify_flutter_code/ui/login/controllers/login_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:spotify_flutter_code/utils/utils.dart';
 import '../../../custom/dialog/progressdialog.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant.dart';
@@ -164,7 +165,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   _widgetForGotPaasText() {
-    return Container(
+    /*return Container(
       alignment: Alignment.centerRight,
       child: Material(
         color: CColor.transparent,
@@ -193,37 +194,52 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
+    );*/
+    return Container(
+      alignment: Alignment.centerRight,
+      margin:
+      EdgeInsets.only(top: Sizes.height_1_5, right: Sizes.width_6),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          textStyle: TextStyle(
+              color: CColor.theme,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w500,
+              fontSize: FontSize.size_12),
+        ),
+        onPressed: () {
+          Get.toNamed(AppRoutes.forgotPass);
+        },
+        child: Text("${"txtForgotPass".tr}?",style: TextStyle( color: CColor.theme),),
+      ),
     );
   }
 
   _widgetLoginButton(LoginController logic, BuildContext context) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.theme,
-        onTap: () {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(
+          top: Sizes.height_1_5, left: Sizes.width_5, right: Sizes.width_5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: CColor.theme,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // <-- Radius
+          ),
+          textStyle: TextStyle(
+              color: CColor.white,
+              fontSize: FontSize.size_12,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w500),
+        ),
+        onPressed: () {
           if(logic.validation(context)!) {
             logic.callLogin(context);
           }
         },
         child: Container(
-          margin: EdgeInsets.only(
-              top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: CColor.theme,
-            borderRadius: BorderRadius.circular(10),
-          ),
           padding: EdgeInsets.all(Sizes.height_1_5),
-          child: Text(
-            "txtLogin".tr,
-            style: TextStyle(
-                color: CColor.white,
-                fontSize: FontSize.size_12,
-                fontFamily: Constant.appFont,
-                fontWeight: FontWeight.w500),
-            textAlign: TextAlign.center,
-          ),
+          child: Text("txtLogin".tr,),
         ),
       ),
     );
@@ -260,26 +276,32 @@ class LoginScreen extends StatelessWidget {
   }
 
   _widgetGoogleButton(LoginController logic, BuildContext context) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.grayEF,
-        onTap: () {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(
+          top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // <-- Radius
+          ),
+          backgroundColor: CColor.grayEF,
+          textStyle: TextStyle(
+              color: CColor.white,
+              fontSize: FontSize.size_12,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w500),
+        ),
+        onPressed: () {
           logic.loginWithGoogle(context);
         },
         child: Container(
-          margin: EdgeInsets.only(
-              top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: CColor.grayEF,
-            borderRadius: BorderRadius.circular(10),
-          ),
           padding: EdgeInsets.all(Sizes.height_1_5),
           child: Stack(
             children: [
               Container(
-                margin: EdgeInsets.only(left: Sizes.width_5),
+                margin: EdgeInsets.only(left: Sizes.width_1_5),
                 child: Image.asset(
                   "assets/login_flow/ic_google.png",
                   height: Sizes.width_7,
@@ -306,38 +328,41 @@ class LoginScreen extends StatelessWidget {
   }
 
   _widgetRegisterText(LoginController logic, BuildContext context) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.black,
-        onTap: () {
+    return Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(top: Sizes.height_3_5,bottom: Sizes.height_5),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          textStyle: TextStyle(
+              color: CColor.theme,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w500,
+              fontSize: FontSize.size_12),
+        ),
+        onPressed: () {
           Get.toNamed(AppRoutes.signUp);
         },
-        child: Container(
-          margin: EdgeInsets.only(top: Sizes.height_3_5,bottom: Sizes.height_5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "txtNewLogin".tr,
-                style: TextStyle(
-                    color: CColor.grayDark,
-                    fontSize: FontSize.size_12,
-                    fontFamily: Constant.appFont,
-                    fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                " ${"txtRegister".tr}",
-                style: TextStyle(
-                    color: CColor.theme,
-                    fontSize: FontSize.size_12,
-                    fontFamily: Constant.appFont,
-                    fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+        child: Wrap(
+          children: [
+            Text(
+              "txtNewLogin".tr,
+              style: TextStyle(
+                  color: CColor.grayDark,
+                  fontSize: FontSize.size_12,
+                  fontFamily: Constant.appFont,
+                  fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              " ${"txtRegister".tr}",
+              style: TextStyle(
+                  color: CColor.theme,
+                  fontSize: FontSize.size_12,
+                  fontFamily: Constant.appFont,
+                  fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

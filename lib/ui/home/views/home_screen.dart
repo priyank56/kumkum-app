@@ -236,68 +236,53 @@ class HomeScreen extends StatelessWidget {
         });
   }
 
-
-  _widgetNewKankotri(HomeController logic, BuildContext context ) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.grayDark,
-        onTap: () {
+  _widgetNewKankotri(HomeController logic, BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(
+          top: Sizes.height_3,  left: Sizes.width_5, right: Sizes.width_5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: CColor.grayDark,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // <-- Radius
+          ),
+          textStyle: TextStyle(color: CColor.white, fontSize: FontSize.size_14,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w700),
+        ),
+        onPressed: () {
           Get.toNamed(AppRoutes.selectTemplate);
-          // showCustomizeDialogForChooseOptions(context, logic,true);
-          // Get.toNamed(AppRoutes.addKankotri);
         },
         child: Container(
-          margin: EdgeInsets.only(
-              top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
-          decoration: BoxDecoration(
-            color: CColor.grayDark,
-            borderRadius: BorderRadius.circular(10),
-          ),
           padding: EdgeInsets.all(Sizes.height_2_5),
-          child: Text(
-            "+ ${"txtNewKankotri".tr}",
-            style: TextStyle(color: CColor.white, fontSize: FontSize.size_14,
-                fontFamily: Constant.appFont,
-                fontWeight: FontWeight.w700),
-            textAlign: TextAlign.center,
-          ),
+          child: Text("+ ${"txtNewKankotri".tr}",),
         ),
       ),
     );
   }
 
   _widgetSelectPreBuilt(HomeController logic, BuildContext context) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.theme,
-        onTap: () {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(
+          top: Sizes.height_3,  left: Sizes.width_5, right: Sizes.width_5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: CColor.theme,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // <-- Radius
+          ),
+          textStyle: TextStyle(color: CColor.white, fontSize: FontSize.size_14,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w700),
+        ),
+        onPressed: () {
           mainController.changePosFromMain(1);
         },
         child: Container(
-          margin: EdgeInsets.only(
-              top: Sizes.height_3, left: Sizes.width_5, right: Sizes.width_5),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
-          decoration: BoxDecoration(
-            color: CColor.theme,
-            borderRadius: BorderRadius.circular(10),
-          ),
           padding: EdgeInsets.all(Sizes.height_2_5),
-          child: Text(
-            "txtSelectPreBuiltSample".tr,
-            style: TextStyle(color: CColor.white, fontSize: FontSize.size_14,
-                fontFamily: Constant.appFont,
-                fontWeight: FontWeight.w700),
-            textAlign: TextAlign.center,
-          ),
+          child: Text("txtSelectPreBuiltSample".tr),
         ),
       ),
     );

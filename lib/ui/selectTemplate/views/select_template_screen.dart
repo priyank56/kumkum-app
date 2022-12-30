@@ -205,12 +205,12 @@ class SelectTemplateScreen extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(
                       bottom: Sizes.height_3,
-                      top: Sizes.height_3,
+                      top: Sizes.height_2,
                       right: Sizes.width_5,
                       left: Sizes.width_5),
                   child: Column(
                     children: [
-                      Material(
+                      /*Material(
                         color: CColor.transparent,
                         child: InkWell(
                           splashColor: CColor.grayDark,
@@ -247,45 +247,9 @@ class SelectTemplateScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                      Material(
-                        color: CColor.transparent,
-                        child: InkWell(
-                          splashColor: CColor.grayDark50,
-                          onTap: () {
-                            ResultGet? getAllInvitationCard = logic.allYourCardList[index];
-                            getAllInvitationCard.isGroom = false;
-                            Get.toNamed(AppRoutes.addKankotri, arguments: [
-                              false,
-                              getAllInvitationCard,
-                              Constant.isFromCreate,
-                              Constant.isFromHomeScreen
-                            ])!.then((value) => Get.back());
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(
-                                top: Sizes.height_2
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: Sizes.width_4,
-                                vertical: Sizes.height_1),
-                            decoration: BoxDecoration(
-                              color: CColor.grayDark,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              "txtKanyaPaksh".tr,
-                              style: TextStyle(
-                                color: CColor.white,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: Constant.appFont,
-                                fontSize: FontSize.size_12,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      ),*/
+                      _widgetFromGroomButton(logic,context,index),
+                      _widgetFromBrideButton(logic,context,index),
                     ],
                   ),
                 )
@@ -295,6 +259,85 @@ class SelectTemplateScreen extends StatelessWidget {
         });
   }
 
+
+  _widgetFromGroomButton(SelectTemplateController logic, BuildContext context, int index) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        // color: CColor.grayDark,
+        border: Border.all(
+            color: CColor.grayDark, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: CColor.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // <-- Radius
+          ),
+        ),
+        onPressed: () {
+          ResultGet? getAllInvitationCard = logic.allYourCardList[index];
+          getAllInvitationCard.isGroom = true;
+          Get.toNamed(AppRoutes.addKankotri, arguments: [
+            true,
+            getAllInvitationCard,
+            Constant.isFromCreate,
+            Constant.isFromHomeScreen
+          ])!.then((value) => Get.back());
+        },
+        child: Container(
+          // padding: EdgeInsets.all(Sizes.height_0_5),
+          child: Text("txtVarPaksh".tr, style:TextStyle(
+            color: CColor.black,
+            fontWeight: FontWeight.w700,
+            fontFamily: Constant.appFont,
+            fontSize: FontSize.size_12,
+          )),
+        ),
+      ),
+    );
+  }
+  _widgetFromBrideButton(SelectTemplateController logic, BuildContext context, int index) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(
+          top: Sizes.height_1_5,),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: CColor.grayDark,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // <-- Radius
+          ),
+          textStyle: TextStyle(
+              color: CColor.white,
+              fontSize: FontSize.size_12,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w500),
+        ),
+        onPressed: () {
+          ResultGet? getAllInvitationCard = logic.allYourCardList[index];
+          getAllInvitationCard.isGroom = false;
+          Get.toNamed(AppRoutes.addKankotri, arguments: [
+            false,
+            getAllInvitationCard,
+            Constant.isFromCreate,
+            Constant.isFromHomeScreen
+          ])!.then((value) => Get.back());
+        },
+        child: Container(
+          padding: EdgeInsets.all(Sizes.height_1_5),
+          child: Text("txtKanyaPaksh".tr,style: TextStyle(
+            color: CColor.white,
+            fontWeight: FontWeight.w700,
+            fontFamily: Constant.appFont,
+            fontSize: FontSize.size_12,
+          ),),
+        ),
+      ),
+    );
+  }
 
 
   _itemCardView(int index, BuildContext context,SelectTemplateController logic) {

@@ -739,28 +739,26 @@ class AddKankotriScreen extends StatelessWidget {
           itemCount: logic.listNimantrakName.length,
           physics: const NeverScrollableScrollPhysics(),
         ),
-        Material(
-          color: CColor.transparent,
-          child: InkWell(
-            splashColor: CColor.grayDark,
-            onTap: () {
+        Container(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.22,
+          margin: EdgeInsets.only(
+            top: Sizes.height_1,
+          ),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: CColor.grayDark,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // <-- Radius
+              ),
+            ),
+            onPressed: () {
               logic.addNimantrakNameListData(true);
             },
             child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.22,
-              margin: EdgeInsets.only(
-                top: Sizes.height_1,
-              ),
-              padding: EdgeInsets.symmetric(
-                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
-              decoration: BoxDecoration(
-                color: CColor.grayDark,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              padding: EdgeInsets.symmetric(vertical: Sizes.height_1),
               child: Text(
                 "+ ${"txtAdd".tr}",
                 style: TextStyle(
@@ -772,7 +770,7 @@ class AddKankotriScreen extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )
       ],
     );
   }
@@ -911,28 +909,26 @@ class AddKankotriScreen extends StatelessWidget {
           itemCount: logic.listNimantrakAddress.length,
           physics: const NeverScrollableScrollPhysics(),
         ),
-        Material(
-          color: CColor.transparent,
-          child: InkWell(
-            splashColor: CColor.grayDark,
-            onTap: () {
+        Container(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.22,
+          margin: EdgeInsets.only(
+            top: Sizes.height_0_7,
+          ),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: CColor.grayDark,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // <-- Radius
+              ),
+            ),
+            onPressed: () {
               logic.addNimantrakAddressListData(true);
             },
             child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.22,
-              margin: EdgeInsets.only(
-                top: Sizes.height_1,
-              ),
-              padding: EdgeInsets.symmetric(
-                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
-              decoration: BoxDecoration(
-                color: CColor.grayDark,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              padding: EdgeInsets.symmetric(vertical: Sizes.height_1),
               child: Text(
                 "+ ${"txtAdd".tr}",
                 style: TextStyle(
@@ -944,7 +940,7 @@ class AddKankotriScreen extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )
       ],
     );
   }
@@ -1025,26 +1021,26 @@ class AddKankotriScreen extends StatelessWidget {
           itemCount: logic.listNimantrakMno.length,
           physics: const NeverScrollableScrollPhysics(),
         ),
-        Material(
-          color: CColor.transparent,
-          child: InkWell(
-            splashColor: CColor.grayDark,
-            onTap: () {
+        Container(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.22,
+          margin: EdgeInsets.only(
+            top: Sizes.height_0_7,
+          ),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: CColor.grayDark,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // <-- Radius
+              ),
+            ),
+            onPressed: () {
               logic.addNimantrakMnoListData(true);
             },
             child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.22,
-              margin: EdgeInsets.only(top: Sizes.height_1),
-              padding: EdgeInsets.symmetric(
-                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
-              decoration: BoxDecoration(
-                color: CColor.grayDark,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              padding: EdgeInsets.symmetric(vertical: Sizes.height_1),
               child: Text(
                 "+ ${"txtAdd".tr}",
                 style: TextStyle(
@@ -1056,7 +1052,7 @@ class AddKankotriScreen extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )
       ],
     );
   }
@@ -1336,26 +1332,26 @@ class AddKankotriScreen extends StatelessWidget {
           itemCount: logic.functionsList[mainIndex].listNames.length,
           physics: const NeverScrollableScrollPhysics(),
         ),
-        Material(
-          color: CColor.transparent,
-          child: InkWell(
-            splashColor: CColor.grayDark,
-            onTap: () {
+        Container(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.22,
+          margin: EdgeInsets.only(
+            top: Sizes.height_0_7,
+          ),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: CColor.grayDark,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // <-- Radius
+              ),
+            ),
+            onPressed: () {
               logic.addRemoveFunctionsNimantrakName(true, mainIndex);
             },
             child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.22,
-              margin: EdgeInsets.only(top: Sizes.height_1),
-              padding: EdgeInsets.symmetric(
-                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
-              decoration: BoxDecoration(
-                color: CColor.grayDark,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              padding: EdgeInsets.symmetric(vertical: Sizes.height_1),
               child: Text(
                 "+ ${"txtAdd".tr}",
                 style: TextStyle(
@@ -1367,56 +1363,13 @@ class AddKankotriScreen extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )
       ],
     );
   }
 
   Widget _listViewFunctionsNimantrakName(BuildContext context, int index,
       AddKankotriController logic, int mainIndex) {
-    /*return Container(
-      margin: EdgeInsets.only(top: Sizes.height_1),
-      child: Container(
-        height: Utils.getAddKankotriHeight(),
-        width: MediaQuery
-            .of(context)
-            .size
-            .width * 0.9,
-        color: CColor.white70,
-        child: TextField(
-          controller: logic.functionsList[mainIndex].listEditTextNames[index],
-          onChanged: (value) {
-            logic.changeValueInListForFunctionsNimantrakName(
-                index, mainIndex, value);
-          },
-          decoration: InputDecoration(
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(width: 2, color: CColor.grayDark),
-            ),
-            suffixIcon: (logic.functionsList[mainIndex].listNames.length == 1)
-                ? null
-                : InkWell(
-              onTap: () {
-                logic.addRemoveFunctionsNimantrakName(false, mainIndex,
-                    index: index);
-              },
-              child: Container(
-                padding: EdgeInsets.all(Sizes.height_1),
-                child: SvgPicture.asset(
-                  "assets/svg/ic_close.svg",
-                ),
-              ),
-            ),
-            suffixIconConstraints: BoxConstraints(
-                minHeight: Sizes.height_3, minWidth: Sizes.height_3),
-            border: const OutlineInputBorder(),
-            labelText: 'txtNimantrakName'.tr,
-            labelStyle: const TextStyle(color: CColor.grayDark),
-            hintText: 'txtName'.tr,
-          ),
-        ),
-      ),
-    );*/
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       height: Utils.getAddKankotriHeight(),
@@ -2239,28 +2192,26 @@ class AddKankotriScreen extends StatelessWidget {
           itemCount: logic.guestNamesList[mainIndex].listOfGuestNames.length,
           physics: const NeverScrollableScrollPhysics(),
         ),
-        Material(
-          color: CColor.transparent,
-          child: InkWell(
-            splashColor: CColor.grayDark,
-            onTap: () {
+        Container(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.22,
+          margin: EdgeInsets.only(
+            top: Sizes.height_0_7,
+          ),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: CColor.grayDark,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // <-- Radius
+              ),
+            ),
+            onPressed: () {
               logic.addRemoveGuestNamesName(true, mainIndex);
             },
             child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.22,
-              margin: EdgeInsets.only(
-                top: Sizes.height_1,
-              ),
-              padding: EdgeInsets.symmetric(
-                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
-              decoration: BoxDecoration(
-                color: CColor.grayDark,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              padding: EdgeInsets.symmetric(vertical: Sizes.height_1),
               child: Text(
                 "+ ${"txtAdd".tr}",
                 style: TextStyle(
@@ -2272,56 +2223,13 @@ class AddKankotriScreen extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )
       ],
     );
   }
 
   Widget _listViewGuestEdittextName(BuildContext context, int index,
       AddKankotriController logic, int mainIndex) {
-    /*return Container(
-      margin: EdgeInsets.only(top: Sizes.height_1),
-      child: Container(
-        height: Utils.getAddKankotriHeight(),
-        width: MediaQuery
-            .of(context)
-            .size
-            .width * 0.9,
-        color: CColor.white70,
-        child: TextField(
-          controller: logic.guestNamesList[mainIndex].listOfGuestNamesController![index],
-          onChanged: (value) {
-            logic.changeValueInListForGuestAllNames(index, mainIndex, value);
-          },
-          decoration: InputDecoration(
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(width: 2, color: CColor.grayDark),
-            ),
-            suffixIcon:
-            (logic.guestNamesList[mainIndex].listOfGuestNames.length == 1)
-                ? null
-                : InkWell(
-              onTap: () {
-                logic.addRemoveGuestNamesName(false, mainIndex,
-                    index: index);
-              },
-              child: Container(
-                padding: EdgeInsets.all(Sizes.height_1),
-                child: SvgPicture.asset(
-                  "assets/svg/ic_close.svg",
-                ),
-              ),
-            ),
-            suffixIconConstraints: BoxConstraints(
-                minHeight: Sizes.height_3, minWidth: Sizes.height_3),
-            border: const OutlineInputBorder(),
-            labelText: logic.guestNamesList[mainIndex].titleName.toString(),
-            labelStyle: const TextStyle(color: CColor.grayDark),
-            hintText: 'txtName'.tr,
-          ),
-        ),
-      ),
-    );*/
     return Container(
       height: Utils.getAddKankotriHeight(),
       margin: EdgeInsets.only(top: Sizes.height_2),
@@ -2533,28 +2441,26 @@ class AddKankotriScreen extends StatelessWidget {
                     itemCount: logic.listOfTahukoChildName.length,
                     physics: const NeverScrollableScrollPhysics(),
                   ),
-                  Material(
-                    color: CColor.transparent,
-                    child: InkWell(
-                      splashColor: CColor.grayDark,
-                      onTap: () {
+                  Container(
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.22,
+                    margin: EdgeInsets.only(
+                      top: Sizes.height_0_7,
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: CColor.grayDark,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // <-- Radius
+                        ),
+                      ),
+                      onPressed: () {
                         logic.addRemoveTahukoChildName(true);
                       },
                       child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.22,
-                        margin: EdgeInsets.only(
-                          top: Sizes.height_1,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Sizes.width_4, vertical: Sizes.height_1),
-                        decoration: BoxDecoration(
-                          color: CColor.grayDark,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                        padding: EdgeInsets.symmetric(vertical: Sizes.height_1),
                         child: Text(
                           "+ ${"txtAdd".tr}",
                           style: TextStyle(
@@ -2566,7 +2472,7 @@ class AddKankotriScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ):Container(),
 
@@ -2795,28 +2701,26 @@ class AddKankotriScreen extends StatelessWidget {
           logic.goodPlaceNamesList[mainIndex].listOfAddressName.length,
           physics: const NeverScrollableScrollPhysics(),
         ),
-        Material(
-          color: CColor.transparent,
-          child: InkWell(
-            splashColor: CColor.grayDark,
-            onTap: () {
+        Container(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.22,
+          margin: EdgeInsets.only(
+            top: Sizes.height_0_7,
+          ),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: CColor.grayDark,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // <-- Radius
+              ),
+            ),
+            onPressed: () {
               logic.addRemoveGoodPlaceNamesName(true, mainIndex, true);
             },
             child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.22,
-              margin: EdgeInsets.only(
-                top: Sizes.height_1,
-              ),
-              padding: EdgeInsets.symmetric(
-                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
-              decoration: BoxDecoration(
-                color: CColor.grayDark,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              padding: EdgeInsets.symmetric(vertical: Sizes.height_1),
               child: Text(
                 "+ ${"txtAdd".tr}",
                 style: TextStyle(
@@ -2851,28 +2755,26 @@ class AddKankotriScreen extends StatelessWidget {
           itemCount: logic.goodPlaceNamesList[mainIndex].listOfMobile.length,
           physics: const NeverScrollableScrollPhysics(),
         ),
-        Material(
-          color: CColor.transparent,
-          child: InkWell(
-            splashColor: CColor.grayDark,
-            onTap: () {
+        Container(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.22,
+          margin: EdgeInsets.only(
+            top: Sizes.height_0_7,
+          ),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: CColor.grayDark,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // <-- Radius
+              ),
+            ),
+            onPressed: () {
               logic.addRemoveGoodPlaceNamesName(true, mainIndex, false);
             },
             child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.22,
-              margin: EdgeInsets.only(
-                top: Sizes.height_1,
-              ),
-              padding: EdgeInsets.symmetric(
-                  horizontal: Sizes.width_4, vertical: Sizes.height_1),
-              decoration: BoxDecoration(
-                color: CColor.grayDark,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              padding: EdgeInsets.symmetric(vertical: Sizes.height_1),
               child: Text(
                 "+ ${"txtAdd".tr}",
                 style: TextStyle(
@@ -3108,28 +3010,26 @@ class AddKankotriScreen extends StatelessWidget {
                   itemCount: logic.listOfAllGods.length,
                   physics: const NeverScrollableScrollPhysics(),
                 ),
-                Material(
-                  color: CColor.transparent,
-                  child: InkWell(
-                    splashColor: CColor.grayDark,
-                    onTap: () {
+                Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.9,
+                  margin: EdgeInsets.only(
+                    top: Sizes.height_3,
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: CColor.grayDark,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // <-- Radius
+                      ),
+                    ),
+                    onPressed: () {
                       showCustomizeDialogForAddName(context, logic);
                     },
                     child: Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.9,
-                      margin: EdgeInsets.only(
-                        top: Sizes.height_3,
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Sizes.width_4, vertical: Sizes.height_1),
-                      decoration: BoxDecoration(
-                        color: CColor.grayDark,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      padding: EdgeInsets.symmetric(vertical: Sizes.height_1),
                       child: Text(
                         "+ ${"txtAdd".tr}",
                         style: TextStyle(
@@ -3300,31 +3200,34 @@ class AddKankotriScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Material(
-                          color: CColor.transparent,
-                          child: InkWell(
-                            splashColor: CColor.grayDark,
-                            onTap: () {
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0),
+                          margin: EdgeInsets.only(
+                            right: Sizes.width_2,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: CColor.grayDark, width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: CColor.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
                               Get.back();
                             },
                             child: Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                right: Sizes.width_2,
-                              ),
                               padding: EdgeInsets.symmetric(
-                                  horizontal: Sizes.width_4,
-                                  vertical: Sizes.height_1),
-                              decoration: BoxDecoration(
-                                // color: CColor.grayDark,
-                                border: Border.all(
-                                    color: CColor.grayDark, width: 1),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
+                                  vertical: Sizes.height_1_2),
                               child: Text(
                                 "txtCancel".tr,
                                 style: TextStyle(
-                                  color: CColor.grayDark,
+                                  color: CColor.black,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: Constant.appFont,
                                   fontSize: FontSize.size_12,
@@ -3335,27 +3238,25 @@ class AddKankotriScreen extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: Material(
-                          color: CColor.transparent,
-                          child: InkWell(
-                            splashColor: CColor.grayDark,
-                            onTap: () {
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            right: Sizes.width_2,
+                          ),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: CColor.grayDark,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
                               logic.changeGodName(logic.godNameController.text);
                               logic.godNameController.clear();
                               Get.back();
                             },
                             child: Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                right: Sizes.width_2,
-                              ),
                               padding: EdgeInsets.symmetric(
-                                  horizontal: Sizes.width_4,
-                                  vertical: Sizes.height_1),
-                              decoration: BoxDecoration(
-                                color: CColor.grayDark,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
+                                  vertical: Sizes.height_1_2),
                               child: Text(
                                 "+ ${"txtAdd".tr}",
                                 style: TextStyle(
@@ -3384,7 +3285,7 @@ class AddKankotriScreen extends StatelessWidget {
       margin: EdgeInsets.only(bottom: Sizes.height_5, top: Sizes.height_3),
       child: Row(
         children: [
-          Expanded(
+      /*    Expanded(
             child: Material(
               color: CColor.transparent,
               child: InkWell(
@@ -3438,6 +3339,74 @@ class AddKankotriScreen extends StatelessWidget {
                     color: CColor.grayDark,
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  child: Text(
+                    "txtSubmit".tr,
+                    style: TextStyle(
+                      color: CColor.white,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: Constant.appFont,
+                      fontSize: FontSize.size_12,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),*/
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                  vertical: 0),
+              margin: EdgeInsets.only(
+                right: Sizes.width_2,
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: CColor.grayDark, width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: CColor.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  Get.back();
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: Sizes.height_1_2),
+                  child: Text(
+                    "txtCancel".tr,
+                    style: TextStyle(
+                      color: CColor.black,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: Constant.appFont,
+                      fontSize: FontSize.size_12,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: CColor.grayDark,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  logic.changeGodName(logic.godNameController.text);
+                  logic.godNameController.clear();
+                  Get.back();
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: Sizes.height_1_2),
                   child: Text(
                     "txtSubmit".tr,
                     style: TextStyle(

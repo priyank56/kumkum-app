@@ -148,7 +148,7 @@ class ForgotScreen extends StatelessWidget {
   }
 
   _widgetSubmitBtn(ForgotController logic, BuildContext context) {
-    return Material(
+    /*return Material(
       color: CColor.transparent,
       child: InkWell(
         splashColor: CColor.theme,
@@ -174,6 +174,32 @@ class ForgotScreen extends StatelessWidget {
                 fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
           ),
+        ),
+      ),
+    );*/
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(top: Sizes.height_5, left: Sizes.width_5, right: Sizes.width_5,bottom: Sizes.height_5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: CColor.theme,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // <-- Radius
+          ),
+          textStyle: TextStyle(
+              color: CColor.white,
+              fontSize: FontSize.size_12,
+              fontFamily: Constant.appFont,
+              fontWeight: FontWeight.w500),
+        ),
+        onPressed: () {
+          if(logic.validation(context)!){
+            logic.callForgotPassword(context);
+          }
+        },
+        child: Container(
+          padding: EdgeInsets.all(Sizes.height_1_5),
+          child: Text("txtSubmit".tr,),
         ),
       ),
     );

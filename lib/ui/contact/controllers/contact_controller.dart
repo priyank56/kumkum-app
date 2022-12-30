@@ -188,6 +188,9 @@ class ContactController extends GetxController {
   TextEditingController numberContactController = TextEditingController();
 
   addContact(String name,String number) async {
+    if(name == "" || number == ""){
+      return;
+    }
     contactList.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
     contactListSarvo.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));
     contactList1Person.insert(0, AllContact(number, name, "", false, TextEditingController(text: name)));

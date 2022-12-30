@@ -114,6 +114,29 @@ class PreviewScreen extends StatelessWidget {
                                 logic.changeProgressValue(false);
                               },
                             )
+                          /*Container(
+                            child: InAppWebView(
+                              initialUrlRequest: URLRequest(url: Uri.parse(logic.previewURL.toString()) ),
+                                initialOptions: InAppWebViewGroupOptions(
+                                  android: AndroidInAppWebViewOptions(),
+                                  crossPlatform: InAppWebViewOptions(
+
+                                  )
+
+                              ),
+                              onWebViewCreated: (InAppWebViewController controller) {
+                              },
+                              onLoadStart: (controller, url) {
+
+                              },
+                              onLoadStop:  (controller, url) {
+                                logic.changeProgressValue(false);
+                              },
+                              onProgressChanged: (InAppWebViewController controller, int progress) {
+
+                              },
+                            ),
+                          )*/
                           : Container(),
                     ),
                   ],

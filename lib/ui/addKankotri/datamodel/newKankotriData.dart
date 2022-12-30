@@ -413,6 +413,7 @@ class BrideInviterValuesRes {
         this.motherName,
         this.fatherName,
         this.hometownName,
+        this.gujaratiDate,
         this.date,
         this.day,
     });
@@ -421,6 +422,7 @@ class BrideInviterValuesRes {
     String? motherName;
     String? fatherName;
     String? hometownName;
+    String? gujaratiDate;
     String? date;
     String? day;
 
@@ -429,6 +431,7 @@ class BrideInviterValuesRes {
         motherName: json["motherName"],
         fatherName: json["fatherName"],
         hometownName: json["hometownName"],
+        gujaratiDate: json["gujratiDate"],
         date: json["date"],
         day: json["day"],
     );
@@ -438,6 +441,7 @@ class BrideInviterValuesRes {
         "motherName": motherName,
         "fatherName": fatherName,
         "hometownName": hometownName,
+        "gujratiDate": gujaratiDate,
         "date": date,
         "day": day,
     };
@@ -481,6 +485,7 @@ class GroomInviterValuesRes {
         this.motherName,
         this.fatherName,
         this.hometownName,
+        this.gujaratiDate,
         this.date,
         this.day,
     });
@@ -489,6 +494,7 @@ class GroomInviterValuesRes {
     String? motherName;
     String? fatherName;
     String? hometownName;
+    String? gujaratiDate;
     String? date;
     String? day;
 
@@ -497,6 +503,7 @@ class GroomInviterValuesRes {
         motherName: json["motherName"],
         fatherName: json["fatherName"],
         hometownName: json["hometownName"],
+        gujaratiDate: json["gujratiDate"],
         date: json["date"],
         day: json["day"],
     );
@@ -506,6 +513,7 @@ class GroomInviterValuesRes {
         "motherName": motherName,
         "fatherName": fatherName,
         "hometownName": hometownName,
+        "gujratiDate": gujaratiDate,
         "date": date,
         "day": day,
     };

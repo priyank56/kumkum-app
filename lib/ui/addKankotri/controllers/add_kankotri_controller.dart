@@ -107,6 +107,7 @@ class AddKankotriController extends GetxController {
   TextEditingController groomMotherNameController = TextEditingController();
   TextEditingController groomFatherNameController = TextEditingController();
   TextEditingController groomVillageNameController = TextEditingController();
+  TextEditingController groomGujDateController = TextEditingController();
   String dropDownFromGroomMessage = "";
 
 
@@ -115,6 +116,7 @@ class AddKankotriController extends GetxController {
   TextEditingController brideFatherNameController = TextEditingController();
   TextEditingController brideVillageNameController = TextEditingController();
   TextEditingController brideGodController = TextEditingController();
+  TextEditingController brideGujDateController = TextEditingController();
   String dropDownFromBrideMessage = "";
 
   /*Drop Down Messages*/
@@ -1251,6 +1253,9 @@ class AddKankotriController extends GetxController {
     if(chirpingInfoGroom.values!.hometownName != null) {
       groomInviterValues.hometownName = groomVillageNameController.text;
     }
+    if(chirpingInfoGroom.values!.gujaratiDate != null) {
+      groomInviterValues.gujaratiDate = groomGujDateController.text;
+    }
 
     invitation.groomInviter = groomData;
     invitation.groomInviter!.values = groomInviterValues;
@@ -1281,6 +1286,9 @@ class AddKankotriController extends GetxController {
     }
     if(chirpingInfoBride.values!.godName != null) {
       brideInviterValues.godName = brideGodController.text;
+    }
+    if(chirpingInfoBride.values!.gujaratiDate != null) {
+      brideInviterValues.gujaratiDate = brideGujDateController.text;
     }
 
     invitation.brideInviter = brideData;
@@ -1822,6 +1830,10 @@ class AddKankotriController extends GetxController {
       if(groomAmantrak.values!.hometownName != null) {
         groomVillageNameController.text = groomAmantrak.values!.hometownName!;
       }
+
+      if(groomAmantrak.values!.gujaratiDate != null) {
+        groomGujDateController.text = groomAmantrak.values!.gujaratiDate!;
+      }
     }
 
     var brideAmantrak = mrgInvitationCard.invitation!.brideInviter;
@@ -1854,6 +1866,10 @@ class AddKankotriController extends GetxController {
 
       if(brideAmantrak.values!.hometownName != null) {
         brideVillageNameController.text = brideAmantrak.values!.hometownName!;
+      }
+
+      if(brideAmantrak.values!.gujaratiDate != null) {
+        brideGujDateController.text = brideAmantrak.values!.gujaratiDate!;
       }
     }
 

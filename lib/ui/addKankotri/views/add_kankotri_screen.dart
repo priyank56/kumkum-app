@@ -1814,6 +1814,29 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
               ) : Container(),
+
+              (logic.listOfInvitersGroomMessage.isNotEmpty &&
+                  logic.chirpingInfoGroom.values!.gujaratiDate != null) ?
+              Container(
+                color: CColor.white70,
+                margin: EdgeInsets.only(
+                  top: Sizes.height_2,
+                ),
+                height: Utils.getAddKankotriHeight(),
+                child: TextField(
+                  controller: logic.groomGujDateController,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 0),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(width: 2, color: CColor.grayDark),
+                    ),
+                    border: const OutlineInputBorder(),
+                    labelText: 'txtGujaratiDate'.tr,
+                    labelStyle: const TextStyle(color: CColor.grayDark),
+                    hintText: 'txtGujaratiDate'.tr,
+                  ),
+                ),
+              ) : Container(),
             ],
           );
         });
@@ -2122,6 +2145,29 @@ class AddKankotriScreen extends StatelessWidget {
                     labelText: 'txtBhagavaNuName'.tr,
                     labelStyle: const TextStyle(color: CColor.grayDark),
                     hintText: 'txtBhagavaNuName'.tr,
+                  ),
+                ),
+              ) : Container(),
+
+              (logic.listOfInvitersBrideMessage.isNotEmpty &&
+                  logic.chirpingInfoBride.values!.gujaratiDate != null) ?
+              Container(
+                margin: EdgeInsets.only(
+                  top: Sizes.height_2,
+                ),
+                color: CColor.white70,
+                height: Utils.getAddKankotriHeight(),
+                child: TextField(
+                  controller: logic.brideGujDateController,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 0),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(width: 2, color: CColor.grayDark),
+                    ),
+                    border: const OutlineInputBorder(),
+                    labelText: 'txtGujaratiDate'.tr,
+                    labelStyle: const TextStyle(color: CColor.grayDark),
+                    hintText: 'txtGujaratiDate'.tr,
                   ),
                 ),
               ) : Container(),

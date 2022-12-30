@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -107,20 +108,25 @@ class PreviewScreen extends StatelessWidget {
                     ),
                     Expanded(
                       child: (logic.previewURL != "")
-                          ? WebView(
+                          ? /*WebView(
                               initialUrl: logic.previewURL,
                               javascriptMode: JavascriptMode.unrestricted,
                               onPageFinished: (url) {
                                 logic.changeProgressValue(false);
                               },
-                            )
-                          /*Container(
+
+                            )*/
+                          Container(
                             child: InAppWebView(
                               initialUrlRequest: URLRequest(url: Uri.parse(logic.previewURL.toString()) ),
                                 initialOptions: InAppWebViewGroupOptions(
-                                  android: AndroidInAppWebViewOptions(),
-                                  crossPlatform: InAppWebViewOptions(
+                                  android: AndroidInAppWebViewOptions(
+                                    minimumLogicalFontSize: 1,
 
+                                  ),
+                                  crossPlatform: InAppWebViewOptions(
+                                    minimumFontSize: 5,
+                                    supportZoom: true,
                                   )
 
                               ),
@@ -136,7 +142,7 @@ class PreviewScreen extends StatelessWidget {
 
                               },
                             ),
-                          )*/
+                          )
                           : Container(),
                     ),
                   ],

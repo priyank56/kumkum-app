@@ -125,6 +125,7 @@ final Map<String, String> enUS = {
   'txtSubhLaganSathal': "શુભ લગ્ન સ્થળ",
   'txtAṭak': "અટક",
   'txtBhagavanNiMahiti': "ભગવાન ની માહિતી",
+  'txtGujaratiDate': "સંવત ૨૦૭૮ ના કારતક વદ ૧૧",
 
 
   /*English*/

@@ -122,6 +122,7 @@ class ValuesInfo {
         this.date,
         this.day,
         this.godName,
+        this.gujaratiDate,
     });
 
     String? motherName;
@@ -130,6 +131,7 @@ class ValuesInfo {
     String? date;
     String? day;
     String? godName;
+    String? gujaratiDate;
 
     factory ValuesInfo.fromJson(Map<String, dynamic> json) => ValuesInfo(
         motherName: json["motherName"],
@@ -138,6 +140,7 @@ class ValuesInfo {
         date: json["date"],
         day: json["day"],
         godName: json["godName"],
+        gujaratiDate: json["gujratiDate"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -147,6 +150,7 @@ class ValuesInfo {
         "date": date,
         "day": day,
         "godName": godName,
+        "gujratiDate": gujaratiDate,
     };
 }
 

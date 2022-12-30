@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:spotify_flutter_code/ui/contact/datamodel/contactdatamodel.dart';
 import 'package:spotify_flutter_code/ui/contact/datamodel/getNumbersData.dart';
 import 'package:spotify_flutter_code/ui/contact/datamodel/numbersJsonData.dart';
@@ -36,6 +37,8 @@ class ContactController extends GetxController {
   List<ResultGet> allYourCardList = [];
   var auth = FirebaseAuth.instance;
   var selectedCardId = "";
+  PanelController panelController = PanelController();
+  bool isSlideUp = false;
 
   @override
   void onInit() {
@@ -44,6 +47,10 @@ class ContactController extends GetxController {
 
   }
 
+  changeSlideUpDown(bool value){
+    isSlideUp = value;
+    update([Constant.idBottomViewPos]);
+  }
   changeSelectedId(String id,int pos){
     selectedCardId = id;
     var truePos = allYourCardList.indexWhere((element) => element.isSelect == true);

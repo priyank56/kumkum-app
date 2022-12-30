@@ -407,25 +407,28 @@ class ContactScreen extends StatelessWidget {
 
                   /*When Slide Panel Open*/
                   panel: Container(
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.only(
+                      borderRadius:(logic.isSlideUp)?BorderRadius.zero:
+                      const BorderRadius.only(
                         topLeft: Radius.circular(24.0),
-                        topRight: Radius.circular(24.0),),
+                        topRight: Radius.circular(24.0),
+                      ),
                     ),
                     child: _listViewContact(
                         context, logic, needFullScreen: true),
-                    // child: Container(),
                   ),
                   onPanelOpened: () {
                     Debug.printLog(
                         "onPanelOpened==>> ${logic.contactList.length}  ${logic
                             .contactListSarvo.length}");
+                    logic.changeSlideUpDown(true);
                   },
                   onPanelClosed: () {
                     Debug.printLog(
                         "onPanelClosed==>> ${logic.contactList.length}  ${logic
                             .contactListSarvo.length}");
+                    logic.changeSlideUpDown(false);
                   },
                   /*When Slide Panel Not Open*/
                   collapsed: Container(
@@ -473,6 +476,7 @@ class ContactScreen extends StatelessWidget {
                           if (logic.selectedCardId != "" &&
                               logic.contactList.isNotEmpty) {
                             logic.changeBottomViewPos(logic.currentPos + 1);
+                            logic.changeSlideUpDown(false);
                           } else {
                             if (logic.selectedCardId == "") {
                               Utils.showToast(context, "txtSelectCard".tr);
@@ -535,7 +539,7 @@ class ContactScreen extends StatelessWidget {
                         logic.changeSendOption(Constant.selectedSendWpSarvo);
                       },
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Text(
                           "txtSarvo".tr,
                           style: TextStyle(
@@ -575,7 +579,7 @@ class ContactScreen extends StatelessWidget {
                         logic.changeSendOption(Constant.selectedSendWpSajode);
                       },
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Text(
                           "txtSajode".tr,
                           style: TextStyle(
@@ -615,7 +619,7 @@ class ContactScreen extends StatelessWidget {
                         logic.changeSendOption(Constant.selectedSendWp1Person);
                       },
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Text(
                           "txt1".tr,
                           style: TextStyle(
@@ -839,7 +843,7 @@ class ContactScreen extends StatelessWidget {
                       left: Sizes.width_5),
                   child: Row(
                     children: [
-                      Expanded(
+                      /*Expanded(
                         child: Material(
                           color: CColor.transparent,
                           child: InkWell(
@@ -896,6 +900,78 @@ class ContactScreen extends StatelessWidget {
                                 color: CColor.grayDark,
                                 borderRadius: BorderRadius.circular(10),
                               ),
+                              child: Text(
+                                "txtUpdate".tr,
+                                style: TextStyle(
+                                  color: CColor.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: Constant.appFont,
+                                  fontSize: FontSize.size_12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),*/
+
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            right: Sizes.width_2,
+                          ),
+                          decoration: BoxDecoration(
+                            // color: CColor.grayDark,
+                            border: Border.all(
+                                color: CColor.grayDark, width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: CColor.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: Sizes.height_1_2),
+                              child: Text(
+                                "txtCancel".tr,
+                                style: TextStyle(
+                                  color: CColor.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: Constant.appFont,
+                                  fontSize: FontSize.size_12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            right: Sizes.width_2,
+                          ),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: CColor.grayDark,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10), // <-- Radius
+                              ),
+                            ),
+                            onPressed: () {
+                              logic.updateContactName(
+                                  index, logic.selectedSendWp, context);
+                              Utils.showToast(context, "txtUpdatedName".tr);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: Sizes.height_1_2),
                               child: Text(
                                 "txtUpdate".tr,
                                 style: TextStyle(

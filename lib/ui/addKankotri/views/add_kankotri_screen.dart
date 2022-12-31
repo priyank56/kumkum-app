@@ -1816,7 +1816,7 @@ class AddKankotriScreen extends StatelessWidget {
               ) : Container(),
 
               (logic.listOfInvitersGroomMessage.isNotEmpty &&
-                  logic.chirpingInfoGroom.values!.gujaratiDate != null) ?
+                  logic.chirpingInfoGroom.values!.gujaratiDate != "") ?
               Container(
                 color: CColor.white70,
                 margin: EdgeInsets.only(
@@ -2150,7 +2150,7 @@ class AddKankotriScreen extends StatelessWidget {
               ) : Container(),
 
               (logic.listOfInvitersBrideMessage.isNotEmpty &&
-                  logic.chirpingInfoBride.values!.gujaratiDate != null) ?
+                  logic.chirpingInfoBride.values!.gujaratiDate != "") ?
               Container(
                 margin: EdgeInsets.only(
                   top: Sizes.height_2,
@@ -3446,9 +3446,7 @@ class AddKankotriScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  logic.changeGodName(logic.godNameController.text);
-                  logic.godNameController.clear();
-                  Get.back();
+                  logic.getAllValue(Constant.isFromSubmit);
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(

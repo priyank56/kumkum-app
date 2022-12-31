@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,12 +19,15 @@ import 'package:spotify_flutter_code/utils/debug.dart';
 import 'package:spotify_flutter_code/utils/params.dart';
 
 import '../../../connectivitymanager/connectivitymanager.dart';
+import '../../../custom/myChromeSafariBrowser.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
 import '../datamodel/createKankotriData.dart';
 import '../datamodel/newKankotriData.dart';
 
 class AddKankotriController extends GetxController {
+
+
 
   var arguments = Get.arguments;
   bool isGroomCard = true;
@@ -177,6 +182,8 @@ class AddKankotriController extends GetxController {
       isFromScreen = arguments[3];
       Debug.printLog("Card arguments 3==>> $isFromAddUpdate");
     }
+
+
   }
 
   addData(){
@@ -630,7 +637,8 @@ class AddKankotriController extends GetxController {
       if(selectedGroomList.isNotEmpty) {
         chirpingInfoGroom = selectedGroomList[0];
         dropDownFromGroomMessage = value;
-      }else{
+      }
+      else{
         if (isGroomCard) {
           chirpingInfoGroom.previewText =
               "સહર્ષ ખુશાલી સાથ જણાવવાનું કે અમારા કુળદેવી આઈ શ્રી ખોડિયાર માતાજીની અસીમ કૃપાથી નાની ભગેડી ( હાલ સુરત ) નિવાસી અ. સૌ. ચંપાબેન તથા શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી ના સુપુત્ર";
@@ -645,6 +653,7 @@ class AddKankotriController extends GetxController {
           data.hometownName = "નાની ભગેડી ( હાલ સુરત )";
           data.date = "";
           data.day = "";
+          data.gujaratiDate = "";
           chirpingInfoGroom.values = data;
           dropDownFromGroomMessage =
               "સહર્ષ ખુશાલી સાથ જણાવવાનું કે અમારા કુળદેવી આઈ શ્રી ખોડિયાર માતાજીની અસીમ કૃપાથી નાની ભગેડી ( હાલ સુરત ) નિવાસી અ. સૌ. ચંપાબેન તથા શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી ના સુપુત્ર";
@@ -661,6 +670,7 @@ class AddKankotriController extends GetxController {
           data.hometownName = "નાની ભગેડી ( હાલ સુરત )";
           data.date = "4/12/2022";
           data.day = "રવિવાર";
+          data.gujaratiDate = "સંવત ૨૦૭૮ ના કારતક વદ ૧૧";
           chirpingInfoGroom.values = data;
           dropDownFromGroomMessage =
           "નાની ભગેડી ( હાલ સુરત ) નિવાસી અ. સૌ. ચંપાબેન તથા શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી ની સુપુત્ર સાથે સવંત ૨૦૭૮ ના માગસર સુદ ૧૧ ને રવિવાર તા.4/12/2022 ના રોજ શુભદિને નિરધાર્યાં છે. તો આનંદભરી વેળાએ વડીલોના આશિષ,સ્વજનોની લાગણીથી કુમ-કુમ તિલક,શ્રીફળ,અક્ષત અને અગ્નિની સાક્ષીએ રેશમની ગાંઠે બંધાશે,તો નવ યુગલને અંત:કરણના આશિષ અને શુભેચ્છાઓના નિરથી સીંચવા આપશ્રી અવશ્ય પધારશોજી.";
@@ -671,7 +681,8 @@ class AddKankotriController extends GetxController {
       if(selectedBrideList.isNotEmpty) {
         chirpingInfoBride = selectedBrideList[0];
         dropDownFromBrideMessage = value;
-      }else{
+      }
+      else{
         if (isGroomCard) {
           chirpingInfoBride.previewText = "મોટી વાવડી ( હાલ સુરત ) નિવાસી અ. સૌ. સંગીતાબેન તથા શ્રી પ્રવીણભાઈ મોહનભાઇ સુતરીયાની વ્હાલી આત્મજા સાથે સંવત ૨૦૭૮ ના કારતક વદ ૧૧ ને રવિવાર તા.4/12/2022 ના શુભ દિવસે વેદ, વિપ્ર, વડિલો અને અગ્નિની સાક્ષીએ આપની ઉષ્મા સભર ઉપસ્થિતિમાં સંસારયાત્રામાં પ્રવેશ કરશે, તો આ શુભ પ્રસંગે નવદંપતિને આશીર્વાદ આપવા સહકુટુંબને પધારવા અમારૂં ભાવભર્યું આમંત્રણ છે.";
           chirpingInfoBride.html = "'<p style='text-align:center'>\${hometownName} નિવાસી</p><p style='text-align:center'>\${motherName} તથા \${fatherName}ની વ્હાલી આત્મજા સાથે સંવત ૨૦૭૮ ના કારતક વદ ૧૧ ને \${day} તા.\${date} ના શુભ દિવસે વેદ, વિપ્ર, વડિલો અને અગ્નિની સાક્ષીએ આપની ઉષ્મા સભર ઉપસ્થિતિમાં સંસારયાત્રામાં પ્રવેશ કરશે, તો આ શુભ પ્રસંગે નવદંપતિને આશીર્વાદ આપવા સહકુટુંબને પધારવા અમારૂં ભાવભર્યું આમંત્રણ છે.</p>'";
@@ -684,6 +695,7 @@ class AddKankotriController extends GetxController {
           data.hometownName = "મોટી વાવડી ( હાલ સુરત )";
           data.date = "4/12/2022";
           data.day = "રવિવાર";
+          data.gujaratiDate = "સંવત ૨૦૭૮ ના કારતક વદ ૧૧";
           chirpingInfoBride.values = data;
           dropDownFromBrideMessage =
           "મોટી વાવડી ( હાલ સુરત ) નિવાસી અ. સૌ. સંગીતાબેન તથા શ્રી પ્રવીણભાઈ મોહનભાઇ સુતરીયાની વ્હાલી આત્મજા સાથે સંવત ૨૦૭૮ ના કારતક વદ ૧૧ ને રવિવાર તા.4/12/2022 ના શુભ દિવસે વેદ, વિપ્ર, વડિલો અને અગ્નિની સાક્ષીએ આપની ઉષ્મા સભર ઉપસ્થિતિમાં સંસારયાત્રામાં પ્રવેશ કરશે, તો આ શુભ પ્રસંગે નવદંપતિને આશીર્વાદ આપવા સહકુટુંબને પધારવા અમારૂં ભાવભર્યું આમંત્રણ છે.";
@@ -700,6 +712,7 @@ class AddKankotriController extends GetxController {
           data.hometownName = "નાની ભગેડી ( હાલ સુરત )";
           data.date = "";
           data.day = "";
+          data.gujaratiDate = "";
           chirpingInfoBride.values = data;
           dropDownFromBrideMessage =
           "સહર્ષ ખુશાલી સાથ જણાવવાનું કે અમારા કુળદેવી આઈ શ્રી ખોડિયાર માતાજીની અસીમ કૃપાથી નાની ભગેડી ( હાલ સુરત ) નિવાસી અ. સૌ. ચંપાબેન તથા શ્રી જગદીશભાઈ ચનાભાઈ વિરાણી ના સુપુત્ર";
@@ -1253,7 +1266,7 @@ class AddKankotriController extends GetxController {
     if(chirpingInfoGroom.values!.hometownName != null) {
       groomInviterValues.hometownName = groomVillageNameController.text;
     }
-    if(chirpingInfoGroom.values!.gujaratiDate != null) {
+    if(chirpingInfoGroom.values!.gujaratiDate != "") {
       groomInviterValues.gujaratiDate = groomGujDateController.text;
     }
 
@@ -1287,7 +1300,7 @@ class AddKankotriController extends GetxController {
     if(chirpingInfoBride.values!.godName != null) {
       brideInviterValues.godName = brideGodController.text;
     }
-    if(chirpingInfoBride.values!.gujaratiDate != null) {
+    if(chirpingInfoBride.values!.gujaratiDate != "") {
       brideInviterValues.gujaratiDate = brideGujDateController.text;
     }
 

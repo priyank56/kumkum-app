@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,7 +18,6 @@ import 'package:spotify_flutter_code/utils/debug.dart';
 import 'package:spotify_flutter_code/utils/params.dart';
 
 import '../../../connectivitymanager/connectivitymanager.dart';
-import '../../../custom/myChromeSafariBrowser.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/utils.dart';
 import '../datamodel/createKankotriData.dart';

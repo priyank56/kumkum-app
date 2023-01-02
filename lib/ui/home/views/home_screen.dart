@@ -351,39 +351,35 @@ class HomeScreen extends StatelessWidget {
   }
 
   _itemCardView(int index, BuildContext context, HomeController logic) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.black,
-        onTap: () {
-          showCustomizeDialogForChooseOptions(context, logic,false,index: index);
-          // Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
-        },
-        child: Container(
-          height: Sizes.height_15,
-          width: MediaQuery.of(context).size.width * 0.55,
-          padding: EdgeInsets.only(right: Sizes.width_5),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(Sizes.height_2),
-            child: Container(
-              // margin: EdgeInsets.only(right:Sizes.width_4),
+    return InkWell(
+      onTap: () {
+        showCustomizeDialogForChooseOptions(context, logic,false,index: index);
+        // Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
+      },
+      child: Container(
+        height: Sizes.height_15,
+        width: MediaQuery.of(context).size.width * 0.55,
+        padding: EdgeInsets.only(right: Sizes.width_5),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(Sizes.height_2),
+          child: Container(
+            // margin: EdgeInsets.only(right:Sizes.width_4),
 
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-              child: CachedNetworkImage(
-                fadeInDuration: const Duration(milliseconds: 10),
-                fadeOutDuration: const Duration(milliseconds: 10),
-                fit: BoxFit.cover,
-                imageUrl: logic.allYourCardList[index].thumbnail.toString(),
-                placeholder: (context, url) =>
-               /* const Center(
-                  child: SizedBox(
-                    width: 60.0,
-                    height: 60.0,
-                    child: CircularProgressIndicator(),
-                  ),
-                ),*/
-                Utils.bgShimmer(context),
-              ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+            child: CachedNetworkImage(
+              fadeInDuration: const Duration(milliseconds: 10),
+              fadeOutDuration: const Duration(milliseconds: 10),
+              fit: BoxFit.cover,
+              imageUrl: logic.allYourCardList[index].thumbnail.toString(),
+              placeholder: (context, url) =>
+             /* const Center(
+                child: SizedBox(
+                  width: 60.0,
+                  height: 60.0,
+                  child: CircularProgressIndicator(),
+                ),
+              ),*/
+              Utils.bgShimmer(context),
             ),
           ),
         ),

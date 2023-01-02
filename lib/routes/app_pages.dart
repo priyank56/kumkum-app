@@ -176,7 +176,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.contact,
-      page: () => const ContactScreen(),
+      page: () => ContactScreen(),
       binding: ContactBinding(),
       transition: Transition.fade,
     ),

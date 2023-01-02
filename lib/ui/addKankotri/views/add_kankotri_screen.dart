@@ -57,21 +57,17 @@ class AddKankotriScreen extends StatelessWidget {
       color: CColor.white,
       child: Row(
         children: [
-          Material(
-            color: CColor.transparent,
-            child: InkWell(
-              onTap: () {
-                // Get.back();
-                showAlertBackDialog(context,logic);
-              },
-              splashColor: CColor.black,
-              child: Container(
-                margin: EdgeInsets.all(Sizes.height_2),
-                child: SvgPicture.asset(
-                  "assets/svg/login_flow/ic_back.svg",
-                  height: Sizes.height_4,
-                  width: Sizes.height_4,
-                ),
+          InkWell(
+            onTap: () {
+              // Get.back();
+              showAlertBackDialog(context,logic);
+            },
+            child: Container(
+              margin: EdgeInsets.all(Sizes.height_2),
+              child: SvgPicture.asset(
+                "assets/svg/login_flow/ic_back.svg",
+                height: Sizes.height_4,
+                width: Sizes.height_4,
               ),
             ),
           ),
@@ -86,40 +82,32 @@ class AddKankotriScreen extends StatelessWidget {
               ),
             ),
           ),
-          Material(
-            color: CColor.transparent,
-            child: InkWell(
-              onTap: () async {
-                logic.getAllValue(Constant.isFromPreview);
-                // logic.callCreateUpdateCardAPI(context,Constant.isFromPreview);
-              },
-              splashColor: CColor.black,
-              child: Container(
-                margin: EdgeInsets.all(Sizes.height_2),
-                child: SvgPicture.asset(
-                  "assets/svg/ic_show.svg",
-                  height: Sizes.height_3,
-                  width: Sizes.height_3,
-                ),
+          InkWell(
+            onTap: () async {
+              logic.getAllValue(Constant.isFromPreview);
+              // logic.callCreateUpdateCardAPI(context,Constant.isFromPreview);
+            },
+            child: Container(
+              margin: EdgeInsets.all(Sizes.height_2),
+              child: SvgPicture.asset(
+                "assets/svg/ic_show.svg",
+                height: Sizes.height_3,
+                width: Sizes.height_3,
               ),
             ),
           ),
-          Material(
-            color: CColor.transparent,
-            child: InkWell(
-              onTap: () async {
-                var data = await Get.toNamed(AppRoutes.selectLayout);
-                Debug.printLog("Data Selecte Layout==>>> $data");
-                logic.changeLayoutIdAndType(data ?? "");
-              },
-              splashColor: CColor.black,
-              child: Container(
-                margin: EdgeInsets.all(Sizes.height_2),
-                child: SvgPicture.asset(
-                  "assets/svg/ic_swipe.svg",
-                  height: Sizes.height_3,
-                  width: Sizes.height_3,
-                ),
+          InkWell(
+            onTap: () async {
+              var data = await Get.toNamed(AppRoutes.selectLayout);
+              Debug.printLog("Data Selecte Layout==>>> $data");
+              logic.changeLayoutIdAndType(data ?? "");
+            },
+            child: Container(
+              margin: EdgeInsets.all(Sizes.height_2),
+              child: SvgPicture.asset(
+                "assets/svg/ic_swipe.svg",
+                height: Sizes.height_3,
+                width: Sizes.height_3,
               ),
             ),
           ),

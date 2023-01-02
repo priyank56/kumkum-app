@@ -45,4 +45,6 @@ class NewKankotriDataModel {
     DioClient dioClient = DioClient(context,isPassAuth: true,isMultipart: true);
     return Repository(dioClient).uploadImage(this,context);
   }
+
+
 }

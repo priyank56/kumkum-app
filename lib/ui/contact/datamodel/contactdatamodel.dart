@@ -11,6 +11,8 @@ import 'package:spotify_flutter_code/ui/contact/datamodel/getNumbersData.dart';
 import 'package:spotify_flutter_code/ui/contact/datamodel/numbersJsonData.dart';
 import 'package:spotify_flutter_code/ui/contact/datamodel/sendNumbersData.dart';
 import 'package:spotify_flutter_code/ui/contact/datamodel/sendNumbersJsonData.dart';
+import 'package:spotify_flutter_code/ui/contact/datamodel/sendPdfWpData.dart';
+import 'package:spotify_flutter_code/ui/contact/datamodel/sendPdfWpOriginalData.dart';
 import 'package:spotify_flutter_code/utils/params.dart';
 import '../../../dio/dioclient.dart';
 import '../../../repository/repository.dart';
@@ -26,4 +28,10 @@ class ContactDataModel {
     DioClient dioClient = DioClient(context,isPassAuth: true);
     return Repository(dioClient).sendAllSelectedNumbers(this,numberData,context);
   }
+
+  Future<SendPdfWpOriginalData> getNumberWisePdf(BuildContext context,SendPdfWpData data,String id) {
+    DioClient dioClient = DioClient(context,isPassAuth: true);
+    return Repository(dioClient).getNumberWisePdf(data,id,context);
+  }
+
 }

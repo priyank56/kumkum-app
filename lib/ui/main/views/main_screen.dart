@@ -19,6 +19,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: GetBuilder<MainController>(builder: (logic) {
           return Column(
@@ -102,7 +103,7 @@ class MainScreen extends StatelessWidget {
             HomeScreen(),
             const CategoryScreen(),
             YourCardsScreen(),
-            const ContactScreen()
+            ContactScreen()
           ],
           onPageChanged: (pos) {
             Debug.printLog("Position=>>> $pos");

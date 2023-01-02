@@ -70,20 +70,16 @@ class SelectTemplateScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Material(
-            color: CColor.transparent,
-            child: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              splashColor: CColor.black,
-              child: Container(
-                // margin: EdgeInsets.all(Sizes.height_2),
-                child: SvgPicture.asset(
-                  "assets/svg/login_flow/ic_back.svg",
-                  height: Sizes.height_4,
-                  width: Sizes.height_4,
-                ),
+          InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: Container(
+              // margin: EdgeInsets.all(Sizes.height_2),
+              child: SvgPicture.asset(
+                "assets/svg/login_flow/ic_back.svg",
+                height: Sizes.height_4,
+                width: Sizes.height_4,
               ),
             ),
           ),
@@ -341,25 +337,21 @@ class SelectTemplateScreen extends StatelessWidget {
 
 
   _itemCardView(int index, BuildContext context,SelectTemplateController logic) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.black,
-        onTap: () {
-          showCustomizeDialogForChooseOptions(context,index);
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child : CachedNetworkImage(
-              fadeInDuration: const Duration(milliseconds: 10),
-              fadeOutDuration: const Duration(milliseconds: 10),
-              fit: BoxFit.cover,
-              imageUrl: logic.allYourCardList[index].thumbnail.toString(),
-              placeholder: (context, url) =>
-                  Utils.bgShimmer(context),
-            ),
+    return InkWell(
+      onTap: () {
+        showCustomizeDialogForChooseOptions(context,index);
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child : CachedNetworkImage(
+            fadeInDuration: const Duration(milliseconds: 10),
+            fadeOutDuration: const Duration(milliseconds: 10),
+            fit: BoxFit.cover,
+            imageUrl: logic.allYourCardList[index].thumbnail.toString(),
+            placeholder: (context, url) =>
+                Utils.bgShimmer(context),
           ),
         ),
       ),

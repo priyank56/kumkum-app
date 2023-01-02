@@ -19,6 +19,7 @@ class CColor {
   static const black90 = Color(0x90000000);
   static const black99 = Color(0x99000000);
   static const black = Color(0xff000000);
+  static const borderColor = Color(0xffB2B2B2);
 
   /*Custom Color*/
   static const theme = Color(0xffF05454);
@@ -30,6 +31,8 @@ class CColor {
   static const black12 = Color(0xff121212);
   static const themeDark = Color(0xff8E0707);
   static const blueDark = Color(0xff103762);
+  static const blueDark50 = Color(0x50103762);
+  static const blue = Color(0xff007aff);
 
 
 }

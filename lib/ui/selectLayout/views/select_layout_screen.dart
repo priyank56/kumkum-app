@@ -65,18 +65,14 @@ class SelectLayoutScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Material(
-            color: CColor.transparent,
-            child: InkWell(
-              onTap: () {
-                Get.back(result: "");
-              },
-              splashColor: CColor.black,
-              child: SvgPicture.asset(
-                "assets/svg/login_flow/ic_back.svg",
-                height: Sizes.height_4,
-                width: Sizes.height_4,
-              ),
+          InkWell(
+            onTap: () {
+              Get.back(result: "");
+            },
+            child: SvgPicture.asset(
+              "assets/svg/login_flow/ic_back.svg",
+              height: Sizes.height_4,
+              width: Sizes.height_4,
             ),
           ),
           Container(
@@ -140,31 +136,27 @@ class SelectLayoutScreen extends StatelessWidget {
   }
 
   _itemCardView(int index, BuildContext context, SelectLayoutController logic) {
-    return Material(
-      color: CColor.transparent,
-      child: InkWell(
-        splashColor: CColor.black,
-        onTap: () {
-          var map = <String,String>{};
-          map.putIfAbsent(Constant.layoutId, () => logic.layoutDesignList[index].layoutDesignId.toString());
-          map.putIfAbsent(Constant.layoutType, () => logic.layoutDesignList[index].marriageInvitationCardType.toString());
-          Get.back(result: map,canPop: true);
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: CachedNetworkImage(
-              fadeInDuration: const Duration(milliseconds: 10),
-              fadeOutDuration: const Duration(milliseconds: 10),
-              fit: BoxFit.cover,
-              imageUrl: logic.layoutDesignList[index].thumbnail.toString(),
-              placeholder: (context, url) => const Center(
-                child: SizedBox(
-                  width: 60.0,
-                  height: 60.0,
-                  child: CircularProgressIndicator(),
-                ),
+    return InkWell(
+      onTap: () {
+        var map = <String,String>{};
+        map.putIfAbsent(Constant.layoutId, () => logic.layoutDesignList[index].layoutDesignId.toString());
+        map.putIfAbsent(Constant.layoutType, () => logic.layoutDesignList[index].marriageInvitationCardType.toString());
+        Get.back(result: map,canPop: true);
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: CachedNetworkImage(
+            fadeInDuration: const Duration(milliseconds: 10),
+            fadeOutDuration: const Duration(milliseconds: 10),
+            fit: BoxFit.cover,
+            imageUrl: logic.layoutDesignList[index].thumbnail.toString(),
+            placeholder: (context, url) => const Center(
+              child: SizedBox(
+                width: 60.0,
+                height: 60.0,
+                child: CircularProgressIndicator(),
               ),
             ),
           ),

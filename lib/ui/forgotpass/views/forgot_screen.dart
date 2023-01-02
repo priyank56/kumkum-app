@@ -41,17 +41,13 @@ class ForgotScreen extends StatelessWidget {
                       margin: EdgeInsets.only(top: Sizes.height_3),
                       child: Image.asset("assets/login_flow/ic_forgot_pass.webp"),
                     ),
-                    Material(
-                      color: CColor.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        splashColor: CColor.black,
-                        child: Container(
-                          margin: EdgeInsets.all(Sizes.height_2),
-                          child: SvgPicture.asset("assets/svg/login_flow/ic_back.svg",height: Sizes.height_4,width: Sizes.height_4,),
-                        ),
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(Sizes.height_2),
+                        child: SvgPicture.asset("assets/svg/login_flow/ic_back.svg",height: Sizes.height_4,width: Sizes.height_4,),
                       ),
                     ),
                   ],

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:spotify_flutter_code/datamodel/createData.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/getInfoData.dart';
 import 'package:spotify_flutter_code/ui/addKankotri/datamodel/uploadImageData.dart';
+import 'package:spotify_flutter_code/ui/contact/datamodel/sendPdfWpData.dart';
 import 'package:spotify_flutter_code/ui/login/datamodel/logindatamodel.dart';
 import 'package:spotify_flutter_code/ui/preview/datamodel/downloadPdfData.dart';
 import 'package:spotify_flutter_code/ui/preview/datamodel/functionUploadData.dart';
@@ -20,6 +21,7 @@ import '../ui/contact/datamodel/getNumbersData.dart';
 import '../ui/contact/datamodel/numbersJsonData.dart';
 import '../ui/contact/datamodel/sendNumbersData.dart';
 import '../ui/contact/datamodel/sendNumbersJsonData.dart';
+import '../ui/contact/datamodel/sendPdfWpOriginalData.dart';
 import '../ui/login/datamodel/logindata.dart';
 import '../ui/preview/datamodel/downloadPdfDatamodel.dart';
 import '../ui/selectLayout/datamodel/layoutdesigndatamodel.dart';
@@ -368,7 +370,34 @@ class Repository {
     }
   }
 
+  Future<SendPdfWpOriginalData> getNumberWisePdf(SendPdfWpData data,String id,[BuildContext? context]) async {
+    try {
+      Response response = await dioClient!.dio.post<String>("/api/contact-list/buffer/$id",data: data.toJson());
 
+      if (response.statusCode == Constant.responseSuccessCode) {
+        var res = response.data;
+        return SendPdfWpOriginalData.fromJson(jsonDecode(res));
+      } else if (response.statusCode == Constant.responseFailureCode) {
+        var res = response.data;
+        try {
+          return SendPdfWpOriginalData.fromJson(jsonDecode(res));
+        } catch (e) {
+          Debug.printLog(e.toString());
+          return SendPdfWpOriginalData();
+        }
+      } else {
+        throw Exception('Exception -->> Failed to getInfo Please Try Again!');
+      }
+    } on DioError catch (ex) {
+      try {
+        var res = ex.response!.data;
+        return SendPdfWpOriginalData.fromJson(jsonDecode(res));
+      } catch (e) {
+        Debug.printLog(e.toString());
+        return SendPdfWpOriginalData();
+      }
+    }
+  }
 //Todo: For MultiPart Image API
   /* Future<CreateQrData> createQrCode(CreateQrDataModel createQrDataModel,
       [BuildContext? context]) async {

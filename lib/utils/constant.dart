@@ -29,7 +29,8 @@ class Constant {
 
 
 
-  static const appFont = "Popins";
+  // static const appFont = "Popins";
+  static const appFont = "HindVadodara";
   static const selectedSendWp1Person = "1person";
   static const selectedSendWpSarvo = "sarvo";
   static const selectedSendWpSajode = "sajode";

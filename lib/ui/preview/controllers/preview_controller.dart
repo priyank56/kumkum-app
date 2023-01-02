@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -19,7 +18,6 @@ import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
 
 import '../../../connectivitymanager/connectivitymanager.dart';
-import '../../../custom/myChromeSafariBrowser.dart';
 import '../../../main.dart';
 import '../../../utils/color.dart';
 import '../../../utils/sizer_utils.dart';
@@ -27,7 +25,6 @@ import '../../../utils/utils.dart';
 import '../../addKankotri/controllers/add_kankotri_controller.dart';
 
 class PreviewController extends GetxController {
-  ChromeSafariBrowser browser = MyChromeSafariBrowser();
 
   bool isShowProgress = false;
   String selectedSendWp = "";
@@ -82,10 +79,6 @@ class PreviewController extends GetxController {
   addDropDownMenuData({bool regenerateData = false,String? value = ""}){
     if(regenerateData){
       listPersons.clear();
-      /*if(argument[1] != null){
-        functionStringTitleList = argument[1];
-        Debug.printLog("listTitle==>> Preview==>> $functionStringTitleList");
-      }*/
     }
 
     for(int i =0 ; i<functionStringTitleList.length;i++){
@@ -133,25 +126,6 @@ class PreviewController extends GetxController {
     update();
   }
 
-  loadWebView() async {
-    rootBundle.load('assets/ic_profile.png').then((actionButtonIcon) {
-      browser.setActionButton(
-        ChromeSafariBrowserActionButton(
-            id: 1,
-            description: 'Action Button description',
-            icon: actionButtonIcon.buffer.asUint8List(),
-            action: (String url, String title) {
-              print('Action Button 1 clicked!');
-              print(url);
-              print("$title");
-              showCustomizeDialog(Get.context!, this);
-            }),
-      );
-    });
-    await browser.open(
-      url: Uri.parse(previewURL.toString()),
-    );
-  }
 
   clearAddData(){
     Debug.printLog("Clear Data==>> ");
@@ -293,37 +267,40 @@ class PreviewController extends GetxController {
                       Expanded(
                         child: Container(
                           margin: EdgeInsets.only(
-                              top: Sizes.height_4, bottom: Sizes.height_1),
+                              top: Sizes.height_2, bottom: Sizes.height_1),
                           child: Row(
                             children: [
                               Expanded(
-                                child: Material(
-                                  color: CColor.transparent,
-                                  child: InkWell(
-                                    splashColor: CColor.black,
-                                    onTap: () {
-                                      logic.changeDefaultOption(
-                                          Constant.selectedSendWpSarvo);
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      left: Sizes.width_4, right: Sizes.width_1),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      // backgroundColor: CColor.theme,
+                                      elevation: 0,
+                                      backgroundColor: (logic.selectedSendWp ==
+                                          Constant.selectedSendWpSarvo)
+                                          ? CColor.themeDark
+                                          : CColor.gray,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5), // <-- Radius
+                                      ),
+                                      textStyle: TextStyle(
+                                          color: CColor.white,
+                                          fontSize: FontSize.size_12,
+                                          fontFamily: Constant.appFont,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    onPressed: () {
+                                      logic.changeDefaultOption(Constant.selectedSendWpSarvo);
                                     },
                                     child: Container(
-                                      alignment: Alignment.center,
-                                      margin: EdgeInsets.only(
-                                          left: Sizes.width_5,
-                                          right: Sizes.width_1),
                                       padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: (logic.selectedSendWp ==
-                                              Constant.selectedSendWpSarvo)
-                                              ? CColor.themeDark
-                                              : CColor.gray,
-                                          borderRadius:
-                                          BorderRadius.circular(5)),
                                       child: Text(
                                         "txtSarvo".tr,
                                         style: TextStyle(
                                             color: (logic.selectedSendWp ==
-                                                Constant
-                                                    .selectedSendWpSarvo)
+                                                Constant.selectedSendWpSarvo)
                                                 ? CColor.white
                                                 : CColor.black,
                                             fontSize: FontSize.size_12,
@@ -334,33 +311,36 @@ class PreviewController extends GetxController {
                                 ),
                               ),
                               Expanded(
-                                child: Material(
-                                  color: CColor.transparent,
-                                  child: InkWell(
-                                    splashColor: CColor.black,
-                                    onTap: () {
-                                      logic.changeDefaultOption(
-                                          Constant.selectedSendWpSajode);
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      right: Sizes.width_2, left: Sizes.width_1),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      // backgroundColor: CColor.theme,
+                                      elevation: 0,
+                                      backgroundColor: (logic.selectedSendWp ==
+                                          Constant.selectedSendWpSajode)
+                                          ? CColor.themeDark
+                                          : CColor.gray,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5), // <-- Radius
+                                      ),
+                                      textStyle: TextStyle(
+                                          color: CColor.white,
+                                          fontSize: FontSize.size_12,
+                                          fontFamily: Constant.appFont,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    onPressed: () {
+                                      logic.changeDefaultOption(Constant.selectedSendWpSajode);
                                     },
                                     child: Container(
-                                      alignment: Alignment.center,
-                                      margin: EdgeInsets.only(
-                                          right: Sizes.width_2,
-                                          left: Sizes.width_1),
                                       padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: (logic.selectedSendWp ==
-                                              Constant.selectedSendWpSajode)
-                                              ? CColor.themeDark
-                                              : CColor.gray,
-                                          borderRadius:
-                                          BorderRadius.circular(5)),
                                       child: Text(
                                         "txtSajode".tr,
                                         style: TextStyle(
                                             color: (logic.selectedSendWp ==
-                                                Constant
-                                                    .selectedSendWpSajode)
+                                                Constant.selectedSendWpSajode)
                                                 ? CColor.white
                                                 : CColor.black,
                                             fontSize: FontSize.size_12,
@@ -371,33 +351,36 @@ class PreviewController extends GetxController {
                                 ),
                               ),
                               Expanded(
-                                child: Material(
-                                  color: CColor.transparent,
-                                  child: InkWell(
-                                    splashColor: CColor.black,
-                                    onTap: () {
-                                      logic.changeDefaultOption(
-                                          Constant.selectedSendWp1Person);
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                    right: Sizes.width_4,),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      // backgroundColor: CColor.theme,
+                                      elevation: 0,
+                                      backgroundColor: (logic.selectedSendWp ==
+                                          Constant.selectedSendWp1Person)
+                                          ? CColor.themeDark
+                                          : CColor.gray,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5), // <-- Radius
+                                      ),
+                                      textStyle: TextStyle(
+                                          color: CColor.white,
+                                          fontSize: FontSize.size_12,
+                                          fontFamily: Constant.appFont,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    onPressed: () {
+                                      logic.changeDefaultOption(Constant.selectedSendWp1Person);
                                     },
                                     child: Container(
-                                      alignment: Alignment.center,
-                                      margin: EdgeInsets.only(
-                                          right: Sizes.width_5),
                                       padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: (logic.selectedSendWp ==
-                                              Constant
-                                                  .selectedSendWp1Person)
-                                              ? CColor.themeDark
-                                              : CColor.gray,
-                                          borderRadius:
-                                          BorderRadius.circular(5)),
                                       child: Text(
                                         "txt1".tr,
                                         style: TextStyle(
                                             color: (logic.selectedSendWp ==
-                                                Constant
-                                                    .selectedSendWp1Person)
+                                                Constant.selectedSendWp1Person)
                                                 ? CColor.white
                                                 : CColor.black,
                                             fontSize: FontSize.size_12,
@@ -414,7 +397,7 @@ class PreviewController extends GetxController {
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: Sizes.height_5),
+                    margin: EdgeInsets.only(bottom: Sizes.height_3),
                     alignment: Alignment.center,
                     child: ListView.builder(
                       itemBuilder: (context, index) {
@@ -426,72 +409,68 @@ class PreviewController extends GetxController {
                       scrollDirection: Axis.vertical,
                     ),
                   ),
-                  Stack(
-                    alignment: Alignment.centerRight,
+                  Column(
+                    // alignment: Alignment.centerRight,
                     children: [
                       if (logic.functionStringTitleList.length > 3)
                         Container(
                           alignment: Alignment.center,
-                          child: Material(
-                            color: CColor.transparent,
-                            child: InkWell(
-                              splashColor: CColor.black,
-                              onTap: () {
-                                logic.changeAdvanced();
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: Sizes.height_3),
-                                child: Text(
-                                  (!logic.isAdvanceEnabled)
-                                      ? "txtVadhare".tr
-                                      : "txtOchu".tr,
-                                  style: TextStyle(
-                                      color: CColor.black,
-                                      fontFamily: Constant.appFont,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: FontSize.size_12),
-                                ),
+                          child: InkWell(
+                            onTap: () {
+                              logic.changeAdvanced();
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: Sizes.height_2),
+                              child: Text(
+                                (!logic.isAdvanceEnabled)
+                                    ? "txtVadhare".tr
+                                    : "txtOchu".tr,
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: CColor.blue,
+                                    fontFamily: Constant.appFont,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: FontSize.size_12),
                               ),
                             ),
                           ),
                         )
                       else Container(),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                            maxHeight: Sizes.height_10,
-                            minHeight: Sizes.height_10,
-                            maxWidth: Sizes.height_10,
-                            minWidth: Sizes.height_10
-                        ),
-                        child: Material(
-                          color: CColor.transparent,
-                          child: InkWell(
-                            splashColor: CColor.black,
-                            onTap: () async {
-                              if (await Permission.storage
-                                  .request()
-                                  .isGranted) {
-                                logic.generateUploadFunctionsData();
-                                Get.back();
-                              } else if (await Permission.storage
-                                  .request()
-                                  .isPermanentlyDenied) {
-                                showAlertDialogPermission(context,logic);
-                              } else if (await Permission.storage
-                                  .request()
-                                  .isDenied) {
-                                Get.back();
-                              }
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(right: Sizes.width_3,bottom: Sizes.height_3),
-                              alignment: Alignment.centerRight,
-                              child: SvgPicture.asset(
-                                  "assets/svg/ic_done.svg",
-                                  height: Sizes.height_5,
-                                  width: Sizes.height_5
-                              ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.only(
+                            left: Sizes.width_5, right: Sizes.width_5,bottom: Sizes.height_1_5),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: CColor.blueDark,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10), // <-- Radius
                             ),
+                            textStyle: TextStyle(
+                                color: CColor.white,
+                                fontSize: FontSize.size_12,
+                                fontFamily: Constant.appFont,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onPressed: () async {
+                            if (await Permission.storage
+                                .request()
+                            .isGranted) {
+                            logic.generateUploadFunctionsData();
+                            Get.back();
+                            } else if (await Permission.storage
+                                .request()
+                                .isPermanentlyDenied) {
+                            showAlertDialogPermission(context,logic);
+                            } else if (await Permission.storage
+                                .request()
+                                .isDenied) {
+                            Get.back();
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(Sizes.height_1_5),
+                            child: Text("txtDownloadBtn".tr,),
                           ),
                         ),
                       ),

@@ -14,12 +14,11 @@ import 'package:flutter_svg/svg.dart';
 import '../../../utils/utils.dart';
 
 class ContactScreen extends StatelessWidget {
-  ContactScreen({Key? key}) : super(key: key);
+  const ContactScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: [
@@ -486,66 +485,6 @@ class ContactScreen extends StatelessWidget {
         });
   }
 
-  Widget _searchTextField(ContactController logic) {
-    return Container(
-      margin: EdgeInsets.only(
-          top: Sizes.height_2,
-          right: Sizes.width_4,
-          left: Sizes.width_4,),
-      child: TextFormField(
-        controller: logic.searchController,
-        textAlign: TextAlign.start,
-        onChanged: (value) => {
-          logic.onChangeContactList(value)
-        },
-        keyboardType: TextInputType.text,
-        style: const TextStyle(
-          color: CColor.black,
-          fontWeight: FontWeight.w400,
-          fontFamily: Constant.appFont,
-        ),
-        cursorColor: CColor.black,
-        decoration: InputDecoration(
-          prefixIcon: const Icon(
-            Icons.search_rounded,
-            color: CColor.blueDark,
-          ),
-          filled: true,
-          hintStyle: const TextStyle(
-            color: CColor.blueDark,
-            fontWeight: FontWeight.w400,
-            fontFamily: Constant.appFont,
-          ),
-          labelStyle: const TextStyle(color: Colors.black),
-          hintText: 'txtSearch'.tr,
-          fillColor: Colors.white,
-          contentPadding:
-          EdgeInsets.symmetric(vertical: 0, horizontal: Sizes.width_5),
-          border: OutlineInputBorder(
-            borderSide:
-             const BorderSide(color: CColor.borderColor, width: 0.7),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide:
-             const BorderSide(color: CColor.borderColor, width: 0.7),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderSide:
-             const BorderSide(color: CColor.borderColor, width: 0.7),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide:
-             const BorderSide(color: CColor.borderColor, width: 0.7),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
-      ),
-    );
-  }
-
   _listViewContact(BuildContext context, ContactController logic,
       {bool needFullScreen = false}) {
     return GetBuilder<ContactController>(
@@ -688,8 +627,7 @@ class ContactScreen extends StatelessWidget {
               ],
             ),
           ),
-          _searchTextField(logic),
-          GetBuilder<ContactController>(
+          /*GetBuilder<ContactController>(
               id: Constant.idContactList,
               builder: (logic) {
                 return Expanded(
@@ -708,19 +646,24 @@ class ContactScreen extends StatelessWidget {
                             .height_5),
                     child: ListView.builder(
                       itemBuilder: (context, index) {
-                        /*return _itemContactView(index, context, logic,
+                        return _itemContactView(index, context, logic,
                             (logic.selectedSendWp ==
                                 Constant.selectedSendWpSarvo)
                                 ? logic.contactListSarvo
                                 : (logic.selectedSendWp ==
                                 Constant.selectedSendWpSajode)
                                 ? logic.contactListSajode
-                                : logic.contactList1Person);*/
-                        return _itemContactView(index, context, logic, logic.contactList);
+                                : logic.contactList1Person);
                       },
                       physics: const AlwaysScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: logic.contactList.length,
+                      itemCount:
+                      (logic.selectedSendWp == Constant.selectedSendWpSarvo)
+                          ? logic.contactListSarvo.length
+                          : (logic.selectedSendWp ==
+                          Constant.selectedSendWpSajode)
+                          ? logic.contactListSajode.length
+                          : logic.contactList1Person.length,
                       scrollDirection: Axis.vertical,
                     ),
                   ) : const Center(
@@ -731,7 +674,7 @@ class ContactScreen extends StatelessWidget {
                     ),
                   ),
                 );
-              }),
+              }),*/
         ],
       );
     });
@@ -752,7 +695,7 @@ class ContactScreen extends StatelessWidget {
           EdgeInsets.only(top: Sizes.height_1_4, bottom: Sizes.height_1_4),
           child: Row(
             children: [
-              /*Container(
+              Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
@@ -767,16 +710,15 @@ class ContactScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Container(),
                 ),
-              ),*/
-              Container(
-                width: MediaQuery.of(context).size.width * 0.4,
-                margin: EdgeInsets.only(left: Sizes.width_2_5),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      child: Text(
+              ),
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: Sizes.width_2_5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
                         list[index].contactName.toString(),
                         style: TextStyle(
                             color: CColor.black,
@@ -784,23 +726,22 @@ class ContactScreen extends StatelessWidget {
                             fontFamily: Constant.appFont,
                             fontWeight: FontWeight.w500),
                         textAlign: TextAlign.start,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
                         // maxLines: 5,
                       ),
-                    ),
-                    Text(
-                      list[index].contactNumber.toString(),
-                      style: TextStyle(
-                          color: CColor.black,
-                          fontSize: FontSize.size_10,
-                          fontFamily: Constant.appFont,
-                          fontWeight: FontWeight.w400),
-                      textAlign: TextAlign.start,
-                      maxLines: 3,
-                      // maxLines: 5,
-                    )
-                  ],
+                      AutoSizeText(
+                        list[index].contactNumber.toString(),
+                        style: TextStyle(
+                            color: CColor.black,
+                            fontSize: FontSize.size_10,
+                            fontFamily: Constant.appFont,
+                            fontWeight: FontWeight.w400),
+                        textAlign: TextAlign.start,
+                        maxLines: 3,
+                        // maxLines: 5,
+                      )
+                    ],
+                  ),
                 ),
               ),
               InkWell(
@@ -812,54 +753,6 @@ class ContactScreen extends StatelessWidget {
                   child: const Icon(
                     Icons.edit,
                     color: CColor.black,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  logic.addDropDownMenuData(regenerateData: true,value: logic.displayDefaultVal);
-                  logic.showCustomizeDialog(context, logic,index);
-                },
-                child: Container(
-                  padding: EdgeInsets.all(Sizes.width_1),
-                  child: const Icon(
-                    Icons.download,
-                    color: CColor.black,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(
-                      left: Sizes.width_5, right: Sizes.width_1),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      // backgroundColor: CColor.theme,
-                      elevation: 0,
-                      backgroundColor: (list[index].isSelected)?CColor.blueDark50:CColor.blueDark,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5), // <-- Radius
-                      ),
-                      textStyle: TextStyle(
-                          color: CColor.white,
-                          fontSize: FontSize.size_12,
-                          fontFamily: Constant.appFont,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    onPressed: () {
-                      logic.addDropDownMenuData(regenerateData: true,value: logic.displayDefaultVal);
-                      logic.showCustomizeDialog(context, logic,index,isFromDownload: false);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        "txtSend".tr,
-                        style: TextStyle(
-                            color: CColor.white,
-                            fontSize: FontSize.size_12,
-                            fontFamily: Constant.appFont),
-                      ),
-                    ),
                   ),
                 ),
               ),
@@ -889,7 +782,7 @@ class ContactScreen extends StatelessWidget {
   }
 
   contentBox(BuildContext context, int index) {
-    return GetBuilder<ContactController>(
+   /* return GetBuilder<ContactController>(
         id: Constant.idGodNames,
         builder: (logic) {
           return Container(
@@ -906,14 +799,13 @@ class ContactScreen extends StatelessWidget {
                         .width * 0.7,
                     color: CColor.white,
                     child: TextField(
-                      /*controller: (logic.selectedSendWp ==
+                      controller: (logic.selectedSendWp ==
                           Constant.selectedSendWpSarvo)
                           ? logic.contactListSarvo[index].controller
                           : (logic.selectedSendWp ==
                           Constant.selectedSendWpSajode)
                           ? logic.contactListSajode[index].controller
-                          : logic.contactList1Person[index].controller,*/
-                      controller: logic.contactList[index].controller,
+                          : logic.contactList1Person[index].controller,
                       decoration: InputDecoration(
                         focusedBorder: const OutlineInputBorder(
                           borderSide:
@@ -935,7 +827,7 @@ class ContactScreen extends StatelessWidget {
                       left: Sizes.width_5),
                   child: Row(
                     children: [
-                      /*Expanded(
+                      *//*Expanded(
                         child: Material(
                           color: CColor.transparent,
                           child: InkWell(
@@ -1004,7 +896,7 @@ class ContactScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),*/
+                      ),*//*
 
                       Expanded(
                         child: Container(
@@ -1083,7 +975,7 @@ class ContactScreen extends StatelessWidget {
               ],
             ),
           );
-        });
+        });*/
   }
 
 

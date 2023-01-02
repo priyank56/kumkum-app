@@ -177,36 +177,32 @@ class SignupController extends GetxController {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Material(
-                  color: CColor.transparent,
-                  child: InkWell(
-                    splashColor: CColor.black,
-                    onTap: () async {
-                      try {
-                        await firebaseAuth.currentUser!.sendEmailVerification();
-                        Utils.showToast(context, "txtVerificationMsg".tr);
-                      }  on FirebaseAuthException catch (e) {
-                        Utils.showToast(context, e.message.toString());
-                      }
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(
-                          top: Sizes.height_3, left: Sizes.width_7, right: Sizes.width_7),
-                      child: RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontSize: FontSize.size_12,
-                            color: Colors.black,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(text: "${"txtNoGetMail".tr}? "),
-                            TextSpan(
-                                text: "txtResend".tr.toUpperCase(),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700, color: CColor.theme)),
-                          ],
+                InkWell(
+                  onTap: () async {
+                    try {
+                      await firebaseAuth.currentUser!.sendEmailVerification();
+                      Utils.showToast(context, "txtVerificationMsg".tr);
+                    }  on FirebaseAuthException catch (e) {
+                      Utils.showToast(context, e.message.toString());
+                    }
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(
+                        top: Sizes.height_3, left: Sizes.width_7, right: Sizes.width_7),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: FontSize.size_12,
+                          color: Colors.black,
                         ),
+                        children: <TextSpan>[
+                          TextSpan(text: "${"txtNoGetMail".tr}? "),
+                          TextSpan(
+                              text: "txtResend".tr.toUpperCase(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w700, color: CColor.theme)),
+                        ],
                       ),
                     ),
                   ),

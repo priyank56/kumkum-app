@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+// import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:spotify_flutter_code/routes/app_routes.dart';
@@ -50,31 +51,27 @@ class PreviewScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Material(
-                          color: CColor.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              // Get.offAllNamed(AppRoutes.main);
-                              // Get.back();
-                              if(logic.isFromPreviewScreen == Constant.isFromSubmit) {
-                                Get.back();
-                                Get.back();
-                              } else if(logic.isFromPreviewScreen == Constant.isFromPreview) {
-                                var map = <String,String>{};
-                                map.putIfAbsent(Params.createdCardId, () => logic.createData.marriageInvitationCardId.toString());
-                                Get.back(result: map);
-                              } else if(logic.isFromPreviewScreen == Constant.isFromCategoryPreview) {
-                                Get.back();
-                              }
-                            },
-                            splashColor: CColor.black,
-                            child: Container(
-                              margin: EdgeInsets.all(Sizes.height_2),
-                              child: SvgPicture.asset(
-                                "assets/svg/login_flow/ic_back.svg",
-                                height: Sizes.height_4,
-                                width: Sizes.height_4,
-                              ),
+                        InkWell(
+                          onTap: () {
+                            // Get.offAllNamed(AppRoutes.main);
+                            // Get.back();
+                            if(logic.isFromPreviewScreen == Constant.isFromSubmit) {
+                              Get.back();
+                              Get.back();
+                            } else if(logic.isFromPreviewScreen == Constant.isFromPreview) {
+                              var map = <String,String>{};
+                              map.putIfAbsent(Params.createdCardId, () => logic.createData.marriageInvitationCardId.toString());
+                              Get.back(result: map);
+                            } else if(logic.isFromPreviewScreen == Constant.isFromCategoryPreview) {
+                              Get.back();
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(Sizes.height_2),
+                            child: SvgPicture.asset(
+                              "assets/svg/login_flow/ic_back.svg",
+                              height: Sizes.height_4,
+                              width: Sizes.height_4,
                             ),
                           ),
                         ),
@@ -90,33 +87,30 @@ class PreviewScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Material(
-                          color: CColor.transparent,
-                          child: InkWell(
-                            splashColor: CColor.black,
-                            onTap: () {
-                              logic.showCustomizeDialog(context, logic);
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(right: Sizes.width_5),
-                              child: SvgPicture.asset("assets/svg/ic_download.svg",
-                                  height: Sizes.height_3, width: Sizes.height_3),
-                            ),
+                        InkWell(
+                          onTap: () {
+                            logic.showCustomizeDialog(context, logic);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: Sizes.width_5),
+                            child: SvgPicture.asset("assets/svg/ic_download.svg",
+                                height: Sizes.height_3, width: Sizes.height_3),
                           ),
                         ),
                       ],
                     ),
                     Expanded(
                       child: (logic.previewURL != "")
-                          ? /*WebView(
+                          ? WebView(
                               initialUrl: logic.previewURL,
+                              // initialUrl:
+                              //     "https://routeresourcegroup.blob.core.windows.net/cv-templates/dbe4e75b-d171-4022-430d-fb00a2ee6a05",
                               javascriptMode: JavascriptMode.unrestricted,
                               onPageFinished: (url) {
                                 logic.changeProgressValue(false);
                               },
-
-                            )*/
-                          Container(
+                            )
+                          /*Container(
                             child: InAppWebView(
                               initialUrlRequest: URLRequest(url: Uri.parse(logic.previewURL.toString()) ),
                                 initialOptions: InAppWebViewGroupOptions(
@@ -143,7 +137,7 @@ class PreviewScreen extends StatelessWidget {
 
                               },
                             ),
-                          )
+                          )*/
                           : Container(),
                     ),
                   ],

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -24,6 +25,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_contacts/flutter_contacts.dart' as update_contact;
 
 import '../../../connectivitymanager/connectivitymanager.dart';
+import '../../../main.dart';
 import '../../../utils/color.dart';
 import '../../../utils/sizer_utils.dart';
 import '../../../utils/utils.dart';
@@ -44,7 +46,7 @@ class ContactController extends GetxController {
   List<AllContact> contactList = [];
   List<AllContact> allContactList = [];
   final List<OptionsClass> listPersons = [];
-  List<FunctionPreview>? functionsUploadList = [];
+  // List<FunctionPreview>? functionsUploadList = [];
   List<PreviewFunctions> functionStringTitleList = [];
   List<SendPdfWpFunction> functionPdfSendWpList = [];
   bool isAdvanceEnabled = false;
@@ -140,9 +142,9 @@ class ContactController extends GetxController {
       }else if (await Permission.contacts.request().isDenied) {
         Get.back();
       }
-    }else if(pos == 3){
+    }/*else if(pos == 3){
       getAllSelectedGuestNames();
-    }
+    }*/
     update([Constant.idNextPrevious,Constant.idBottomText,Constant.idBottomViewPos,Constant.idMainPage,]);
   }
 
@@ -387,44 +389,6 @@ class ContactController extends GetxController {
 
 
 
-  addDropDownMenuData({bool regenerateData = false,String? value = ""}){
-    if(regenerateData){
-      if(listPersons.isNotEmpty) {
-        listPersons.clear();
-      }
-      if(functionStringTitleList.isNotEmpty) {
-        functionStringTitleList.clear();
-      }
-    }
-    List<FunctionsRes> list = selectedCardData.marriageInvitationCard!.functions!;
-    for(int i =0;i<list.length;i++){
-      functionStringTitleList.add(PreviewFunctions(list[i].functionId, list[i].functionName ?? "",'txtSarvo'.tr));
-    }
-    for(int i =0 ; i<functionStringTitleList.length;i++){
-      if(regenerateData){
-        listPersons.add(OptionsClass(functionStringTitleList[i].fId.toString(), value,
-            ['txtSarvo'.tr, 'txtSajode'.tr, 'txtAppShri'.tr]));
-      }else {
-        listPersons.add(OptionsClass(functionStringTitleList[i].fId.toString(), 'txtSarvo'.tr,
-            ['txtSarvo'.tr, 'txtSajode'.tr, 'txtAppShri'.tr]));
-      }
-    }
-    update([Constant.idAllButton,Constant.idContactList]);
-  }
-
-  changeDefaultOption(String value){
-    selectedSendWp = value;
-    if(value == Constant.selectedSendWpSarvo){
-      displayDefaultVal = "txtSarvo".tr;
-    }else if(value == Constant.selectedSendWpSajode){
-      displayDefaultVal = "txtSajode".tr;
-    }else if(value == Constant.selectedSendWp1Person){
-      displayDefaultVal = "txtAppShri".tr;
-    }
-    addDropDownMenuData(regenerateData: true,value: displayDefaultVal);
-    update([Constant.idAllButton,Constant.idContactList]);
-  }
-
   changeAdvanced(){
     isAdvanceEnabled = !isAdvanceEnabled;
     update([Constant.idAllButton]);
@@ -433,7 +397,6 @@ class ContactController extends GetxController {
 
 
   showCustomizeDialog(BuildContext context, ContactController logic, int index,{bool isFromDownload = true}) {
-    Debug.printLog("selectedCardData==>> ${selectedCardData.toJson()}");
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -811,36 +774,79 @@ class ContactController extends GetxController {
 
   void generateUploadFunctionsData(int index, bool isFromDownload) {
     // FocusScope.of(Get.context!).unfocus();
-    FocusManager.instance.primaryFocus?.unfocus();
+    // FocusManager.instance.primaryFocus?.unfocus();
 
-    if(functionsUploadList!.isNotEmpty){
+    /*if(functionsUploadList!.isNotEmpty){
       functionsUploadList!.clear();
-    }else{
-
+    }*/
+    if(functionPdfSendWpList.isNotEmpty){
+      functionPdfSendWpList.clear();
     }
     for(int i = 0 ;i< functionStringTitleList.length;i++){
-      functionsUploadList!.add(FunctionPreview(
+      /*functionsUploadList!.add(FunctionPreview(
           functionId: functionStringTitleList[i].fId,
-          banquetPerson: functionStringTitleList[i].fPerson));
+          banquetPerson: functionStringTitleList[i].fPerson));*/
       functionPdfSendWpList.add(SendPdfWpFunction(
           functionId: functionStringTitleList[i].fId,
           banquetPerson: functionStringTitleList[i].fPerson
       ));
     }
-    var previewData = FunctionUploadData();
-    previewData.functions = functionsUploadList;
-    sendPdfWhatsapp(index);
-    Debug.printLog("functionsUploadList===>> $functionsUploadList  ${previewData.toJson()}  ${jsonEncode(previewData)}");
+/*    var previewData = FunctionUploadData();
+    previewData.functions = functionsUploadList;*/
+    sendPdfWhatsapp(index,isFromDownload);
+    Debug.printLog("functionsUploadList===>>");
 
   }
 
-  Future<void> sendPdfWhatsapp(int index) async {
+
+  addDropDownMenuData({bool regenerateData = false,String? value = ""}){
+    if(regenerateData){
+      if(listPersons.isNotEmpty) {
+        listPersons.clear();
+      }
+      if(functionStringTitleList.isNotEmpty) {
+        functionStringTitleList.clear();
+      }
+    }
+    List<FunctionsRes> list = selectedCardData.marriageInvitationCard!.functions!;
+    for(int i =0;i<list.length;i++){
+      // functionStringTitleList.add(PreviewFunctions(list[i].functionId, list[i].functionName ?? "",'txtSarvo'.tr));
+      functionStringTitleList.add(PreviewFunctions(list[i].functionId, list[i].functionName ?? "",value));
+    }
+    for(int i =0 ; i<functionStringTitleList.length;i++){
+      if(regenerateData){
+        listPersons.add(OptionsClass(functionStringTitleList[i].fId.toString(), value,
+            ['txtSarvo'.tr, 'txtSajode'.tr, 'txtAppShri'.tr]));
+      }else {
+        listPersons.add(OptionsClass(functionStringTitleList[i].fId.toString(), 'txtSarvo'.tr,
+            ['txtSarvo'.tr, 'txtSajode'.tr, 'txtAppShri'.tr]));
+      }
+    }
+    Debug.printLog("addDropDownMenuData==>> ${functionStringTitleList.length}  ${listPersons.length}");
+    update([Constant.idAllButton,Constant.idContactList]);
+  }
+
+  changeDefaultOption(String value){
+    selectedSendWp = value;
+    if(value == Constant.selectedSendWpSarvo){
+      displayDefaultVal = "txtSarvo".tr;
+    }else if(value == Constant.selectedSendWpSajode){
+      displayDefaultVal = "txtSajode".tr;
+    }else if(value == Constant.selectedSendWp1Person){
+      displayDefaultVal = "txtAppShri".tr;
+    }
+    addDropDownMenuData(regenerateData: true,value: displayDefaultVal);
+    update([Constant.idAllButton,Constant.idContactList]);
+  }
+
+
+  Future<void> sendPdfWhatsapp(int index, bool isFromDownload) async {
     var sendPdfData = SendPdfWpData();
     sendPdfData.number = contactList[index].contactNumber;
     sendPdfData.name = contactList[index].contactName;
     sendPdfData.functions = functionPdfSendWpList;
     emptySearch();
-    getNumberWisePdf(Get.context!,index,sendPdfData);
+    getNumberWisePdf(Get.context!,index,sendPdfData,isFromDownload);
 
     // FlutterShareMe flutterShareMe = FlutterShareMe();
     // await flutterShareMe.shareToWhatsApp(imagePath: file.absolute.path);
@@ -856,24 +862,25 @@ class ContactController extends GetxController {
       );
       await intent.launch();
     }*/
-    Debug.printLog("sendPdfWhatsapp===>> ${contactList[index].contactNumber}  ${contactList[index].contactName}  $index   ${jsonEncode(sendPdfData)}");
+
+    Debug.printLog("sendPdfWhatsapp===>>  $selectedCardId  ${functionPdfSendWpList.length.toString()}${jsonEncode(sendPdfData)}");
 
   }
 
-  getNumberWisePdf(BuildContext context,int index,SendPdfWpData data) async {
+  getNumberWisePdf(BuildContext context,int index,SendPdfWpData data, bool isFromDownload) async {
     if (await InternetConnectivity.isInternetConnect()) {
       isShowProgress = true;
       update([Constant.isShowProgressUpload,Constant.idBottomViewPos]);
       await contactDataModel.getNumberWisePdf(context,data,selectedCardId).then((value) {
-        handleGetNumberWisePdfResponse(value, context,index,data);
+        handleGetNumberWisePdfResponse(value, context,index,data,isFromDownload);
       });
     } else {
       Utils.showToast(context, "txtNoInternet".tr);
     }
   }
 
-  handleGetNumberWisePdfResponse(SendPdfWpOriginalData getAllKankotriData, BuildContext context,int index, SendPdfWpData data) async {
-    allYourCardList.clear();
+  handleGetNumberWisePdfResponse(SendPdfWpOriginalData getAllKankotriData, BuildContext context,int index, SendPdfWpData data, bool isFromDownload) async {
+    // allYourCardList.clear();
     if (getAllKankotriData.status == Constant.responseSuccessCode) {
       if (getAllKankotriData.message != null) {
         Debug.printLog(
@@ -885,8 +892,12 @@ class ContactController extends GetxController {
         final File file = File('${'/storage/emulated/0/Download/'}${data.name ?? "invitationCard"}_${timeStamp.toString()}.pdf');
         await file.writeAsBytes(getAllKankotriData.result!.pdfBuffer!.data ?? []);
         var filePath = file.absolute.path.toString();
-        Share.shareFiles([filePath]);
-        contactList[index].isSelected = true;
+        if(isFromDownload){
+          showNotification(filePath);
+        }else {
+          Share.shareFiles([filePath]);
+          contactList[index].isSelected = true;
+        }
 
       } else {
         Debug.printLog(
@@ -908,6 +919,23 @@ class ContactController extends GetxController {
     update([Constant.isShowProgressUpload,Constant.idBottomViewPos]);
   }
 
+  showNotification(String filePath)async{
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+    const AndroidNotificationDetails(
+        "12345",
+        "kumkum_app",
+        importance: Importance.defaultImportance,
+        priority: Priority.max);
+
+    NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+        12345,
+        "KumKum App",
+        "PDF Download successfully",
+        platformChannelSpecifics,
+        payload:filePath );
+  }
 
 }
 

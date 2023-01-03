@@ -372,6 +372,7 @@ class Repository {
 
   Future<SendPdfWpOriginalData> getNumberWisePdf(SendPdfWpData data,String id,[BuildContext? context]) async {
     try {
+      Debug.printLog("data.toJson()==>> ${jsonEncode(data)}");
       Response response = await dioClient!.dio.post<String>("/api/contact-list/buffer/$id",data: data.toJson());
 
       if (response.statusCode == Constant.responseSuccessCode) {

@@ -58,9 +58,9 @@ class ContactScreen extends StatelessWidget {
                                 logic.allYourCardList.isNotEmpty && !logic
                                 .isShowProgress)
                                 ? _widgetFirstBottomView(context)
-                                : (logic.currentPos == 3 &&
+                                /*: (logic.currentPos == 3 &&
                                 logic.allYourCardList.isNotEmpty)
-                                ? _widgetThirdBottomView(context)
+                                ? _widgetThirdBottomView(context)*/
                                 : Expanded(child: Container(
                               height: 500,
                               alignment: Alignment.center,
@@ -214,7 +214,7 @@ class ContactScreen extends StatelessWidget {
                 ),
 
                 /*For Next */
-                if (logic.currentPos <= 1 || logic.currentPos < 3)
+                if (logic.currentPos <= 1 || logic.currentPos < 2)
                   Expanded(
                     child: InkWell(
                       onTap: () {
@@ -438,7 +438,8 @@ class ContactScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(right: Sizes.width_10,bottom: Sizes.height_0_7),
+                      alignment: Alignment.centerLeft,
+                      margin: EdgeInsets.only(right: Sizes.width_10,left: Sizes.width_5,bottom: Sizes.height_0_7),
                       width: 50,
                       height: 50,
                       child: FloatingActionButton(
@@ -453,7 +454,7 @@ class ContactScreen extends StatelessWidget {
                       // child: const Icon(Icons.add, color: CColor.white,),
                     ),
                   ),
-                  const Spacer(),
+                  /*const Spacer(),
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.only(left: Sizes.width_10,bottom: Sizes.height_0_7),
@@ -478,7 +479,7 @@ class ContactScreen extends StatelessWidget {
                       ),
                       // child: const Icon(Icons.add, color: CColor.white,),
                     ),
-                  ),
+                  ),*/
                 ],
               )
             ],

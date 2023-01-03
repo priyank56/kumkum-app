@@ -774,7 +774,7 @@ class ContactController extends GetxController {
 
   void generateUploadFunctionsData(int index, bool isFromDownload) {
     // FocusScope.of(Get.context!).unfocus();
-    // FocusManager.instance.primaryFocus?.unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
 
     /*if(functionsUploadList!.isNotEmpty){
       functionsUploadList!.clear();

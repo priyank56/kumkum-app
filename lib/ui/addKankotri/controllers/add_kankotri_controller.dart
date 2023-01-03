@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -1444,12 +1445,35 @@ class AddKankotriController extends GetxController {
     }else{
       img =  await imgPicker.getImage(source: ImageSource.gallery);
     }
-    imgFile = File(img!.path);
-    Debug.printLog("Image FIle==>>> $imgFile  ${img.path}");
-    update([Constant.idSetMainImage]);
-    if(imgFile != null){
-      callUploadCoverImageAPI(context);
+    final bytes = File(img!.path).readAsBytesSync().lengthInBytes;
+    final kb = bytes / 1024;
+    final mb = kb / 1024;
+    var isGreaterThen3Mb = false;
+    if(mb >= 3) {
+      isGreaterThen3Mb = true;
+      Utils.showToast(context, "txtNotValidImage".tr);
+    }else{
+      isGreaterThen3Mb = false;
+
+      imgFile = File(img.path);
+
+
+      Debug.printLog("Image FIle==>>> $imgFile  ${img.path}  $mb $isGreaterThen3Mb");
+
+      update([Constant.idSetMainImage]);
+      if(imgFile != null){
+        callUploadCoverImageAPI(context);
+      }
     }
+
+  }
+  getFileSize(String filepath, int decimals) async {
+    var file = File(filepath);
+    int bytes = await file.length();
+    if (bytes <= 0) return "0 B";
+    const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    var i = (log(bytes) / log(1024)).floor();
+    return '${(bytes / pow(1024, i)).toStringAsFixed(decimals)} ${suffixes[i]}';
   }
 
 

@@ -70,6 +70,7 @@ final Map<String, String> enUS = {
   'txtSend': "Send",
   'txtSearch': "Search",
   'txtBackMessage': "Are you sure you want to back from this screen?",
+  'txtNotValidImage': "Please upload image of equal or less than 3mb.",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",

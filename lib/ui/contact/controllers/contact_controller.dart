@@ -183,8 +183,8 @@ class ContactController extends GetxController {
       var isSelected = false;
       Debug.printLog("Contacts===>>   ${contacts[i].displayName} ${contacts[i].givenName}");
 
-      contactList.add(AllContact(contactNumber,contactName!,sendType,isSelected,TextEditingController(text:contactName )));
-      allContactList.add(AllContact(contactNumber,contactName!,sendType,isSelected,TextEditingController(text:contactName )));
+      contactList.add(AllContact(contactNumber,contactName ?? "",sendType,isSelected,TextEditingController(text:contactName )));
+      allContactList.add(AllContact(contactNumber,contactName ?? "",sendType,isSelected,TextEditingController(text:contactName )));
       changeSendOption(Constant.selectedSendWpSarvo);
       update([Constant.idBottomViewPos]);
     }

@@ -16,6 +16,7 @@ import 'package:spotify_flutter_code/ui/preview/datamodel/downloadPdfDatamodel.d
 import 'package:spotify_flutter_code/ui/preview/datamodel/functionUploadData.dart';
 import 'package:spotify_flutter_code/utils/constant.dart';
 import 'package:spotify_flutter_code/utils/debug.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../connectivitymanager/connectivitymanager.dart';
 import '../../../main.dart';
@@ -36,6 +37,26 @@ class PreviewController extends GetxController {
 
   String? selectedValue;
   String? previewURL= "";
+  WebViewController? webViewController;
+
+  String kNavigationExamplePage = '''
+<Head>  
+<title>  
+Example of Paragraph tag  
+</title>  
+</Head>  
+<Body>   
+<p style="color:red;font-size:1px;"> 
+<b> HTML </b> stands for <i> <u> Hyper Text Markup Language. </u> </i> It is used to create a web pages and applications. This language   
+is easily understandable by the user and also be modifiable. It is actually a Markup language, hence it provides a flexible way for designing the  
+web pages along with the text.   
+</p>  
+
+<p style="color:blue;font-size:8px;">HTML file is made up of different elements. <b> An element </b> is a collection of <i> start tag, end tag, attributes and the text between them</i>.</p>   
+</p>  
+</Body>  
+</Html>  
+''';
 
   // List<String> listTitle = [];
   List<PreviewFunctions> functionStringTitleList = [];

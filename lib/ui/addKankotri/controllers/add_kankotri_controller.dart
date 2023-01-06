@@ -143,8 +143,8 @@ class AddKankotriController extends GetxController {
   String dropDownGoodPlace = Utils.getDefaultSelectedTitle();
   String dropDownGoodMrgPlace = Utils.getDefaultSelectedTitle();
 
-  String dropDownGroomNameTitle = Utils.getDefaultSelectedTitle();
-  String dropDownBrideNameTitle = Utils.getDefaultSelectedTitle();
+  String dropDownGroomNameTitle = Utils.getDefaultSelectedTitleForGroomBride();
+  String dropDownBrideNameTitle = Utils.getDefaultSelectedTitleForGroomBride();
 
 
   /*Layout Id and Type*/
@@ -209,18 +209,21 @@ class AddKankotriController extends GetxController {
         lastDate: DateTime(2100));
     if (picked != null) {
       String convertedDateTime =
-          "${picked.year.toString()}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+          "${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year.toString()}";
+          // "${picked.year.toString()}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
       if(index != -1){
         // var date = DateFormat("yyyy-MM-dd","gu").format(picked);
         var date = Utils.translateMobileNumber(DateFormat(Constant.dateFormatForDisplayDateGu).format(picked));
         functionsList[functionsList.indexOf(functionsList[index])].functionDate = date.toString();
+        Debug.printLog("convertedDateTime functionsList==>> $mrgDateDay =>  $mrgDateGujarati  $date" );
+
       }else{
         mrgDate = convertedDateTime.toString();
         mrgDateGujarati = Utils.translateMobileNumber(DateFormat(Constant.dateFormatForDisplayDateGu).format(picked));
         mrgDateDay = DateFormat("EEEE","gu").format(picked);
+        marriageDateController.text = mrgDateGujarati;
       }
       Debug.printLog("convertedDateTime==>> $mrgDateDay =>  $mrgDateGujarati  " );
-      marriageDateController.text = mrgDateGujarati;
 
       update([Constant.idMrgDate,Constant.idFunctionsPart,Constant.idInviterPart]);
 
@@ -244,13 +247,18 @@ class AddKankotriController extends GetxController {
       TimeOfDay morningTime = TimeOfDay(hour: picked.hour, minute:picked.minute);
       var timeAmPm = "";
       if (morningTime.period == DayPeriod.am) {
-        timeAmPm = "વાગે સવારે";
+        timeAmPm = "સવારે";
       } else {
-        timeAmPm = "વાગે સાંજે";
+        Debug.printLog("picked.hour=>>> ${picked.hour}");
+        if(picked.hour >= 17){
+          timeAmPm = "સાંજે";
+        }else{
+          timeAmPm = "બપોરે";
+        }
       }
       morningTime = morningTime.replacing(hour: morningTime.hourOfPeriod);
 
-      var time = "${Utils.translateMobileNumber("${morningTime.hour}:${morningTime.minute}")} $timeAmPm";
+      var time = "$timeAmPm ${Utils.translateMobileNumber("${morningTime.hour}:${morningTime.minute}")} કલાકે";
       functionsList[functionsList.indexOf(functionsList[index])].functionTime = time.toString();
     }
     update([Constant.idFunctionsPart]);
@@ -1211,26 +1219,29 @@ class AddKankotriController extends GetxController {
 
     /*Start For Function Data*/
     for(int i = 0; i < functionsList.length ; i++){
-      var functionsClass = Functions();
-      functionsClass.functionId = functionsList[i].functionId;
-      functionsClass.functionName = functionsList[i].functionName;
-      List<String> nameList = [];
-      for(int j =0;j < functionsList[i].listNames.length ; j++){
-        var title = functionsList[i].listNames[j].selectedTitle;
-        var name = functionsList[i].listNames[j].nimantrakName;
-        nameList.add("$title $name");
-      }
-      functionsClass.inviter = nameList;
-      // functionsClass.inviter = (functionsList[i].listNames.toString() != "")?functionsList[i].listNames:[];
-      functionsClass.functionTime = functionsList[i].functionTime;
-      functionsClass.functionDate = functionsList[i].functionDate;
-      functionsClass.functionPlace = functionsList[i].functionPlace;
-      functionsClass.message = functionsList[i].functionMessage;
-      functionsClass.banquetPerson = "";
-      /*if(functionsClass.functionTime != "" && functionsClass.functionDate != "") {
+      if(functionsList[i].functionDate != "" && functionsList[i].functionTime != ""){
+        var functionsClass = Functions();
+        functionsClass.functionId = functionsList[i].functionId;
+        functionsClass.functionName = functionsList[i].functionName;
+        List<String> nameList = [];
+        for(int j =0;j < functionsList[i].listNames.length ; j++){
+          var title = functionsList[i].listNames[j].selectedTitle;
+          var name = functionsList[i].listNames[j].nimantrakName;
+          nameList.add("$title $name");
+        }
+        functionsClass.inviter = nameList;
+        // functionsClass.inviter = (functionsList[i].listNames.toString() != "")?functionsList[i].listNames:[];
+        functionsClass.functionTime = functionsList[i].functionTime;
+        functionsClass.functionDate = functionsList[i].functionDate;
+        functionsClass.functionPlace = functionsList[i].functionPlace;
+        functionsClass.message = functionsList[i].functionMessage;
+        functionsClass.banquetPerson = "";
+        /*if(functionsClass.functionTime != "" && functionsClass.functionDate != "") {
         createData.marriageInvitationCard!.functions!.add(functionsClass);
       }*/
-      createData.marriageInvitationCard!.functions!.add(functionsClass);
+        createData.marriageInvitationCard!.functions!.add(functionsClass);
+      }
+
     }
     /*End For Function Data*/
 

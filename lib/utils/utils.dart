@@ -89,6 +89,9 @@ class Utils{
         case ':':
           translatedNumber = '$translatedNumber:';
           break;
+        case '/':
+          translatedNumber = '$translatedNumber/';
+          break;
       }
     }
     return translatedNumber;
@@ -107,6 +110,10 @@ class Utils{
 
   static String getDefaultSelectedTitle(){
     return "શ્રી";
+  }
+
+  static String getDefaultSelectedTitleForGroomBride(){
+    return "ચિ.";
   }
 
   static Widget bgShimmer(BuildContext context){

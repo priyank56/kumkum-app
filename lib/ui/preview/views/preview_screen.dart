@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 // import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/svg.dart';
@@ -103,8 +105,12 @@ class PreviewScreen extends StatelessWidget {
                       child: (logic.previewURL != "")
                           ? WebView(
                               initialUrl: logic.previewURL,
-                              // initialUrl:
-                              //     "https://routeresourcegroup.blob.core.windows.net/cv-templates/dbe4e75b-d171-4022-430d-fb00a2ee6a05",
+                              /*initialUrl:
+                              'about:blank',*/
+                              onWebViewCreated: (controller) {
+                                // logic.webViewController = controller;
+                                // logic.webViewController!.loadUrl('data:text/html;base64,${base64Encode(const Utf8Encoder().convert(logic.kNavigationExamplePage))}');
+                              },
                               javascriptMode: JavascriptMode.unrestricted,
                               onPageFinished: (url) {
                                 logic.changeProgressValue(false);

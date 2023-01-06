@@ -335,6 +335,11 @@ class ContactScreen extends StatelessWidget {
                     ),
                   ),*/
                   Utils.bgShimmer(context),
+                  errorWidget: (context, url, error) {
+                    return Container(
+                      color: CColor.borderColor,
+                    );
+                  },
                 ),
               ),
             ),

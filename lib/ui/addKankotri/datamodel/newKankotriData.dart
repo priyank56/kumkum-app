@@ -291,6 +291,7 @@ class FunctionsRes {
         this.inviter,
         this.banquetPerson,
         this.functionPlace,
+        this.functionDay,
     });
 
     String? functionId;
@@ -301,6 +302,7 @@ class FunctionsRes {
     List<String>? inviter;
     dynamic banquetPerson;
     String? functionPlace;
+    String? functionDay;
 
     factory FunctionsRes.fromJson(Map<String, dynamic> json) => FunctionsRes(
         functionId: json["functionId"],
@@ -311,6 +313,7 @@ class FunctionsRes {
         inviter: List<String>.from(json["inviter"].map((x) => x)),
         banquetPerson: json["banquetPerson"],
         functionPlace: json["functionPlace"],
+        functionDay: json["functionDay"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -322,6 +325,7 @@ class FunctionsRes {
         "inviter": List<dynamic>.from(inviter!.map((x) => x)),
         "banquetPerson": banquetPerson,
         "functionPlace": functionPlace,
+        "functionDay": functionDay,
     };
 }
 

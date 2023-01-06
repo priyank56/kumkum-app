@@ -146,7 +146,6 @@ class AddKankotriController extends GetxController {
   String dropDownGroomNameTitle = Utils.getDefaultSelectedTitleForGroomBride();
   String dropDownBrideNameTitle = Utils.getDefaultSelectedTitleForGroomBride();
 
-
   /*Layout Id and Type*/
   var newLayoutId = "";
   var newLayoutType = "";
@@ -160,7 +159,6 @@ class AddKankotriController extends GetxController {
       Debug.printLog("Card arguments 0==>> $isGroomCard");
     }
 
-
     if(arguments[1] != null){
       getAllInvitationCard = arguments[1];
       if(arguments[3] == Constant.isFromHomeScreen){
@@ -172,7 +170,6 @@ class AddKankotriController extends GetxController {
 
     getAllInfo(Get.context!);
 
-
     if(arguments[2] != null){
       isFromAddUpdate = arguments[2];
       Debug.printLog("Card arguments 2==>> $isFromAddUpdate");
@@ -181,8 +178,6 @@ class AddKankotriController extends GetxController {
       isFromScreen = arguments[3];
       Debug.printLog("Card arguments 3==>> $isFromAddUpdate");
     }
-
-
   }
 
   addData(){
@@ -210,13 +205,11 @@ class AddKankotriController extends GetxController {
     if (picked != null) {
       String convertedDateTime =
           "${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year.toString()}";
-          // "${picked.year.toString()}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
       if(index != -1){
-        // var date = DateFormat("yyyy-MM-dd","gu").format(picked);
         var date = Utils.translateMobileNumber(DateFormat(Constant.dateFormatForDisplayDateGu).format(picked));
         functionsList[functionsList.indexOf(functionsList[index])].functionDate = date.toString();
-        Debug.printLog("convertedDateTime functionsList==>> $mrgDateDay =>  $mrgDateGujarati  $date" );
-
+        functionsList[functionsList.indexOf(functionsList[index])].functionDay = DateFormat("EEEE","gu").format(picked);
+        Debug.printLog("convertedDateTime functionsList==>> ${functionsList[functionsList.indexOf(functionsList[index])].functionDate}   ${functionsList[functionsList.indexOf(functionsList[index])].functionDay}" );
       }else{
         mrgDate = convertedDateTime.toString();
         mrgDateGujarati = Utils.translateMobileNumber(DateFormat(Constant.dateFormatForDisplayDateGu).format(picked));
@@ -224,9 +217,7 @@ class AddKankotriController extends GetxController {
         marriageDateController.text = mrgDateGujarati;
       }
       Debug.printLog("convertedDateTime==>> $mrgDateDay =>  $mrgDateGujarati  " );
-
       update([Constant.idMrgDate,Constant.idFunctionsPart,Constant.idInviterPart]);
-
     }
 
   }
@@ -322,7 +313,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f1","txtMadapMuhrat".tr,[data],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f1","txtMadapMuhrat".tr,[data],"","","","",[TextEditingController()],""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
 
@@ -330,7 +321,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f2","txtGitSandhya".tr,[data],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f2","txtGitSandhya".tr,[data],"","","","",[TextEditingController()],""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
 
@@ -338,7 +329,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f3","txtRasGarba".tr,[data],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f3","txtRasGarba".tr,[data],"","","","",[TextEditingController()],""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
 
@@ -346,7 +337,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f4",(isGroomCard)?"txtJan".tr:"txtJanAagman".tr,[data],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f4",(isGroomCard)?"txtJan".tr:"txtJanAagman".tr,[data],"","","","",[TextEditingController()],""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
 
@@ -354,7 +345,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f5","txtBhojan".tr,[data],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f5","txtBhojan".tr,[data],"","","","",[TextEditingController()],""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
 
@@ -362,7 +353,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f6","txtHastMelap".tr,[data],"","","","",[TextEditingController()]));
+    functionsList.add(FunctionsNimantrakName("f6","txtHastMelap".tr,[data],"","","","",[TextEditingController()],""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
     update([Constant.idFunctionsPart]);
@@ -1185,7 +1176,7 @@ class AddKankotriController extends GetxController {
     pairClass.marriageDay = mrgDateDay;
 
     createData.marriageInvitationCard!.pair!.add(pairClass);
-    Debug.printLog("Pair data==>> ${createData.marriageInvitationCard!.pair}");
+    Debug.printLog("Pair data==>> ${jsonEncode(createData.marriageInvitationCard!.pair)}");
     /*End For VarPaksh and KanyaPaksh Data*/
 
     /*====================================================================================*/
@@ -1225,9 +1216,11 @@ class AddKankotriController extends GetxController {
         functionsClass.functionName = functionsList[i].functionName;
         List<String> nameList = [];
         for(int j =0;j < functionsList[i].listNames.length ; j++){
-          var title = functionsList[i].listNames[j].selectedTitle;
-          var name = functionsList[i].listNames[j].nimantrakName;
-          nameList.add("$title $name");
+          if(functionsList[i].listNames[j].nimantrakName != "") {
+            var title = functionsList[i].listNames[j].selectedTitle;
+            var name = functionsList[i].listNames[j].nimantrakName;
+            nameList.add("$title $name");
+          }
         }
         functionsClass.inviter = nameList;
         // functionsClass.inviter = (functionsList[i].listNames.toString() != "")?functionsList[i].listNames:[];
@@ -1235,6 +1228,7 @@ class AddKankotriController extends GetxController {
         functionsClass.functionDate = functionsList[i].functionDate;
         functionsClass.functionPlace = functionsList[i].functionPlace;
         functionsClass.message = functionsList[i].functionMessage;
+        functionsClass.functionDay = functionsList[i].functionDay;
         functionsClass.banquetPerson = "";
         /*if(functionsClass.functionTime != "" && functionsClass.functionDate != "") {
         createData.marriageInvitationCard!.functions!.add(functionsClass);
@@ -1828,7 +1822,7 @@ class AddKankotriController extends GetxController {
 
       }
       functionsList.add(FunctionsNimantrakName(functions.functionId!, functions.functionName ?? "", listNameModel, functions.functionDate ?? "", functions.functionTime ?? "",
-          functions.functionPlace ?? "", functions.message ?? "",[]));
+          functions.functionPlace ?? "", functions.message ?? "",[], functions.functionDay ?? ""));
 
       functionsPlaceListController.add(TextEditingController(text:functions.functionPlace ?? "" ));
       functionsMessageListController.add(TextEditingController(text:functions.message ?? ""));
@@ -1848,11 +1842,13 @@ class AddKankotriController extends GetxController {
     var groomAmantrak = mrgInvitationCard.invitation!.groomInviter;
     if(groomAmantrak != null){
       if(groomAmantrak.values!.date != null) {
-        mrgDateDay = groomAmantrak.values!.date!;
+        // mrgDateDay = groomAmantrak.values!.date!;
+        mrgDateGujarati = groomAmantrak.values!.date!;
       }
 
       if(groomAmantrak.values!.date != null) {
-        mrgDateGujarati = groomAmantrak.values!.day!;
+        // mrgDateGujarati = groomAmantrak.values!.day!;
+        mrgDateDay = groomAmantrak.values!.day!;
       }
 
       if(groomAmantrak.values!.godName != null) {
@@ -1885,11 +1881,13 @@ class AddKankotriController extends GetxController {
     var brideAmantrak = mrgInvitationCard.invitation!.brideInviter;
     if(brideAmantrak != null){
       if(brideAmantrak.values!.date != null) {
-        mrgDateDay = brideAmantrak.values!.date!;
+        mrgDateGujarati = brideAmantrak.values!.date!;
+        // mrgDateDay = brideAmantrak.values!.date!;
       }
 
       if(brideAmantrak.values!.date != null) {
-        mrgDateGujarati = brideAmantrak.values!.day!;
+        // mrgDateGujarati = brideAmantrak.values!.day!;
+        mrgDateDay = brideAmantrak.values!.day!;
       }
 
       if(brideAmantrak.values!.godName != null) {
@@ -2249,11 +2247,12 @@ class FunctionsNimantrakName{
   String functionTime = "";
   String functionPlace = "";
   String functionMessage = "";
+  String functionDay = "";
   // List<String> listNames = [];
   List<NimantrakModel> listNames = [];
   List<TextEditingController> listEditTextNames = [];
 
-  FunctionsNimantrakName(this.functionId,this.functionName,this.listNames,this.functionDate,this.functionTime,this.functionPlace,this.functionMessage,this.listEditTextNames);
+  FunctionsNimantrakName(this.functionId,this.functionName,this.listNames,this.functionDate,this.functionTime,this.functionPlace,this.functionMessage,this.listEditTextNames,this.functionDay);
 }
 
 class GuestAllName{

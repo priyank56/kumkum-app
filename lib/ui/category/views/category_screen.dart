@@ -138,6 +138,11 @@ class CategoryScreen extends StatelessWidget {
               imageUrl: logic.allYourCardList[index].thumbnail.toString(),
               placeholder: (context, url) =>
                   Utils.bgShimmer(context),
+              errorWidget: (context, url, error) {
+                return Container(
+                  color: CColor.borderColor,
+                );
+              },
             ),
           ),
           Container(

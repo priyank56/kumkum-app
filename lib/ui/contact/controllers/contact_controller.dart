@@ -774,7 +774,7 @@ class ContactController extends GetxController {
 
   void generateUploadFunctionsData(int index, bool isFromDownload) {
     // FocusScope.of(Get.context!).unfocus();
-    FocusManager.instance.primaryFocus?.unfocus();
+    // FocusManager.instance.primaryFocus?.unfocus();
 
     /*if(functionsUploadList!.isNotEmpty){
       functionsUploadList!.clear();
@@ -810,16 +810,15 @@ class ContactController extends GetxController {
     }
     List<FunctionsRes> list = selectedCardData.marriageInvitationCard!.functions!;
     for(int i =0;i<list.length;i++){
-      // functionStringTitleList.add(PreviewFunctions(list[i].functionId, list[i].functionName ?? "",'txtSarvo'.tr));
       functionStringTitleList.add(PreviewFunctions(list[i].functionId, list[i].functionName ?? "",value));
     }
     for(int i =0 ; i<functionStringTitleList.length;i++){
       if(regenerateData){
         listPersons.add(OptionsClass(functionStringTitleList[i].fId.toString(), value,
-            ['txtSarvo'.tr, 'txtSajode'.tr, 'txtAppShri'.tr]));
+            Utils.getPersonsType()));
       }else {
         listPersons.add(OptionsClass(functionStringTitleList[i].fId.toString(), 'txtSarvo'.tr,
-            ['txtSarvo'.tr, 'txtSajode'.tr, 'txtAppShri'.tr]));
+            Utils.getPersonsType()));
       }
     }
     Debug.printLog("addDropDownMenuData==>> ${functionStringTitleList.length}  ${listPersons.length}");
@@ -845,11 +844,8 @@ class ContactController extends GetxController {
     sendPdfData.number = contactList[index].contactNumber;
     sendPdfData.name = contactList[index].contactName;
     sendPdfData.functions = functionPdfSendWpList;
-    emptySearch();
     getNumberWisePdf(Get.context!,index,sendPdfData,isFromDownload);
 
-    // FlutterShareMe flutterShareMe = FlutterShareMe();
-    // await flutterShareMe.shareToWhatsApp(imagePath: file.absolute.path);
     /*if (Platform.isAndroid) {
       AndroidIntent intent = const AndroidIntent(
         action: 'action_send',
@@ -862,15 +858,12 @@ class ContactController extends GetxController {
       );
       await intent.launch();
     }*/
-
-    Debug.printLog("sendPdfWhatsapp===>>  $selectedCardId  ${functionPdfSendWpList.length.toString()}${jsonEncode(sendPdfData)}");
-
   }
 
   getNumberWisePdf(BuildContext context,int index,SendPdfWpData data, bool isFromDownload) async {
     if (await InternetConnectivity.isInternetConnect()) {
       isShowProgress = true;
-      update([Constant.isShowProgressUpload,Constant.idBottomViewPos]);
+      update([Constant.isShowProgressUpload,]);
       await contactDataModel.getNumberWisePdf(context,data,selectedCardId).then((value) {
         handleGetNumberWisePdfResponse(value, context,index,data,isFromDownload);
       });
@@ -880,14 +873,8 @@ class ContactController extends GetxController {
   }
 
   handleGetNumberWisePdfResponse(SendPdfWpOriginalData getAllKankotriData, BuildContext context,int index, SendPdfWpData data, bool isFromDownload) async {
-    // allYourCardList.clear();
     if (getAllKankotriData.status == Constant.responseSuccessCode) {
       if (getAllKankotriData.message != null) {
-        Debug.printLog(
-            "handleGetAllMyKankotriResponse Res Success ===>> ${getAllKankotriData.toJson().toString()}");
-        // var path = "/storage/emulated/0/Download/card.pdf";
-        // File file = File(path);
-
         var timeStamp  = DateTime.now().millisecondsSinceEpoch;
         final File file = File('${'/storage/emulated/0/Download/'}${data.name ?? "invitationCard"}_${timeStamp.toString()}.pdf');
         await file.writeAsBytes(getAllKankotriData.result!.pdfBuffer!.data ?? []);
@@ -916,7 +903,7 @@ class ContactController extends GetxController {
       }
     }
     isShowProgress = false;
-    update([Constant.isShowProgressUpload,Constant.idBottomViewPos]);
+    update([Constant.isShowProgressUpload,]);
   }
 
   showNotification(String filePath)async{

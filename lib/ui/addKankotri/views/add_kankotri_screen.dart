@@ -132,9 +132,11 @@ class AddKankotriScreen extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: Sizes.width_5),
             child: Column(
               children: [
-                (logic.getAllInvitationCard.marriageInvitationCard!.coverImage!.isShow!)
-                    ? _widgetImageView(logic, context)
-                    : Container(),
+                // (logic.getAllInvitationCard.marriageInvitationCard!.coverImage!.isShow!)
+                // (logic.layoutIsShowImage)
+                //     ? _widgetImageView(logic, context)
+                //     : Container(),
+                _widgetImageView(logic, context),
                 _varPaksh(logic, context),
                 _kanyaPaksh(logic, context),
                 _mrgTarikh(logic, context),
@@ -159,7 +161,7 @@ class AddKankotriScreen extends StatelessWidget {
     return GetBuilder<AddKankotriController>(
         id: Constant.idSetMainImage,
         builder: (logic) {
-          return InkWell(
+          return (logic.layoutIsShowImage)?InkWell(
             onTap: () async {
               if (await Permission.storage
                   .request()
@@ -230,7 +232,7 @@ class AddKankotriScreen extends StatelessWidget {
                 ),
               ),
             ),
-          );
+          ):Container();
         });
   }
 
@@ -1057,7 +1059,6 @@ class AddKankotriScreen extends StatelessWidget {
             .size
             .width * 0.9,
         child: TextField(
-          keyboardType: TextInputType.number,
           controller: logic.nimantrakMnoController[index],
           onChanged: (value) {
             logic.changeValueInListForNimantrak(
@@ -2728,7 +2729,7 @@ class AddKankotriScreen extends StatelessWidget {
                 index,
                 logic,
                 logic.goodPlaceNamesList[mainIndex].listOfAddressName,
-                mainIndex);
+                mainIndex,guestNamesList[mainIndex].titleName.toString());
           },
           shrinkWrap: true,
           itemCount:
@@ -2829,7 +2830,7 @@ class AddKankotriScreen extends StatelessWidget {
       int index,
       AddKankotriController logic,
       List<String> listOfAddressName,
-      int mainIndex) {
+      int mainIndex, String placeHolder) {
     return Container(
       margin: EdgeInsets.only(top: Sizes.height_1),
       child: Column(
@@ -2870,9 +2871,9 @@ class AddKankotriScreen extends StatelessWidget {
                 suffixIconConstraints: BoxConstraints(
                     minHeight: Sizes.height_3, minWidth: Sizes.height_3),
                 border: const OutlineInputBorder(),
-                labelText: "txtAmantrakAddress".tr,
+                labelText: placeHolder,
                 labelStyle: const TextStyle(color: CColor.grayDark),
-                hintText: 'txtAmantrakAddress'.tr,
+                hintText: placeHolder,
               ),
             ),
           ),
@@ -2898,7 +2899,6 @@ class AddKankotriScreen extends StatelessWidget {
             logic.changeValueInListForGoodPlace(
                 index, mainIndex, Constant.typeGoodPlaceMno, value);
           },
-          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 0),
             focusedBorder: const OutlineInputBorder(
@@ -3492,7 +3492,7 @@ class AddKankotriScreen extends StatelessWidget {
 
   /*Show Back Dialog*/
   showAlertBackDialog(BuildContext context,AddKankotriController logic) {
-    // Create button
+    /*// Create button
     Widget okButton = TextButton(
       child: Text("txtYes".tr),
       onPressed: () {
@@ -3534,7 +3534,124 @@ class AddKankotriScreen extends StatelessWidget {
       builder: (BuildContext context) {
         return alert;
       },
-    );
+    );*/
+    showCustomizeBackDialog(context,logic);
   }
 
+  showCustomizeBackDialog(BuildContext context, AddKankotriController logic) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Wrap(
+            runAlignment: WrapAlignment.center,
+            children: [
+              Dialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0)),
+                child: contentBoxBack(context,logic),
+              ),
+
+            ],
+          );
+        });
+  }
+
+  contentBoxBack(BuildContext context, AddKankotriController logic) {
+    return GetBuilder<AddKankotriController>(
+        id: Constant.idGodNames,
+        builder: (logic) {
+          return Container(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              margin: EdgeInsets.only(top: Sizes.height_2,
+                  right: Sizes.width_2, left: Sizes.width_2,bottom: Sizes.height_2),
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: Sizes.width_3),
+                child: Column(
+                  crossAxisAlignment:CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "txtSaveChanges".tr,
+                            style: TextStyle(
+                              color: CColor.black,
+                              fontSize: FontSize.size_12,
+                              fontFamily: Constant.appFont,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            child: const Icon(Icons.close),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: Sizes.height_1),
+                      child: Text(
+                        "txtSaveChangesMessage".tr,
+                        style: TextStyle(
+                          color: CColor.black,
+                          fontSize: FontSize.size_10,
+                          fontFamily: Constant.appFont,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: Sizes.height_2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.back();
+                              Get.back();
+                            },
+                            child: Text(
+                              "txtDiscard".tr,
+                              style: TextStyle(
+                                color: CColor.blue,
+                                fontSize: FontSize.size_10,
+                                fontFamily: Constant.appFont,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Get.back();
+                              logic.getAllValue(Constant.isFromSave);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: Sizes.width_3),
+                              child: Text(
+                                "txtSave".tr,
+                                style: TextStyle(
+                                  color: CColor.blue,
+                                  fontSize: FontSize.size_10,
+                                  fontFamily: Constant.appFont,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
 }

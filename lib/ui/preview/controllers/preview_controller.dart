@@ -105,10 +105,10 @@ web pages along with the text.
     for(int i =0 ; i<functionStringTitleList.length;i++){
       if(regenerateData){
         listPersons.add(OptionsClass(functionStringTitleList[i].fId.toString(), value,
-            ['txtSarvo'.tr, 'txtSajode'.tr, 'txtAppShri'.tr]));
+            Utils.getPersonsType()));
       }else {
         listPersons.add(OptionsClass(functionStringTitleList[i].fId.toString(), 'txtSarvo'.tr,
-            ['txtSarvo'.tr, 'txtSajode'.tr, 'txtAppShri'.tr]));
+            Utils.getPersonsType()));
       }
     }
   }

@@ -97,6 +97,55 @@ class Utils{
     return translatedNumber;
   }
 
+  static String translateMobileNumberEn(String mobileNumber) {
+    var mobileNumberTrim = mobileNumber.toString();
+    var translatedNumber = '';
+    for (int i = 0; i < mobileNumberTrim.length; i++) {
+      switch (mobileNumberTrim[i]) {
+        case '૦':
+          translatedNumber = '$translatedNumber'"0";
+          break;
+        case '૧':
+          translatedNumber ='$translatedNumber'"1";
+          break;
+        case '૨':
+          translatedNumber ='$translatedNumber'"2";
+          break;
+        case '૩':
+          translatedNumber ='$translatedNumber'"3";
+          break;
+        case '૪':
+          translatedNumber ='$translatedNumber'"4";
+          break;
+        case '૫':
+          translatedNumber ='$translatedNumber'"5";
+          break;
+        case '૬':
+          translatedNumber ='$translatedNumber'"6";
+          break;
+        case '૭':
+          translatedNumber ='$translatedNumber'"7";
+          break;
+        case '૮':
+          translatedNumber ='$translatedNumber'"8";
+          break;
+        case '૯':
+          translatedNumber ='$translatedNumber'"9";
+          break;
+        case '-':
+          translatedNumber = '$translatedNumber'"-";
+          break;
+        case ':':
+          translatedNumber = '$translatedNumber'":";
+          break;
+        case '/':
+          translatedNumber = '$translatedNumber'"/";
+          break;
+      }
+    }
+    return translatedNumber;
+  }
+
   static List<String> getOtherTitlesList(){
     List<String> listOfAllOtherTitles = [];
     listOfAllOtherTitles.add("શ્રી");
@@ -130,5 +179,9 @@ class Utils{
 
   static btnStyle(){
     return ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+  }
+
+  static List<String>? getPersonsType(){
+    return ['txtSarvo'.tr, 'txtSajode'.tr, 'txtAppShri'.tr,'-'];
   }
 }

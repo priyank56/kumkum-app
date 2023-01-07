@@ -22,14 +22,14 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getAllPreBuiltCardsAPI(Get.context!);
+    getAllInvitationCardsAPI(Get.context!);
   }
 
-  getAllPreBuiltCardsAPI(BuildContext context) async {
+  getAllInvitationCardsAPI(BuildContext context) async {
     if (await InternetConnectivity.isInternetConnect()) {
       isShowProgress = true;
       update([Constant.isShowProgressUpload,Constant.idMainPage]);
-      await newKankotriDataModel.getAllPreBuiltCards(
+      await newKankotriDataModel.getAllInvitationCards(
           context).then((value) {
         handleGetAllMyKankotriResponse(value, context);
       });

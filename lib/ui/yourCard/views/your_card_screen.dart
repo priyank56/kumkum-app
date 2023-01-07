@@ -100,7 +100,7 @@ class YourCardsScreen extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
-              childAspectRatio: 0.8
+              childAspectRatio: 0.7
           ),
           itemCount: logic.allYourCardList.length,
           itemBuilder: (context, index) {
@@ -134,31 +134,43 @@ class YourCardsScreen extends StatelessWidget {
         ])!
             .then((value) => logic.getAllYourCardsAPI(context));
       },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: CachedNetworkImage(
-            fadeInDuration: const Duration(milliseconds: 10),
-            fadeOutDuration: const Duration(milliseconds: 10),
-            fit: BoxFit.cover,
-            imageUrl: "${logic.allYourCardList[index].thumbnail}",
-            placeholder: (context, url) =>
-            /*const Center(
-              child: SizedBox(
-                width: 60.0,
-                height: 60.0,
-                child: CircularProgressIndicator(),
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(bottom: Sizes.height_1),
+            child: Text(
+              "${"txtUpdatedDate".tr}${logic.allYourCardList[index].updatedAt!.day}/${logic.allYourCardList[index].updatedAt!.month}/${logic.allYourCardList[index].updatedAt!.year}",
+              style: TextStyle(
+                color: CColor.black,
+                fontFamily: Constant.appFont,
+                fontWeight: FontWeight.w500,
+                fontSize: FontSize.size_12
               ),
-            ),*/
-            Utils.bgShimmer(context),
-            errorWidget: (context, url, error) {
-              return Container(
-                color: CColor.borderColor,
-              );
-            },
+            ),
           ),
-        ),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: CachedNetworkImage(
+                  fadeInDuration: const Duration(milliseconds: 10),
+                  fadeOutDuration: const Duration(milliseconds: 10),
+                  fit: BoxFit.cover,
+                  imageUrl: "${logic.allYourCardList[index].thumbnail}",
+                  placeholder: (context, url) =>
+                  Utils.bgShimmer(context),
+                  errorWidget: (context, url, error) {
+                    return Container(
+                      color: CColor.borderColor,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

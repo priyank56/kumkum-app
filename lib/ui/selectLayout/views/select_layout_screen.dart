@@ -141,6 +141,7 @@ class SelectLayoutScreen extends StatelessWidget {
         var map = <String,String>{};
         map.putIfAbsent(Constant.layoutId, () => logic.layoutDesignList[index].layoutDesignId.toString());
         map.putIfAbsent(Constant.layoutType, () => logic.layoutDesignList[index].marriageInvitationCardType.toString());
+        map.putIfAbsent(Constant.layoutImage, () => logic.layoutDesignList[index].isShow.toString());
         Get.back(result: map,canPop: true);
       },
       child: ClipRRect(

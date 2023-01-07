@@ -492,7 +492,7 @@ class ContactScreen extends StatelessWidget {
         });
   }
 
-  Widget _searchTextField(ContactController logic) {
+  Widget _searchTextField(ContactController logic, BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
           top: Sizes.height_2,
@@ -501,6 +501,8 @@ class ContactScreen extends StatelessWidget {
       child: TextFormField(
         controller: logic.searchController,
         textAlign: TextAlign.start,
+        onTap: () {
+        },
         onChanged: (value) => {
           logic.onChangeContactList(value)
         },
@@ -694,7 +696,7 @@ class ContactScreen extends StatelessWidget {
               ],
             ),
           ),
-          _searchTextField(logic),
+          _searchTextField(logic,context),
           GetBuilder<ContactController>(
               id: Constant.idContactList,
               builder: (logic) {

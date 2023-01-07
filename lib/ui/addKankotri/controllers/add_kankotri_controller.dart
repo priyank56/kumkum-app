@@ -150,6 +150,7 @@ class AddKankotriController extends GetxController {
   var newLayoutId = "";
   var newLayoutType = "";
   var newCreatedCardId = "";
+  var layoutIsShowImage = true;
 
   @override
   void onInit() {
@@ -161,6 +162,7 @@ class AddKankotriController extends GetxController {
 
     if(arguments[1] != null){
       getAllInvitationCard = arguments[1];
+      layoutIsShowImage = getAllInvitationCard.marriageInvitationCard!.coverImage!.isShow!;
       if(arguments[3] == Constant.isFromHomeScreen){
         addData();
       }
@@ -197,9 +199,20 @@ class AddKankotriController extends GetxController {
   }
 
   Future<void> selectDate(BuildContext context,{int index = -1}) async {
+    var initialDateTime = DateTime.now();
+
+    if(index != -1 && functionsList[functionsList.indexOf(functionsList[index])].functionDate != ""){
+      var date = functionsList[functionsList.indexOf(functionsList[index])].functionDate;
+      date = Utils.translateMobileNumberEn(date);
+      initialDateTime = DateFormat("dd/MM/yyyy","en").parse(date);
+    }else if(mrgDate != "" && index == -1){
+      Debug.printLog("initialDateTime Functions ELSE==>> $mrgDate" );
+      initialDateTime = DateFormat("dd/MM/yyyy","en").parse(mrgDate);
+    }
+
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
+        initialDate: initialDateTime,
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2100));
     if (picked != null) {
@@ -223,9 +236,34 @@ class AddKankotriController extends GetxController {
   }
 
   Future<void> selectTime(BuildContext context,int index) async {
+    var initTime = TimeOfDay.now();
+    if(functionsList[functionsList.indexOf(functionsList[index])].functionTime != ""){
+      var time = functionsList[functionsList.indexOf(functionsList[index])].functionTime;
+      var withOutHr = time.replaceAll("કલાકે", " ");
+      var amPm = withOutHr.split(" ")[0];
+      var originalTime  = withOutHr.split(" ")[1];
+      var hour = Utils.translateMobileNumberEn(originalTime.split(":")[0]);
+      var min = Utils.translateMobileNumberEn(originalTime.split(":")[1]);
+      var amPmDay = DayPeriod.am;
+      var amPmText = "Am";
+      if(amPm == "સાંજે"){
+        amPmDay = DayPeriod.pm;
+        amPmText = "PM";
+      }else{
+        amPmDay = DayPeriod.am;
+        amPmText = "AM";
+      }
+      var timeSrt = "$hour:$min $amPmText";
+      DateTime parseDate = DateFormat("h:mm a").parse(timeSrt);
+      var inputDate = DateTime.parse(parseDate.toString());
+
+      Debug.printLog("Time Functions==>>  $hour =  $min = $amPmDay  ${inputDate.hour}");
+      initTime = TimeOfDay(hour: inputDate.hour,minute: inputDate.minute);
+
+    }
     final TimeOfDay? picked = await showTimePicker(
         context: context,
-        initialTime: TimeOfDay.now(),
+        initialTime: initTime,
         initialEntryMode: TimePickerEntryMode.dial,
         builder: (BuildContext context, Widget? child) {
           return MediaQuery(
@@ -251,6 +289,7 @@ class AddKankotriController extends GetxController {
 
       var time = "$timeAmPm ${Utils.translateMobileNumber("${morningTime.hour}:${morningTime.minute}")} કલાકે";
       functionsList[functionsList.indexOf(functionsList[index])].functionTime = time.toString();
+      functionsList[functionsList.indexOf(functionsList[index])].initTime = morningTime;
     }
     update([Constant.idFunctionsPart]);
   }
@@ -1147,8 +1186,11 @@ class AddKankotriController extends GetxController {
     createData.isGroom = isGroomCard;
 
     var coverImage = CoverImage();
-    coverImage.isShow = getAllInvitationCard.marriageInvitationCard!.coverImage!.isShow ??  true;
+    /*coverImage.isShow = getAllInvitationCard.marriageInvitationCard!.coverImage!.isShow ??  true;
     coverImage.url = (imgCoverURL != "")?imgCoverURL : "";
+    coverImage.id = imgCoverId ?? "";*/
+    coverImage.isShow = layoutIsShowImage;
+    coverImage.url = (imgCoverURL != "" && layoutIsShowImage)?imgCoverURL : "";
     coverImage.id = imgCoverId ?? "";
     createData.marriageInvitationCard!.coverImage = coverImage;
 
@@ -1161,12 +1203,20 @@ class AddKankotriController extends GetxController {
     var groomClass = Bride();
 
 
-    brideClass.name = "$dropDownBrideNameTitle ${kanyaNuNameController.text}";
+    if(kanyaNuNameController.text.isNotEmpty) {
+      brideClass.name = "$dropDownBrideNameTitle ${kanyaNuNameController.text}";
+    }else{
+      brideClass.name = "";
+    }
     brideClass.enName = brideNameController.text;
     pairClass.bride = brideClass;
 
 
-    groomClass.name = "$dropDownGroomNameTitle ${varRajaNuNameController.text}";
+    if(varRajaNuNameController.text.isNotEmpty) {
+      groomClass.name = "$dropDownGroomNameTitle ${varRajaNuNameController.text}";
+    }else{
+      groomClass.name = "";
+    }
     groomClass.enName = groomNameController.text;
     pairClass.groom = groomClass;
 
@@ -1185,9 +1235,11 @@ class AddKankotriController extends GetxController {
     var nimantrakData = InviterClass();
     List<String> nameList = [];
     for(int i =0;i < listNimantrakName.length ; i++){
-      var title = listNimantrakName[i].selectedTitle;
-      var name = listNimantrakName[i].nimantrakName;
-      nameList.add("$title $name");
+      if(listNimantrakName[i].nimantrakName.isNotEmpty) {
+        var title = listNimantrakName[i].selectedTitle;
+        var name = listNimantrakName[i].nimantrakName;
+        nameList.add("$title $name");
+      }
     }
     nimantrakData.name = nameList;
     nimantrakData.contactNo = listNimantrakMno;
@@ -1223,16 +1275,12 @@ class AddKankotriController extends GetxController {
           }
         }
         functionsClass.inviter = nameList;
-        // functionsClass.inviter = (functionsList[i].listNames.toString() != "")?functionsList[i].listNames:[];
         functionsClass.functionTime = functionsList[i].functionTime;
         functionsClass.functionDate = functionsList[i].functionDate;
         functionsClass.functionPlace = functionsList[i].functionPlace;
         functionsClass.message = functionsList[i].functionMessage;
         functionsClass.functionDay = functionsList[i].functionDay;
         functionsClass.banquetPerson = "";
-        /*if(functionsClass.functionTime != "" && functionsClass.functionDate != "") {
-        createData.marriageInvitationCard!.functions!.add(functionsClass);
-      }*/
         createData.marriageInvitationCard!.functions!.add(functionsClass);
       }
 
@@ -1262,10 +1310,18 @@ class AddKankotriController extends GetxController {
       groomInviterValues.godName = groomGodNameController.text;
     }
     if(chirpingInfoGroom.values!.motherName != null) {
-      groomInviterValues.motherName = "$dropDownGroomMotherName ${groomMotherNameController.text}";
+      if(groomMotherNameController.text.isNotEmpty) {
+        groomInviterValues.motherName = "$dropDownGroomMotherName ${groomMotherNameController.text}";
+      }else{
+        groomInviterValues.motherName = "";
+      }
     }
     if(chirpingInfoGroom.values!.fatherName != null) {
-      groomInviterValues.fatherName = "$dropDownGroomFatherName ${groomFatherNameController.text}";
+      if(groomFatherNameController.text.isNotEmpty) {
+        groomInviterValues.fatherName = "$dropDownGroomFatherName ${groomFatherNameController.text}";
+      }else{
+        groomInviterValues.fatherName = "";
+      }
     }
     if(chirpingInfoGroom.values!.hometownName != null) {
       groomInviterValues.hometownName = groomVillageNameController.text;
@@ -1293,10 +1349,18 @@ class AddKankotriController extends GetxController {
       brideInviterValues.date = mrgDateGujarati;
     }
     if(chirpingInfoBride.values!.motherName != null) {
-      brideInviterValues.motherName = "$dropDownBrideMotherName ${brideMotherNameController.text}";
+      if(brideMotherNameController.text.isNotEmpty) {
+        brideInviterValues.motherName = "$dropDownBrideMotherName ${brideMotherNameController.text}";
+      }else{
+        brideInviterValues.motherName = "";
+      }
     }
     if(chirpingInfoBride.values!.fatherName != null) {
-      brideInviterValues.fatherName = "$dropDownBrideFatherName ${brideFatherNameController.text}";
+      if(brideFatherNameController.text.isNotEmpty) {
+        brideInviterValues.fatherName = "$dropDownBrideFatherName ${brideFatherNameController.text}";
+      }else{
+        brideInviterValues.fatherName = "";
+      }
     }
     if(chirpingInfoBride.values!.hometownName != null) {
       brideInviterValues.hometownName = brideVillageNameController.text;
@@ -1323,9 +1387,11 @@ class AddKankotriController extends GetxController {
         .toList();
     List<String> firstNameList = [];
     for (int j = 0; j < firstList[0].listOfGuestNames.length; j++) {
-      var title = firstList[0].listOfGuestNames[j].selectedTitle;
-      var name = firstList[0].listOfGuestNames[j].nimantrakName;
-      firstNameList.add("$title $name");
+      if(firstList[0].listOfGuestNames[j].nimantrakName.isNotEmpty) {
+        var title = firstList[0].listOfGuestNames[j].selectedTitle;
+        var name = firstList[0].listOfGuestNames[j].nimantrakName;
+        firstNameList.add("$title $name");
+      }
     }
     allNamesData.list = firstNameList;
     allNamesData.title = firstList[0].titleName;
@@ -1335,9 +1401,11 @@ class AddKankotriController extends GetxController {
     var secondList = guestNamesList.where((element) => element.titleName == "txtSanehaDhin".tr).toList();
     List<String> secondNameList = [];
     for (int j = 0; j < secondList[0].listOfGuestNames.length; j++) {
-      var title = secondList[0].listOfGuestNames[j].selectedTitle;
-      var name = secondList[0].listOfGuestNames[j].nimantrakName;
-      secondNameList.add("$title $name");
+      if(secondList[0].listOfGuestNames[j].nimantrakName.isNotEmpty) {
+        var title = secondList[0].listOfGuestNames[j].selectedTitle;
+        var name = secondList[0].listOfGuestNames[j].nimantrakName;
+        secondNameList.add("$title $name");
+      }
     }
     allNamesData.list = secondNameList;
     allNamesData.title = secondList[0].titleName;
@@ -1347,9 +1415,11 @@ class AddKankotriController extends GetxController {
     var thirdList = guestNamesList.where((element) => element.titleName == "txtMosalPaksh".tr).toList();
     List<String> thirdNameList = [];
     for (int j = 0; j < thirdList[0].listOfGuestNames.length; j++) {
-      var title = thirdList[0].listOfGuestNames[j].selectedTitle;
-      var name = thirdList[0].listOfGuestNames[j].nimantrakName;
-      thirdNameList.add("$title $name");
+      if(thirdList[0].listOfGuestNames[j].nimantrakName.isNotEmpty) {
+        var title = thirdList[0].listOfGuestNames[j].selectedTitle;
+        var name = thirdList[0].listOfGuestNames[j].nimantrakName;
+        thirdNameList.add("$title $name");
+      }
     }
     allNamesData.list = thirdNameList;
     allNamesData.title = thirdList[0].titleName;
@@ -1359,9 +1429,11 @@ class AddKankotriController extends GetxController {
     var fourthList = guestNamesList.where((element) => element.titleName == "txtBhanejPaksh".tr).toList();
     List<String> fourthNameList = [];
     for (int j = 0; j < fourthList[0].listOfGuestNames.length; j++) {
-      var title = fourthList[0].listOfGuestNames[j].selectedTitle;
-      var name = fourthList[0].listOfGuestNames[j].nimantrakName;
-      fourthNameList.add("$title $name");
+      if(fourthList[0].listOfGuestNames[j].nimantrakName.isNotEmpty) {
+        var title = fourthList[0].listOfGuestNames[j].selectedTitle;
+        var name = fourthList[0].listOfGuestNames[j].nimantrakName;
+        fourthNameList.add("$title $name");
+      }
     }
     allNamesData.list = fourthNameList;
     allNamesData.title = fourthList[0].titleName;
@@ -1390,7 +1462,11 @@ class AddKankotriController extends GetxController {
     for(int i = 0; i < goodPlaceNamesList.length ; i++){
       var goodPlace = AuspiciousPlace();
       goodPlace.title = goodPlaceNamesList[i].titleName;
-      goodPlace.inviterName = "${goodPlaceNamesList[i].selectedValue!} ${goodPlaceNamesList[i].inviterName}";
+      if(goodPlaceNamesList[i].inviterName != "") {
+        goodPlace.inviterName = "${goodPlaceNamesList[i].selectedValue!} ${goodPlaceNamesList[i].inviterName}";
+      }else{
+        goodPlace.inviterName = "";
+      }
       goodPlace.address = goodPlaceNamesList[i].listOfAddressName;
       goodPlace.contactNo = goodPlaceNamesList[i].listOfMobile;
 
@@ -2232,12 +2308,15 @@ class AddKankotriController extends GetxController {
     var map = data as Map;
     newLayoutType = map[Constant.layoutType];
     newLayoutId = map[Constant.layoutId];
-    Debug.printLog("Data Map==>> ${map[Constant.layoutId]}  ${map[Constant.layoutType]}  $newLayoutType   $newLayoutId");
+    if(map[Constant.layoutImage] == "true"){
+      layoutIsShowImage = true;
+    }else{
+      layoutIsShowImage = false;
+    }
+
+    Debug.printLog("Data Map==>> ${map[Constant.layoutImage]} $layoutIsShowImage  ${map[Constant.layoutType]}  $newLayoutType   $newLayoutId");
+    update([Constant.idSetMainImage]);
   }
-
-
-
-
 }
 
 class FunctionsNimantrakName{
@@ -2245,6 +2324,7 @@ class FunctionsNimantrakName{
   String functionName = "";
   String functionDate = "";
   String functionTime = "";
+  TimeOfDay initTime = TimeOfDay.now();
   String functionPlace = "";
   String functionMessage = "";
   String functionDay = "";

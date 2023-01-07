@@ -153,7 +153,6 @@ class SignupScreen extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       cursorColor: CColor.theme,
                       decoration: InputDecoration(
-                          errorText: logic.validateFullName(logic.fullNameEditController.text),
                           focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: CColor.theme),
                           ),

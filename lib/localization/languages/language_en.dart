@@ -71,6 +71,10 @@ final Map<String, String> enUS = {
   'txtSearch': "Search",
   'txtBackMessage': "Are you sure you want to back from this screen?",
   'txtNotValidImage': "Please upload image of equal or less than 3mb.",
+  'txtUpdatedDate': "Updated at ",
+  'txtDiscard': "Discard",
+  'txtSaveChanges': "Save Changes",
+  'txtSaveChangesMessage': "Do you want to save your changes?",
 
   /*Gujarati Text*/
   'txtSarvo': "સર્વો",

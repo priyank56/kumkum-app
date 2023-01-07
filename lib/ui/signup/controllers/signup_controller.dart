@@ -91,7 +91,7 @@ class SignupController extends GetxController {
   }
 
   String? validateFullName(String value) {
-    if (value.isNotEmpty) {
+    if (fullNameEditController.text.isNotEmpty) {
       return "txtEnterFullName".tr;
     }
     return null;

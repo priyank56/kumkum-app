@@ -95,6 +95,7 @@ class Constant {
 
   static const layoutId = "layoutId";
   static const layoutType = "layoutType";
+  static const layoutImage = "layoutImage";
 
 
   static const isFromCategoryPreview = "isFromCategoryPreview";

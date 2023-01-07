@@ -57,7 +57,8 @@ class ResultGet {
     String? layoutDesignId;
     String? id;
     String? createdAt;
-    String? updatedAt;
+    // String? updatedAt;
+    DateTime? updatedAt;
     String? previewUrl;
     String? thumbnail;
     bool? isGroom;
@@ -73,7 +74,8 @@ class ResultGet {
         layoutDesignId: json["layoutDesignId"],
         id: json["_id"],
         createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
+        // updatedAt: json["updatedAt"],
+        updatedAt: DateTime.parse(json["updatedAt"]),
         isGroom: json["isGroom"],
         previewUrl: json["previewUrl"],
         thumbnail: json["thumbnail"],
@@ -89,7 +91,8 @@ class ResultGet {
         "layoutDesignId": layoutDesignId,
         "_id": id,
         "createdAt": createdAt,
-        "updatedAt": updatedAt,
+        // "updatedAt": updatedAt,
+        "updatedAt": updatedAt?.toIso8601String(),
         "previewUrl": previewUrl,
         "thumbnail": thumbnail,
         "isGroom": isGroom,

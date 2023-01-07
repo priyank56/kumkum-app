@@ -309,7 +309,7 @@ class HomeScreen extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(left: Sizes.width_6, top: Sizes.height_4),
             child: Text(
-              "txtElegentDesigns".tr,
+              "txtYourKonkotries".tr,
               style: TextStyle(
                   color: CColor.black,
                   fontSize: FontSize.size_18,
@@ -321,7 +321,7 @@ class HomeScreen extends StatelessWidget {
           ),
           (logic.allYourCardList.isNotEmpty) ?
           Container(
-            padding: EdgeInsets.only(top: Sizes.height_4, left: Sizes.width_5),
+            padding: EdgeInsets.only(top: Sizes.height_2, left: Sizes.width_5),
             height: Sizes.height_37,
             child: ListView.builder(
               itemBuilder: (context, index) {
@@ -335,7 +335,7 @@ class HomeScreen extends StatelessWidget {
             height: 400,
             alignment: Alignment.center,
             child: Text(
-              "txtNoDataFoundDesign".tr,
+              "txtNoDataFound".tr,
               style: TextStyle(
                   color: (logic.isShowProgress) ? CColor.transparent : CColor
                       .black,
@@ -353,40 +353,56 @@ class HomeScreen extends StatelessWidget {
   _itemCardView(int index, BuildContext context, HomeController logic) {
     return InkWell(
       onTap: () {
-        showCustomizeDialogForChooseOptions(context, logic,false,index: index);
-        // Get.toNamed(AppRoutes.addKankotri,arguments: [true,logic.allYourCardList[index],Constant.isFromCreate,Constant.isFromCategoryScreen])!.then((value) => logic.getAllPreBuiltCardsAPI(context));
+        // showCustomizeDialogForChooseOptions(context, logic,false,index: index);
+        Get.toNamed(AppRoutes.addKankotri, arguments: [
+          logic.allYourCardList[index].isGroom,
+          logic.allYourCardList[index],
+          Constant.isFromUpdate,
+          Constant.isFromMyCardsScreen
+        ])!
+            .then((value) => logic.getAllInvitationCardsAPI(context));
       },
       child: Container(
         height: Sizes.height_15,
         width: MediaQuery.of(context).size.width * 0.55,
         padding: EdgeInsets.only(right: Sizes.width_5),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(Sizes.height_2),
-          child: Container(
-            // margin: EdgeInsets.only(right:Sizes.width_4),
-
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child: CachedNetworkImage(
-              fadeInDuration: const Duration(milliseconds: 10),
-              fadeOutDuration: const Duration(milliseconds: 10),
-              fit: BoxFit.cover,
-              imageUrl: logic.allYourCardList[index].thumbnail.toString(),
-              placeholder: (context, url) =>
-             /* const Center(
-                child: SizedBox(
-                  width: 60.0,
-                  height: 60.0,
-                  child: CircularProgressIndicator(),
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(bottom: Sizes.height_1),
+              child: Text(
+                "${"txtUpdatedDate".tr}${logic.allYourCardList[index].updatedAt!.day}/${logic.allYourCardList[index].updatedAt!.month}/${logic.allYourCardList[index].updatedAt!.year}",
+                style: TextStyle(
+                    color: CColor.black,
+                    fontFamily: Constant.appFont,
+                    fontWeight: FontWeight.w500,
+                    fontSize: FontSize.size_12
                 ),
-              ),*/
-              Utils.bgShimmer(context),
-              errorWidget: (context, url, error) {
-                return Container(
-                  color: CColor.borderColor,
-                );
-              },
+              ),
             ),
-          ),
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(Sizes.height_2),
+                child: Container(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                  child: CachedNetworkImage(
+                    fadeInDuration: const Duration(milliseconds: 10),
+                    fadeOutDuration: const Duration(milliseconds: 10),
+                    fit: BoxFit.cover,
+                    imageUrl: logic.allYourCardList[index].thumbnail.toString(),
+                    placeholder: (context, url) =>
+                    Utils.bgShimmer(context),
+                    errorWidget: (context, url, error) {
+                      return Container(
+                        color: CColor.borderColor,
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

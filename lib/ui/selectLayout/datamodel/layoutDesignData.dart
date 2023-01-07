@@ -34,18 +34,21 @@ class ResultLayout {
         this.thumbnail,
         this.layoutDesignId,
         this.marriageInvitationCardType,
+        this.isShow,
     });
 
     String? id;
     String? thumbnail;
     String? layoutDesignId;
     String? marriageInvitationCardType;
+    bool? isShow;
 
     factory ResultLayout.fromJson(Map<String, dynamic> json) => ResultLayout(
         id: json["_id"],
         thumbnail: json["thumbnail"],
         layoutDesignId: json["layoutDesignId"],
         marriageInvitationCardType: json["marriageInvitationCardType"],
+        isShow: json["isShow"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -53,5 +56,6 @@ class ResultLayout {
         "thumbnail": thumbnail,
         "layoutDesignId": layoutDesignId,
         "marriageInvitationCardType": marriageInvitationCardType,
+        "isShow": isShow,
     };
 }

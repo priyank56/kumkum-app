@@ -137,7 +137,7 @@ class _MyAppState extends State<MyApp> {
     initializeDateFormatting();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Kumkum',
       color: CColor.white,
       translations: AppLanguages(),
       fallbackLocale: const Locale(Constant.languageEn, Constant.countryCodeEn),

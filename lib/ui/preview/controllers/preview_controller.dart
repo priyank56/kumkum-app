@@ -94,7 +94,7 @@ web pages along with the text.
 
   changeProgressValue(bool value){
     isShowProgress = value;
-    update();
+    update([Constant.isShowProgressUpload]);
   }
 
   addDropDownMenuData({bool regenerateData = false,String? value = ""}){

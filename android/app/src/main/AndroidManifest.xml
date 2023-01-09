@@ -9,7 +9,7 @@
 
 
     <application
-        android:label="Kumkum Kankotri"
+        android:label="Kumkum"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

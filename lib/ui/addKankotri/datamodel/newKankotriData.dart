@@ -290,6 +290,8 @@ class FunctionsRes {
         this.functionName,
         this.functionDate,
         this.functionTime,
+        this.functionEnTime,
+        this.functionEnAmPm,
         this.message,
         this.inviter,
         this.banquetPerson,
@@ -301,6 +303,8 @@ class FunctionsRes {
     dynamic functionName;
     String? functionDate;
     String? functionTime;
+    String? functionEnTime;
+    String? functionEnAmPm;
     String? message;
     List<String>? inviter;
     dynamic banquetPerson;
@@ -316,6 +320,8 @@ class FunctionsRes {
         inviter: List<String>.from(json["inviter"].map((x) => x)),
         banquetPerson: json["banquetPerson"],
         functionPlace: json["functionPlace"],
+        functionEnTime: json["functionEnTime"],
+        functionEnAmPm: json["functionEnAmPm"],
         functionDay: json["functionDay"],
     );
 
@@ -329,6 +335,8 @@ class FunctionsRes {
         "banquetPerson": banquetPerson,
         "functionPlace": functionPlace,
         "functionDay": functionDay,
+        "functionEnTime": functionEnTime,
+        "functionEnAmPm": functionEnAmPm,
     };
 }
 

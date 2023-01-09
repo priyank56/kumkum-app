@@ -238,8 +238,9 @@ class AddKankotriController extends GetxController {
   Future<void> selectTime(BuildContext context,int index) async {
     var initTime = TimeOfDay.now();
     if(functionsList[functionsList.indexOf(functionsList[index])].functionTime != ""){
-      var time = functionsList[functionsList.indexOf(functionsList[index])].functionTime;
-      var withOutHr = time.replaceAll("કલાકે", " ");
+      var enTime = functionsList[functionsList.indexOf(functionsList[index])].functionEnTime;
+      var enAmPm = functionsList[functionsList.indexOf(functionsList[index])].functionEnAmPm.toUpperCase();
+      /*var withOutHr = time.replaceAll("કલાકે", " ");
       var amPm = withOutHr.split(" ")[0];
       var originalTime  = withOutHr.split(" ")[1];
       var hour = Utils.translateMobileNumberEn(originalTime.split(":")[0]);
@@ -252,12 +253,21 @@ class AddKankotriController extends GetxController {
       }else{
         amPmDay = DayPeriod.am;
         amPmText = "AM";
-      }
-      var timeSrt = "$hour:$min $amPmText";
+      }*/
+      /*var originalTime = time[1];
+      var hour = Utils.translateMobileNumberEn(originalTime.split(":")[0]);
+      var min = Utils.translateMobileNumberEn(originalTime.split(":")[1]);
+      var amPmText = "Am";
+      if(originalTime[0] == "સાંજે"){
+        amPmText = "PM";
+      }else{
+        amPmText = "AM";
+      }*/
+      var timeSrt = "$enTime $enAmPm";
       DateTime parseDate = DateFormat("h:mm a").parse(timeSrt);
       var inputDate = DateTime.parse(parseDate.toString());
 
-      Debug.printLog("Time Functions==>>  $hour =  $min = $amPmDay  ${inputDate.hour}");
+      Debug.printLog("Time Functions==>>  $timeSrt  ${inputDate.hour}");
       initTime = TimeOfDay(hour: inputDate.hour,minute: inputDate.minute);
 
     }
@@ -275,8 +285,10 @@ class AddKankotriController extends GetxController {
     if (picked != null){
       TimeOfDay morningTime = TimeOfDay(hour: picked.hour, minute:picked.minute);
       var timeAmPm = "";
+      var timeEnAmPm = "";
       if (morningTime.period == DayPeriod.am) {
         timeAmPm = "સવારે";
+        timeEnAmPm = "AM";
       } else {
         Debug.printLog("picked.hour=>>> ${picked.hour}");
         if(picked.hour >= 17){
@@ -284,12 +296,14 @@ class AddKankotriController extends GetxController {
         }else{
           timeAmPm = "બપોરે";
         }
+        timeEnAmPm = "PM";
       }
       morningTime = morningTime.replacing(hour: morningTime.hourOfPeriod);
 
       var time = "$timeAmPm ${Utils.translateMobileNumber("${morningTime.hour}:${morningTime.minute}")} કલાકે";
       functionsList[functionsList.indexOf(functionsList[index])].functionTime = time.toString();
-      functionsList[functionsList.indexOf(functionsList[index])].initTime = morningTime;
+      functionsList[functionsList.indexOf(functionsList[index])].functionEnTime = "${morningTime.hour}:${morningTime.minute}";
+      functionsList[functionsList.indexOf(functionsList[index])].functionEnAmPm = timeEnAmPm;
     }
     update([Constant.idFunctionsPart]);
   }
@@ -352,7 +366,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f1","txtMadapMuhrat".tr,[data],"","","","",[TextEditingController()],""));
+    functionsList.add(FunctionsNimantrakName("f1","txtMadapMuhrat".tr,[data],"","","","",[TextEditingController()],"","",""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
 
@@ -360,7 +374,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f2","txtGitSandhya".tr,[data],"","","","",[TextEditingController()],""));
+    functionsList.add(FunctionsNimantrakName("f2","txtGitSandhya".tr,[data],"","","","",[TextEditingController()],"","",""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
 
@@ -368,7 +382,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f3","txtRasGarba".tr,[data],"","","","",[TextEditingController()],""));
+    functionsList.add(FunctionsNimantrakName("f3","txtRasGarba".tr,[data],"","","","",[TextEditingController()],"","",""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
 
@@ -376,7 +390,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f4",(isGroomCard)?"txtJan".tr:"txtJanAagman".tr,[data],"","","","",[TextEditingController()],""));
+    functionsList.add(FunctionsNimantrakName("f4",(isGroomCard)?"txtJan".tr:"txtJanAagman".tr,[data],"","","","",[TextEditingController()],"","",""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
 
@@ -384,7 +398,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f5","txtBhojan".tr,[data],"","","","",[TextEditingController()],""));
+    functionsList.add(FunctionsNimantrakName("f5","txtBhojan".tr,[data],"","","","",[TextEditingController()],"","",""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
 
@@ -392,7 +406,7 @@ class AddKankotriController extends GetxController {
     data.selectedTitle = Utils.getDefaultSelectedTitle();
     data.otherTitleList = Utils.getOtherTitlesList();
     data.nimantrakName = "";
-    functionsList.add(FunctionsNimantrakName("f6","txtHastMelap".tr,[data],"","","","",[TextEditingController()],""));
+    functionsList.add(FunctionsNimantrakName("f6","txtHastMelap".tr,[data],"","","","",[TextEditingController()],"","",""));
     functionsPlaceListController.add(TextEditingController());
     functionsMessageListController.add(TextEditingController());
     update([Constant.idFunctionsPart]);
@@ -1280,6 +1294,8 @@ class AddKankotriController extends GetxController {
         functionsClass.functionPlace = functionsList[i].functionPlace;
         functionsClass.message = functionsList[i].functionMessage;
         functionsClass.functionDay = functionsList[i].functionDay;
+        functionsClass.functionEnTime = functionsList[i].functionEnTime;
+        functionsClass.functionEnAmPm = functionsList[i].functionEnAmPm;
         functionsClass.banquetPerson = "";
         createData.marriageInvitationCard!.functions!.add(functionsClass);
       }
@@ -1798,7 +1814,7 @@ class AddKankotriController extends GetxController {
           .join(' ')
           .trim();
     }else{
-      dropDownBrideNameTitle = Utils.getDefaultSelectedTitle();
+      dropDownBrideNameTitle = Utils.getDefaultSelectedTitleForGroomBride();
       brideName = mrgInvitationCard.pair![0].bride!.name.toString();
     }
 
@@ -1815,7 +1831,7 @@ class AddKankotriController extends GetxController {
           .join(' ')
           .trim();
     }else{
-      dropDownGroomNameTitle = Utils.getDefaultSelectedTitle();
+      dropDownGroomNameTitle = Utils.getDefaultSelectedTitleForGroomBride();
       groomName = mrgInvitationCard.pair![0].groom!.name.toString();
     }
 
@@ -1898,7 +1914,7 @@ class AddKankotriController extends GetxController {
 
       }
       functionsList.add(FunctionsNimantrakName(functions.functionId!, functions.functionName ?? "", listNameModel, functions.functionDate ?? "", functions.functionTime ?? "",
-          functions.functionPlace ?? "", functions.message ?? "",[], functions.functionDay ?? ""));
+          functions.functionPlace ?? "", functions.message ?? "",[], functions.functionDay ?? "", functions.functionEnTime ?? "" , functions.functionEnAmPm ?? ""));
 
       functionsPlaceListController.add(TextEditingController(text:functions.functionPlace ?? "" ));
       functionsMessageListController.add(TextEditingController(text:functions.message ?? ""));
@@ -2324,7 +2340,8 @@ class FunctionsNimantrakName{
   String functionName = "";
   String functionDate = "";
   String functionTime = "";
-  TimeOfDay initTime = TimeOfDay.now();
+  String functionEnTime = "";
+  String functionEnAmPm = "";
   String functionPlace = "";
   String functionMessage = "";
   String functionDay = "";
@@ -2332,7 +2349,7 @@ class FunctionsNimantrakName{
   List<NimantrakModel> listNames = [];
   List<TextEditingController> listEditTextNames = [];
 
-  FunctionsNimantrakName(this.functionId,this.functionName,this.listNames,this.functionDate,this.functionTime,this.functionPlace,this.functionMessage,this.listEditTextNames,this.functionDay);
+  FunctionsNimantrakName(this.functionId,this.functionName,this.listNames,this.functionDate,this.functionTime,this.functionPlace,this.functionMessage,this.listEditTextNames,this.functionDay,this.functionEnTime,this.functionEnAmPm);
 }
 
 class GuestAllName{

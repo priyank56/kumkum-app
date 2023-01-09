@@ -755,6 +755,8 @@ class Functions {
         this.functionName,
         this.functionDate,
         this.functionTime,
+        this.functionEnTime,
+        this.functionEnAmPm,
         this.message,
         this.inviter,
         this.banquetPerson,
@@ -766,6 +768,8 @@ class Functions {
     String? functionName;
     String? functionDate;
     String? functionTime;
+    String? functionEnTime;
+    String? functionEnAmPm;
     String? functionDay;
     String? message;
     List<String>? inviter;
@@ -779,9 +783,10 @@ class Functions {
         functionTime: json["functionTime"],
         message: json["message"],
         inviter: List<String>.from(json["inviter"].map((x) => x)),
-        // inviter: List<String>.from(json["inviter"].map((x) => inviterElementValues.map[x])),
         banquetPerson: json["banquetPerson"],
         functionPlace: json["functionPlace"],
+        functionEnTime: json["functionEnTime"],
+        functionEnAmPm: json["functionEnAmPm"],
         functionDay: json["functionDay"],
     );
 
@@ -792,10 +797,11 @@ class Functions {
         "functionTime": functionTime,
         "message": message,
         "inviter": List<String>.from(inviter!.map((x) => x)),
-        // "inviter": List<dynamic>.from(inviter.map((x) => inviterElementValues.reverse[x])),
         "banquetPerson": banquetPerson,
         "functionPlace": functionPlace,
         "functionDay": functionDay,
+        "functionEnTime": functionEnTime,
+        "functionEnAmPm": functionEnAmPm,
     };
 }
 
